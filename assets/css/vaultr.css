@@ -2731,3 +2731,89 @@ html.js .reveal.is-visible { opacity: 1; transform: none; }
   html.js .reveal,
   html.js .reveal.is-visible { opacity: 1; transform: none; }
 }
+
+/* --------------------------------------------------------------------------
+   Editorial card atmosphere / artwork appears on intent
+   -------------------------------------------------------------------------- */
+.platform-card,
+.platform-stack-card:not(.platform-stack-card--featured),
+.platform-sequence-card,
+.workflow-proof-card,
+.solutions-proof-card,
+.command-proof-card,
+.feature {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.platform-card::before,
+.platform-stack-card:not(.platform-stack-card--featured)::before,
+.platform-sequence-card::before,
+.workflow-proof-card::before,
+.solutions-proof-card::before,
+.command-proof-card::before,
+.feature::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+  content: "";
+  opacity: 0;
+  filter: contrast(108%) saturate(108%);
+  transform: scale(1.045);
+  transition: opacity .45s var(--ease), transform .7s var(--ease);
+  pointer-events: none;
+}
+.platform-card:nth-child(4n + 1)::before,
+.platform-stack-card:nth-child(4n + 1)::before,
+.platform-sequence-card:nth-child(4n + 1)::before,
+.workflow-proof-card:nth-child(4n + 1)::before,
+.solutions-proof-card:nth-child(4n + 1)::before,
+.command-proof-card:nth-child(4n + 1)::before,
+.feature:nth-child(4n + 1)::before { background-image: url('../images/monet-water-lilies.jpg'); }
+.platform-card:nth-child(4n + 2)::before,
+.platform-stack-card:nth-child(4n + 2)::before,
+.platform-sequence-card:nth-child(4n + 2)::before,
+.workflow-proof-card:nth-child(4n + 2)::before,
+.solutions-proof-card:nth-child(4n + 2)::before,
+.command-proof-card:nth-child(4n + 2)::before,
+.feature:nth-child(4n + 2)::before { background-image: url('../images/monet-parliament.jpg'); }
+.platform-card:nth-child(4n + 3)::before,
+.platform-stack-card:nth-child(4n + 3)::before,
+.platform-sequence-card:nth-child(4n + 3)::before,
+.workflow-proof-card:nth-child(4n + 3)::before,
+.solutions-proof-card:nth-child(4n + 3)::before,
+.command-proof-card:nth-child(4n + 3)::before,
+.feature:nth-child(4n + 3)::before { background-image: url('../images/monet-sunrise-display.jpg'); }
+.platform-card:nth-child(4n + 4)::before,
+.platform-stack-card:nth-child(4n + 4)::before,
+.platform-sequence-card:nth-child(4n + 4)::before,
+.workflow-proof-card:nth-child(4n + 4)::before,
+.solutions-proof-card:nth-child(4n + 4)::before,
+.command-proof-card:nth-child(4n + 4)::before,
+.feature:nth-child(4n + 4)::before { background-image: url('../images/monet-seine.jpg'); }
+.platform-card > *,
+.platform-stack-card > *,
+.platform-sequence-card > *,
+.workflow-proof-card > *,
+.solutions-proof-card > *,
+.command-proof-card > *,
+.feature > * { position: relative; z-index: 1; }
+.platform-card:hover::before,
+.platform-card:focus-within::before,
+.platform-stack-card:not(.platform-stack-card--featured):hover::before,
+.platform-stack-card:not(.platform-stack-card--featured):focus-within::before,
+.platform-sequence-card:hover::before,
+.platform-sequence-card:focus-within::before,
+.workflow-proof-card:hover::before,
+.workflow-proof-card:focus-within::before,
+.solutions-proof-card:hover::before,
+.solutions-proof-card:focus-within::before,
+.command-proof-card:hover::before,
+.command-proof-card:focus-within::before,
+.feature:hover::before,
+.feature:focus-within::before {
+  opacity: .16;
+  transform: none;
+}
