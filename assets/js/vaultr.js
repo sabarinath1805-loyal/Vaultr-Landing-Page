@@ -107,6 +107,91 @@
     }
   });
 
+  const galleryItems = [...document.querySelectorAll('.gallery-ribbon__card, .art-strip')].map((figure) => {
+    const image = figure.querySelector('img');
+    if (!image) return null;
+    return {
+      figure,
+      src: image.currentSrc || image.src,
+      alt: image.alt || 'Vaultr archive artwork',
+      caption: figure.querySelector('figcaption')?.textContent?.trim() || image.alt || 'Vaultr archive artwork'
+    };
+  }).filter(Boolean);
+
+  if (galleryItems.length) {
+    galleryItems.forEach((item) => {
+      item.figure.setAttribute('tabindex', '0');
+      item.figure.setAttribute('role', 'button');
+      item.figure.setAttribute('aria-haspopup', 'dialog');
+      item.figure.setAttribute('aria-label', `Open artwork: ${item.caption}`);
+    });
+
+    const galleryMarkup = `
+      <div class="gallery-lightbox" data-gallery-lightbox hidden>
+        <div class="gallery-lightbox__scrim" data-gallery-close></div>
+        <section class="gallery-lightbox__panel" role="dialog" aria-modal="true" aria-labelledby="gallery-lightbox-title">
+          <div class="gallery-lightbox__head"><div><span class="gallery-lightbox__eyebrow">VAULTR / VISUAL ARCHIVE</span><h2 id="gallery-lightbox-title">A private atmosphere.</h2></div><button class="gallery-lightbox__close" type="button" aria-label="Close artwork viewer" data-gallery-close>Esc</button></div>
+          <figure class="gallery-lightbox__figure"><div class="gallery-lightbox__media"><img data-gallery-image alt=""></div><figcaption><span data-gallery-caption></span><span data-gallery-count></span></figcaption></figure>
+          <div class="gallery-lightbox__foot"><span>Use ← → to move through the archive</span><div><button type="button" data-gallery-prev>Previous</button><button type="button" data-gallery-next>Next</button></div></div>
+        </section>
+      </div>`;
+    document.body.insertAdjacentHTML('beforeend', galleryMarkup);
+    const galleryLightbox = document.querySelector('[data-gallery-lightbox]');
+    const galleryImage = galleryLightbox?.querySelector('[data-gallery-image]');
+    const galleryCaption = galleryLightbox?.querySelector('[data-gallery-caption]');
+    const galleryCount = galleryLightbox?.querySelector('[data-gallery-count]');
+    const galleryClose = galleryLightbox?.querySelector('.gallery-lightbox__close');
+    const galleryPrev = galleryLightbox?.querySelector('[data-gallery-prev]');
+    const galleryNext = galleryLightbox?.querySelector('[data-gallery-next]');
+    let galleryIndex = 0;
+    let galleryPreviousFocus;
+
+    const renderGallery = () => {
+      const item = galleryItems[galleryIndex];
+      if (!item || !galleryImage) return;
+      galleryImage.src = item.src;
+      galleryImage.alt = item.alt;
+      if (galleryCaption) galleryCaption.textContent = item.caption;
+      if (galleryCount) galleryCount.textContent = `${String(galleryIndex + 1).padStart(2, '0')} / ${String(galleryItems.length).padStart(2, '0')}`;
+    };
+    const setGallery = (open, index = galleryIndex) => {
+      if (!galleryLightbox) return;
+      galleryIndex = (index + galleryItems.length) % galleryItems.length;
+      if (open) {
+        galleryPreviousFocus = document.activeElement;
+        renderGallery();
+      }
+      galleryLightbox.hidden = !open;
+      galleryLightbox.classList.toggle('is-open', open);
+      document.body.classList.toggle('gallery-lightbox-open', open);
+      if (open) galleryClose?.focus();
+      else galleryPreviousFocus?.focus?.({ preventScroll: true });
+    };
+    const stepGallery = (delta) => {
+      galleryIndex = (galleryIndex + delta + galleryItems.length) % galleryItems.length;
+      renderGallery();
+    };
+
+    galleryItems.forEach((item, index) => {
+      item.figure.addEventListener('click', () => setGallery(true, index));
+      item.figure.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          setGallery(true, index);
+        }
+      });
+    });
+    galleryLightbox?.querySelectorAll('[data-gallery-close]').forEach((element) => element.addEventListener('click', () => setGallery(false)));
+    galleryPrev?.addEventListener('click', () => stepGallery(-1));
+    galleryNext?.addEventListener('click', () => stepGallery(1));
+    document.addEventListener('keydown', (event) => {
+      if (galleryLightbox?.hidden !== false) return;
+      if (event.key === 'Escape') setGallery(false);
+      if (event.key === 'ArrowLeft') { event.preventDefault(); stepGallery(-1); }
+      if (event.key === 'ArrowRight') { event.preventDefault(); stepGallery(1); }
+    });
+  }
+
   const navDropdowns = [...document.querySelectorAll('[data-nav-dropdown]')];
   const closeNavDropdowns = () => navDropdowns.forEach((dropdown) => {
     dropdown.classList.remove('is-open');
