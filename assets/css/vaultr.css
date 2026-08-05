@@ -1549,3 +1549,41 @@ tbody tr:nth-child(even) { background: #fafbf8; }
   .faq__list summary b { font-size: 8px; }
   .faq__list details p { margin: -1px 35px 21px 25px; font-size: 13px; }
 }
+
+/* --------------------------------------------------------------------------
+   Resource Library
+   -------------------------------------------------------------------------- */
+.resources { background: #f4f5f0; color: var(--ink); }
+.resources__intro { display: grid; grid-template-columns: 1.1fr .9fr; align-items: end; gap: 8vw; margin-bottom: 52px; }
+.resources__intro h2 { margin-bottom: 0; }
+.resources__intro > p { max-width: 420px; margin: 0 0 8px; color: var(--muted); font-size: 17px; line-height: 1.6; }
+.resources__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; }
+.resource-card { display: flex; flex-direction: column; overflow: hidden; border: 1px solid rgba(0, 0, 0, .11); background: #fff; box-shadow: 0 16px 35px -24px rgba(0, 0, 0, .22); transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s; }
+.resource-card:hover { border-color: rgba(45, 74, 62, .25); box-shadow: 0 25px 45px -24px rgba(0, 0, 0, .26); transform: translateY(-6px); }
+.resource-card__art { position: relative; overflow: hidden; }
+.resource-card__art img { display: block; width: 100%; aspect-ratio: 1.7; object-fit: cover; filter: contrast(105%) brightness(102%); transition: transform .6s var(--ease); }
+.resource-card:hover .resource-card__art img { transform: scale(1.04); }
+.resource-card__art span { position: absolute; bottom: 12px; left: 14px; padding: 7px 9px; border: 1px solid rgba(255, 255, 255, .65); background: rgba(17, 24, 19, .72); color: #fff; font-size: 9px; font-weight: 700; letter-spacing: .14em; }
+.resource-card__body { display: flex; flex: 1; flex-direction: column; padding: 25px 24px 23px; }
+.resource-card__body h3 { margin: 0 0 14px; color: var(--ink); font-family: var(--serif); font-size: 31px; font-weight: 500; line-height: .98; letter-spacing: -.04em; }
+.resource-card__body p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+.resource-card__link { display: inline-flex; align-items: center; gap: 9px; width: fit-content; margin-top: auto; padding-top: 30px; color: var(--sage); font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.resource-card__link b { font-size: 16px; font-weight: 400; transition: transform .25s var(--ease); }
+.resource-card:hover .resource-card__link b { transform: translate(3px, -3px); }
+
+@media (max-width: 980px) {
+  .resources__intro { grid-template-columns: 1fr; gap: 22px; }
+  .resources__intro > p { margin-bottom: 0; }
+  .resources__grid { grid-template-columns: repeat(2, 1fr); }
+  .resource-card:last-child { grid-column: 1 / -1; }
+  .resource-card:last-child .resource-card__art img { aspect-ratio: 3.4; }
+}
+
+@media (max-width: 640px) {
+  .resources__intro { margin-bottom: 38px; }
+  .resources__grid { grid-template-columns: 1fr; gap: 10px; }
+  .resource-card:last-child { grid-column: auto; }
+  .resource-card:last-child .resource-card__art img { aspect-ratio: 1.7; }
+  .resource-card__body { padding: 22px 20px 21px; }
+  .resource-card__body h3 { font-size: 29px; }
+}
