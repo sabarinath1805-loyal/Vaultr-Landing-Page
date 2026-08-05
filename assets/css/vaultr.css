@@ -2765,6 +2765,10 @@ body.gallery-lightbox-open { overflow: hidden; }
 .site-header.is-hidden { transform: translateY(calc(-100% - 12px)); }
 html.js .reveal { opacity: 0; transform: translateY(28px); }
 html.js .reveal.is-visible { opacity: 1; transform: none; }
+/* The first room must never wait on an observer to reveal its proposition. */
+html.js .hero .reveal,
+html.js [class*="__hero"] .reveal,
+html.js .error-page .reveal { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
   .site-header.is-hidden { transform: none; }
   html.js .reveal,
