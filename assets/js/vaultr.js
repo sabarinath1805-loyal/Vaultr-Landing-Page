@@ -155,6 +155,55 @@
     });
   });
 
+  const workflowTabs = [...document.querySelectorAll('[data-workflow-tab]')];
+  const workflowPanels = [...document.querySelectorAll('[data-workflow-panel]')];
+  const setWorkflow = (mode) => {
+    workflowTabs.forEach((tab) => {
+      const active = tab.dataset.workflowTab === mode;
+      tab.classList.toggle('is-active', active);
+      tab.setAttribute('aria-selected', String(active));
+      tab.tabIndex = active ? 0 : -1;
+    });
+    workflowPanels.forEach((panel) => {
+      const active = panel.dataset.workflowPanel === mode;
+      panel.classList.toggle('is-active', active);
+      panel.hidden = !active;
+    });
+  };
+
+  workflowTabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => setWorkflow(tab.dataset.workflowTab));
+    tab.addEventListener('keydown', (event) => {
+      if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      const nextIndex = event.key === 'Home' ? 0
+        : event.key === 'End' ? workflowTabs.length - 1
+          : (index + (event.key === 'ArrowRight' ? 1 : -1) + workflowTabs.length) % workflowTabs.length;
+      const nextTab = workflowTabs[nextIndex];
+      nextTab.focus();
+      setWorkflow(nextTab.dataset.workflowTab);
+    });
+  });
+
+  const redlineAction = document.querySelector('[data-redline-action]');
+  const redlineStatus = document.querySelector('[data-redline-status]');
+  redlineAction?.addEventListener('click', () => {
+    redlineAction.classList.add('is-complete');
+    redlineAction.innerHTML = 'Accepted in local draft <span aria-hidden="true">✓</span>';
+    if (redlineStatus) redlineStatus.textContent = 'Saved locally. No external request made.';
+  });
+
+  document.querySelectorAll('[data-diligence-action]').forEach((action) => {
+    action.addEventListener('click', () => {
+      const card = action.closest('[data-diligence-card]');
+      if (!card) return;
+      card.classList.add('is-complete');
+      card.querySelector('.diligence-card__tag').textContent = 'REVIEWED';
+      action.innerHTML = 'Reviewed locally <span aria-hidden="true">✓</span>';
+      action.disabled = true;
+    });
+  });
+
   document.querySelector('[data-deployment-form]')?.addEventListener('submit', (event) => {
     event.preventDefault();
     const form = event.currentTarget;
