@@ -204,6 +204,36 @@
     });
   });
 
+  const solutionTabs = [...document.querySelectorAll('[data-solution-tab]')];
+  const solutionPanels = [...document.querySelectorAll('[data-solution-panel]')];
+  const setSolution = (mode) => {
+    solutionTabs.forEach((tab) => {
+      const active = tab.dataset.solutionTab === mode;
+      tab.classList.toggle('is-active', active);
+      tab.setAttribute('aria-selected', String(active));
+      tab.tabIndex = active ? 0 : -1;
+    });
+    solutionPanels.forEach((panel) => {
+      const active = panel.dataset.solutionPanel === mode;
+      panel.classList.toggle('is-active', active);
+      panel.hidden = !active;
+    });
+  };
+
+  solutionTabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => setSolution(tab.dataset.solutionTab));
+    tab.addEventListener('keydown', (event) => {
+      if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      const nextIndex = event.key === 'Home' ? 0
+        : event.key === 'End' ? solutionTabs.length - 1
+          : (index + (event.key === 'ArrowRight' ? 1 : -1) + solutionTabs.length) % solutionTabs.length;
+      const nextTab = solutionTabs[nextIndex];
+      nextTab.focus();
+      setSolution(nextTab.dataset.solutionTab);
+    });
+  });
+
   document.querySelector('[data-deployment-form]')?.addEventListener('submit', (event) => {
     event.preventDefault();
     const form = event.currentTarget;
