@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Vaultr — Counsel Without Disclosure</title>
   <meta name="description" content="Lex reviews, drafts, compares, and reasons across your matters directly on-device.">
-  <meta name="theme-color" content="#0f0e0d">
+  <meta name="theme-color" content="#f7f8f5">
   <meta property="og:title" content="Vaultr — The Room Stays Closed.">
   <meta property="og:description" content="Counsel Without Disclosure.">
   <meta property="og:type" content="website">
@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/images/monet-water-lilies.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=gallery-1">
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=platform-1">
   <script defer src="assets/js/vaultr.js"></script>
 </head>
 <body>
@@ -34,23 +34,25 @@
       <a class="brand" href="#top" aria-label="Vaultr home"><span aria-hidden="true">✳</span> Vaultr</a>
       <nav class="nav__links" aria-label="Primary navigation">
         <a href="#product">Product</a>
+        <a href="#platform">Platform</a>
         <a href="#privacy">Privacy</a>
         <a href="#open-source">Open Source</a>
         <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer">GitHub</a>
         <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI#readme" target="_blank" rel="noreferrer">Docs</a>
       </nav>
-      <a class="button button--small nav__cta" href="#deployment">Enter Vaultr</a>
+      <a class="button button--small nav__cta" href="#deployment">Request a deployment</a>
       <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle>
         <span></span><span></span>
       </button>
     </div>
     <div class="mobile-menu" data-mobile-menu>
       <a href="#product">Product</a>
+      <a href="#platform">Platform</a>
       <a href="#privacy">Privacy</a>
       <a href="#open-source">Open Source</a>
       <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer">GitHub</a>
       <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI#readme" target="_blank" rel="noreferrer">Docs</a>
-      <a class="button" href="#deployment">Enter Vaultr</a>
+      <a class="button" href="#deployment">Request a deployment</a>
     </div>
   </header>
 
@@ -67,7 +69,12 @@
         </div>
       </div>
       <div class="hero__trust">
-        <div class="shell"><p>Trusted by legal teams requiring absolute data sovereignty.</p></div>
+        <div class="shell hero__trust-inner">
+          <p>Built for legal teams requiring absolute data sovereignty.</p>
+          <div class="hero__trust-points" aria-label="Vaultr product principles">
+            <span>Local runtime</span><span>Open architecture</span><span>Matter-ready</span>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -102,13 +109,24 @@
     <section class="product section section--monet-sunrise" id="product">
       <div class="shell product__layout">
         <div class="product__copy reveal">
+          <p class="section-kicker">THE LEX PLATFORM / LOCAL INTELLIGENCE</p>
           <h2>Meet Lex. Counsel, Contained.</h2>
           <p>Lex executes across your firm's entire corpus with absolute speed and total isolation. Zero uploads. Zero external inference. Zero compromise.</p>
+          <div class="product__proof" aria-label="Lex operating principles">
+            <div><span>01</span><strong>Private by default</strong><small>Every matter stays on your perimeter.</small></div>
+            <div><span>02</span><strong>Context without compromise</strong><small>Answers remain grounded in your documents.</small></div>
+            <div><span>03</span><strong>Evidence in every answer</strong><small>Inspect the source before you act.</small></div>
+          </div>
         </div>
         <div class="lex-window reveal" aria-label="Lex local legal workspace">
           <div class="lex-window__bar">
             <span class="lex-window__mark">✳</span>
             <span>Lex</span>
+            <div class="lex-window__tabs" role="tablist" aria-label="Lex workspace modes">
+              <button class="lex-tab is-active" type="button" role="tab" aria-controls="lex-answer" aria-selected="true" tabindex="0" data-lex-tab="review">Review</button>
+              <button class="lex-tab" type="button" role="tab" aria-controls="lex-answer" aria-selected="false" tabindex="-1" data-lex-tab="compare">Compare</button>
+              <button class="lex-tab" type="button" role="tab" aria-controls="lex-answer" aria-selected="false" tabindex="-1" data-lex-tab="draft">Draft</button>
+            </div>
             <span class="lex-window__local"><i></i> On device</span>
           </div>
           <div class="lex-window__body">
@@ -121,12 +139,48 @@
               <div class="document-line"></div>
               <div class="document-line document-line--medium"></div>
             </div>
-            <div class="lex-window__answer">
-              <span class="answer-label">LEX / LOCAL</span>
-              <p>Privilege boundary verified.</p>
-              <div class="answer-meta"><span>0 bytes transmitted</span><span>Source auditable</span></div>
+            <div class="lex-window__answer" id="lex-answer" role="tabpanel" aria-live="polite">
+              <span class="answer-label" data-lex-label>LEX / REVIEW</span>
+              <p data-lex-title>Clause drift detected.</p>
+              <div class="answer-meta"><span data-lex-meta-primary>12 deviations flagged</span><span data-lex-meta-secondary>Source spans linked</span></div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="platform section" id="platform">
+      <div class="shell">
+        <p class="section-kicker reveal">ONE CONTROL PLANE / EVERY MATTER</p>
+        <div class="platform__intro">
+          <h2 class="reveal">The intelligence layer your practice has been missing.</h2>
+          <p class="reveal">Vaultr gives legal teams one private place to understand, move, and govern their most sensitive work.</p>
+        </div>
+        <div class="platform__grid">
+          <article class="platform-card platform-card--featured reveal">
+            <span class="platform-card__index">01 / VAULT</span>
+            <h3>Every document. Always in context.</h3>
+            <p>Bring a matter's contracts, pleadings, exhibits, and correspondence into one searchable private room.</p>
+            <a href="#product" class="platform-card__link">Explore the workspace <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="platform-card reveal">
+            <span class="platform-card__index">02 / KNOWLEDGE</span>
+            <h3>Answers that show their work.</h3>
+            <p>Ask across the corpus, trace every conclusion to a source, and move from question to confidence faster.</p>
+            <a href="#privacy" class="platform-card__link">See the evidence layer <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="platform-card reveal">
+            <span class="platform-card__index">03 / AGENTS</span>
+            <h3>Complex workflows, contained.</h3>
+            <p>Turn repeatable legal work into supervised local runs with clear inputs, outputs, and review points.</p>
+            <a href="#deployment" class="platform-card__link">Request a private run <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="platform-card reveal">
+            <span class="platform-card__index">04 / GOVERNANCE</span>
+            <h3>Control you can demonstrate.</h3>
+            <p>Make privacy visible with auditable boundaries, local deployment, and a source tree your team can inspect.</p>
+            <a href="#open-source" class="platform-card__link">Inspect the boundary <span aria-hidden="true">↗</span></a>
+          </article>
         </div>
       </div>
     </section>
@@ -198,14 +252,14 @@
         <h2 class="reveal">The Distinction Is Architectural.</h2>
         <div class="table-wrap reveal">
           <table>
-            <thead><tr><th>Feature</th><th class="vaultr-col">Vaultr</th><th>Harvey</th><th>ChatGPT</th></tr></thead>
+            <thead><tr><th>Feature</th><th class="vaultr-col">Vaultr</th><th>Cloud AI</th><th>General Assistant</th></tr></thead>
             <tbody>
-              <tr><th>Price</th><td class="vaultr-col">Free — founding cohort</td><td>$50,000+/year</td><td>$20/month</td></tr>
-              <tr><th>Data privacy</th><td class="vaultr-col">Zero bytes beyond your perimeter</td><td>Stored on Harvey's servers</td><td>Sent to OpenAI</td></tr>
-              <tr><th>Attorney-client privilege</th><td class="vaultr-col">Protected by architecture</td><td>Depends on contract</td><td>At risk</td></tr>
-              <tr><th>Legal focus</th><td class="vaultr-col">Built for legal practice</td><td>Built for BigLaw</td><td>General purpose</td></tr>
-              <tr><th>Offline capable</th><td class="vaultr-col check">✓</td><td class="cross">✗</td><td class="cross">✗</td></tr>
-              <tr><th>Open source</th><td class="vaultr-col check">✓</td><td class="cross">✗</td><td class="cross">✗</td></tr>
+              <tr><th>Price</th><td class="vaultr-col">Free — founding cohort</td><td>Provider pricing</td><td>Seat-based</td></tr>
+              <tr><th>Data privacy</th><td class="vaultr-col">Zero bytes beyond your perimeter</td><td>Provider-managed</td><td>Cloud-hosted</td></tr>
+              <tr><th>Attorney-client privilege</th><td class="vaultr-col">Protected by architecture</td><td>Contract scope</td><td>Policy scope</td></tr>
+              <tr><th>Legal focus</th><td class="vaultr-col">Built for legal practice</td><td>Multi-purpose platform</td><td>General purpose</td></tr>
+              <tr><th>Offline capable</th><td class="vaultr-col check">✓</td><td class="cross">—</td><td class="cross">—</td></tr>
+              <tr><th>Open source</th><td class="vaultr-col check">✓</td><td class="cross">—</td><td class="cross">—</td></tr>
             </tbody>
           </table>
         </div>
@@ -278,7 +332,7 @@
       <div class="footer__top">
         <div><a class="brand brand--footer" href="#top"><span aria-hidden="true">✳</span> Vaultr</a><p>Counsel Without Disclosure.</p></div>
         <div class="footer__nav">
-          <div><h3>Product</h3><a href="#product">Overview</a><a href="#product">Lex</a><a href="#privacy">Private Mode</a><a href="#product">Contract Review</a><a href="#product">Legal Research</a><a href="#product">Matter Management</a></div>
+          <div><h3>Product</h3><a href="#product">Overview</a><a href="#platform">Platform</a><a href="#product">Lex</a><a href="#privacy">Private Mode</a><a href="#product">Contract Review</a><a href="#product">Legal Research</a><a href="#product">Matter Management</a></div>
           <div><h3>Open Source</h3><a href="https://github.com/sabarinath1805-loyal/Vaultr-AI">GitHub</a><a href="https://github.com/sabarinath1805-loyal/Vaultr-AI">Contributing</a><a href="https://github.com/sabarinath1805-loyal/Vaultr-AI">License</a><a href="https://github.com/sabarinath1805-loyal/Vaultr-AI">Changelog</a><a href="https://github.com/sabarinath1805-loyal/Vaultr-AI">Security</a></div>
           <div><h3>Company</h3><a href="#privacy">Privacy</a><a href="#top">Terms</a><a href="#deployment">Contact</a></div>
         </div>

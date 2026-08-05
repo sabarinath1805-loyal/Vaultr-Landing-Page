@@ -59,6 +59,65 @@
   dots.forEach((dot) => dot.addEventListener('click', () => { showQuote(Number(dot.dataset.quoteDot)); restartCarousel(); }));
   restartCarousel();
 
+  const lexTabs = [...document.querySelectorAll('[data-lex-tab]')];
+  const lexAnswer = document.querySelector('.lex-window__answer');
+  const lexLabel = document.querySelector('[data-lex-label]');
+  const lexTitle = document.querySelector('[data-lex-title]');
+  const lexMetaPrimary = document.querySelector('[data-lex-meta-primary]');
+  const lexMetaSecondary = document.querySelector('[data-lex-meta-secondary]');
+  const lexModes = {
+    review: {
+      label: 'LEX / REVIEW',
+      title: 'Clause drift detected.',
+      primary: '12 deviations flagged',
+      secondary: 'Source spans linked'
+    },
+    compare: {
+      label: 'LEX / COMPARE',
+      title: 'Section 7 favors the counterparty.',
+      primary: '3 versions aligned',
+      secondary: '0 bytes transmitted'
+    },
+    draft: {
+      label: 'LEX / DRAFT',
+      title: 'Response language ready.',
+      primary: 'Tone: matter-specific',
+      secondary: 'Source auditable'
+    }
+  };
+
+  const setLexMode = (mode) => {
+    const content = lexModes[mode] || lexModes.review;
+    lexTabs.forEach((tab) => {
+      const active = tab.dataset.lexTab === mode;
+      tab.classList.toggle('is-active', active);
+      tab.setAttribute('aria-selected', String(active));
+      tab.tabIndex = active ? 0 : -1;
+    });
+    if (lexAnswer) {
+      lexAnswer.classList.add('is-changing');
+      window.setTimeout(() => lexAnswer.classList.remove('is-changing'), 260);
+    }
+    if (lexLabel) lexLabel.textContent = content.label;
+    if (lexTitle) lexTitle.textContent = content.title;
+    if (lexMetaPrimary) lexMetaPrimary.textContent = content.primary;
+    if (lexMetaSecondary) lexMetaSecondary.textContent = content.secondary;
+  };
+
+  lexTabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => setLexMode(tab.dataset.lexTab));
+    tab.addEventListener('keydown', (event) => {
+      if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      const nextIndex = event.key === 'Home' ? 0
+        : event.key === 'End' ? lexTabs.length - 1
+          : (index + (event.key === 'ArrowRight' ? 1 : -1) + lexTabs.length) % lexTabs.length;
+      const nextTab = lexTabs[nextIndex];
+      nextTab.focus();
+      setLexMode(nextTab.dataset.lexTab);
+    });
+  });
+
   document.querySelector('[data-deployment-form]')?.addEventListener('submit', (event) => {
     event.preventDefault();
     const form = event.currentTarget;
