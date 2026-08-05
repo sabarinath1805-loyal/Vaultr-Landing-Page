@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/images/monet-water-lilies.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=platform-1">
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=workspace-1">
   <script defer src="assets/js/vaultr.js"></script>
 </head>
 <body>
@@ -130,18 +130,43 @@
             <span class="lex-window__local"><i></i> On device</span>
           </div>
           <div class="lex-window__body">
-            <div class="lex-window__rail"><span></span><span></span><span></span><span></span></div>
+            <div class="lex-window__rail" aria-hidden="true"><span class="is-active"></span><span></span><span></span><span></span></div>
             <div class="lex-window__document">
-              <div class="document-line document-line--short"></div>
-              <div class="document-line"></div>
-              <div class="document-line"></div>
-              <div class="document-line document-line--gold"></div>
-              <div class="document-line"></div>
-              <div class="document-line document-line--medium"></div>
+              <div class="workspace-head">
+                <div><span class="workspace-overline">DEMO MATTER / NORTHSTAR</span><strong>Acquisition review</strong></div>
+                <span class="workspace-lock"><i></i> Private</span>
+              </div>
+              <div class="workspace-panels">
+                <div class="workspace-source-list">
+                  <div class="workspace-section-label"><span>Source set</span><span>04 files</span></div>
+                  <button class="source-file is-active" type="button" data-lex-file="agreement">
+                    <span class="file-type">PDF</span><span class="source-file__copy"><strong>Merger Agreement</strong><small>v3 · 184 pages</small></span><span class="source-file__state">linked</span>
+                  </button>
+                  <button class="source-file" type="button" data-lex-file="schedule">
+                    <span class="file-type">PDF</span><span class="source-file__copy"><strong>Disclosure Schedule</strong><small>v2 · 42 pages</small></span><span class="source-file__state">linked</span>
+                  </button>
+                  <button class="source-file" type="button" data-lex-file="tracker">
+                    <span class="file-type">XLS</span><span class="source-file__copy"><strong>Diligence Tracker</strong><small>Open items · 18</small></span><span class="source-file__state">local</span>
+                  </button>
+                  <button class="source-file" type="button" data-lex-file="correspondence">
+                    <span class="file-type">MSG</span><span class="source-file__copy"><strong>Counsel Correspondence</strong><small>14 Jun · thread 08</small></span><span class="source-file__state">local</span>
+                  </button>
+                </div>
+                <div class="workspace-document-view">
+                  <div class="workspace-document-view__bar"><span data-lex-document-label>MERGER AGREEMENT / § 7.4</span><span data-lex-document-page>Page 48</span></div>
+                  <strong class="workspace-document-view__title" data-lex-document-title>Representations and warranties</strong>
+                  <div class="workspace-copy-line workspace-copy-line--short"></div>
+                  <div class="workspace-copy-line"></div>
+                  <div class="workspace-highlight"><span>§ 7.4</span><p>The Seller shall disclose all material contracts and obligations prior to closing.</p></div>
+                  <div class="workspace-copy-line workspace-copy-line--medium"></div>
+                  <div class="workspace-copy-line"></div>
+                </div>
+              </div>
             </div>
             <div class="lex-window__answer" id="lex-answer" role="tabpanel" aria-live="polite">
-              <span class="answer-label" data-lex-label>LEX / REVIEW</span>
+              <div class="answer-topline"><span class="answer-label" data-lex-label>LEX / REVIEW</span><span class="answer-state" data-lex-state>VERIFIED</span></div>
               <p data-lex-title>Clause drift detected.</p>
+              <div class="answer-citations"><span data-lex-citation>§ 7.4 / Merger Agreement</span><span data-lex-citation-secondary>§ 12 / Disclosure Schedule</span></div>
               <div class="answer-meta"><span data-lex-meta-primary>12 deviations flagged</span><span data-lex-meta-secondary>Source spans linked</span></div>
             </div>
           </div>

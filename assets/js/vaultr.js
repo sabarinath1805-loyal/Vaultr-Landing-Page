@@ -65,24 +65,36 @@
   const lexTitle = document.querySelector('[data-lex-title]');
   const lexMetaPrimary = document.querySelector('[data-lex-meta-primary]');
   const lexMetaSecondary = document.querySelector('[data-lex-meta-secondary]');
+  const lexState = document.querySelector('[data-lex-state]');
+  const lexCitation = document.querySelector('[data-lex-citation]');
+  const lexCitationSecondary = document.querySelector('[data-lex-citation-secondary]');
   const lexModes = {
     review: {
       label: 'LEX / REVIEW',
       title: 'Clause drift detected.',
       primary: '12 deviations flagged',
-      secondary: 'Source spans linked'
+      secondary: 'Source spans linked',
+      state: 'VERIFIED',
+      citation: '§ 7.4 / Merger Agreement',
+      citationSecondary: '§ 12 / Disclosure Schedule'
     },
     compare: {
       label: 'LEX / COMPARE',
       title: 'Section 7 favors the counterparty.',
       primary: '3 versions aligned',
-      secondary: '0 bytes transmitted'
+      secondary: '0 bytes transmitted',
+      state: 'ALIGNED',
+      citation: 'v3 / Merger Agreement',
+      citationSecondary: 'v2 / Prior Draft'
     },
     draft: {
       label: 'LEX / DRAFT',
       title: 'Response language ready.',
       primary: 'Tone: matter-specific',
-      secondary: 'Source auditable'
+      secondary: 'Source auditable',
+      state: 'READY',
+      citation: '§ 7.4 / Draft response',
+      citationSecondary: '§ 12 / Disclosure Schedule'
     }
   };
 
@@ -102,6 +114,9 @@
     if (lexTitle) lexTitle.textContent = content.title;
     if (lexMetaPrimary) lexMetaPrimary.textContent = content.primary;
     if (lexMetaSecondary) lexMetaSecondary.textContent = content.secondary;
+    if (lexState) lexState.textContent = content.state;
+    if (lexCitation) lexCitation.textContent = content.citation;
+    if (lexCitationSecondary) lexCitationSecondary.textContent = content.citationSecondary;
   };
 
   lexTabs.forEach((tab, index) => {
@@ -115,6 +130,28 @@
       const nextTab = lexTabs[nextIndex];
       nextTab.focus();
       setLexMode(nextTab.dataset.lexTab);
+    });
+  });
+
+  const sourceFiles = [...document.querySelectorAll('[data-lex-file]')];
+  const workspaceDocumentLabel = document.querySelector('[data-lex-document-label]');
+  const workspaceDocumentPage = document.querySelector('[data-lex-document-page]');
+  const workspaceDocumentTitle = document.querySelector('[data-lex-document-title]');
+  const sourceFileData = {
+    agreement: { label: 'MERGER AGREEMENT / § 7.4', page: 'Page 48', title: 'Representations and warranties' },
+    schedule: { label: 'DISCLOSURE SCHEDULE / § 12', page: 'Page 12', title: 'Material contracts and obligations' },
+    tracker: { label: 'DILIGENCE TRACKER / OPEN ITEMS', page: '18 open', title: 'Outstanding diligence requests' },
+    correspondence: { label: 'COUNSEL CORRESPONDENCE / 14 JUN', page: 'Thread 08', title: 'Closing conditions — follow-up' }
+  };
+
+  sourceFiles.forEach((file) => {
+    file.addEventListener('click', () => {
+      const data = sourceFileData[file.dataset.lexFile];
+      if (!data) return;
+      sourceFiles.forEach((item) => item.classList.toggle('is-active', item === file));
+      if (workspaceDocumentLabel) workspaceDocumentLabel.textContent = data.label;
+      if (workspaceDocumentPage) workspaceDocumentPage.textContent = data.page;
+      if (workspaceDocumentTitle) workspaceDocumentTitle.textContent = data.title;
     });
   });
 
