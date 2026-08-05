@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/images/monet-water-lilies.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=command-1">
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=deployment-1">
   <script defer src="assets/js/vaultr.js"></script>
 </head>
 <body>
@@ -436,6 +436,11 @@
         <div class="privacy__copy reveal">
           <h2>Zero Bytes Beyond Your Perimeter.</h2>
           <p>Lex operates exclusively within your local runtime. Retrieval, indexing, and neural reasoning occur on-chip—ensuring matter data never touches Vaultr servers or external LLM APIs.</p>
+          <div class="privacy__assurance" aria-label="Security controls">
+            <div><span>01</span><strong>Runtime</strong><small>On-device inference</small></div>
+            <div><span>02</span><strong>Network</strong><small>Outbound denied</small></div>
+            <div><span>03</span><strong>Source</strong><small>Open for inspection</small></div>
+          </div>
         </div>
         <div class="privacy-diagram reveal" aria-label="Privacy architecture diagram">
           <div class="diagram-flow">
@@ -515,9 +520,32 @@
       <div class="shell deployment__card reveal">
         <h2>Founding Cohort Access.</h2>
         <p>A strict allocation of local deployments remains for founding firms requiring absolute data sovereignty.</p>
+        <div class="deployment__profiles" role="tablist" aria-label="Deployment profiles">
+          <button class="deployment-profile is-active" id="deployment-profile-local" type="button" role="tab" aria-controls="deployment-profile-copy" aria-selected="true" tabindex="0" data-deployment-mode="local">Local runtime <span>01</span></button>
+          <button class="deployment-profile" id="deployment-profile-network" type="button" role="tab" aria-controls="deployment-profile-copy" aria-selected="false" tabindex="-1" data-deployment-mode="network">Private network <span>02</span></button>
+          <button class="deployment-profile" id="deployment-profile-airgap" type="button" role="tab" aria-controls="deployment-profile-copy" aria-selected="false" tabindex="-1" data-deployment-mode="airgap">Air-gapped <span>03</span></button>
+        </div>
+        <p class="deployment__profile-copy" id="deployment-profile-copy" role="tabpanel" aria-labelledby="deployment-profile-local" data-deployment-copy>Firm-managed devices. Local inference. A deployment profile built around your existing perimeter.</p>
         <form class="deployment-form" data-deployment-form>
+          <input type="hidden" id="deployment-profile" name="deployment-profile" value="local" data-deployment-profile-input>
           <label class="sr-only" for="email">Your firm email</label>
           <input id="email" name="email" type="email" placeholder="Your firm email" required autocomplete="email">
+          <label class="sr-only" for="practice-area">Practice area</label>
+          <select id="practice-area" name="practice-area" required>
+            <option value="" selected disabled>Practice area</option>
+            <option>Litigation</option>
+            <option>Transactional</option>
+            <option>In-house</option>
+            <option>General practice</option>
+          </select>
+          <label class="sr-only" for="firm-size">Firm size</label>
+          <select id="firm-size" name="firm-size" required>
+            <option value="" selected disabled>Firm size</option>
+            <option>1–25 lawyers</option>
+            <option>26–100 lawyers</option>
+            <option>101–500 lawyers</option>
+            <option>500+ lawyers</option>
+          </select>
           <button class="button button--light" type="submit">Request Deployment</button>
         </form>
         <p class="form-status" aria-live="polite" data-form-status>No subscription. No data transmitted. Founding cohort only.</p>

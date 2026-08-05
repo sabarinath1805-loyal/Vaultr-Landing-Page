@@ -1391,3 +1391,37 @@ tbody tr:nth-child(even) { background: #fafbf8; }
   .command-card--chart { min-height: 235px; }
   .command-center__caption { text-align: left; line-height: 1.4; }
 }
+
+/* --------------------------------------------------------------------------
+   Deployment desk
+   -------------------------------------------------------------------------- */
+.privacy__assurance { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 42px; }
+.privacy__assurance > div { display: grid; gap: 7px; padding-top: 13px; border-top: 1px solid rgba(0, 0, 0, .16); }
+.privacy__assurance span { color: var(--sage); font-size: 9px; font-weight: 700; letter-spacing: .14em; }
+.privacy__assurance strong { color: var(--ink); font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.privacy__assurance small { color: var(--muted); font-size: 10px; line-height: 1.35; }
+.deployment__profiles { max-width: 720px; display: flex; margin: 0 auto 13px; border-bottom: 1px solid rgba(0, 0, 0, .1); }
+.deployment-profile { position: relative; flex: 1; padding: 13px 7px; border: 0; border-bottom: 2px solid transparent; background: transparent; color: #69766e; cursor: pointer; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; transition: color .25s, border-color .25s; }
+.deployment-profile span { display: block; margin-top: 5px; color: #94a098; font-size: 8px; font-weight: 500; }
+.deployment-profile:hover, .deployment-profile:focus-visible { color: var(--sage); outline: none; }
+.deployment-profile.is-active { border-bottom-color: var(--sage); color: var(--sage); }
+.deployment__profile-copy { max-width: 580px !important; min-height: 22px; margin: 0 auto 26px !important; color: var(--muted) !important; font-size: 13px !important; line-height: 1.5 !important; }
+.deployment-form { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 720px; }
+.deployment-form input,
+.deployment-form select { min-width: 0; width: 100%; height: 56px; padding: 0 18px; border: 1px solid rgba(17, 24, 19, .16); border-radius: 3px; outline: 0; background: #fff; color: var(--ink); }
+.deployment-form select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--sage) 50%), linear-gradient(135deg, var(--sage) 50%, transparent 50%); background-position: calc(100% - 17px) 24px, calc(100% - 12px) 24px; background-repeat: no-repeat; background-size: 5px 5px, 5px 5px; cursor: pointer; }
+.deployment-form input:focus, .deployment-form select:focus { border-color: var(--sage); box-shadow: 0 0 0 3px rgba(45, 74, 62, .12); }
+.deployment-form .button { grid-column: 1 / -1; width: 100%; }
+
+@media (max-width: 640px) {
+  .privacy__assurance { gap: 7px; margin-top: 30px; }
+  .privacy__assurance > div { gap: 5px; }
+  .privacy__assurance strong { font-size: 10px; }
+  .privacy__assurance small { font-size: 9px; }
+  .deployment__profiles { display: grid; grid-template-columns: 1fr; border-bottom: 0; }
+  .deployment-profile { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(0, 0, 0, .1); text-align: left; }
+  .deployment-profile span { margin: 0; }
+  .deployment-profile.is-active { border-bottom-color: var(--sage); }
+  .deployment-form { grid-template-columns: 1fr; }
+  .deployment-form .button { grid-column: auto; }
+}

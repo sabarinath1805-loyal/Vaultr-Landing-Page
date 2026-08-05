@@ -285,6 +285,42 @@
     });
   });
 
+  const deploymentProfiles = [...document.querySelectorAll('[data-deployment-mode]')];
+  const deploymentProfileCopy = document.querySelector('[data-deployment-copy]');
+  const deploymentProfileInput = document.querySelector('[data-deployment-profile-input]');
+  const deploymentModeData = {
+    local: 'Firm-managed devices. Local inference. A deployment profile built around your existing perimeter.',
+    network: 'Private network deployment. Central governance with controlled access for approved teams and matters.',
+    airgap: 'Air-gapped profile. No external network path for the most sensitive work and restricted environments.'
+  };
+  const setDeploymentMode = (mode) => {
+    deploymentProfiles.forEach((profile) => {
+      const active = profile.dataset.deploymentMode === mode;
+      profile.classList.toggle('is-active', active);
+      profile.setAttribute('aria-selected', String(active));
+      profile.tabIndex = active ? 0 : -1;
+    });
+    if (deploymentProfileInput) deploymentProfileInput.value = mode;
+    if (deploymentProfileCopy) {
+      deploymentProfileCopy.textContent = deploymentModeData[mode] || deploymentModeData.local;
+      const active = deploymentProfiles.find((profile) => profile.dataset.deploymentMode === mode);
+      if (active) deploymentProfileCopy.setAttribute('aria-labelledby', active.id);
+    }
+  };
+  deploymentProfiles.forEach((profile, index) => {
+    profile.addEventListener('click', () => setDeploymentMode(profile.dataset.deploymentMode));
+    profile.addEventListener('keydown', (event) => {
+      if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      const nextIndex = event.key === 'Home' ? 0
+        : event.key === 'End' ? deploymentProfiles.length - 1
+          : (index + (event.key === 'ArrowRight' ? 1 : -1) + deploymentProfiles.length) % deploymentProfiles.length;
+      const nextProfile = deploymentProfiles[nextIndex];
+      nextProfile.focus();
+      setDeploymentMode(nextProfile.dataset.deploymentMode);
+    });
+  });
+
   document.querySelector('[data-deployment-form]')?.addEventListener('submit', (event) => {
     event.preventDefault();
     const form = event.currentTarget;
