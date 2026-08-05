@@ -3,6 +3,12 @@
   const header = document.querySelector('[data-header]');
   const menuButton = document.querySelector('[data-menu-toggle]');
   const mobileMenu = document.querySelector('[data-mobile-menu]');
+  const readQueryState = (key) => new URL(window.location.href).searchParams.get(key);
+  const writeQueryState = (key, value) => {
+    const url = new URL(window.location.href);
+    url.searchParams.set(key, value);
+    window.history.replaceState({}, '', url);
+  };
 
   document.querySelector('[data-close-banner]')?.addEventListener('click', () => {
     banner?.classList.add('is-hidden');
@@ -212,6 +218,7 @@
 
   const setLexMode = (mode) => {
     const content = lexModes[mode] || lexModes.review;
+    writeQueryState('mode', mode);
     lexTabs.forEach((tab) => {
       const active = tab.dataset.lexTab === mode;
       tab.classList.toggle('is-active', active);
@@ -244,6 +251,8 @@
       setLexMode(nextTab.dataset.lexTab);
     });
   });
+  const initialLexMode = readQueryState('mode');
+  if (initialLexMode && lexModes[initialLexMode]) setLexMode(initialLexMode);
 
   const sourceFiles = [...document.querySelectorAll('[data-lex-file]')];
   const workspaceDocumentLabel = document.querySelector('[data-lex-document-label]');
@@ -270,6 +279,7 @@
   const workflowTabs = [...document.querySelectorAll('[data-workflow-tab]')];
   const workflowPanels = [...document.querySelectorAll('[data-workflow-panel]')];
   const setWorkflow = (mode) => {
+    writeQueryState('workflow', mode);
     workflowTabs.forEach((tab) => {
       const active = tab.dataset.workflowTab === mode;
       tab.classList.toggle('is-active', active);
@@ -296,6 +306,8 @@
       setWorkflow(nextTab.dataset.workflowTab);
     });
   });
+  const initialWorkflow = readQueryState('workflow');
+  if (initialWorkflow && workflowTabs.some((tab) => tab.dataset.workflowTab === initialWorkflow)) setWorkflow(initialWorkflow);
 
   const redlineAction = document.querySelector('[data-redline-action]');
   const redlineStatus = document.querySelector('[data-redline-status]');
@@ -319,6 +331,7 @@
   const solutionTabs = [...document.querySelectorAll('[data-solution-tab]')];
   const solutionPanels = [...document.querySelectorAll('[data-solution-panel]')];
   const setSolution = (mode) => {
+    writeQueryState('practice', mode);
     solutionTabs.forEach((tab) => {
       const active = tab.dataset.solutionTab === mode;
       tab.classList.toggle('is-active', active);
@@ -345,6 +358,8 @@
       setSolution(nextTab.dataset.solutionTab);
     });
   });
+  const initialPractice = readQueryState('practice');
+  if (initialPractice && solutionTabs.some((tab) => tab.dataset.solutionTab === initialPractice)) setSolution(initialPractice);
 
   const evidenceFilters = [...document.querySelectorAll('[data-evidence-filter]')];
   const evidenceRows = [...document.querySelectorAll('[data-evidence-state]')];
@@ -401,6 +416,7 @@
     evidenceDetail.classList.add('is-visible');
   };
   const setEvidenceFilter = (filter) => {
+    writeQueryState('evidence', filter);
     closeEvidenceDetail();
     evidenceFilters.forEach((tab) => {
       const active = tab.dataset.evidenceFilter === filter;
@@ -436,6 +452,8 @@
     });
   });
   document.querySelector('[data-evidence-detail-close]')?.addEventListener('click', closeEvidenceDetail);
+  const initialEvidence = readQueryState('evidence');
+  if (initialEvidence && evidenceFilters.some((tab) => tab.dataset.evidenceFilter === initialEvidence)) setEvidenceFilter(initialEvidence);
 
   const commandTabs = [...document.querySelectorAll('[data-command-range]')];
   const commandDashboard = document.querySelector('#command-dashboard');
@@ -453,6 +471,7 @@
   };
   const setCommandRange = (range) => {
     const data = commandData[range] || commandData.week;
+    writeQueryState('range', range);
     commandTabs.forEach((tab) => {
       const active = tab.dataset.commandRange === range;
       tab.classList.toggle('is-active', active);
@@ -487,6 +506,8 @@
       setCommandRange(nextTab.dataset.commandRange);
     });
   });
+  const initialCommandRange = readQueryState('range');
+  if (initialCommandRange && commandData[initialCommandRange]) setCommandRange(initialCommandRange);
 
   const deploymentProfiles = [...document.querySelectorAll('[data-deployment-mode]')];
   const deploymentProfileCopy = document.querySelector('[data-deployment-copy]');
@@ -497,6 +518,7 @@
     airgap: 'Air-gapped profile. No external network path for the most sensitive work and restricted environments.'
   };
   const setDeploymentMode = (mode) => {
+    writeQueryState('profile', mode);
     deploymentProfiles.forEach((profile) => {
       const active = profile.dataset.deploymentMode === mode;
       profile.classList.toggle('is-active', active);
@@ -523,6 +545,8 @@
       setDeploymentMode(nextProfile.dataset.deploymentMode);
     });
   });
+  const initialDeploymentProfile = readQueryState('profile');
+  if (initialDeploymentProfile && deploymentModeData[initialDeploymentProfile]) setDeploymentMode(initialDeploymentProfile);
 
   const impactInputs = [...document.querySelectorAll('[data-impact-input]')];
   const updateImpact = () => {
