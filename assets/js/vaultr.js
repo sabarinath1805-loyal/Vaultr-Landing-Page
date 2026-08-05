@@ -223,6 +223,7 @@
     { id: 'deployment', label: 'Deployment desk' }
   ];
   const roomIndexSections = roomIndexConfig.map((item) => ({ ...item, element: document.getElementById(item.id) })).filter((item) => item.element);
+  const pageFooter = document.querySelector('.footer');
   if (roomIndexSections.length >= 4) {
     const roomIndexMarkup = `<aside class="room-index" data-room-index aria-label="Room index"><span class="room-index__eyebrow">ROOM INDEX</span><nav>${roomIndexSections.map((item) => `<a href="#${item.id}" data-room-link="${item.id}"><i aria-hidden="true"></i><span>${item.label}</span></a>`).join('')}</nav></aside>`;
     document.body.insertAdjacentHTML('beforeend', roomIndexMarkup);
@@ -241,7 +242,8 @@
         if (isActive) link.setAttribute('aria-current', 'location');
         else link.removeAttribute('aria-current');
       });
-      roomIndex?.classList.toggle('is-visible', window.scrollY > 180);
+      const footerVisible = pageFooter && pageFooter.getBoundingClientRect().top < window.innerHeight;
+      roomIndex?.classList.toggle('is-visible', window.scrollY > 180 && !footerVisible);
     };
     const requestRoomIndexSync = () => {
       if (roomIndexFrame) return;
