@@ -2313,6 +2313,36 @@ tbody tr:nth-child(even) { background: #fafbf8; }
 }
 .hero__copy { min-width: 0; }
 .hero__copy h1 { max-width: 800px; }
+.hero__path {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 720px;
+  margin-top: 37px;
+  border-top: 1px solid rgba(17, 24, 19, .2);
+}
+.hero__path a {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: auto auto;
+  column-gap: 11px;
+  align-items: center;
+  min-width: 0;
+  padding: 15px 16px 14px 0;
+  border-right: 1px solid rgba(17, 24, 19, .14);
+  color: var(--ink);
+  transition: color .25s, transform .25s var(--ease);
+}
+.hero__path a + a { padding-left: 16px; }
+.hero__path a:last-child { border-right: 0; }
+.hero__path a:hover,
+.hero__path a:focus-visible { color: var(--sage); outline: none; transform: translateY(-2px); }
+.hero__path a > span { grid-row: 1 / span 2; align-self: start; color: var(--sage); font-family: Consolas, monospace; font-size: 9px; letter-spacing: .08em; }
+.hero__path strong { overflow: hidden; font-size: 12px; font-weight: 700; letter-spacing: -.01em; text-overflow: ellipsis; white-space: nowrap; }
+.hero__path small { overflow: hidden; color: var(--muted); font-size: 10px; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
+.hero__path b { grid-column: 3; grid-row: 1 / span 2; font-size: 16px; font-weight: 400; transition: transform .25s var(--ease); }
+.hero__path a:hover b,
+.hero__path a:focus-visible b { transform: translate(3px, -3px); }
 .hero__signal {
   width: min(100%, 430px);
   justify-self: end;
@@ -2354,6 +2384,10 @@ tbody tr:nth-child(even) { background: #fafbf8; }
 }
 @media (max-width: 640px) {
   .hero__content { gap: 34px; padding-top: 145px; padding-bottom: 226px; }
+  .hero__path { grid-template-columns: 1fr; margin-top: 31px; }
+  .hero__path a,
+  .hero__path a + a { padding: 12px 0; border-right: 0; border-bottom: 1px solid rgba(17, 24, 19, .14); }
+  .hero__path a:last-child { border-bottom: 0; }
   .hero__signal { width: 100%; }
   .hero__signal-body { padding: 31px 21px 27px; }
   .hero__signal-head, .hero__signal-foot { padding-inline: 16px; font-size: 8px; }
