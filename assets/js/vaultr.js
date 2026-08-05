@@ -192,6 +192,48 @@
     });
   }
 
+  const roomIndexConfig = [
+    { id: 'product', label: 'Lex room' },
+    { id: 'evidence', label: 'Evidence ledger' },
+    { id: 'platform', label: 'Control plane' },
+    { id: 'workflows', label: 'Workflow studio' },
+    { id: 'solutions', label: 'Practice rooms' },
+    { id: 'command-center', label: 'Command center' },
+    { id: 'deployment', label: 'Deployment desk' }
+  ];
+  const roomIndexSections = roomIndexConfig.map((item) => ({ ...item, element: document.getElementById(item.id) })).filter((item) => item.element);
+  if (roomIndexSections.length >= 4) {
+    const roomIndexMarkup = `<aside class="room-index" data-room-index aria-label="Room index"><span class="room-index__eyebrow">ROOM INDEX</span><nav>${roomIndexSections.map((item) => `<a href="#${item.id}" data-room-link="${item.id}"><i aria-hidden="true"></i><span>${item.label}</span></a>`).join('')}</nav></aside>`;
+    document.body.insertAdjacentHTML('beforeend', roomIndexMarkup);
+    const roomIndex = document.querySelector('[data-room-index]');
+    const roomIndexLinks = [...document.querySelectorAll('[data-room-link]')];
+    let roomIndexFrame;
+    const syncRoomIndex = () => {
+      const threshold = window.scrollY + window.innerHeight * .42;
+      let active = roomIndexSections[0];
+      roomIndexSections.forEach((section) => {
+        if (section.element.offsetTop <= threshold) active = section;
+      });
+      roomIndexLinks.forEach((link) => {
+        const isActive = link.dataset.roomLink === active.id;
+        link.classList.toggle('is-active', isActive);
+        if (isActive) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
+      roomIndex?.classList.toggle('is-visible', window.scrollY > 180);
+    };
+    const requestRoomIndexSync = () => {
+      if (roomIndexFrame) return;
+      roomIndexFrame = window.requestAnimationFrame(() => {
+        roomIndexFrame = undefined;
+        syncRoomIndex();
+      });
+    };
+    window.addEventListener('scroll', requestRoomIndexSync, { passive: true });
+    window.addEventListener('resize', requestRoomIndexSync, { passive: true });
+    syncRoomIndex();
+  }
+
   const navDropdowns = [...document.querySelectorAll('[data-nav-dropdown]')];
   const closeNavDropdowns = () => navDropdowns.forEach((dropdown) => {
     dropdown.classList.remove('is-open');
