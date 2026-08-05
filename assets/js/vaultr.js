@@ -51,11 +51,26 @@
   const quickNavSearch = document.querySelector('#quick-nav-search');
   const quickNavItems = [...document.querySelectorAll('[data-quick-nav-item]')];
   const quickNavEmpty = document.querySelector('[data-quick-nav-empty]');
+  const dialogFocusableSelector = 'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+  const trapDialogFocus = (dialog, event) => {
+    if (event.key !== 'Tab' || !dialog) return;
+    const focusable = [...dialog.querySelectorAll(dialogFocusableSelector)].filter((element) => !element.hidden && getComputedStyle(element).display !== 'none');
+    if (!focusable.length) return;
+    const activeIndex = focusable.indexOf(document.activeElement);
+    if (event.shiftKey && (activeIndex <= 0)) {
+      event.preventDefault();
+      focusable[focusable.length - 1].focus();
+    } else if (!event.shiftKey && (activeIndex === focusable.length - 1 || activeIndex === -1)) {
+      event.preventDefault();
+      focusable[0].focus();
+    }
+  };
   let quickNavPreviousFocus;
   const setQuickNav = (open) => {
     if (!quickNav) return;
     if (open) quickNavPreviousFocus = document.activeElement;
     quickNav.hidden = !open;
+    quickNav.setAttribute('aria-hidden', String(!open));
     quickNav.classList.toggle('is-open', open);
     document.body.classList.toggle('quick-nav-open', open);
     if (open) {
@@ -95,6 +110,7 @@
       return;
     }
     if (event.key === 'Escape' && quickNav?.hidden === false) setQuickNav(false);
+    if (quickNav?.hidden === false && event.key === 'Tab') trapDialogFocus(quickNav, event);
     if (quickNav?.hidden === false && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
       const visibleItems = quickNavItems.filter((item) => !item.hidden);
       if (!visibleItems.length) return;
@@ -162,6 +178,7 @@
         renderGallery();
       }
       galleryLightbox.hidden = !open;
+      galleryLightbox.setAttribute('aria-hidden', String(!open));
       galleryLightbox.classList.toggle('is-open', open);
       document.body.classList.toggle('gallery-lightbox-open', open);
       if (open) galleryClose?.focus();
@@ -187,6 +204,7 @@
     document.addEventListener('keydown', (event) => {
       if (galleryLightbox?.hidden !== false) return;
       if (event.key === 'Escape') setGallery(false);
+      if (event.key === 'Tab') trapDialogFocus(galleryLightbox, event);
       if (event.key === 'ArrowLeft') { event.preventDefault(); stepGallery(-1); }
       if (event.key === 'ArrowRight') { event.preventDefault(); stepGallery(1); }
     });
