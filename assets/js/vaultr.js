@@ -260,18 +260,75 @@
   const navDropdowns = [...document.querySelectorAll('[data-nav-dropdown]')];
   const closeNavDropdowns = () => navDropdowns.forEach((dropdown) => {
     dropdown.classList.remove('is-open');
-    dropdown.querySelector('.nav-dropdown__trigger')?.setAttribute('aria-expanded', 'false');
-  });
-  navDropdowns.forEach((dropdown) => {
     const trigger = dropdown.querySelector('.nav-dropdown__trigger');
+    trigger?.setAttribute('aria-expanded', 'false');
+    const menu = dropdown.querySelector('.nav-dropdown__menu');
+    menu?.setAttribute('aria-hidden', 'true');
+  });
+  const navTriggers = navDropdowns.map((dropdown) => dropdown.querySelector('.nav-dropdown__trigger')).filter(Boolean);
+  const openNavDropdown = (dropdown) => {
+    closeNavDropdowns();
+    dropdown.classList.add('is-open');
+    dropdown.querySelector('.nav-dropdown__trigger')?.setAttribute('aria-expanded', 'true');
+    dropdown.querySelector('.nav-dropdown__menu')?.setAttribute('aria-hidden', 'false');
+  };
+  navDropdowns.forEach((dropdown, dropdownIndex) => {
+    const trigger = dropdown.querySelector('.nav-dropdown__trigger');
+    const menu = dropdown.querySelector('.nav-dropdown__menu');
+    const links = [...(menu?.querySelectorAll('a') || [])];
+    if (trigger && menu) {
+      const menuId = menu.id || `nav-menu-${dropdownIndex + 1}`;
+      menu.id = menuId;
+      trigger.setAttribute('aria-controls', menuId);
+      menu.setAttribute('role', 'menu');
+      menu.setAttribute('aria-hidden', 'true');
+      links.forEach((link) => link.setAttribute('role', 'menuitem'));
+    }
     trigger?.addEventListener('click', (event) => {
       event.stopPropagation();
       const open = !dropdown.classList.contains('is-open');
-      closeNavDropdowns();
-      dropdown.classList.toggle('is-open', open);
-      trigger.setAttribute('aria-expanded', String(open));
+      if (open) openNavDropdown(dropdown);
+      else closeNavDropdowns();
     });
-    dropdown.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeNavDropdowns));
+    trigger?.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        openNavDropdown(dropdown);
+        const target = event.key === 'ArrowUp' ? links[links.length - 1] : links[0];
+        target?.focus();
+        window.setTimeout(() => target?.focus(), 0);
+      } else if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+        event.preventDefault();
+        closeNavDropdowns();
+        const nextIndex = (dropdownIndex + (event.key === 'ArrowRight' ? 1 : -1) + navTriggers.length) % navTriggers.length;
+        navTriggers[nextIndex]?.focus();
+      } else if (event.key === 'Escape') {
+        closeNavDropdowns();
+        trigger.focus();
+      }
+    });
+    links.forEach((link, linkIndex) => {
+      link.addEventListener('click', closeNavDropdowns);
+      link.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+          event.preventDefault();
+          const nextIndex = (linkIndex + (event.key === 'ArrowDown' ? 1 : -1) + links.length) % links.length;
+          links[nextIndex]?.focus();
+        } else if (event.key === 'Home' || event.key === 'End') {
+          event.preventDefault();
+          (event.key === 'Home' ? links[0] : links[links.length - 1])?.focus();
+        } else if (event.key === 'Escape') {
+          event.preventDefault();
+          closeNavDropdowns();
+          trigger?.focus();
+        } else if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+          event.preventDefault();
+          closeNavDropdowns();
+          const nextIndex = (dropdownIndex + (event.key === 'ArrowRight' ? 1 : -1) + navTriggers.length) % navTriggers.length;
+          navTriggers[nextIndex]?.focus();
+        }
+      });
+    });
   });
   document.addEventListener('click', (event) => {
     if (!event.target.closest('[data-nav-dropdown]')) closeNavDropdowns();
