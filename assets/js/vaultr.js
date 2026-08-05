@@ -343,10 +343,21 @@
     }
   });
 
+  const scrollProgress = header ? document.createElement('div') : null;
+  if (scrollProgress) {
+    scrollProgress.className = 'scroll-progress';
+    scrollProgress.setAttribute('aria-hidden', 'true');
+    scrollProgress.innerHTML = '<span></span>';
+    header.append(scrollProgress);
+  }
   let lastY = 0;
   const syncHeader = () => {
     const y = window.scrollY;
     const delta = y - lastY;
+    const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+    const progress = Math.min(100, Math.max(0, (y / maxScroll) * 100));
+    scrollProgress?.style.setProperty('--scroll-progress', `${progress}%`);
+    scrollProgress?.classList.toggle('is-active', y > 30);
     header?.classList.toggle('is-fixed', y > 48);
     if (y <= 48 || delta < -4 || mobileMenu?.classList.contains('is-open')) {
       header?.classList.remove('is-hidden');

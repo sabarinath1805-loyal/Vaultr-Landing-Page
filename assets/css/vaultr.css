@@ -2730,6 +2730,36 @@ body.gallery-lightbox-open { overflow: hidden; }
 .mobile-menu a[aria-current="page"] { color: var(--sage); }
 
 /* --------------------------------------------------------------------------
+   Reading progress / quiet long-form orientation
+   -------------------------------------------------------------------------- */
+.scroll-progress {
+  position: fixed;
+  z-index: 120;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: rgba(45, 74, 62, .12);
+  opacity: .45;
+  pointer-events: none;
+  transition: opacity .3s ease;
+}
+.scroll-progress.is-active { opacity: 1; }
+.scroll-progress span {
+  display: block;
+  width: var(--scroll-progress, 0%);
+  height: 100%;
+  background: var(--sage);
+  box-shadow: 0 0 12px rgba(45, 74, 62, .28);
+  transform-origin: left center;
+  transition: width .18s linear;
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-progress,
+  .scroll-progress span { transition: none; }
+}
+
+/* --------------------------------------------------------------------------
    Quiet motion system / intelligent shell behavior
    -------------------------------------------------------------------------- */
 .site-header.is-hidden { transform: translateY(calc(-100% - 12px)); }
