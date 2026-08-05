@@ -22,7 +22,7 @@
   <link rel="canonical" href="https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/images/monet-water-lilies.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=security-1">
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=evidence-1">
   <script defer src="assets/js/vaultr.js"></script>
 </head>
 <body>
@@ -67,6 +67,7 @@
           <button class="nav-dropdown__trigger" type="button" aria-expanded="false" aria-haspopup="true">Resources <span aria-hidden="true">⌄</span></button>
           <div class="nav-dropdown__menu">
             <a href="#resources"><small>RESOURCE LIBRARY</small><strong>Read the operating brief</strong><span>Security, workflows, and architecture notes.</span></a>
+            <a href="#evidence"><small>EVIDENCE LEDGER</small><strong>Trace every answer</strong><span>Source spans, confidence, and review state.</span></a>
             <a href="security.html"><small>SECURITY</small><strong>Verify the boundary</strong><span>Runtime, network, and source assurance.</span></a>
             <a href="#open-source"><small>OPEN SOURCE</small><strong>Inspect the architecture</strong><span>Review the code, dependencies, and claims.</span></a>
             <a href="#faq"><small>FAQ</small><strong>Get the short answer</strong><span>Deployment, privacy, and rollout notes.</span></a>
@@ -86,6 +87,7 @@
       <a href="#solutions">Solutions</a>
       <a href="#command-center">Command</a>
       <a href="#impact">Impact</a>
+      <a href="#evidence">Evidence Ledger</a>
       <a href="security.html">Security Center</a>
       <a href="#privacy">Privacy</a>
       <a href="#open-source">Open Source</a>
@@ -213,6 +215,46 @@
       </div>
     </section>
 
+    <section class="evidence-ledger section" id="evidence">
+      <div class="shell">
+        <div class="evidence-ledger__intro">
+          <div>
+            <p class="section-kicker reveal">EVIDENCE LEDGER / SOURCE PROVENANCE</p>
+            <h2 class="reveal">Every conclusion leaves a trail.</h2>
+          </div>
+          <p class="reveal">Lex does not ask counsel to trust a black box. Each answer arrives with the exact source, span, and confidence signal your review requires.</p>
+        </div>
+        <div class="evidence-ledger__layout">
+          <div class="evidence-ledger__copy reveal">
+            <span class="evidence-ledger__stamp">MATTER / NORTHSTAR ACQUISITION</span>
+            <h3>Answer. Source. Span. Confidence.</h3>
+            <p>Keep the reasoning close to the record. Move from a flagged clause to the underlying language without opening another tool or giving up the perimeter.</p>
+            <div class="evidence-ledger__stats" aria-label="Evidence ledger summary">
+              <div><strong>03</strong><span>source spans linked</span></div>
+              <div><strong>98%</strong><span>confidence / illustrative</span></div>
+              <div><strong>0 B</strong><span>sent beyond the room</span></div>
+            </div>
+            <a class="button button--ghost" href="#product">Open the private workspace <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="evidence-ledger__panel reveal" aria-label="Lex evidence ledger">
+            <div class="evidence-ledger__panel-head"><span>LEX / EVIDENCE LEDGER</span><span class="evidence-ledger__local"><i></i> LOCAL ONLY</span></div>
+            <div class="evidence-ledger__filters" role="tablist" aria-label="Evidence confidence filters">
+              <button class="evidence-filter is-active" type="button" role="tab" aria-selected="true" tabindex="0" data-evidence-filter="all">All <span>04</span></button>
+              <button class="evidence-filter" type="button" role="tab" aria-selected="false" tabindex="-1" data-evidence-filter="verified">Verified <span>03</span></button>
+              <button class="evidence-filter" type="button" role="tab" aria-selected="false" tabindex="-1" data-evidence-filter="review">Needs review <span>01</span></button>
+            </div>
+            <div class="evidence-ledger__rows">
+              <article class="evidence-row" data-evidence-state="verified"><span class="evidence-row__type">PDF / § 7.4</span><div><strong>Merger Agreement</strong><small>Clause drift detected in representations.</small></div><span class="evidence-row__confidence">98% / VERIFIED</span></article>
+              <article class="evidence-row" data-evidence-state="verified"><span class="evidence-row__type">PDF / § 12</span><div><strong>Disclosure Schedule</strong><small>Material contracts cross-referenced.</small></div><span class="evidence-row__confidence">96% / VERIFIED</span></article>
+              <article class="evidence-row" data-evidence-state="review"><span class="evidence-row__type">XLS / OPEN ITEMS</span><div><strong>Diligence Tracker</strong><small>Supplier consent requires counsel review.</small></div><span class="evidence-row__confidence evidence-row__confidence--review">REVIEW / OPEN</span></article>
+              <article class="evidence-row" data-evidence-state="verified"><span class="evidence-row__type">MSG / THREAD 08</span><div><strong>Counsel Correspondence</strong><small>Closing condition language confirmed.</small></div><span class="evidence-row__confidence">91% / VERIFIED</span></article>
+            </div>
+            <div class="evidence-ledger__panel-foot"><span><i></i> TRACE COMPLETE</span><strong>03 source spans linked</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="platform section" id="platform">
       <div class="shell">
         <p class="section-kicker reveal">ONE CONTROL PLANE / EVERY MATTER</p>
@@ -231,7 +273,7 @@
             <span class="platform-card__index">02 / KNOWLEDGE</span>
             <h3>Answers that show their work.</h3>
             <p>Ask across the corpus, trace every conclusion to a source, and move from question to confidence faster.</p>
-            <a href="#privacy" class="platform-card__link">See the evidence layer <span aria-hidden="true">↗</span></a>
+            <a href="#evidence" class="platform-card__link">See the evidence layer <span aria-hidden="true">↗</span></a>
           </article>
           <article class="platform-card reveal">
             <span class="platform-card__index">03 / AGENTS</span>

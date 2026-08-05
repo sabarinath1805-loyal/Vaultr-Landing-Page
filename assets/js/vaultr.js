@@ -257,6 +257,33 @@
     });
   });
 
+  const evidenceFilters = [...document.querySelectorAll('[data-evidence-filter]')];
+  const evidenceRows = [...document.querySelectorAll('[data-evidence-state]')];
+  const setEvidenceFilter = (filter) => {
+    evidenceFilters.forEach((tab) => {
+      const active = tab.dataset.evidenceFilter === filter;
+      tab.classList.toggle('is-active', active);
+      tab.setAttribute('aria-selected', String(active));
+      tab.tabIndex = active ? 0 : -1;
+    });
+    evidenceRows.forEach((row) => {
+      row.hidden = filter !== 'all' && row.dataset.evidenceState !== filter;
+    });
+  };
+  evidenceFilters.forEach((tab, index) => {
+    tab.addEventListener('click', () => setEvidenceFilter(tab.dataset.evidenceFilter));
+    tab.addEventListener('keydown', (event) => {
+      if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      const nextIndex = event.key === 'Home' ? 0
+        : event.key === 'End' ? evidenceFilters.length - 1
+          : (index + (event.key === 'ArrowRight' ? 1 : -1) + evidenceFilters.length) % evidenceFilters.length;
+      const nextTab = evidenceFilters[nextIndex];
+      nextTab.focus();
+      setEvidenceFilter(nextTab.dataset.evidenceFilter);
+    });
+  });
+
   const commandTabs = [...document.querySelectorAll('[data-command-range]')];
   const commandDashboard = document.querySelector('#command-dashboard');
   const commandData = {
