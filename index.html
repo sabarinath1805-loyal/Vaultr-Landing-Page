@@ -22,7 +22,7 @@
   <link rel="canonical" href="https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/images/monet-water-lilies.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=evidence-1">
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=brief-1">
   <script defer src="assets/js/vaultr.js"></script>
 </head>
 <body>
@@ -706,9 +706,19 @@
             <option>101–500 lawyers</option>
             <option>500+ lawyers</option>
           </select>
-          <button class="button button--light" type="submit">Request Deployment</button>
+          <button class="button button--light" type="submit">Prepare Private Brief <span aria-hidden="true">↗</span></button>
         </form>
-        <p class="form-status" aria-live="polite" data-form-status>No subscription. No data transmitted. Founding cohort only.</p>
+        <p class="form-status" aria-live="polite" data-form-status>No subscription. The brief stays local until you choose to share it.</p>
+        <div class="deployment-brief" data-deployment-brief hidden>
+          <div class="deployment-brief__head"><span>PRIVATE BRIEF / READY TO SHARE</span><span class="deployment-brief__status"><i></i> LOCAL ONLY</span></div>
+          <div class="deployment-brief__body">
+            <div><span>PROFILE</span><strong data-brief-profile>Local runtime</strong></div>
+            <div><span>PRACTICE</span><strong data-brief-practice>Litigation</strong></div>
+            <div><span>FIRM SIZE</span><strong data-brief-size>1–25 lawyers</strong></div>
+          </div>
+          <p data-brief-summary>Your deployment brief is ready to share with your security lead.</p>
+          <button class="button button--ghost deployment-brief__download" type="button" data-download-brief>Download brief <span aria-hidden="true">↓</span></button>
+        </div>
         <figure class="deployment__art">
           <img src="assets/images/monet-sunrise.jpg" alt="Claude Monet sunrise over the Seine" loading="lazy" decoding="async">
           <figcaption>Founding cohort / private by design</figcaption>

@@ -397,14 +397,59 @@
   impactInputs.forEach((input) => input.addEventListener('input', updateImpact));
   updateImpact();
 
-  document.querySelector('[data-deployment-form]')?.addEventListener('submit', (event) => {
+  const deploymentForm = document.querySelector('[data-deployment-form]');
+  const deploymentBrief = document.querySelector('[data-deployment-brief]');
+  const briefProfile = document.querySelector('[data-brief-profile]');
+  const briefPractice = document.querySelector('[data-brief-practice]');
+  const briefSize = document.querySelector('[data-brief-size]');
+  const briefSummary = document.querySelector('[data-brief-summary]');
+  const downloadBrief = document.querySelector('[data-download-brief]');
+  const profileLabels = { local: 'Local runtime', network: 'Private network', airgap: 'Air-gapped' };
+  let currentBrief = null;
+
+  deploymentForm?.addEventListener('submit', (event) => {
     event.preventDefault();
     const form = event.currentTarget;
-    const email = new FormData(form).get('email');
+    const values = new FormData(form);
+    const email = String(values.get('email') || '').trim();
+    const practice = String(values.get('practice-area') || '').trim();
+    const size = String(values.get('firm-size') || '').trim();
+    const profile = String(values.get('deployment-profile') || 'local');
     const status = document.querySelector('[data-form-status]');
-    if (!email) return;
-    status.textContent = 'Request received. Your work remains local.';
-    status.classList.add('is-success');
-    form.reset();
+    if (!email || !practice || !size) return;
+    currentBrief = { email, practice, size, profile: profileLabels[profile] || profileLabels.local, created: new Date().toISOString() };
+    if (briefProfile) briefProfile.textContent = currentBrief.profile;
+    if (briefPractice) briefPractice.textContent = currentBrief.practice;
+    if (briefSize) briefSize.textContent = currentBrief.size;
+    if (briefSummary) briefSummary.textContent = `A private ${currentBrief.profile.toLowerCase()} brief for ${currentBrief.practice.toLowerCase()} / ${currentBrief.size.toLowerCase()} is ready to share with your security lead.`;
+    if (deploymentBrief) {
+      deploymentBrief.hidden = false;
+      deploymentBrief.classList.add('is-visible');
+    }
+    if (status) {
+      status.textContent = 'Private brief prepared locally. Nothing was transmitted.';
+      status.classList.add('is-success');
+    }
+  });
+
+  downloadBrief?.addEventListener('click', () => {
+    if (!currentBrief) return;
+    const contents = [
+      'VAULTR / PRIVATE DEPLOYMENT BRIEF',
+      '----------------------------------',
+      `Profile: ${currentBrief.profile}`,
+      `Practice area: ${currentBrief.practice}`,
+      `Firm size: ${currentBrief.size}`,
+      `Firm email: ${currentBrief.email}`,
+      '',
+      'Prepared locally. No data was transmitted by Vaultr.',
+      `Created: ${currentBrief.created}`
+    ].join('\n');
+    const url = URL.createObjectURL(new Blob([contents], { type: 'text/plain;charset=utf-8' }));
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = 'vaultr-private-deployment-brief.txt';
+    anchor.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 0);
   });
 })();
