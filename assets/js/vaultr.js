@@ -39,7 +39,13 @@
     if (!event.target.closest('[data-nav-dropdown]')) closeNavDropdowns();
   });
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') closeNavDropdowns();
+    if (event.key === 'Escape') {
+      closeNavDropdowns();
+      if (mobileMenu?.classList.contains('is-open')) {
+        setMenu(false);
+        menuButton?.focus({ preventScroll: true });
+      }
+    }
   });
 
   let lastY = 0;
@@ -73,6 +79,7 @@
   };
 
   const restartCarousel = () => {
+    if (!quotes.length) return;
     window.clearInterval(quoteTimer);
     quoteTimer = window.setInterval(() => showQuote(currentQuote + 1), 7000);
   };

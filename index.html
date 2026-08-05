@@ -20,10 +20,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="canonical" href="https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/">
+  <link rel="preload" as="image" href="assets/images/monet-water-lilies.jpg" fetchpriority="high">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/images/monet-water-lilies.jpg" type="image/jpeg">
   <link rel="stylesheet" href="assets/css/vaultr.css?v=hero-signal-1">
-  <script defer src="assets/js/vaultr.js"></script>
+  <script defer src="assets/js/vaultr.js?v=nav-a11y-1"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Vaultr","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/","logo":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/assets/images/vaultr-og.png","description":"Private legal intelligence that stays inside the room."}</script>
 </head>
 <body>
@@ -77,11 +78,11 @@
         </div>
       </nav>
       <a class="button button--small nav__cta" href="deployment.html">Request a deployment</a>
-      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle>
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-navigation" data-menu-toggle>
         <span></span><span></span>
       </button>
     </div>
-    <div class="mobile-menu" data-mobile-menu>
+    <div class="mobile-menu" id="mobile-navigation" role="navigation" aria-label="Mobile navigation" data-mobile-menu>
       <a href="#product">Product</a>
       <a href="platform.html">Platform</a>
       <a href="workflows.html">Workflows</a>
