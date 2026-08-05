@@ -1,0 +1,16 @@
+@keyframes marquee { to { transform: translateX(-50%); } }
+@keyframes pulse { 50% { opacity: .45; transform: scale(.85); } }
+.status__dot, .lex-window__mode span { animation: pulse 2s var(--ease) infinite; }
+.hero-reveal { opacity: 0; transform: translateY(28px); }
+.hero.is-ready .hero-reveal { opacity: 1; transform: none; transition: opacity .9s var(--ease), transform .9s var(--ease); }
+.hero.is-ready .hero-reveal:nth-child(2) { transition-delay: .12s; }
+.hero.is-ready .hero-reveal:nth-child(3) { transition-delay: .23s; }
+.hero.is-ready .hero-reveal:nth-child(4) { transition-delay: .34s; }
+.hero.is-ready .hero-reveal:nth-child(5) { transition-delay: .45s; }
+.reveal { opacity: 1; transform: none; transition: opacity .9s var(--ease), transform .9s var(--ease); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .hero-reveal, .reveal { opacity: 1; transform: none; }
+}

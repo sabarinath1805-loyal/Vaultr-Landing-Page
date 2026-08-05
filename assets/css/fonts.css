@@ -1,0 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Libre+Caslon+Display&display=swap');
+
+:root {
+  --font-serif: "Libre Caslon Display", Georgia, serif;
+  --font-sans: "DM Sans", Arial, sans-serif;
+}
