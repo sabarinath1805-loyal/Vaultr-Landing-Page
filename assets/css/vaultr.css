@@ -248,6 +248,7 @@ th:last-child, td:last-child { border-right: 0; }
   .deployment-form { grid-template-columns: 1fr; }
   .footer__nav { grid-template-columns: 1fr 1fr; gap: 40px 24px; }
   .footer__top { padding: 62px 0; }
+  .footer__bottom { align-items: flex-start; flex-direction: column; gap: 14px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -530,6 +531,11 @@ tbody tr:nth-child(even) { background: #fafbf8; }
 .footer__bottom { color: var(--ink); }
 .footer__nav a:hover { color: var(--sage); }
 .brand--footer { color: var(--ink); }
+.footer__bottom { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.footer__top-link { display: inline-flex; align-items: center; gap: 8px; color: var(--sage); font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.footer__top-link span { font-size: 16px; font-weight: 400; transition: transform .25s var(--ease); }
+.footer__top-link:hover span,
+.footer__top-link:focus-visible span { transform: translate(3px, -3px); }
 
 .mobile-menu { background: rgba(247, 248, 245, .98); color: var(--ink); }
 .mobile-menu a { color: var(--ink); border-bottom-color: var(--line); }
