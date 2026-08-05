@@ -1,10 +1,10 @@
 {
-  "name": "harvey-landing-page",
+  "name": "vaultr-landing-page",
   "version": "1.0.0",
-  "description": "Harvey legal intelligence landing page",
+  "description": "Vaultr private legal intelligence landing page",
   "scripts": {
     "serve": "node serve.js",
-    "test": "node --check assets/js/main.js && node --check assets/js/scroll.js && node --check assets/js/animations.js && node --check assets/js/counter.js && node --check assets/js/marquee.js && node --check assets/js/vault.js"
+    "test": "node --check assets/js/vaultr.js"
   },
   "keywords": [],
   "author": "",
