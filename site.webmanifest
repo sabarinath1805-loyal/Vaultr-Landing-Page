@@ -1,0 +1,13 @@
+{
+  "name": "Vaultr · Private legal intelligence",
+  "short_name": "Vaultr",
+  "description": "Private legal intelligence that stays inside the room.",
+  "start_url": "/Vaultr-Landing-Page/",
+  "scope": "/Vaultr-Landing-Page/",
+  "display": "standalone",
+  "background_color": "#f4f5f0",
+  "theme_color": "#2d4a3e",
+  "icons": [
+    { "src": "assets/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
