@@ -2690,3 +2690,25 @@ body.gallery-lightbox-open { overflow: hidden; }
   .error-page__copy > p:not(.section-kicker) { font-size: 16px; }
   .error-page__art figcaption { align-items: flex-start; flex-direction: column; gap: 7px; }
 }
+
+/* --------------------------------------------------------------------------
+   Monet clarity / secondary route hero artwork
+   -------------------------------------------------------------------------- */
+.security-page__hero::before,
+.platform-page__hero::before,
+.workflow-page__hero::before,
+.solutions-page__hero::before,
+.resources-page__hero::before,
+.command-page__hero::before,
+.deployment-page__hero::before { opacity: .23; }
+.evidence-ledger::before { opacity: .2; }
+@media (max-width: 980px) {
+  .security-page__hero::before,
+  .platform-page__hero::before,
+  .workflow-page__hero::before,
+  .solutions-page__hero::before,
+  .resources-page__hero::before,
+  .command-page__hero::before,
+  .deployment-page__hero::before { opacity: .16; }
+  .evidence-ledger::before { opacity: .13; }
+}
