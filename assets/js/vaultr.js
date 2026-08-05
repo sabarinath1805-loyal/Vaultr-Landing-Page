@@ -19,6 +19,88 @@
   menuButton?.addEventListener('click', () => setMenu(menuButton.getAttribute('aria-expanded') !== 'true'));
   mobileMenu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
 
+  const quickNavMarkup = `
+    <div class="quick-nav" data-command-palette hidden>
+      <div class="quick-nav__scrim" data-quick-nav-close></div>
+      <section class="quick-nav__panel" role="dialog" aria-modal="true" aria-labelledby="quick-nav-title">
+        <div class="quick-nav__head"><div><span class="quick-nav__eyebrow">VAULTR / QUICK NAVIGATION</span><h2 id="quick-nav-title">Go where the work is.</h2></div><button class="quick-nav__close" type="button" aria-label="Close quick navigation" data-quick-nav-close>Esc</button></div>
+        <label class="quick-nav__search"><span aria-hidden="true">⌘K</span><input id="quick-nav-search" type="search" autocomplete="off" placeholder="Search pages and product surfaces" aria-label="Search pages and product surfaces"></label>
+        <nav class="quick-nav__items" aria-label="Vaultr destinations">
+          <a href="platform.html" data-quick-nav-item><span><strong>Platform</strong><small>Lex, Vault, Knowledge, Agents</small></span><kbd>01</kbd></a>
+          <a href="workflows.html" data-quick-nav-item><span><strong>Workflow Studio</strong><small>Redlines, diligence, supervised runs</small></span><kbd>02</kbd></a>
+          <a href="solutions.html" data-quick-nav-item><span><strong>Solutions</strong><small>Litigation, transactional, in-house</small></span><kbd>03</kbd></a>
+          <a href="command.html" data-quick-nav-item><span><strong>Command Center</strong><small>Practice activity and governance signals</small></span><kbd>04</kbd></a>
+          <a href="index.html#evidence" data-quick-nav-item><span><strong>Evidence Ledger</strong><small>Source, span, confidence</small></span><kbd>05</kbd></a>
+          <a href="security.html" data-quick-nav-item><span><strong>Security Center</strong><small>Runtime, network, and source boundary</small></span><kbd>06</kbd></a>
+          <a href="deployment.html" data-quick-nav-item><span><strong>Deployment Desk</strong><small>Build a private deployment brief</small></span><kbd>07</kbd></a>
+          <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer" data-quick-nav-item><span><strong>Open architecture</strong><small>Inspect the source and implementation notes</small></span><kbd>↗</kbd></a>
+        </nav>
+        <p class="quick-nav__empty" data-quick-nav-empty hidden>No matching destination.</p>
+        <div class="quick-nav__foot"><span>Private by default</span><span>Nothing is transmitted</span></div>
+      </section>
+    </div>`;
+  document.body.insertAdjacentHTML('beforeend', quickNavMarkup);
+  const quickNav = document.querySelector('[data-command-palette]');
+  const quickNavTrigger = document.querySelector('[data-command-open]');
+  const quickNavSearch = document.querySelector('#quick-nav-search');
+  const quickNavItems = [...document.querySelectorAll('[data-quick-nav-item]')];
+  const quickNavEmpty = document.querySelector('[data-quick-nav-empty]');
+  let quickNavPreviousFocus;
+  const setQuickNav = (open) => {
+    if (!quickNav) return;
+    if (open) quickNavPreviousFocus = document.activeElement;
+    quickNav.hidden = !open;
+    quickNav.classList.toggle('is-open', open);
+    document.body.classList.toggle('quick-nav-open', open);
+    if (open) {
+      quickNavSearch?.focus();
+      quickNavSearch?.select();
+    } else {
+      quickNavSearch && (quickNavSearch.value = '');
+      quickNavItems.forEach((item) => { item.hidden = false; });
+      if (quickNavEmpty) quickNavEmpty.hidden = true;
+      quickNavPreviousFocus?.focus?.({ preventScroll: true });
+    }
+  };
+  const filterQuickNav = (value) => {
+    const query = value.trim().toLowerCase();
+    let matches = 0;
+    quickNavItems.forEach((item) => {
+      const match = !query || item.textContent.toLowerCase().includes(query);
+      item.hidden = !match;
+      if (match) matches += 1;
+    });
+    if (quickNavEmpty) quickNavEmpty.hidden = matches !== 0;
+  };
+  quickNavTrigger?.addEventListener('click', () => setQuickNav(true));
+  quickNav?.querySelectorAll('[data-quick-nav-close]').forEach((element) => element.addEventListener('click', () => setQuickNav(false)));
+  quickNavSearch?.addEventListener('input', () => filterQuickNav(quickNavSearch.value));
+  quickNavItems.forEach((item) => item.addEventListener('click', () => setQuickNav(false)));
+  document.addEventListener('keydown', (event) => {
+    const key = event.key.toLowerCase();
+    if ((event.metaKey || event.ctrlKey) && key === 'k') {
+      event.preventDefault();
+      setQuickNav(quickNav?.hidden !== false);
+      return;
+    }
+    if (key === '/' && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) {
+      event.preventDefault();
+      setQuickNav(true);
+      return;
+    }
+    if (event.key === 'Escape' && quickNav?.hidden === false) setQuickNav(false);
+    if (quickNav?.hidden === false && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
+      const visibleItems = quickNavItems.filter((item) => !item.hidden);
+      if (!visibleItems.length) return;
+      const activeIndex = visibleItems.indexOf(document.activeElement);
+      const nextIndex = event.key === 'ArrowDown'
+        ? (activeIndex + 1) % visibleItems.length
+        : (activeIndex - 1 + visibleItems.length) % visibleItems.length;
+      event.preventDefault();
+      visibleItems[nextIndex].focus();
+    }
+  });
+
   const navDropdowns = [...document.querySelectorAll('[data-nav-dropdown]')];
   const closeNavDropdowns = () => navDropdowns.forEach((dropdown) => {
     dropdown.classList.remove('is-open');
