@@ -77,7 +77,7 @@ h1 { max-width: 1080px; margin-bottom: 30px; font-size: clamp(70px, 8.4vw, 132px
 .section { position: relative; padding: 150px 0; }
 .section h2 { max-width: 980px; margin-bottom: 56px; font-size: clamp(58px, 6.3vw, 102px); line-height: .92; text-wrap: balance; }
 .section p { color: var(--muted); font-size: 18px; line-height: 1.65; }
-.section--monet-sunrise { background-image: linear-gradient(rgba(15,14,13,.90), rgba(15,14,13,.90)), url('../images/monet-sunrise.jpg'); background-size: cover; background-position: center; }
+.section--monet-sunrise { background-image: linear-gradient(rgba(15,14,13,.90), rgba(15,14,13,.90)), url('../images/monet-sunrise-display.jpg'); background-size: cover; background-position: center; }
 .product__layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 8vw; align-items: center; }
 .product__copy h2 { margin-bottom: 32px; }
 .product__copy p { max-width: 580px; }
@@ -348,7 +348,7 @@ a { color: inherit; }
   pointer-events: none;
 }
 .hero::before { background-image: url('../images/monet-water-lilies.jpg'); }
-.section--monet-sunrise::before { background-image: url('../images/monet-sunrise.jpg'); }
+.section--monet-sunrise::before { background-image: url('../images/monet-sunrise-display.jpg'); }
 .quotes::before { background-image: url('../images/monet-parliament.jpg'); }
 .section--monet-seine::before { background-image: url('../images/monet-seine.jpg'); }
 .hero::after,
@@ -682,7 +682,7 @@ tbody tr:nth-child(even) { background: #fafbf8; }
   filter: contrast(105%) brightness(102%);
 }
 .comparison::before { top: 8%; right: -10%; background-image: url('../images/monet-seine.jpg'); transform: rotate(5deg); }
-.open-source::before { bottom: -16%; left: -9%; background-image: url('../images/monet-sunrise.jpg'); transform: rotate(-6deg); }
+.open-source::before { bottom: -16%; left: -9%; background-image: url('../images/monet-sunrise-display.jpg'); transform: rotate(-6deg); }
 .deployment::before { top: -18%; right: -8%; background-image: url('../images/monet-water-lilies.jpg'); transform: rotate(4deg); }
 .footer::before { bottom: -30%; right: 4%; background-image: url('../images/monet-parliament.jpg'); transform: rotate(-4deg); opacity: .1; }
 .comparison > .shell,
@@ -1918,7 +1918,7 @@ tbody tr:nth-child(even) { background: #fafbf8; }
    Workflow Studio route / supervised matter work
    -------------------------------------------------------------------------- */
 .workflow-page__hero { position: relative; overflow: hidden; min-height: 760px; display: flex; align-items: center; padding-top: 145px; background: #f4f5f0; isolation: isolate; }
-.workflow-page__hero::before { position: absolute; z-index: -1; left: -19%; bottom: -38%; width: 68vw; height: 68vw; border: 1px solid rgba(45, 74, 62, .14); border-radius: 50%; background: url('../images/monet-sunrise.jpg') center / cover; opacity: .16; content: ""; filter: contrast(105%) brightness(102%); }
+.workflow-page__hero::before { position: absolute; z-index: -1; left: -19%; bottom: -38%; width: 68vw; height: 68vw; border: 1px solid rgba(45, 74, 62, .14); border-radius: 50%; background: url('../images/monet-sunrise-display.jpg') center / cover; opacity: .16; content: ""; filter: contrast(105%) brightness(102%); }
 .workflow-page__hero-inner { display: grid; grid-template-columns: .95fr 1.05fr; align-items: center; gap: 8vw; }
 .workflow-page__hero-copy { max-width: 700px; }
 .workflow-page__hero-copy h1 { max-width: 720px; margin: 30px 0 27px; color: var(--ink); font-family: var(--serif); font-size: clamp(68px, 7.7vw, 116px); font-weight: 400; line-height: .85; letter-spacing: -.06em; }
@@ -2212,7 +2212,7 @@ tbody tr:nth-child(even) { background: #fafbf8; }
    Deployment route / private brief desk
    -------------------------------------------------------------------------- */
 .deployment-page__hero { position: relative; overflow: hidden; min-height: 700px; display: flex; align-items: center; padding-top: 145px; background: #f4f5f0; isolation: isolate; }
-.deployment-page__hero::before { position: absolute; z-index: -1; left: -18%; bottom: -38%; width: 69vw; height: 69vw; border: 1px solid rgba(45, 74, 62, .14); border-radius: 50%; background: url('../images/monet-sunrise.jpg') center / cover; opacity: .15; content: ""; filter: contrast(105%) brightness(102%); }
+.deployment-page__hero::before { position: absolute; z-index: -1; left: -18%; bottom: -38%; width: 69vw; height: 69vw; border: 1px solid rgba(45, 74, 62, .14); border-radius: 50%; background: url('../images/monet-sunrise-display.jpg') center / cover; opacity: .15; content: ""; filter: contrast(105%) brightness(102%); }
 .deployment-page__hero-inner { display: grid; grid-template-columns: 1fr .9fr; align-items: center; gap: 8vw; }
 .deployment-page__hero-copy { max-width: 700px; }
 .deployment-page__hero-copy h1 { max-width: 730px; margin: 30px 0 27px; color: var(--ink); font-family: var(--serif); font-size: clamp(68px, 7.7vw, 116px); font-weight: 400; line-height: .85; letter-spacing: -.06em; }
