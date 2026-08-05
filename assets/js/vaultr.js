@@ -266,7 +266,60 @@
 
   const evidenceFilters = [...document.querySelectorAll('[data-evidence-filter]')];
   const evidenceRows = [...document.querySelectorAll('[data-evidence-state]')];
+  const evidenceDetail = document.querySelector('[data-evidence-detail]');
+  const evidenceDetailType = document.querySelector('[data-evidence-detail-type]');
+  const evidenceDetailState = document.querySelector('[data-evidence-detail-state]');
+  const evidenceDetailSource = document.querySelector('[data-evidence-detail-source]');
+  const evidenceDetailSpan = document.querySelector('[data-evidence-detail-span]');
+  const evidenceDetailConfidence = document.querySelector('[data-evidence-detail-confidence]');
+  const evidenceDetailCopy = document.querySelector('[data-evidence-detail-copy]');
+  const evidenceDetailData = {
+    agreement: {
+      type: 'PDF / § 7.4', source: 'Merger Agreement', span: '§ 7.4 / Representations', confidence: '98%', state: 'VERIFIED',
+      copy: 'The seller shall disclose all material contracts and obligations prior to closing.'
+    },
+    schedule: {
+      type: 'PDF / § 12', source: 'Disclosure Schedule', span: '§ 12 / Material contracts', confidence: '96%', state: 'VERIFIED',
+      copy: 'Material contracts are cross-referenced to the obligations they support.'
+    },
+    tracker: {
+      type: 'XLS / OPEN ITEMS', source: 'Diligence Tracker', span: 'Open item 18 / Supplier consent', confidence: 'REVIEW', state: 'NEEDS REVIEW',
+      copy: 'Supplier consent is unresolved. Keep the item open until counsel confirms the required approval.'
+    },
+    correspondence: {
+      type: 'MSG / THREAD 08', source: 'Counsel Correspondence', span: '14 Jun / Closing conditions', confidence: '91%', state: 'VERIFIED',
+      copy: 'Closing-condition language was confirmed against the latest counsel correspondence.'
+    }
+  };
+  const closeEvidenceDetail = () => {
+    evidenceRows.forEach((row) => {
+      row.classList.remove('is-selected');
+      row.setAttribute('aria-expanded', 'false');
+    });
+    if (evidenceDetail) {
+      evidenceDetail.hidden = true;
+      evidenceDetail.classList.remove('is-visible');
+    }
+  };
+  const setEvidenceDetail = (key, row) => {
+    const data = evidenceDetailData[key];
+    if (!data || !evidenceDetail) return;
+    const wasSelected = row.classList.contains('is-selected');
+    closeEvidenceDetail();
+    if (wasSelected) return;
+    row.classList.add('is-selected');
+    row.setAttribute('aria-expanded', 'true');
+    if (evidenceDetailType) evidenceDetailType.textContent = data.type;
+    if (evidenceDetailState) evidenceDetailState.innerHTML = `<i></i> ${data.state}`;
+    if (evidenceDetailSource) evidenceDetailSource.textContent = data.source;
+    if (evidenceDetailSpan) evidenceDetailSpan.textContent = data.span;
+    if (evidenceDetailConfidence) evidenceDetailConfidence.textContent = data.confidence;
+    if (evidenceDetailCopy) evidenceDetailCopy.textContent = data.copy;
+    evidenceDetail.hidden = false;
+    evidenceDetail.classList.add('is-visible');
+  };
   const setEvidenceFilter = (filter) => {
+    closeEvidenceDetail();
     evidenceFilters.forEach((tab) => {
       const active = tab.dataset.evidenceFilter === filter;
       tab.classList.toggle('is-active', active);
@@ -290,6 +343,17 @@
       setEvidenceFilter(nextTab.dataset.evidenceFilter);
     });
   });
+  evidenceRows.forEach((row) => {
+    const selectEvidence = () => setEvidenceDetail(row.dataset.evidenceKey, row);
+    row.addEventListener('click', selectEvidence);
+    row.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        selectEvidence();
+      }
+    });
+  });
+  document.querySelector('[data-evidence-detail-close]')?.addEventListener('click', closeEvidenceDetail);
 
   const commandTabs = [...document.querySelectorAll('[data-command-range]')];
   const commandDashboard = document.querySelector('#command-dashboard');
