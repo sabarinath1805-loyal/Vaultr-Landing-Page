@@ -19,6 +19,29 @@
   menuButton?.addEventListener('click', () => setMenu(menuButton.getAttribute('aria-expanded') !== 'true'));
   mobileMenu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
 
+  const navDropdowns = [...document.querySelectorAll('[data-nav-dropdown]')];
+  const closeNavDropdowns = () => navDropdowns.forEach((dropdown) => {
+    dropdown.classList.remove('is-open');
+    dropdown.querySelector('.nav-dropdown__trigger')?.setAttribute('aria-expanded', 'false');
+  });
+  navDropdowns.forEach((dropdown) => {
+    const trigger = dropdown.querySelector('.nav-dropdown__trigger');
+    trigger?.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const open = !dropdown.classList.contains('is-open');
+      closeNavDropdowns();
+      dropdown.classList.toggle('is-open', open);
+      trigger.setAttribute('aria-expanded', String(open));
+    });
+    dropdown.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeNavDropdowns));
+  });
+  document.addEventListener('click', (event) => {
+    if (!event.target.closest('[data-nav-dropdown]')) closeNavDropdowns();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeNavDropdowns();
+  });
+
   let lastY = 0;
   const syncHeader = () => {
     const y = window.scrollY;

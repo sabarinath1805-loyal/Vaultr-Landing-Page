@@ -1469,3 +1469,53 @@ tbody tr:nth-child(even) { background: #fafbf8; }
   .impact-results__primary strong { font-size: 78px; }
   .impact-results__grid { margin-top: 37px; }
 }
+
+/* --------------------------------------------------------------------------
+   Desktop navigation system
+   -------------------------------------------------------------------------- */
+.nav__links { align-items: center; gap: clamp(14px, 1.7vw, 28px); }
+.nav-dropdown { position: relative; }
+.nav-dropdown__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 14px;
+}
+.nav-dropdown__trigger span { color: var(--sage); font-size: 13px; transition: transform .25s var(--ease); }
+.nav-dropdown.is-open .nav-dropdown__trigger span { transform: rotate(180deg); }
+.nav-dropdown__trigger::after { position: absolute; right: 100%; bottom: 3px; left: 0; height: 1px; background: var(--sage); content: ""; transition: right .3s var(--ease); }
+.nav-dropdown__trigger:hover::after, .nav-dropdown.is-open .nav-dropdown__trigger::after { right: 0; }
+.nav-dropdown__menu {
+  position: absolute;
+  z-index: 90;
+  top: calc(100% + 13px);
+  left: -22px;
+  width: 318px;
+  display: grid;
+  gap: 4px;
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, .11);
+  background: rgba(255, 255, 255, .98);
+  box-shadow: 0 22px 50px -22px rgba(0, 0, 0, .25);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-7px);
+  transition: opacity .22s, visibility .22s, transform .22s var(--ease);
+}
+.nav-dropdown.is-open .nav-dropdown__menu { opacity: 1; visibility: visible; transform: none; }
+.nav-dropdown__menu a,
+.nav-dropdown__menu a:hover { display: grid; gap: 5px; padding: 14px; border: 1px solid transparent; background: transparent; color: var(--ink); transform: none; }
+.nav-dropdown__menu a::after { display: none; }
+.nav-dropdown__menu a:hover { border-color: rgba(45, 74, 62, .14); background: #f4f5f0; }
+.nav-dropdown__menu small { color: var(--sage); font-size: 9px; font-weight: 700; letter-spacing: .15em; }
+.nav-dropdown__menu strong { font-size: 14px; font-weight: 650; letter-spacing: -.01em; }
+.nav-dropdown__menu span { color: var(--muted); font-size: 11px; line-height: 1.4; }
+
+@media (max-width: 980px) {
+  .nav-dropdown__menu { display: none; }
+}

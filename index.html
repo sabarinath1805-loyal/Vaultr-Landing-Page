@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/images/monet-water-lilies.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=impact-1">
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=nav-1">
   <script defer src="assets/js/vaultr.js"></script>
 </head>
 <body>
@@ -33,16 +33,37 @@
     <div class="nav shell">
       <a class="brand" href="#top" aria-label="Vaultr home"><span aria-hidden="true">✳</span> Vaultr</a>
       <nav class="nav__links" aria-label="Primary navigation">
-        <a href="#product">Product</a>
-        <a href="#platform">Platform</a>
-        <a href="#workflows">Workflows</a>
-        <a href="#solutions">Solutions</a>
-        <a href="#command-center">Command</a>
-        <a href="#impact">Impact</a>
-        <a href="#privacy">Privacy</a>
-        <a href="#open-source">Open Source</a>
-        <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer">GitHub</a>
-        <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI#readme" target="_blank" rel="noreferrer">Docs</a>
+        <div class="nav-dropdown" data-nav-dropdown>
+          <button class="nav-dropdown__trigger" type="button" aria-expanded="false" aria-haspopup="true">Platform <span aria-hidden="true">⌄</span></button>
+          <div class="nav-dropdown__menu">
+            <a href="#product"><small>LEX</small><strong>Product workspace</strong><span>Review, compare, and draft in one private room.</span></a>
+            <a href="#platform"><small>PLATFORM</small><strong>One control plane</strong><span>Vault, Knowledge, Agents, and Governance.</span></a>
+            <a href="#command-center"><small>COMMAND</small><strong>Practice visibility</strong><span>Activity and audit signals without document exposure.</span></a>
+          </div>
+        </div>
+        <div class="nav-dropdown" data-nav-dropdown>
+          <button class="nav-dropdown__trigger" type="button" aria-expanded="false" aria-haspopup="true">Workflows <span aria-hidden="true">⌄</span></button>
+          <div class="nav-dropdown__menu">
+            <a href="#workflows"><small>WORKFLOW STUDIO</small><strong>Redlines & diligence</strong><span>Move from clause to confidence with evidence.</span></a>
+            <a href="#impact"><small>IMPACT</small><strong>Model your load</strong><span>Make the matter workload visible and adjustable.</span></a>
+          </div>
+        </div>
+        <div class="nav-dropdown" data-nav-dropdown>
+          <button class="nav-dropdown__trigger" type="button" aria-expanded="false" aria-haspopup="true">Solutions <span aria-hidden="true">⌄</span></button>
+          <div class="nav-dropdown__menu">
+            <a href="#solutions"><small>LITIGATION</small><strong>Move with the record</strong><span>Chronologies, briefs, transcripts, and source links.</span></a>
+            <a href="#solutions"><small>TRANSACTIONAL</small><strong>See the delta</strong><span>Compare versions and surface risk before signing.</span></a>
+            <a href="#solutions"><small>IN-HOUSE</small><strong>Keep the context</strong><span>Give the business faster answers, privately.</span></a>
+          </div>
+        </div>
+        <div class="nav-dropdown" data-nav-dropdown>
+          <button class="nav-dropdown__trigger" type="button" aria-expanded="false" aria-haspopup="true">Resources <span aria-hidden="true">⌄</span></button>
+          <div class="nav-dropdown__menu">
+            <a href="#privacy"><small>SECURITY</small><strong>Verify the boundary</strong><span>Runtime, network, and source assurance.</span></a>
+            <a href="#open-source"><small>OPEN SOURCE</small><strong>Inspect the architecture</strong><span>Review the code, dependencies, and claims.</span></a>
+            <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI#readme" target="_blank" rel="noreferrer"><small>DOCS</small><strong>Read the brief</strong><span>Implementation notes and deployment guidance.</span></a>
+          </div>
+        </div>
       </nav>
       <a class="button button--small nav__cta" href="#deployment">Request a deployment</a>
       <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle>
