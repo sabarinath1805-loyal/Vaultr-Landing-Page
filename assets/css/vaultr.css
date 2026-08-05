@@ -2712,3 +2712,22 @@ body.gallery-lightbox-open { overflow: hidden; }
   .deployment-page__hero::before { opacity: .16; }
   .evidence-ledger::before { opacity: .13; }
 }
+
+/* --------------------------------------------------------------------------
+   Route-aware navigation / current page cue
+   -------------------------------------------------------------------------- */
+.nav__links a[aria-current="page"] { color: var(--sage); }
+.nav__links a[aria-current="page"]::after { right: 0; }
+.mobile-menu a[aria-current="page"] { color: var(--sage); }
+
+/* --------------------------------------------------------------------------
+   Quiet motion system / intelligent shell behavior
+   -------------------------------------------------------------------------- */
+.site-header.is-hidden { transform: translateY(calc(-100% - 12px)); }
+html.js .reveal { opacity: 0; transform: translateY(28px); }
+html.js .reveal.is-visible { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .site-header.is-hidden { transform: none; }
+  html.js .reveal,
+  html.js .reveal.is-visible { opacity: 1; transform: none; }
+}

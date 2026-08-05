@@ -1,4 +1,6 @@
 (() => {
+  const supportsReveal = 'IntersectionObserver' in window;
+  document.documentElement.classList.toggle('js', supportsReveal);
   const banner = document.querySelector('[data-banner]');
   const header = document.querySelector('[data-header]');
   const menuButton = document.querySelector('[data-menu-toggle]');
@@ -19,6 +21,7 @@
     menuButton?.setAttribute('aria-expanded', String(open));
     menuButton?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
     mobileMenu?.classList.toggle('is-open', open);
+    if (open) header?.classList.remove('is-hidden');
     document.body.classList.toggle('menu-open', open);
   };
 
@@ -284,21 +287,31 @@
   let lastY = 0;
   const syncHeader = () => {
     const y = window.scrollY;
+    const delta = y - lastY;
     header?.classList.toggle('is-fixed', y > 48);
+    if (y <= 48 || delta < -4 || mobileMenu?.classList.contains('is-open')) {
+      header?.classList.remove('is-hidden');
+    } else if (delta > 4 && y > 110) {
+      header?.classList.add('is-hidden');
+    }
     lastY = y;
   };
   window.addEventListener('scroll', syncHeader, { passive: true });
   syncHeader();
 
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.14, rootMargin: '0px 0px -40px' });
-  document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe(element));
+  if (supportsReveal) {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.14, rootMargin: '0px 0px -40px' });
+    document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe(element));
+  } else {
+    document.querySelectorAll('.reveal').forEach((element) => element.classList.add('is-visible'));
+  }
 
   const quotes = [...document.querySelectorAll('[data-quote]')];
   const dots = [...document.querySelectorAll('[data-quote-dot]')];
