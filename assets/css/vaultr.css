@@ -2299,3 +2299,65 @@ tbody tr:nth-child(even) { background: #fafbf8; }
   .deployment-step h3 { margin-top: 48px; }
   .deployment-page__cta h2 { font-size: 49px; }
 }
+
+/* --------------------------------------------------------------------------
+   Hero proof panel / above-the-fold product signal
+   -------------------------------------------------------------------------- */
+.hero__content {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(310px, .68fr);
+  align-items: center;
+  gap: clamp(52px, 8vw, 132px);
+  padding-top: clamp(170px, 16vh, 230px);
+  padding-bottom: 220px;
+}
+.hero__copy { min-width: 0; }
+.hero__copy h1 { max-width: 800px; }
+.hero__signal {
+  width: min(100%, 430px);
+  justify-self: end;
+  overflow: hidden;
+  border: 1px solid rgba(17, 24, 19, .16);
+  background: rgba(255, 255, 255, .82);
+  box-shadow: 0 28px 70px -24px rgba(17, 24, 19, .28), 0 0 0 1px rgba(255, 255, 255, .3);
+  backdrop-filter: blur(15px);
+}
+.hero__signal-head,
+.hero__signal-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 17px 20px;
+  color: #69766e;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .15em;
+}
+.hero__signal-head { border-bottom: 1px solid rgba(17, 24, 19, .1); }
+.hero__signal-state,
+.hero__signal-foot span:first-child { display: inline-flex; align-items: center; gap: 7px; color: var(--sage); }
+.hero__signal-state i,
+.hero__signal-foot i { width: 6px; height: 6px; display: inline-block; border-radius: 50%; background: #6a9a75; }
+.hero__signal-body { padding: 36px 28px 31px; background: rgba(45, 74, 62, .94); color: #fff; }
+.hero__signal-label { color: rgba(255, 255, 255, .64); font-size: 9px; font-weight: 700; letter-spacing: .16em; }
+.hero__signal-body > strong { display: block; margin-top: 25px; font-family: var(--serif); font-size: clamp(76px, 7vw, 108px); font-weight: 400; line-height: .65; letter-spacing: -.09em; }
+.hero__signal-body > p { max-width: 260px; margin: 29px 0 0; color: rgba(255, 255, 255, .76); font-size: 13px; line-height: 1.45; }
+.hero__signal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 34px; padding-top: 15px; border-top: 1px solid rgba(255, 255, 255, .22); }
+.hero__signal-grid div { display: grid; gap: 7px; }
+.hero__signal-grid b { color: #fff; font-family: var(--serif); font-size: 25px; font-weight: 400; line-height: .85; }
+.hero__signal-grid span { color: rgba(255, 255, 255, .64); font-size: 8px; line-height: 1.25; text-transform: uppercase; }
+.hero__signal-foot { border-top: 1px solid rgba(17, 24, 19, .1); background: rgba(247, 248, 245, .85); }
+@media (max-width: 980px) {
+  .hero__content { grid-template-columns: 1fr; gap: 45px; padding-top: 155px; padding-bottom: 220px; }
+  .hero__signal { justify-self: start; width: min(100%, 520px); }
+}
+@media (max-width: 640px) {
+  .hero__content { gap: 34px; padding-top: 145px; padding-bottom: 226px; }
+  .hero__signal { width: 100%; }
+  .hero__signal-body { padding: 31px 21px 27px; }
+  .hero__signal-head, .hero__signal-foot { padding-inline: 16px; font-size: 8px; }
+  .hero__signal-grid { gap: 8px; }
+  .hero__signal-grid b { font-size: 22px; }
+  .hero__signal-grid span { font-size: 7px; }
+}
