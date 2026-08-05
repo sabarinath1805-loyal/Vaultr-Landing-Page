@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/sitemap.txt
+Sitemap: https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/sitemap.xml
