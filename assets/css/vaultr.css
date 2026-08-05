@@ -544,3 +544,163 @@ tbody tr:nth-child(even) { background: #fafbf8; }
   .quotes__shell { background: rgba(255, 255, 255, .88); }
   .stat { border-bottom-color: var(--line) !important; }
 }
+
+/* --------------------------------------------------------------------------
+   Monet editorial gallery layer
+   -------------------------------------------------------------------------- */
+.gallery-ribbon {
+  position: relative;
+  overflow-x: auto;
+  border-block: 1px solid rgba(17, 24, 19, .1);
+  background: #eef0ea;
+  scrollbar-width: none;
+  isolation: isolate;
+}
+.gallery-ribbon::-webkit-scrollbar { display: none; }
+.gallery-ribbon__track {
+  width: max-content;
+  min-width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 28px max(20px, calc((100vw - 1380px) / 2 + 32px));
+}
+.gallery-ribbon__card {
+  width: clamp(238px, 20vw, 320px);
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid rgba(0, 0, 0, .1);
+  background: #fff;
+  box-shadow: 0 14px 32px -8px rgba(0, 0, 0, .1);
+  transform: rotate(-1deg);
+  transition: transform .4s var(--ease), box-shadow .4s var(--ease);
+}
+.gallery-ribbon__card--two { transform: rotate(1.2deg); }
+.gallery-ribbon__card--three { transform: rotate(-.6deg); }
+.gallery-ribbon__card--four { transform: rotate(1.5deg); }
+.gallery-ribbon__card:hover { transform: translateY(-7px) rotate(0deg); box-shadow: 0 22px 42px -10px rgba(0, 0, 0, .16); }
+.gallery-ribbon__card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.65;
+  object-fit: cover;
+  filter: contrast(105%) brightness(102%);
+}
+.gallery-ribbon__card--one img { object-position: center 54%; }
+.gallery-ribbon__card--two img { object-position: center 58%; }
+.gallery-ribbon__card--three img { object-position: center 42%; }
+.gallery-ribbon__card--four img { object-position: center 48%; }
+.gallery-ribbon__card figcaption,
+.art-strip figcaption,
+.open-source__art figcaption,
+.deployment__art figcaption {
+  color: #4a554d;
+  font-size: 10px;
+  letter-spacing: .14em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+.gallery-ribbon__card figcaption { padding: 11px 13px 13px; }
+
+.art-strip {
+  overflow: hidden;
+  margin: -14px 0 66px;
+  border: 1px solid rgba(0, 0, 0, .1);
+  background: #fff;
+  box-shadow: 0 14px 32px -8px rgba(0, 0, 0, .09);
+}
+.art-strip img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3.5 / 1;
+  object-fit: cover;
+  filter: contrast(105%) brightness(102%);
+}
+.art-strip--lilies img { object-position: center 54%; }
+.art-strip--parliament img { object-position: center 62%; }
+.art-strip figcaption { padding: 11px 15px 13px; }
+
+.open-source__art {
+  overflow: hidden;
+  margin: 40px 0 0;
+  border: 1px solid rgba(0, 0, 0, .1);
+  background: #fff;
+  box-shadow: 0 14px 32px -8px rgba(0, 0, 0, .08);
+}
+.open-source__art img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2.5 / 1;
+  object-fit: cover;
+  object-position: center 47%;
+  filter: contrast(105%) brightness(102%);
+}
+.open-source__art figcaption { padding: 11px 14px 13px; }
+
+.deployment__art {
+  display: grid;
+  grid-template-columns: minmax(190px, 260px) 1fr;
+  align-items: center;
+  gap: 20px;
+  max-width: 720px;
+  margin: 34px auto 0;
+  text-align: left;
+}
+.deployment__art img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.75;
+  object-fit: cover;
+  border: 1px solid rgba(0, 0, 0, .1);
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, .11);
+  filter: contrast(105%) brightness(102%);
+}
+
+.comparison,
+.open-source,
+.deployment,
+.footer {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.comparison::before,
+.open-source::before,
+.deployment::before,
+.footer::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  width: clamp(260px, 30vw, 500px);
+  height: clamp(260px, 30vw, 500px);
+  border: 1px solid rgba(0, 0, 0, .08);
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 18px 50px -16px rgba(0, 0, 0, .13);
+  opacity: .14;
+  pointer-events: none;
+  filter: contrast(105%) brightness(102%);
+}
+.comparison::before { top: 8%; right: -10%; background-image: url('../images/monet-seine.jpg'); transform: rotate(5deg); }
+.open-source::before { bottom: -16%; left: -9%; background-image: url('../images/monet-sunrise.jpg'); transform: rotate(-6deg); }
+.deployment::before { top: -18%; right: -8%; background-image: url('../images/monet-water-lilies.jpg'); transform: rotate(4deg); }
+.footer::before { bottom: -30%; right: 4%; background-image: url('../images/monet-parliament.jpg'); transform: rotate(-4deg); opacity: .1; }
+.comparison > .shell,
+.open-source > .shell,
+.deployment > .shell,
+.footer > .shell { position: relative; z-index: 1; }
+
+@media (max-width: 640px) {
+  .gallery-ribbon__track { gap: 14px; padding-block: 20px; }
+  .gallery-ribbon__card { width: 246px; }
+  .gallery-ribbon__card figcaption { font-size: 9px; }
+  .art-strip { margin: -6px 0 44px; }
+  .art-strip img { aspect-ratio: 2.15 / 1; }
+  .open-source__art { margin-top: 30px; }
+  .deployment__art { grid-template-columns: 1fr; gap: 12px; margin-top: 28px; }
+  .deployment__art figcaption { text-align: center; }
+  .comparison::before,
+  .open-source::before,
+  .deployment::before,
+  .footer::before { width: 230px; height: 230px; opacity: .09; }
+}
