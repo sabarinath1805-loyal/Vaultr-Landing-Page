@@ -2775,6 +2775,38 @@ html.js .error-page .reveal { opacity: 1; transform: none; }
   html.js .reveal.is-visible { opacity: 1; transform: none; }
 }
 
+/* Keep the route proposition, proof panel, and action inside a short desktop fold. */
+@media (min-width: 981px) and (max-height: 820px) {
+  .security-page__hero,
+  .platform-page__hero,
+  .workflow-page__hero,
+  .solutions-page__hero,
+  .resources-page__hero,
+  .command-page__hero,
+  .deployment-page__hero {
+    min-height: 0;
+    padding-top: 108px;
+    padding-bottom: 68px;
+  }
+  .security-page__hero-copy h1,
+  .platform-page__hero-copy h1,
+  .workflow-page__hero-copy h1,
+  .solutions-page__hero-copy h1,
+  .resources-page__hero-copy h1,
+  .command-page__hero-copy h1,
+  .deployment-page__hero-copy h1 {
+    margin-top: 22px;
+    margin-bottom: 22px;
+    font-size: clamp(56px, 5.8vw, 84px);
+  }
+  .platform-page__hero-meta,
+  .workflow-page__hero-meta,
+  .solutions-page__hero-meta,
+  .resources-page__hero-meta,
+  .command-page__hero-meta,
+  .deployment-page__hero-meta { margin-top: 29px; }
+}
+
 /* --------------------------------------------------------------------------
    Editorial card atmosphere / artwork appears on intent
    -------------------------------------------------------------------------- */
