@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/images/monet-water-lilies.jpg" type="image/jpeg">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=solutions-1">
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=command-1">
   <script defer src="assets/js/vaultr.js"></script>
 </head>
 <body>
@@ -37,6 +37,7 @@
         <a href="#platform">Platform</a>
         <a href="#workflows">Workflows</a>
         <a href="#solutions">Solutions</a>
+        <a href="#command-center">Command</a>
         <a href="#privacy">Privacy</a>
         <a href="#open-source">Open Source</a>
         <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer">GitHub</a>
@@ -52,6 +53,7 @@
       <a href="#platform">Platform</a>
       <a href="#workflows">Workflows</a>
       <a href="#solutions">Solutions</a>
+      <a href="#command-center">Command</a>
       <a href="#privacy">Privacy</a>
       <a href="#open-source">Open Source</a>
       <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer">GitHub</a>
@@ -448,6 +450,44 @@
       </div>
     </section>
 
+    <section class="command-center section" id="command-center">
+      <div class="shell">
+        <div class="command-center__intro">
+          <div>
+            <p class="section-kicker reveal">COMMAND CENTER / GOVERNANCE WITHOUT GUESSWORK</p>
+            <h2 class="reveal">See the whole practice without seeing its documents.</h2>
+          </div>
+          <p class="reveal">A private control plane for matter activity, workflow health, and audit visibility—without exposing the work underneath.</p>
+        </div>
+        <div class="command-app reveal" aria-label="Vaultr Command Center preview">
+          <div class="command-app__topbar">
+            <div><span class="command-app__mark">✳</span><strong>Vaultr / Command Center</strong><span class="command-app__mode">Local control plane</span></div>
+            <div class="command-range" role="tablist" aria-label="Command Center time range">
+              <button class="command-range__tab is-active" id="command-range-week" type="button" role="tab" aria-controls="command-dashboard" aria-selected="true" tabindex="0" data-command-range="week">7 days</button>
+              <button class="command-range__tab" id="command-range-month" type="button" role="tab" aria-controls="command-dashboard" aria-selected="false" tabindex="-1" data-command-range="month">30 days</button>
+            </div>
+          </div>
+          <div class="command-app__body" id="command-dashboard" role="tabpanel" aria-labelledby="command-range-week">
+            <aside class="command-app__rail" aria-hidden="true"><span class="is-active"></span><span></span><span></span><span></span><span></span></aside>
+            <div class="command-dashboard">
+              <div class="command-dashboard__heading"><div><span>Wednesday / 05 August 2026</span><h3>Good morning, Counsel.</h3></div><span class="command-dashboard__status"><i></i> Runtime healthy</span></div>
+              <div class="command-metrics">
+                <article class="command-metric"><span>Active matters</span><strong data-command-value="matters">12</strong><small data-command-note="matters">+2 this week</small></article>
+                <article class="command-metric"><span>Local runs</span><strong data-command-value="runs">48</strong><small data-command-note="runs">+18% vs prior</small></article>
+                <article class="command-metric"><span>External bytes</span><strong data-command-value="bytes">0 B</strong><small data-command-note="bytes">Boundary intact</small></article>
+                <article class="command-metric"><span>Review hours back</span><strong data-command-value="hours">86</strong><small data-command-note="hours">Illustrative demo</small></article>
+              </div>
+              <div class="command-dashboard__grid">
+                <div class="command-card command-card--activity"><div class="command-card__heading"><span>Recent activity</span><a href="#workflows">Open workflows ↗</a></div><div class="command-activity"><div><span class="activity-dot activity-dot--green"></span><p><strong>Redline review completed</strong><small>Northstar acquisition / 4 minutes ago</small></p><em>Local</em></div><div><span class="activity-dot"></span><p><strong>New matter indexed</strong><small>Meridian employment / 21 minutes ago</small></p><em>Local</em></div><div><span class="activity-dot activity-dot--gold"></span><p><strong>Diligence item reviewed</strong><small>Northstar acquisition / 42 minutes ago</small></p><em>Local</em></div></div></div>
+                <div class="command-card command-card--chart"><div class="command-card__heading"><span>Workspace activity</span><span data-command-chart-label>Last 7 days</span></div><div class="command-chart" aria-label="Illustrative workspace activity chart"><span style="--bar:32%" data-command-bar="0"></span><span style="--bar:45%" data-command-bar="1"></span><span style="--bar:28%" data-command-bar="2"></span><span style="--bar:58%" data-command-bar="3"></span><span style="--bar:70%" data-command-bar="4"></span><span style="--bar:83%" data-command-bar="5"></span><span style="--bar:92%" data-command-bar="6"></span></div><div class="command-chart__labels"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="command-center__caption">Illustrative interface preview. Activity data stays inside the deployment boundary.</p>
+      </div>
+    </section>
+
     <section class="open-source section" id="open-source">
       <div class="shell open-source__layout">
         <div class="open-source__copy reveal">
@@ -495,7 +535,7 @@
       <div class="footer__top">
         <div><a class="brand brand--footer" href="#top"><span aria-hidden="true">✳</span> Vaultr</a><p>Counsel Without Disclosure.</p></div>
         <div class="footer__nav">
-          <div><h3>Product</h3><a href="#product">Overview</a><a href="#platform">Platform</a><a href="#workflows">Workflows</a><a href="#solutions">Solutions</a><a href="#product">Lex</a><a href="#privacy">Private Mode</a><a href="#product">Contract Review</a><a href="#product">Legal Research</a><a href="#product">Matter Management</a></div>
+          <div><h3>Product</h3><a href="#product">Overview</a><a href="#platform">Platform</a><a href="#workflows">Workflows</a><a href="#solutions">Solutions</a><a href="#command-center">Command</a><a href="#product">Lex</a><a href="#privacy">Private Mode</a><a href="#product">Contract Review</a><a href="#product">Legal Research</a><a href="#product">Matter Management</a></div>
           <div><h3>Open Source</h3><a href="https://github.com/sabarinath1805-loyal/Vaultr-AI">GitHub</a><a href="https://github.com/sabarinath1805-loyal/Vaultr-AI">Contributing</a><a href="https://github.com/sabarinath1805-loyal/Vaultr-AI">License</a><a href="https://github.com/sabarinath1805-loyal/Vaultr-AI">Changelog</a><a href="https://github.com/sabarinath1805-loyal/Vaultr-AI">Security</a></div>
           <div><h3>Company</h3><a href="#privacy">Privacy</a><a href="#top">Terms</a><a href="#deployment">Contact</a></div>
         </div>

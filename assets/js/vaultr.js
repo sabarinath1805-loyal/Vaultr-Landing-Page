@@ -234,6 +234,57 @@
     });
   });
 
+  const commandTabs = [...document.querySelectorAll('[data-command-range]')];
+  const commandDashboard = document.querySelector('#command-dashboard');
+  const commandData = {
+    week: {
+      matters: '12', runs: '48', bytes: '0 B', hours: '86',
+      notes: { matters: '+2 this week', runs: '+18% vs prior', bytes: 'Boundary intact', hours: 'Illustrative demo' },
+      chart: ['32%', '45%', '28%', '58%', '70%', '83%', '92%'], label: 'Last 7 days'
+    },
+    month: {
+      matters: '28', runs: '184', bytes: '0 B', hours: '312',
+      notes: { matters: '+8 this month', runs: '+24% vs prior', bytes: 'Boundary intact', hours: 'Illustrative demo' },
+      chart: ['42%', '38%', '62%', '48%', '72%', '85%', '96%'], label: 'Last 30 days'
+    }
+  };
+  const setCommandRange = (range) => {
+    const data = commandData[range] || commandData.week;
+    commandTabs.forEach((tab) => {
+      const active = tab.dataset.commandRange === range;
+      tab.classList.toggle('is-active', active);
+      tab.setAttribute('aria-selected', String(active));
+      tab.tabIndex = active ? 0 : -1;
+    });
+    if (commandDashboard) commandDashboard.setAttribute('aria-labelledby', `command-range-${range}`);
+    Object.entries(data).forEach(([key, value]) => {
+      if (key === 'notes' || key === 'chart' || key === 'label') return;
+      const element = document.querySelector(`[data-command-value="${key}"]`);
+      if (element) element.textContent = value;
+      const note = document.querySelector(`[data-command-note="${key}"]`);
+      if (note) note.textContent = data.notes[key];
+    });
+    document.querySelectorAll('[data-command-bar]').forEach((bar, index) => {
+      bar.style.setProperty('--bar', data.chart[index] || '5%');
+    });
+    const label = document.querySelector('[data-command-chart-label]');
+    if (label) label.textContent = data.label;
+  };
+
+  commandTabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => setCommandRange(tab.dataset.commandRange));
+    tab.addEventListener('keydown', (event) => {
+      if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      const nextIndex = event.key === 'Home' ? 0
+        : event.key === 'End' ? commandTabs.length - 1
+          : (index + (event.key === 'ArrowRight' ? 1 : -1) + commandTabs.length) % commandTabs.length;
+      const nextTab = commandTabs[nextIndex];
+      nextTab.focus();
+      setCommandRange(nextTab.dataset.commandRange);
+    });
+  });
+
   document.querySelector('[data-deployment-form]')?.addEventListener('submit', (event) => {
     event.preventDefault();
     const form = event.currentTarget;
