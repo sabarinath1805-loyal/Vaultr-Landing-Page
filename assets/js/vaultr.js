@@ -321,6 +321,32 @@
     });
   });
 
+  const impactInputs = [...document.querySelectorAll('[data-impact-input]')];
+  const updateImpact = () => {
+    const values = Object.fromEntries(impactInputs.map((input) => [input.dataset.impactInput, Number(input.value)]));
+    const documents = values.matters * values.documents;
+    const hours = values.matters * values.hours;
+    const capacity = Math.round(hours * values.assumption / 100);
+    const formatted = new Intl.NumberFormat('en-US');
+    const outputValues = {
+      matters: values.matters,
+      documents: values.documents,
+      hours: values.hours,
+      assumption: `${values.assumption}%`
+    };
+    Object.entries(outputValues).forEach(([key, value]) => {
+      const output = document.querySelector(`[data-impact-output="${key}"]`);
+      if (output) output.textContent = value;
+    });
+    const results = { documents: formatted.format(documents), hours: formatted.format(hours), capacity: formatted.format(capacity) };
+    Object.entries(results).forEach(([key, value]) => {
+      const result = document.querySelector(`[data-impact-result="${key}"]`);
+      if (result) result.textContent = value;
+    });
+  };
+  impactInputs.forEach((input) => input.addEventListener('input', updateImpact));
+  updateImpact();
+
   document.querySelector('[data-deployment-form]')?.addEventListener('submit', (event) => {
     event.preventDefault();
     const form = event.currentTarget;
