@@ -341,7 +341,7 @@ a { color: inherit; }
   z-index: 0;
   opacity: 1;
   mix-blend-mode: normal;
-  filter: contrast(105%) brightness(102%);
+  filter: contrast(105%) brightness(102%) saturate(114%);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -591,7 +591,7 @@ tbody tr:nth-child(even) { background: #fafbf8; }
   width: 100%;
   aspect-ratio: 1.65;
   object-fit: cover;
-  filter: contrast(105%) brightness(102%);
+  filter: contrast(105%) brightness(102%) saturate(114%);
 }
 .gallery-ribbon__card--one img { object-position: center 54%; }
 .gallery-ribbon__card--two img { object-position: center 58%; }
@@ -621,7 +621,7 @@ tbody tr:nth-child(even) { background: #fafbf8; }
   width: 100%;
   aspect-ratio: 3.5 / 1;
   object-fit: cover;
-  filter: contrast(105%) brightness(102%);
+  filter: contrast(105%) brightness(102%) saturate(114%);
 }
 .art-strip--lilies img { object-position: center 54%; }
 .art-strip--parliament img { object-position: center 62%; }
@@ -640,7 +640,7 @@ tbody tr:nth-child(even) { background: #fafbf8; }
   aspect-ratio: 2.5 / 1;
   object-fit: cover;
   object-position: center 47%;
-  filter: contrast(105%) brightness(102%);
+  filter: contrast(105%) brightness(102%) saturate(114%);
 }
 .open-source__art figcaption { padding: 11px 14px 13px; }
 
@@ -660,7 +660,7 @@ tbody tr:nth-child(even) { background: #fafbf8; }
   object-fit: cover;
   border: 1px solid rgba(0, 0, 0, .1);
   box-shadow: 0 12px 28px -8px rgba(0, 0, 0, .11);
-  filter: contrast(105%) brightness(102%);
+  filter: contrast(105%) brightness(102%) saturate(114%);
 }
 
 .comparison,
@@ -686,7 +686,7 @@ tbody tr:nth-child(even) { background: #fafbf8; }
   box-shadow: 0 18px 50px -16px rgba(0, 0, 0, .13);
   opacity: .14;
   pointer-events: none;
-  filter: contrast(105%) brightness(102%);
+  filter: contrast(105%) brightness(102%) saturate(114%);
 }
 .comparison::before { top: 8%; right: -10%; background-image: url('../images/monet-seine.jpg'); transform: rotate(5deg); }
 .open-source::before { bottom: -16%; left: -9%; background-image: url('../images/monet-sunrise-display.jpg'); transform: rotate(-6deg); }
@@ -2849,8 +2849,9 @@ html.js .error-page .reveal { opacity: 1; transform: none; }
   background-position: center;
   background-size: cover;
   content: "";
-  opacity: 0;
-  filter: contrast(108%) saturate(108%);
+  /* A barely-there paper texture keeps idle cards from feeling sterile. */
+  opacity: .055;
+  filter: contrast(108%) saturate(114%);
   transform: scale(1.045);
   transition: opacity .45s var(--ease), transform .7s var(--ease);
   pointer-events: none;
