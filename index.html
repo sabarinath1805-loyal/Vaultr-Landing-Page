@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Vaultr — Counsel Without Disclosure</title>
   <meta name="description" content="Lex reviews, drafts, compares, and reasons across your matters directly on-device.">
-  <meta name="theme-color" content="#f7f8f5">
+  <meta name="theme-color" content="#faf8f5">
   <meta property="og:title" content="Vaultr — The Room Stays Closed.">
   <meta property="og:description" content="Counsel Without Disclosure.">
   <meta property="og:type" content="website">
@@ -24,8 +24,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=workflow-states-3">
-  <script defer src="assets/js/vaultr.js?v=workflow-states-3"></script>
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=gallery-restructure-1">
+  <script defer src="assets/js/vaultr.js?v=gallery-restructure-1"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Vaultr","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/","logo":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/assets/images/vaultr-og.png","description":"Private legal intelligence that stays inside the room."}</script>
 </head>
 <body>
@@ -47,7 +47,7 @@
           <button class="nav-dropdown__trigger" type="button" aria-expanded="false" aria-haspopup="true">Platform <span aria-hidden="true">⌄</span></button>
           <div class="nav-dropdown__menu">
             <a href="platform.html"><small>LEX</small><strong>Product workspace</strong><span>Review, compare, and draft in one private room.</span></a>
-            <a href="#platform"><small>PLATFORM</small><strong>One control plane</strong><span>Vault, Knowledge, Agents, and Governance.</span></a>
+            <a href="platform.html#platform"><small>PLATFORM</small><strong>One control plane</strong><span>Vault, Knowledge, Agents, and Governance.</span></a>
             <a href="command.html"><small>COMMAND</small><strong>Practice visibility</strong><span>Activity and audit signals without document exposure.</span></a>
           </div>
         </div>
@@ -55,7 +55,7 @@
           <button class="nav-dropdown__trigger" type="button" aria-expanded="false" aria-haspopup="true">Workflows <span aria-hidden="true">⌄</span></button>
           <div class="nav-dropdown__menu">
             <a href="workflows.html"><small>WORKFLOW STUDIO</small><strong>Redlines & diligence</strong><span>Move from clause to confidence with evidence.</span></a>
-            <a href="#impact"><small>IMPACT</small><strong>Model your load</strong><span>Make the matter workload visible and adjustable.</span></a>
+            <a href="workflows.html#impact"><small>IMPACT</small><strong>Model your load</strong><span>Make the matter workload visible and adjustable.</span></a>
           </div>
         </div>
         <div class="nav-dropdown" data-nav-dropdown>
@@ -71,10 +71,11 @@
           <button class="nav-dropdown__trigger" type="button" aria-expanded="false" aria-haspopup="true">Resources <span aria-hidden="true">⌄</span></button>
           <div class="nav-dropdown__menu">
             <a href="resources.html"><small>RESOURCE LIBRARY</small><strong>Read the operating brief</strong><span>Security, workflows, and architecture notes.</span></a>
-            <a href="#evidence"><small>EVIDENCE LEDGER</small><strong>Trace every answer</strong><span>Source spans, confidence, and review state.</span></a>
+            <a href="platform.html#evidence"><small>EVIDENCE LEDGER</small><strong>Trace every answer</strong><span>Source spans, confidence, and review state.</span></a>
             <a href="security.html"><small>SECURITY</small><strong>Verify the boundary</strong><span>Runtime, network, and source assurance.</span></a>
-            <a href="#open-source"><small>OPEN SOURCE</small><strong>Inspect the architecture</strong><span>Review the code, dependencies, and claims.</span></a>
-            <a href="#faq"><small>FAQ</small><strong>Get the short answer</strong><span>Deployment, privacy, and rollout notes.</span></a>
+            <a href="research.html"><small>RESEARCH</small><strong>Inspect the architecture</strong><span>Runtime, evidence, deployment, and source notes.</span></a>
+            <a href="platform.html#open-source"><small>OPEN SOURCE</small><strong>Inspect the architecture</strong><span>Review the code, dependencies, and claims.</span></a>
+            <a href="resources.html#faq"><small>FAQ</small><strong>Get the short answer</strong><span>Deployment, privacy, and rollout notes.</span></a>
             <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI#readme" target="_blank" rel="noreferrer"><small>DOCS</small><strong>Read the brief</strong><span>Implementation notes and deployment guidance.</span></a>
           </div>
         </div>
@@ -91,12 +92,12 @@
       <a href="workflows.html">Workflows</a>
       <a href="solutions.html">Solutions</a>
       <a href="command.html">Command Center</a>
-      <a href="#impact">Impact</a>
-      <a href="#evidence">Evidence Ledger</a>
+      <a href="workflows.html#impact">Impact</a>
+      <a href="platform.html#evidence">Evidence Ledger</a>
       <a href="security.html">Security Center</a>
       <a href="resources.html">Resource Library</a>
       <a href="#privacy">Privacy</a>
-      <a href="#open-source">Open Source</a>
+      <a href="platform.html#open-source">Open Source</a>
       <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer">GitHub</a>
       <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI#readme" target="_blank" rel="noreferrer">Docs</a>
       <a class="button" href="deployment.html">Request a deployment</a>
@@ -104,54 +105,31 @@
   </header>
 
   <main id="main">
-    <section class="hero" id="top">
+    <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="hero__grain" aria-hidden="true"></div>
-      <div class="hero__content shell reveal">
+      <div class="hero__content shell reveal hero__focused">
         <div class="hero__copy">
-          <p class="status"><span class="status__dot"></span>Lex is deployed.</p>
-          <h1>The Room Stays Closed.</h1>
+          <p class="hero__eyebrow">Local-first AI for legal teams</p>
+          <h1 id="hero-title">The Room Stays Closed.</h1>
           <p class="hero__lede">Lex reviews, drafts, compares, and reasons across your matters directly on-device. No cloud routing. No third-party exposure. Your work remains where privilege demands.</p>
           <div class="hero__actions">
             <a class="button button--light" href="deployment.html">Request Deployment</a>
             <a class="button button--ghost" href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer">Inspect Source</a>
           </div>
-          <nav class="hero__path" aria-label="Explore the Vaultr room">
-            <a href="#product"><span>01</span><strong>Meet Lex</strong><small>Open the workspace</small><b aria-hidden="true">↗</b></a>
-            <a href="#evidence"><span>02</span><strong>Trace an answer</strong><small>Follow the source</small><b aria-hidden="true">↗</b></a>
-            <a href="deployment.html"><span>03</span><strong>Prepare a brief</strong><small>Plan a private rollout</small><b aria-hidden="true">↗</b></a>
-          </nav>
-        </div>
-        <aside class="hero__signal" aria-label="Vaultr local runtime status">
-          <div class="hero__signal-head"><span>VAULTR / LOCAL RUNTIME</span><span class="hero__signal-state"><i></i> HEALTHY</span></div>
-          <div class="hero__signal-body">
-            <span class="hero__signal-label">OUTBOUND NETWORK</span>
-            <strong>0 B</strong>
-            <p>Every matter stays inside the perimeter you control.</p>
-            <div class="hero__signal-grid">
-              <div><b>12</b><span>matters indexed</span></div>
-              <div><b>48</b><span>local runs</span></div>
-              <div><b>100%</b><span>source-linked</span></div>
-            </div>
-          </div>
-          <div class="hero__signal-foot"><span><i></i> ON DEVICE</span><span>VAULTR / 01</span></div>
-        </aside>
-      </div>
-      <div class="hero__trust">
-        <div class="shell hero__trust-inner">
-          <p>Built for legal teams requiring absolute data sovereignty.</p>
-          <div class="hero__trust-points" aria-label="Vaultr product principles">
-            <span>Local runtime</span><span>Open architecture</span><span>Matter-ready</span>
-          </div>
+          <p class="hero__proof-line"><strong>0 B outbound</strong><span>&middot;</span><span>Local runtime</span><span>&middot;</span><span>MIT licensed</span></p>
         </div>
       </div>
     </section>
 
-    <section class="ticker" aria-label="Vaultr use cases">
-      <div class="ticker__track" data-ticker>
-        <span>Contract Review · Clause Comparison · Due Diligence · Legal Research · Brief Analysis · Document Summaries · Risk Identification · Draft Revision · Matter Chronologies · Citation Review ·</span>
-        <span aria-hidden="true">Contract Review · Clause Comparison · Due Diligence · Legal Research · Brief Analysis · Document Summaries · Risk Identification · Draft Revision · Matter Chronologies · Citation Review ·</span>
+    <section class="trust-band" aria-label="Vaultr trust signals">
+      <div class="shell trust-band__grid">
+        <a class="trust-band__item" href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer"><strong><span aria-hidden="true">&#9733;</span> Open source</strong><small>MIT License</small></a>
+        <div class="trust-band__item"><strong>Local model choice</strong><small>Ollama &middot; Groq &middot; Gemini supported</small></div>
+        <div class="trust-band__item"><strong>Zero outbound bytes</strong><small>In local mode</small></div>
+        <a class="trust-band__item" href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer"><strong>github.com/sabarinath1805-loyal/Vaultr-AI</strong><small>Star count live on GitHub</small></a>
       </div>
     </section>
+
 
     <section class="gallery-ribbon" aria-label="Vaultr visual archive">
       <div class="gallery-ribbon__track">
@@ -174,384 +152,17 @@
       </div>
     </section>
 
-    <section class="proof-rail" id="proof" aria-labelledby="proof-title">
-      <div class="shell proof-rail__inner">
-        <div class="proof-rail__intro">
-          <p class="section-kicker">VAULTR / ROOM SIGNALS</p>
-          <h2 id="proof-title">Proof should be visible before the pitch begins.</h2>
-          <p>Four operating signals make the private room legible at a glance. Follow each one into the product surface behind it.</p>
-        </div>
-        <div class="proof-rail__grid">
-          <a class="proof-signal" href="#privacy">
-            <span class="proof-signal__index">01 / BOUNDARY</span>
-            <strong>0 B</strong>
-            <small>outbound bytes in local mode</small>
-            <b>Verify the perimeter <span aria-hidden="true">↗</span></b>
-          </a>
-          <a class="proof-signal" href="#evidence">
-            <span class="proof-signal__index">02 / LEDGER</span>
-            <strong>03</strong>
-            <small>source spans linked to the answer</small>
-            <b>Trace the record <span aria-hidden="true">↗</span></b>
-          </a>
-          <a class="proof-signal" href="deployment.html">
-            <span class="proof-signal__index">03 / RUNTIME</span>
-            <strong>ON DEVICE</strong>
-            <small>inference stays inside your perimeter</small>
-            <b>Choose a profile <span aria-hidden="true">↗</span></b>
-          </a>
-          <a class="proof-signal" href="#open-source">
-            <span class="proof-signal__index">04 / ROOT</span>
-            <strong>MIT</strong>
-            <small>inspectable source and dependencies</small>
-            <b>Inspect the architecture <span aria-hidden="true">↗</span></b>
-          </a>
-        </div>
-      </div>
-    </section>
 
-    <section class="product section section--monet-sunrise" id="product">
-      <div class="shell product__layout">
-        <div class="product__copy reveal">
-          <p class="section-kicker">THE LEX PLATFORM / LOCAL INTELLIGENCE</p>
-          <h2>Meet Lex. Counsel, Contained.</h2>
-          <p>Lex executes across your firm's entire corpus with absolute speed and total isolation. Zero uploads. Zero external inference. Zero compromise.</p>
-          <div class="product__proof" aria-label="Lex operating principles">
-            <div><span>01</span><strong>Private by default</strong><small>Every matter stays on your perimeter.</small></div>
-            <div><span>02</span><strong>Context without compromise</strong><small>Answers remain grounded in your documents.</small></div>
-            <div><span>03</span><strong>Evidence in every answer</strong><small>Inspect the source before you act.</small></div>
-          </div>
-        </div>
-        <div class="lex-window reveal" aria-label="Lex local legal workspace">
-          <div class="lex-window__bar">
-            <span class="lex-window__mark">✳</span>
-            <span>Lex</span>
-            <span class="surface-disclosure">Illustrative demo</span>
-            <div class="lex-window__tabs" role="tablist" aria-label="Lex workspace modes">
-              <button class="lex-tab is-active" type="button" role="tab" aria-controls="lex-answer" aria-selected="true" tabindex="0" data-lex-tab="review">Review</button>
-              <button class="lex-tab" type="button" role="tab" aria-controls="lex-answer" aria-selected="false" tabindex="-1" data-lex-tab="compare">Compare</button>
-              <button class="lex-tab" type="button" role="tab" aria-controls="lex-answer" aria-selected="false" tabindex="-1" data-lex-tab="draft">Draft</button>
-            </div>
-            <span class="lex-window__local"><i></i> On device</span>
-          </div>
-          <div class="lex-window__body">
-            <div class="lex-window__rail" aria-hidden="true"><span class="is-active"></span><span></span><span></span><span></span></div>
-            <div class="lex-window__document">
-              <div class="workspace-head">
-                <div><span class="workspace-overline">DEMO MATTER / NORTHSTAR</span><strong>Acquisition review</strong></div>
-                <span class="workspace-lock"><i></i> Private</span>
-              </div>
-              <div class="workspace-panels">
-                <div class="workspace-source-list">
-                  <div class="workspace-section-label"><span>Source set</span><span><button class="workspace-clear" type="button" data-lex-clear>Clear selection</button> · 04 files</span></div>
-                  <button class="source-file is-active" type="button" data-lex-file="agreement">
-                    <span class="file-type">PDF</span><span class="source-file__copy"><strong>Merger Agreement</strong><small>v3 · 184 pages</small></span><span class="source-file__state">linked</span>
-                  </button>
-                  <button class="source-file" type="button" data-lex-file="schedule">
-                    <span class="file-type">PDF</span><span class="source-file__copy"><strong>Disclosure Schedule</strong><small>v2 · 42 pages</small></span><span class="source-file__state">linked</span>
-                  </button>
-                  <button class="source-file" type="button" data-lex-file="tracker">
-                    <span class="file-type">XLS</span><span class="source-file__copy"><strong>Diligence Tracker</strong><small>Open items · 18</small></span><span class="source-file__state">local</span>
-                  </button>
-                  <button class="source-file" type="button" data-lex-file="correspondence">
-                    <span class="file-type">MSG</span><span class="source-file__copy"><strong>Counsel Correspondence</strong><small>14 Jun · thread 08</small></span><span class="source-file__state">local</span>
-                  </button>
-                </div>
-                <div class="workspace-document-view">
-                  <div class="workspace-empty" data-lex-empty hidden>
-                    <span>NO SOURCE SELECTED</span>
-                    <strong>Choose a file to begin.</strong>
-                    <p>Pick a source set to trace the record and see the linked passage.</p>
-                  </div>
-                  <div class="workspace-document-view__bar"><span data-lex-document-label>MERGER AGREEMENT / § 7.4</span><span data-lex-document-page>Page 48</span></div>
-                  <strong class="workspace-document-view__title" data-lex-document-title>Representations and warranties</strong>
-                  <div class="workspace-copy-line workspace-copy-line--short"></div>
-                  <div class="workspace-copy-line"></div>
-                  <div class="workspace-highlight"><span>§ 7.4</span><p>The Seller shall disclose all material contracts and obligations prior to closing.</p></div>
-                  <div class="workspace-copy-line workspace-copy-line--medium"></div>
-                  <div class="workspace-copy-line"></div>
-                </div>
-              </div>
-            </div>
-            <div class="lex-window__answer" id="lex-answer" role="tabpanel" aria-live="polite">
-              <div class="answer-topline"><span class="answer-label" data-lex-label>LEX / REVIEW</span><span class="answer-state" data-lex-state>VERIFIED</span></div>
-              <p data-lex-title>Clause drift detected.</p>
-              <div class="answer-citations"><span data-lex-citation>§ 7.4 / Merger Agreement</span><span data-lex-citation-secondary>§ 12 / Disclosure Schedule</span></div>
-              <div class="answer-meta"><span data-lex-meta-primary>12 deviations flagged</span><span data-lex-meta-secondary>Source spans linked</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <section class="evidence-ledger section" id="evidence">
-      <div class="shell">
-        <div class="evidence-ledger__intro">
-          <div>
-            <p class="section-kicker reveal">EVIDENCE LEDGER / SOURCE PROVENANCE</p>
-            <h2 class="reveal">Every conclusion leaves a trail.</h2>
-          </div>
-          <p class="reveal">Lex does not ask counsel to trust a black box. Each answer arrives with the exact source, span, and confidence signal your review requires.</p>
-        </div>
-        <div class="evidence-ledger__layout">
-          <div class="evidence-ledger__copy reveal">
-            <span class="evidence-ledger__stamp">MATTER / NORTHSTAR ACQUISITION</span>
-            <h3>Answer. Source. Span. Confidence.</h3>
-            <p>Keep the reasoning close to the record. Move from a flagged clause to the underlying language without opening another tool or giving up the perimeter.</p>
-            <div class="evidence-ledger__stats" aria-label="Evidence ledger summary">
-              <div><strong>03</strong><span>source spans linked</span></div>
-              <div><strong>98%</strong><span>confidence / illustrative</span></div>
-              <div><strong>0 B</strong><span>sent beyond the room</span></div>
-            </div>
-            <a class="button button--ghost" href="#product">Open the private workspace <span aria-hidden="true">↗</span></a>
-          </div>
-          <div class="evidence-ledger__panel reveal" aria-label="Lex evidence ledger">
-            <div class="evidence-ledger__panel-head"><span>LEX / EVIDENCE LEDGER</span><span class="surface-disclosure">Illustrative</span><span class="evidence-ledger__local"><i></i> LOCAL ONLY</span></div>
-            <div class="evidence-ledger__filters" role="tablist" aria-label="Evidence confidence filters">
-              <button class="evidence-filter is-active" type="button" role="tab" aria-selected="true" tabindex="0" data-evidence-filter="all">All <span>04</span></button>
-              <button class="evidence-filter" type="button" role="tab" aria-selected="false" tabindex="-1" data-evidence-filter="verified">Verified <span>03</span></button>
-              <button class="evidence-filter" type="button" role="tab" aria-selected="false" tabindex="-1" data-evidence-filter="review">Needs review <span>01</span></button>
-            </div>
-            <div class="evidence-ledger__rows">
-              <article class="evidence-row" tabindex="0" role="button" aria-expanded="false" data-evidence-key="agreement" data-evidence-state="verified"><span class="evidence-row__type">PDF / § 7.4</span><div><strong>Merger Agreement</strong><small>Clause drift detected in representations.</small></div><span class="evidence-row__confidence">98% / VERIFIED</span></article>
-              <article class="evidence-row" tabindex="0" role="button" aria-expanded="false" data-evidence-key="schedule" data-evidence-state="verified"><span class="evidence-row__type">PDF / § 12</span><div><strong>Disclosure Schedule</strong><small>Material contracts cross-referenced.</small></div><span class="evidence-row__confidence">96% / VERIFIED</span></article>
-              <article class="evidence-row" tabindex="0" role="button" aria-expanded="false" data-evidence-key="tracker" data-evidence-state="review"><span class="evidence-row__type">XLS / OPEN ITEMS</span><div><strong>Diligence Tracker</strong><small>Supplier consent requires counsel review.</small></div><span class="evidence-row__confidence evidence-row__confidence--review">REVIEW / OPEN</span></article>
-              <article class="evidence-row" tabindex="0" role="button" aria-expanded="false" data-evidence-key="correspondence" data-evidence-state="verified"><span class="evidence-row__type">MSG / THREAD 08</span><div><strong>Counsel Correspondence</strong><small>Closing condition language confirmed.</small></div><span class="evidence-row__confidence">91% / VERIFIED</span></article>
-            </div>
-            <div class="evidence-detail" data-evidence-detail hidden>
-              <div class="evidence-detail__head"><span data-evidence-detail-type>PDF / § 7.4</span><span class="evidence-detail__state" data-evidence-detail-state><i></i> VERIFIED</span></div>
-              <div class="evidence-detail__grid"><div><span>SOURCE</span><strong data-evidence-detail-source>Merger Agreement</strong></div><div><span>SPAN</span><strong data-evidence-detail-span>§ 7.4 / Representations</strong></div><div><span>CONFIDENCE</span><strong data-evidence-detail-confidence>98%</strong></div></div>
-              <p data-evidence-detail-copy>The seller shall disclose all material contracts and obligations prior to closing.</p>
-              <button class="evidence-detail__close" type="button" data-evidence-detail-close>Close source trace <span aria-hidden="true">×</span></button>
-            </div>
-            <div class="evidence-ledger__panel-foot"><span><i></i> TRACE COMPLETE</span><strong>03 source spans linked</strong></div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <section class="platform section" id="platform">
-      <div class="shell">
-        <p class="section-kicker reveal">ONE CONTROL PLANE / EVERY MATTER</p>
-        <div class="platform__intro">
-          <h2 class="reveal">The intelligence layer your practice has been missing.</h2>
-          <p class="reveal">Vaultr gives legal teams one private place to understand, move, and govern their most sensitive work.</p>
-        </div>
-        <div class="platform__grid">
-          <article class="platform-card platform-card--featured reveal">
-            <span class="platform-card__index">01 / VAULT</span>
-            <h3>Every document. Always in context.</h3>
-            <p>Bring a matter's contracts, pleadings, exhibits, and correspondence into one searchable private room.</p>
-            <a href="#product" class="platform-card__link">Explore the workspace <span aria-hidden="true">↗</span></a>
-          </article>
-          <article class="platform-card reveal">
-            <span class="platform-card__index">02 / KNOWLEDGE</span>
-            <h3>Answers that show their work.</h3>
-            <p>Ask across the corpus, trace every conclusion to a source, and move from question to confidence faster.</p>
-            <a href="#evidence" class="platform-card__link">See the evidence layer <span aria-hidden="true">↗</span></a>
-          </article>
-          <article class="platform-card reveal">
-            <span class="platform-card__index">03 / AGENTS</span>
-            <h3>Complex workflows, contained.</h3>
-            <p>Turn repeatable legal work into supervised local runs with clear inputs, outputs, and review points.</p>
-            <a href="deployment.html" class="platform-card__link">Request a private run <span aria-hidden="true">↗</span></a>
-          </article>
-          <article class="platform-card reveal">
-            <span class="platform-card__index">04 / GOVERNANCE</span>
-            <h3>Control you can demonstrate.</h3>
-            <p>Make privacy visible with auditable boundaries, local deployment, and a source tree your team can inspect.</p>
-            <a href="#open-source" class="platform-card__link">Inspect the boundary <span aria-hidden="true">↗</span></a>
-          </article>
-        </div>
-      </div>
-    </section>
 
-    <section class="workflows section" id="workflows">
-      <div class="shell">
-        <div class="workflows__intro">
-          <div>
-            <p class="section-kicker reveal">WORKFLOW STUDIO / MATTER READY</p>
-            <h2 class="reveal">From clause to confidence.</h2>
-          </div>
-          <p class="reveal">Turn the work that used to take a team of reviewers into a sequence your team can inspect, supervise, and trust.</p>
-        </div>
-        <div class="workflow-shell reveal">
-          <div class="workflow-switcher" role="tablist" aria-label="Workflow examples">
-            <button class="workflow-tab is-active" id="workflow-tab-redline" type="button" role="tab" aria-controls="workflow-redline" aria-selected="true" tabindex="0" data-workflow-tab="redline">Redline review <span>01</span></button>
-            <button class="workflow-tab" id="workflow-tab-diligence" type="button" role="tab" aria-controls="workflow-diligence" aria-selected="false" tabindex="-1" data-workflow-tab="diligence">Diligence board <span>02</span></button>
-          </div>
 
-          <div class="workflow-panel is-active" id="workflow-redline" role="tabpanel" aria-labelledby="workflow-tab-redline" data-workflow-panel="redline">
-            <div class="workflow-panel__header"><span>MATTER / NORTHSTAR ACQUISITION</span><span class="surface-disclosure">Illustrative</span><span class="workflow-panel__status"><i></i> LOCAL RUN</span></div>
-            <div class="redline-layout">
-              <div class="redline-clause">
-                <span class="workflow-label">CLAUSE 7.4 / LIMITATION OF LIABILITY</span>
-                <p class="redline-clause__text">The aggregate liability of either party shall not exceed <del>the fees paid in the preceding twelve months</del> <ins>two times the fees paid under this Agreement</ins>.</p>
-                <div class="redline-note"><span>RISK / MEDIUM</span><p>Cap increased from one year of fees. Lex traced the change to the prior draft and flagged the counterparty's position.</p></div>
-              </div>
-              <aside class="workflow-sidebar">
-                <div class="workflow-metric"><strong>03</strong><span>Changes found</span></div>
-                <div class="workflow-metric"><strong>02</strong><span>Sources linked</span></div>
-                <div class="workflow-metric"><strong>0 B</strong><span>Sent outside</span></div>
-                <button class="workflow-action" type="button" data-redline-action>Accept in local draft <span aria-hidden="true">↗</span></button>
-                <p class="workflow-action-status" data-redline-status aria-live="polite">Nothing leaves this room.</p>
-              </aside>
-            </div>
-          </div>
 
-          <div class="workflow-panel" id="workflow-diligence" role="tabpanel" aria-labelledby="workflow-tab-diligence" data-workflow-panel="diligence" hidden>
-            <div class="workflow-panel__header"><span>MATTER / NORTHSTAR ACQUISITION</span><span class="surface-disclosure">Illustrative</span><span class="workflow-panel__status"><i></i> 18 OPEN ITEMS</span></div>
-            <div class="diligence-board">
-              <div class="diligence-column">
-                <div class="diligence-column__head"><span>Open</span><strong>01</strong></div>
-                <article class="diligence-card" data-diligence-card aria-live="polite">
-                  <span class="diligence-card__tag">CONSENT</span>
-                  <h3>Change-of-control consent</h3>
-                  <p>Confirm whether the top five suppliers require notice before closing.</p>
-                  <span class="diligence-card__owner" data-diligence-state>Open / awaiting review</span>
-                  <button type="button" data-diligence-action>Review item <span aria-hidden="true">→</span></button>
-                </article>
-              </div>
-              <div class="diligence-column">
-                <div class="diligence-column__head"><span>In review</span><strong>04</strong></div>
-                <article class="diligence-card diligence-card--quiet">
-                  <span class="diligence-card__tag">PRIVACY</span>
-                  <h3>Data processing addendum</h3>
-                  <p>Cross-reference subprocessors against the approved schedule.</p>
-                  <span class="diligence-card__owner">Assigned / J. Chen</span>
-                </article>
-              </div>
-              <div class="diligence-column">
-                <div class="diligence-column__head"><span>Verified</span><strong>13</strong></div>
-                <article class="diligence-card diligence-card--verified">
-                  <span class="diligence-card__tag">APPROVED</span>
-                  <h3>Board approval memo</h3>
-                  <p>Source-linked and ready for the closing checklist.</p>
-                  <span class="diligence-card__owner">Verified locally / 09:42</span>
-                </article>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <section class="solutions section" id="solutions">
-      <div class="shell">
-        <div class="solutions__intro">
-          <div>
-            <p class="section-kicker reveal">SOLUTIONS / YOUR PRACTICE, YOUR PERIMETER</p>
-            <h2 class="reveal">Built around the work that matters.</h2>
-          </div>
-          <p class="reveal">The same private intelligence, shaped around the way litigation teams, deal teams, and in-house counsel actually work.</p>
-        </div>
-        <div class="solutions__tabs" role="tablist" aria-label="Vaultr solutions">
-          <button class="solution-tab is-active" id="solution-tab-litigation" type="button" role="tab" aria-controls="solution-litigation" aria-selected="true" tabindex="0" data-solution-tab="litigation">Litigation <span>01</span></button>
-          <button class="solution-tab" id="solution-tab-transactional" type="button" role="tab" aria-controls="solution-transactional" aria-selected="false" tabindex="-1" data-solution-tab="transactional">Transactional <span>02</span></button>
-          <button class="solution-tab" id="solution-tab-inhouse" type="button" role="tab" aria-controls="solution-inhouse" aria-selected="false" tabindex="-1" data-solution-tab="inhouse">In-house <span>03</span></button>
-        </div>
-        <div class="solution-panel is-active" id="solution-litigation" role="tabpanel" aria-labelledby="solution-tab-litigation" data-solution-panel="litigation">
-          <div class="solution-panel__copy">
-            <span class="solution-panel__eyebrow">LITIGATION / MOVE WITH THE RECORD</span>
-            <h3>See the whole matter before you make the next move.</h3>
-            <p>Build a working record from pleadings, exhibits, correspondence, and transcripts without sending a privileged file outside the room.</p>
-            <ul class="solution-list"><li>Chronologies that stay linked to the source</li><li>Deposition and brief analysis on demand</li><li>Drafting grounded in the matter record</li></ul>
-            <a class="solution-panel__link" href="deployment.html">Design a private litigation room <span aria-hidden="true">↗</span></a>
-          </div>
-          <div class="solution-panel__insights">
-            <span class="solution-panel__insights-label">LEX / MATTER VIEW</span>
-            <div class="solution-panel__metric"><strong>184</strong><span>pages indexed locally</span></div>
-            <div class="solution-panel__metric"><strong>07</strong><span>linked chronology events</span></div>
-            <div class="solution-panel__metric"><strong>0 B</strong><span>sent beyond the perimeter</span></div>
-            <div class="solution-panel__quote">“Every answer stays attached to the record.”</div>
-          </div>
-        </div>
-        <div class="solution-panel" id="solution-transactional" role="tabpanel" aria-labelledby="solution-tab-transactional" data-solution-panel="transactional" hidden>
-          <div class="solution-panel__copy">
-            <span class="solution-panel__eyebrow">TRANSACTIONAL / SEE THE DELTA</span>
-            <h3>Move from first read to signed paper with control.</h3>
-            <p>Compare versions, surface deviations, and turn diligence findings into clean next steps while the matter remains private.</p>
-            <ul class="solution-list"><li>Clause-level comparison across versions</li><li>Risk flags with source citations</li><li>Closing checklists that stay in context</li></ul>
-            <a class="solution-panel__link" href="#workflows">Explore the redline workflow <span aria-hidden="true">↗</span></a>
-          </div>
-          <div class="solution-panel__insights">
-            <span class="solution-panel__insights-label">LEX / DEAL ROOM</span>
-            <div class="solution-panel__metric"><strong>03</strong><span>versions aligned</span></div>
-            <div class="solution-panel__metric"><strong>12</strong><span>deviations flagged</span></div>
-            <div class="solution-panel__metric"><strong>1</strong><span>source of truth</span></div>
-            <div class="solution-panel__quote">“The delta is visible before it becomes a surprise.”</div>
-          </div>
-        </div>
-        <div class="solution-panel" id="solution-inhouse" role="tabpanel" aria-labelledby="solution-tab-inhouse" data-solution-panel="inhouse" hidden>
-          <div class="solution-panel__copy">
-            <span class="solution-panel__eyebrow">IN-HOUSE / KEEP THE CONTEXT</span>
-            <h3>Give the business a faster answer without losing the thread.</h3>
-            <p>Make policies, contracts, guidance, and prior decisions searchable for the people who need them—without turning your legal knowledge into a cloud dependency.</p>
-            <ul class="solution-list"><li>Policy and contract questions in one room</li><li>Answers that show their sources</li><li>Governed local access for every team</li></ul>
-            <a class="solution-panel__link" href="#privacy">See the privacy architecture <span aria-hidden="true">↗</span></a>
-          </div>
-          <div class="solution-panel__insights">
-            <span class="solution-panel__insights-label">LEX / COUNSEL DESK</span>
-            <div class="solution-panel__metric"><strong>24/7</strong><span>matter context available</span></div>
-            <div class="solution-panel__metric"><strong>100%</strong><span>local document access</span></div>
-            <div class="solution-panel__metric"><strong>MIT</strong><span>auditable root</span></div>
-            <div class="solution-panel__quote">“Speed is useful when the context survives.”</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="quotes section" aria-label="Vaultr principles">
-      <div class="shell quotes__shell reveal">
-        <div class="quote-carousel" data-carousel>
-          <article class="quote is-active" data-quote>
-            <blockquote>“Confidentiality must be architectural—not promised in a policy document.”</blockquote>
-            <p>On Data Sovereignty</p>
-          </article>
-          <article class="quote" data-quote>
-            <blockquote>“A privileged document should never need to leave the room in order to be understood.”</blockquote>
-            <p>On Attorney-Client Privilege</p>
-          </article>
-          <article class="quote" data-quote>
-            <blockquote>“Verification over trust. The entire codebase is open for inspection.”</blockquote>
-            <p>On Open Source</p>
-          </article>
-          <div class="quote-controls" role="group" aria-label="Quote controls">
-            <button type="button" aria-label="Previous quote" data-quote-prev>←</button>
-            <div class="quote-dots">
-              <button class="is-active" type="button" aria-label="Show quote 1" data-quote-dot="0"></button>
-              <button type="button" aria-label="Show quote 2" data-quote-dot="1"></button>
-              <button type="button" aria-label="Show quote 3" data-quote-dot="2"></button>
-            </div>
-            <button type="button" aria-label="Next quote" data-quote-next>→</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="stats section">
-      <div class="shell">
-        <h2 class="reveal">The Warranties Are Unambiguous.</h2>
-        <figure class="art-strip art-strip--lilies reveal">
-          <img src="assets/images/monet-water-lilies.jpg" alt="Claude Monet water lilies" loading="lazy" decoding="async">
-          <figcaption>Water lilies / A calm surface for serious work</figcaption>
-        </figure>
-        <div class="stats__grid">
-          <article class="stat reveal"><strong>0%</strong><span>Zero Transmission</span></article>
-          <article class="stat reveal"><strong>100%</strong><span>Air-Gapped Local</span></article>
-          <article class="stat reveal"><strong>MIT</strong><span>Auditable Root</span></article>
-          <article class="stat reveal"><strong>Always</strong><span>Full Sovereignty</span></article>
-        </div>
-      </div>
-    </section>
 
     <section class="features section">
       <div class="shell">
         <h2 class="reveal">Complete Utility. Zero Perimeter Leakage.</h2>
-        <figure class="art-strip art-strip--parliament reveal">
-          <img src="assets/images/monet-parliament.jpg" alt="Claude Monet Houses of Parliament" loading="lazy" decoding="async">
-          <figcaption>Houses of Parliament / Precision inside the atmosphere</figcaption>
-        </figure>
         <div class="features__grid">
           <article class="feature reveal"><span>01</span><h3>Private Document Review</h3><p>Lex examines contracts, pleadings, and correspondence entirely on your device.</p></article>
           <article class="feature reveal"><span>02</span><h3>Clause-Level Analysis</h3><p>Identify obligations, deviations, risks, and missing protections with precision.</p></article>
@@ -606,148 +217,30 @@
       </div>
     </section>
 
-    <section class="command-center section" id="command-center">
-      <div class="shell">
-        <div class="command-center__intro">
-          <div>
-            <p class="section-kicker reveal">COMMAND CENTER / GOVERNANCE WITHOUT GUESSWORK</p>
-            <h2 class="reveal">See the whole practice without seeing its documents.</h2>
-          </div>
-          <p class="reveal">A private control plane for matter activity, workflow health, and audit visibility—without exposing the work underneath.</p>
-        </div>
-        <div class="command-app reveal" aria-label="Vaultr Command Center preview">
-          <div class="command-app__topbar">
-            <div><span class="command-app__mark">✳</span><strong>Vaultr / Command Center</strong><span class="command-app__mode">Local control plane</span><span class="surface-disclosure">Illustrative demo</span></div>
-            <div class="command-range" role="tablist" aria-label="Command Center time range">
-              <button class="command-range__tab is-active" id="command-range-week" type="button" role="tab" aria-controls="command-dashboard" aria-selected="true" tabindex="0" data-command-range="week">7 days</button>
-              <button class="command-range__tab" id="command-range-month" type="button" role="tab" aria-controls="command-dashboard" aria-selected="false" tabindex="-1" data-command-range="month">30 days</button>
+    <section class="quotes section" aria-label="Vaultr principles">
+      <div class="shell quotes__shell reveal">
+        <div class="quote-carousel" data-carousel>
+          <article class="quote is-active" data-quote>
+            <blockquote>“Confidentiality must be architectural—not promised in a policy document.”</blockquote>
+            <p>On Data Sovereignty</p>
+          </article>
+          <article class="quote" data-quote>
+            <blockquote>“A privileged document should never need to leave the room in order to be understood.”</blockquote>
+            <p>On Attorney-Client Privilege</p>
+          </article>
+          <article class="quote" data-quote>
+            <blockquote>“Verification over trust. The entire codebase is open for inspection.”</blockquote>
+            <p>On Open Source</p>
+          </article>
+          <div class="quote-controls" role="group" aria-label="Quote controls">
+            <button type="button" aria-label="Previous quote" data-quote-prev>←</button>
+            <div class="quote-dots">
+              <button class="is-active" type="button" aria-label="Show quote 1" data-quote-dot="0"></button>
+              <button type="button" aria-label="Show quote 2" data-quote-dot="1"></button>
+              <button type="button" aria-label="Show quote 3" data-quote-dot="2"></button>
             </div>
+            <button type="button" aria-label="Next quote" data-quote-next>→</button>
           </div>
-          <div class="command-app__body" id="command-dashboard" role="tabpanel" aria-labelledby="command-range-week">
-            <aside class="command-app__rail" aria-hidden="true"><span class="is-active"></span><span></span><span></span><span></span><span></span></aside>
-            <div class="command-dashboard">
-              <div class="command-dashboard__heading"><div><span>Wednesday / 05 August 2026</span><h3>Good morning, Counsel.</h3></div><span class="command-dashboard__status"><i></i> Runtime healthy</span></div>
-              <div class="command-metrics">
-                <article class="command-metric"><span>Active matters</span><strong data-command-value="matters">12</strong><small data-command-note="matters">+2 this week</small></article>
-                <article class="command-metric"><span>Local runs</span><strong data-command-value="runs">48</strong><small data-command-note="runs">+18% vs prior</small></article>
-                <article class="command-metric"><span>External bytes</span><strong data-command-value="bytes">0 B</strong><small data-command-note="bytes">Boundary intact</small></article>
-                <article class="command-metric"><span>Review hours back</span><strong data-command-value="hours">86</strong><small data-command-note="hours">Illustrative demo</small></article>
-              </div>
-              <div class="command-dashboard__grid">
-                <div class="command-card command-card--activity"><div class="command-card__heading"><span>Recent activity</span><a href="#workflows">Open workflows ↗</a></div><div class="command-activity"><div><span class="activity-dot activity-dot--green"></span><p><strong>Redline review completed</strong><small>Northstar acquisition / 4 minutes ago</small></p><em>Local</em></div><div><span class="activity-dot"></span><p><strong>New matter indexed</strong><small>Meridian employment / 21 minutes ago</small></p><em>Local</em></div><div><span class="activity-dot activity-dot--gold"></span><p><strong>Diligence item reviewed</strong><small>Northstar acquisition / 42 minutes ago</small></p><em>Local</em></div></div></div>
-                <div class="command-card command-card--chart"><div class="command-card__heading"><span>Workspace activity</span><span data-command-chart-label>Last 7 days</span></div><div class="command-chart" aria-label="Illustrative workspace activity chart"><span style="--bar:32%" data-command-bar="0"></span><span style="--bar:45%" data-command-bar="1"></span><span style="--bar:28%" data-command-bar="2"></span><span style="--bar:58%" data-command-bar="3"></span><span style="--bar:70%" data-command-bar="4"></span><span style="--bar:83%" data-command-bar="5"></span><span style="--bar:92%" data-command-bar="6"></span></div><div class="command-chart__labels"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <p class="command-center__caption">Illustrative interface preview. Activity data stays inside the deployment boundary.</p>
-      </div>
-    </section>
-
-    <section class="impact section" id="impact">
-      <div class="shell">
-        <div class="impact__intro">
-          <div>
-            <p class="section-kicker reveal">IMPACT / MAKE THE LOAD VISIBLE</p>
-            <h2 class="reveal">See what your matters ask of your team.</h2>
-          </div>
-          <p class="reveal">A transparent planning model for the work entering your private workspace. Adjust the inputs; keep the assumption visible.</p>
-        </div>
-        <div class="impact-calculator reveal">
-          <div class="impact-controls">
-            <div class="impact-control"><label for="impact-matters">Matters per month <output for="impact-matters" data-impact-output="matters">12</output></label><input id="impact-matters" type="range" min="1" max="40" value="12" data-impact-input="matters"></div>
-            <div class="impact-control"><label for="impact-documents">Documents per matter <output for="impact-documents" data-impact-output="documents">85</output></label><input id="impact-documents" type="range" min="10" max="300" value="85" data-impact-input="documents"></div>
-            <div class="impact-control"><label for="impact-hours">Review hours per matter <output for="impact-hours" data-impact-output="hours">6</output></label><input id="impact-hours" type="range" min="1" max="20" value="6" data-impact-input="hours"></div>
-            <div class="impact-control"><label for="impact-assumption">Illustrative capacity reclaimed <output for="impact-assumption" data-impact-output="assumption">35%</output></label><input id="impact-assumption" type="range" min="10" max="70" value="35" data-impact-input="assumption"></div>
-            <p class="impact-controls__note">Illustrative model only. A pilot should replace these assumptions with your team's own baseline.</p>
-          </div>
-          <div class="impact-results">
-            <span class="impact-results__eyebrow">PRIVATE WORKSPACE / CAPACITY MODEL</span>
-            <div class="impact-results__primary"><strong data-impact-result="documents">1,020</strong><span>documents entering a controlled workspace each month</span></div>
-            <div class="impact-results__grid"><div><strong data-impact-result="hours">72</strong><span>review hours in the monthly load</span></div><div><strong data-impact-result="capacity">25</strong><span>illustrative hours reclaimed</span></div></div>
-            <a href="deployment.html" class="impact-results__link">Model your firm's deployment <span aria-hidden="true">↗</span></a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="resources section" id="resources">
-      <div class="shell">
-        <div class="resources__intro">
-          <div>
-            <p class="section-kicker reveal">RESOURCE LIBRARY / PRIVATE WORK, MADE LEGIBLE</p>
-            <h2 class="reveal">Briefs for the room where privilege lives.</h2>
-          </div>
-          <p class="reveal">Short, useful notes on the decisions that matter when legal intelligence has to stay close to the work.</p>
-        </div>
-        <div class="resources__grid">
-          <a class="resource-card reveal" href="#privacy">
-            <div class="resource-card__art"><img src="assets/images/monet-parliament.jpg" alt="Claude Monet Houses of Parliament" loading="lazy" decoding="async"><span>SECURITY / 06 MIN</span></div>
-            <div class="resource-card__body"><h3>The private deployment brief</h3><p>What “local” means in practice, and how to inspect the boundary before rollout.</p><span class="resource-card__link">Read the boundary <b aria-hidden="true">↗</b></span></div>
-          </a>
-          <a class="resource-card reveal" href="#workflows">
-            <div class="resource-card__art"><img src="assets/images/monet-water-lilies.jpg" alt="Claude Monet water lilies" loading="lazy" decoding="async"><span>WORKFLOWS / 08 MIN</span></div>
-            <div class="resource-card__body"><h3>From clause to confidence</h3><p>A practical look at redlines, diligence, and the evidence trail behind an answer.</p><span class="resource-card__link">Open Workflow Studio <b aria-hidden="true">↗</b></span></div>
-          </a>
-          <a class="resource-card reveal" href="#open-source">
-            <div class="resource-card__art"><img src="assets/images/monet-seine.jpg" alt="Claude Monet Seine landscape" loading="lazy" decoding="async"><span>ARCHITECTURE / 12 MIN</span></div>
-            <div class="resource-card__body"><h3>Verification over trust</h3><p>How open architecture, source links, and visible runtime state change the conversation.</p><span class="resource-card__link">Inspect the source <b aria-hidden="true">↗</b></span></div>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="open-source section" id="open-source">
-      <div class="shell open-source__layout">
-        <div class="open-source__copy reveal">
-          <h2>Auditable by Design.</h2>
-          <p>Verify the cryptographic boundaries yourself. Retain total ownership of the software, the weights, and the execution environment.</p>
-          <a class="button button--gold" href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer">★ Star on GitHub</a>
-          <figure class="open-source__art">
-            <img src="assets/images/monet-seine.jpg" alt="Claude Monet Seine landscape" loading="lazy" decoding="async">
-            <figcaption>The perimeter remains quiet.</figcaption>
-          </figure>
-        </div>
-        <div class="source-panel reveal" aria-label="Open source verification">
-          <div class="source-panel__header"><span>vaultr / lex</span><span>MIT</span></div>
-          <pre><code><span class="code-muted">01</span>  runtime: <span class="code-gold">local</span>
-<span class="code-muted">02</span>  outbound_network: <span class="code-gold">denied</span>
-<span class="code-muted">03</span>  telemetry: <span class="code-gold">none</span>
-<span class="code-muted">04</span>  storage: <span class="code-gold">encrypted</span>
-<span class="code-muted">05</span>  source: <span class="code-gold">auditable</span></code></pre>
-          <div class="source-panel__verified"><span>✓</span> Boundary verified</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="faq section" id="faq">
-      <div class="shell faq__layout">
-        <div class="faq__intro">
-          <p class="section-kicker reveal">FAQ / THE SHORT ANSWER</p>
-          <h2 class="reveal">Serious questions deserve clear answers.</h2>
-          <p class="reveal">A private legal system should be understandable before it is installed. Here is the operating brief.</p>
-        </div>
-        <div class="faq__list reveal">
-          <details open>
-            <summary><span>What exactly stays inside the perimeter?</span><b>01</b></summary>
-            <p>Vaultr is designed so retrieval, indexing, and reasoning happen inside the configured local runtime. The deployment profile determines the network boundary; verify the path and inspect the source before rollout.</p>
-          </details>
-          <details>
-            <summary><span>Can a firm choose how Lex is deployed?</span><b>02</b></summary>
-            <p>Yes—the deployment desk models three profiles: local runtime, private network, and air-gapped. The right profile is confirmed against your firm’s environment during onboarding.</p>
-          </details>
-          <details>
-            <summary><span>How do answers stay auditable?</span><b>03</b></summary>
-            <p>Lex pairs its outputs with source spans, matter context, and a visible boundary state. The open architecture gives your team a second way to verify the claims.</p>
-          </details>
-          <details>
-            <summary><span>Is Vaultr another matter-management system?</span><b>04</b></summary>
-            <p>Vaultr is the intelligence layer: review, compare, draft, research, and orchestrate work across the documents already in your matter. It complements the systems your firm already uses.</p>
-          </details>
-          <details>
-            <summary><span>What happens after a deployment request?</span><b>05</b></summary>
-            <p>We start with your practice area, firm size, and preferred deployment profile, then shape a private pilot around the work your team needs to see first.</p>
-          </details>
         </div>
       </div>
     </section>
@@ -782,7 +275,7 @@
             <option>101–500 lawyers</option>
             <option>500+ lawyers</option>
           </select>
-          <button class="button button--light" type="submit">Prepare Private Brief <span aria-hidden="true">↗</span></button>
+          <button class="button button--light" type="submit">Request Deployment</button>
         </form>
         <p class="form-status" aria-live="polite" data-form-status>No subscription. The brief stays local until you choose to share it.</p>
         <div class="deployment-brief" data-deployment-brief hidden>
@@ -809,9 +302,9 @@
       <div class="footer__top">
         <div><a class="brand brand--footer" href="#top"><span aria-hidden="true">✳</span> Vaultr</a><p>Counsel Without Disclosure.</p></div>
         <div class="footer__nav">
-          <div><h3>Product</h3><a href="platform.html">Overview</a><a href="#platform">Platform</a><a href="workflows.html">Workflows</a><a href="solutions.html">Solutions</a><a href="command.html">Command Center</a><a href="#impact">Impact</a><a href="resources.html">Resources</a><a href="#product">Lex</a><a href="#privacy">Private Mode</a><a href="#product">Contract Review</a><a href="#product">Legal Research</a><a href="#product">Matter Management</a></div>
+          <div><h3>Product</h3><a href="platform.html">Overview</a><a href="platform.html#platform">Platform</a><a href="workflows.html">Workflows</a><a href="solutions.html">Solutions</a><a href="command.html">Command Center</a><a href="workflows.html#impact">Impact</a><a href="resources.html">Resources</a><a href="platform.html#product">Lex</a><a href="#privacy">Private Mode</a><a href="platform.html#product">Contract Review</a><a href="platform.html#product">Legal Research</a><a href="platform.html#product">Matter Management</a></div>
           <div><h3>Open Source</h3><a href="https://github.com/sabarinath1805-loyal/Vaultr-AI">GitHub</a><a href="https://github.com/sabarinath1805-loyal/Vaultr-AI">Contributing</a><a href="https://github.com/sabarinath1805-loyal/Vaultr-AI">License</a><a href="https://github.com/sabarinath1805-loyal/Vaultr-AI">Changelog</a><a href="https://github.com/sabarinath1805-loyal/Vaultr-AI">Security</a></div>
-          <div><h3>Company</h3><a href="security.html">Security</a><a href="#privacy">Privacy</a><a href="#faq">FAQ</a><a href="#top">Terms</a><a href="#deployment">Contact</a></div>
+          <div><h3>Company</h3><a href="security.html">Security</a><a href="#privacy">Privacy</a><a href="resources.html#faq">FAQ</a><a href="#top">Terms</a><a href="#deployment">Contact</a></div>
         </div>
       </div>
       <div class="footer__bottom"><span>© 2026 Vaultr. Open source under MIT License.</span><a class="footer__top-link" href="#top">Back to top <span aria-hidden="true">↗</span></a></div>

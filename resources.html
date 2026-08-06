@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Resources — Vaultr</title>
   <meta name="description" content="Vaultr field notes on private deployment, evidence-linked workflows, architecture, and legal intelligence that stays inside the room.">
-  <meta name="theme-color" content="#f7f8f5">
+  <meta name="theme-color" content="#faf8f5">
   <meta property="og:title" content="Vaultr Resources — Private work, made legible.">
   <meta property="og:description" content="Field notes for teams deciding how legal intelligence should be deployed, governed, and verified.">
   <meta property="og:type" content="website">
@@ -24,8 +24,8 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preload" as="image" href="assets/images/monet-parliament.jpg" fetchpriority="high">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=workflow-states-3">
-  <script defer src="assets/js/vaultr.js?v=workflow-states-3"></script>
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=gallery-restructure-1">
+  <script defer src="assets/js/vaultr.js?v=gallery-restructure-1"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Vaultr Resources","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/resources.html","isPartOf":{"@type":"WebSite","name":"Vaultr","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/"}}</script>
 </head>
 <body class="detail-page resources-page">
@@ -67,10 +67,11 @@
           <button class="nav-dropdown__trigger is-current" type="button" aria-expanded="false" aria-haspopup="true" aria-current="page">Resources <span aria-hidden="true">⌄</span></button>
           <div class="nav-dropdown__menu">
             <a href="resources.html" aria-current="page"><small>RESOURCE LIBRARY</small><strong>Read the operating brief</strong><span>Security, workflows, and architecture notes.</span></a>
-            <a href="index.html#evidence"><small>EVIDENCE LEDGER</small><strong>Trace every answer</strong><span>Source spans, confidence, and review state.</span></a>
+            <a href="platform.html#evidence"><small>EVIDENCE LEDGER</small><strong>Trace every answer</strong><span>Source spans, confidence, and review state.</span></a>
             <a href="security.html"><small>SECURITY</small><strong>Verify the boundary</strong><span>Runtime, network, and source assurance.</span></a>
-            <a href="index.html#open-source"><small>OPEN SOURCE</small><strong>Inspect the architecture</strong><span>Review the code, dependencies, and claims.</span></a>
-            <a href="index.html#faq"><small>FAQ</small><strong>Get the short answer</strong><span>Deployment, privacy, and rollout notes.</span></a>
+            <a href="research.html"><small>RESEARCH</small><strong>Inspect the architecture</strong><span>Runtime, evidence, deployment, and source notes.</span></a>
+            <a href="platform.html#open-source"><small>OPEN SOURCE</small><strong>Inspect the architecture</strong><span>Review the code, dependencies, and claims.</span></a>
+            <a href="resources.html#faq"><small>FAQ</small><strong>Get the short answer</strong><span>Deployment, privacy, and rollout notes.</span></a>
             <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI#readme" target="_blank" rel="noreferrer"><small>DOCS</small><strong>Read the brief</strong><span>Implementation notes and deployment guidance.</span></a>
           </div>
         </div>
@@ -101,7 +102,7 @@
       <div class="shell"><div class="resources__intro"><div><p class="section-kicker reveal">01 / THE LIBRARY</p><h2 class="reveal">The operating brief, without the noise.</h2></div><p class="reveal">Start with the question your team is already asking. Every note leads to a concrete product or trust surface.</p></div><div class="resources__grid resources-page__grid">
         <a class="resource-card reveal" href="security.html"><div class="resource-card__art"><img src="assets/images/monet-parliament.jpg" alt="Claude Monet Houses of Parliament" loading="lazy" decoding="async"><span>SECURITY / 06 MIN</span></div><div class="resource-card__body"><h3>The private deployment brief</h3><p>What “local” means in practice, and how to inspect the boundary before rollout.</p><span class="resource-card__link">Read the boundary <b aria-hidden="true">↗</b></span></div></a>
         <a class="resource-card reveal" href="workflows.html"><div class="resource-card__art"><img src="assets/images/monet-water-lilies.jpg" alt="Claude Monet water lilies" loading="lazy" decoding="async"><span>WORKFLOWS / 08 MIN</span></div><div class="resource-card__body"><h3>From clause to confidence</h3><p>A practical look at redlines, diligence, and the evidence trail behind an answer.</p><span class="resource-card__link">Open Workflow Studio <b aria-hidden="true">↗</b></span></div></a>
-        <a class="resource-card reveal" href="index.html#evidence"><div class="resource-card__art"><img src="assets/images/monet-seine.jpg" alt="Claude Monet Seine landscape" loading="lazy" decoding="async"><span>EVIDENCE / 10 MIN</span></div><div class="resource-card__body"><h3>Verification over trust</h3><p>How source links, visible runtime state, and an open architecture change the conversation.</p><span class="resource-card__link">Trace the evidence <b aria-hidden="true">↗</b></span></div></a>
+        <a class="resource-card reveal" href="platform.html#evidence"><div class="resource-card__art"><img src="assets/images/monet-seine.jpg" alt="Claude Monet Seine landscape" loading="lazy" decoding="async"><span>EVIDENCE / 10 MIN</span></div><div class="resource-card__body"><h3>Verification over trust</h3><p>How source links, visible runtime state, and an open architecture change the conversation.</p><span class="resource-card__link">Trace the evidence <b aria-hidden="true">↗</b></span></div></a>
         <a class="resource-card reveal" href="platform.html"><div class="resource-card__art"><img src="assets/images/monet-sunrise-display.jpg" alt="Claude Monet sunrise over the Seine" loading="lazy" decoding="async"><span>PLATFORM / 09 MIN</span></div><div class="resource-card__body"><h3>One control plane</h3><p>Why Vault, Knowledge, Agents, and Governance belong in the same private operating layer.</p><span class="resource-card__link">Meet the platform <b aria-hidden="true">↗</b></span></div></a>
       </div></div>
     </section>
@@ -109,8 +110,68 @@
     <section class="resources-page__questions section"><div class="shell resources-page__questions-inner"><div class="resources-page__questions-copy reveal"><p class="section-kicker">02 / START HERE</p><h2>Bring the question that keeps showing up in the room.</h2><p>Use the short answers below to decide where to look next—or build a deployment brief and make the conversation concrete.</p><a class="button button--ghost" href="deployment.html">Build a private brief ↗</a></div><div class="faq__list reveal"><details open><summary><span>What exactly stays inside the perimeter?</span><b>01</b></summary><p>Vaultr is designed so retrieval, indexing, and reasoning happen inside the configured local runtime. The deployment profile determines the network boundary.</p></details><details><summary><span>How do answers stay auditable?</span><b>02</b></summary><p>Lex pairs outputs with source spans, matter context, and a visible boundary state, so review remains part of the workflow.</p></details><details><summary><span>Where should a team start?</span><b>03</b></summary><p>Start with the platform map, open a workflow, and choose the deployment profile that matches your firm's existing perimeter.</p></details></div></div></section>
 
     <section class="resources-page__cta section"><div class="shell resources-page__cta-inner reveal"><p class="section-kicker">READY FOR A CLOSER LOOK?</p><h2>The useful answer is the one you can verify.</h2><a class="button button--light" href="deployment.html">Build a private deployment brief</a></div></section>
+
+
+    <!-- Moved from homepage: RESOURCES / -->
+    <section class="resources section" id="resources">
+      <div class="shell">
+        <div class="resources__intro">
+          <div>
+            <p class="section-kicker reveal">RESOURCE LIBRARY / PRIVATE WORK, MADE LEGIBLE</p>
+            <h2 class="reveal">Briefs for the room where privilege lives.</h2>
+          </div>
+          <p class="reveal">Short, useful notes on the decisions that matter when legal intelligence has to stay close to the work.</p>
+        </div>
+        <div class="resources__grid">
+          <a class="resource-card reveal" href="#privacy">
+            <div class="resource-card__art"><img src="assets/images/monet-parliament.jpg" alt="Claude Monet Houses of Parliament" loading="lazy" decoding="async"><span>SECURITY / 06 MIN</span></div>
+            <div class="resource-card__body"><h3>The private deployment brief</h3><p>What “local” means in practice, and how to inspect the boundary before rollout.</p><span class="resource-card__link">Read the boundary <b aria-hidden="true">↗</b></span></div>
+          </a>
+          <a class="resource-card reveal" href="#workflows">
+            <div class="resource-card__art"><img src="assets/images/monet-water-lilies.jpg" alt="Claude Monet water lilies" loading="lazy" decoding="async"><span>WORKFLOWS / 08 MIN</span></div>
+            <div class="resource-card__body"><h3>From clause to confidence</h3><p>A practical look at redlines, diligence, and the evidence trail behind an answer.</p><span class="resource-card__link">Open Workflow Studio <b aria-hidden="true">↗</b></span></div>
+          </a>
+          <a class="resource-card reveal" href="platform.html#open-source">
+            <div class="resource-card__art"><img src="assets/images/monet-seine.jpg" alt="Claude Monet Seine landscape" loading="lazy" decoding="async"><span>ARCHITECTURE / 12 MIN</span></div>
+            <div class="resource-card__body"><h3>Verification over trust</h3><p>How open architecture, source links, and visible runtime state change the conversation.</p><span class="resource-card__link">Inspect the source <b aria-hidden="true">↗</b></span></div>
+          </a>
+        </div>
+      </div>
+    </section>
+    <!-- Moved from homepage: FAQ / -->
+    <section class="faq section" id="faq">
+      <div class="shell faq__layout">
+        <div class="faq__intro">
+          <p class="section-kicker reveal">FAQ / THE SHORT ANSWER</p>
+          <h2 class="reveal">Serious questions deserve clear answers.</h2>
+          <p class="reveal">A private legal system should be understandable before it is installed. Here is the operating brief.</p>
+        </div>
+        <div class="faq__list reveal">
+          <details open>
+            <summary><span>What exactly stays inside the perimeter?</span><b>01</b></summary>
+            <p>Vaultr is designed so retrieval, indexing, and reasoning happen inside the configured local runtime. The deployment profile determines the network boundary; verify the path and inspect the source before rollout.</p>
+          </details>
+          <details>
+            <summary><span>Can a firm choose how Lex is deployed?</span><b>02</b></summary>
+            <p>Yes—the deployment desk models three profiles: local runtime, private network, and air-gapped. The right profile is confirmed against your firm’s environment during onboarding.</p>
+          </details>
+          <details>
+            <summary><span>How do answers stay auditable?</span><b>03</b></summary>
+            <p>Lex pairs its outputs with source spans, matter context, and a visible boundary state. The open architecture gives your team a second way to verify the claims.</p>
+          </details>
+          <details>
+            <summary><span>Is Vaultr another matter-management system?</span><b>04</b></summary>
+            <p>Vaultr is the intelligence layer: review, compare, draft, research, and orchestrate work across the documents already in your matter. It complements the systems your firm already uses.</p>
+          </details>
+          <details>
+            <summary><span>What happens after a deployment request?</span><b>05</b></summary>
+            <p>We start with your practice area, firm size, and preferred deployment profile, then shape a private pilot around the work your team needs to see first.</p>
+          </details>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <footer class="footer"><div class="shell"><div class="footer__rule"></div><div class="footer__top"><div><a class="brand brand--footer" href="index.html"><span aria-hidden="true">✳</span> Vaultr</a><p>Counsel Without Disclosure.</p></div><div class="footer__nav"><div><h3>Platform</h3><a href="platform.html">Overview</a><a href="index.html#product">Lex</a><a href="workflows.html">Workflows</a></div><div><h3>Trust</h3><a href="security.html">Security</a><a href="index.html#evidence">Evidence</a><a href="index.html#open-source">Open source</a></div><div><h3>Contact</h3><a href="index.html#deployment">Deployment</a><a href="index.html#faq">FAQ</a><a href="index.html">Home</a></div></div></div><div class="footer__bottom"><span>© 2026 Vaultr. Open source under MIT License.</span><a class="footer__top-link" href="#">Back to top <span aria-hidden="true">↗</span></a></div></div></footer>
+  <footer class="footer"><div class="shell"><div class="footer__rule"></div><div class="footer__top"><div><a class="brand brand--footer" href="index.html"><span aria-hidden="true">✳</span> Vaultr</a><p>Counsel Without Disclosure.</p></div><div class="footer__nav"><div><h3>Platform</h3><a href="platform.html">Overview</a><a href="platform.html#product">Lex</a><a href="workflows.html">Workflows</a></div><div><h3>Trust</h3><a href="security.html">Security</a><a href="platform.html#evidence">Evidence</a><a href="platform.html#open-source">Open source</a></div><div><h3>Contact</h3><a href="index.html#deployment">Deployment</a><a href="resources.html#faq">FAQ</a><a href="index.html">Home</a></div></div></div><div class="footer__bottom"><span>© 2026 Vaultr. Open source under MIT License.</span><a class="footer__top-link" href="#">Back to top <span aria-hidden="true">↗</span></a></div></div></footer>
 </body>
 </html>
