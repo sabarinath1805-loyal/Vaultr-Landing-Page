@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Research &amp; Architecture — Vaultr</title>
+  <meta name="description" content="Inspect Vaultr's illustrative architecture, evidence contract, and deployment boundary before you bring a matter into the room.">
+  <meta name="theme-color" content="#f7f8f5">
+  <meta property="og:title" content="Vaultr Research &amp; Architecture">
+  <meta property="og:description" content="A focused guide to the local runtime, source-linked evidence, and deployment boundary behind Vaultr.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Vaultr">
+  <meta property="og:url" content="https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/research.html">
+  <meta property="og:image" content="https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/assets/images/vaultr-og.png">
+  <meta property="og:image:alt" content="Vaultr — The Room Stays Closed.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Vaultr Research &amp; Architecture">
+  <meta name="twitter:description" content="Inspect the local runtime, evidence contract, and deployment boundary behind Vaultr.">
+  <meta name="twitter:image" content="https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/assets/images/vaultr-og.png">
+  <link rel="canonical" href="https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/research.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&amp;family=DM+Sans:opsz,wght@9..40,100..1000&amp;display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="preload" as="image" href="assets/images/monet-seine.jpg" fetchpriority="high">
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=workflow-states-3">
+  <script defer src="assets/js/vaultr.js?v=workflow-states-3"></script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Vaultr Research & Architecture","description":"An illustrative guide to Vaultr's local runtime, evidence contract, and deployment boundary.","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/research.html","isPartOf":{"@type":"WebSite","name":"Vaultr","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/"}}</script>
+</head>
+<body class="detail-page research-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <aside class="announcement" data-banner>
+    <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI#readme" target="_blank" rel="noreferrer"><span>Open architecture. Inspect the boundary before rollout.</span><span class="announcement__arrow" aria-hidden="true">&rarr;</span></a>
+    <button class="announcement__close" type="button" aria-label="Close announcement" data-close-banner>&times;</button>
+  </aside>
+
+  <header class="site-header is-fixed" data-header>
+    <div class="nav shell">
+      <a class="brand" href="index.html" aria-label="Vaultr home"><span aria-hidden="true">&#10033;</span> Vaultr</a>
+      <nav class="nav__links" aria-label="Primary navigation">
+        <div class="nav-dropdown" data-nav-dropdown>
+          <button class="nav-dropdown__trigger" type="button" aria-expanded="false" aria-haspopup="true">Platform <span aria-hidden="true">&#8963;</span></button>
+          <div class="nav-dropdown__menu">
+            <a href="platform.html"><small>LEX</small><strong>Product workspace</strong><span>Review, compare, and draft in one private room.</span></a>
+            <a href="index.html#platform"><small>PLATFORM</small><strong>One control plane</strong><span>Vault, Knowledge, Agents, and Governance.</span></a>
+            <a href="command.html"><small>COMMAND</small><strong>Practice visibility</strong><span>Activity and audit signals without document exposure.</span></a>
+          </div>
+        </div>
+        <div class="nav-dropdown" data-nav-dropdown>
+          <button class="nav-dropdown__trigger" type="button" aria-expanded="false" aria-haspopup="true">Workflows <span aria-hidden="true">&#8963;</span></button>
+          <div class="nav-dropdown__menu">
+            <a href="workflows.html"><small>WORKFLOW STUDIO</small><strong>Redlines &amp; diligence</strong><span>Move from clause to confidence with evidence.</span></a>
+            <a href="index.html#impact"><small>IMPACT</small><strong>Model your load</strong><span>Make the matter workload visible and adjustable.</span></a>
+          </div>
+        </div>
+        <div class="nav-dropdown" data-nav-dropdown>
+          <button class="nav-dropdown__trigger" type="button" aria-expanded="false" aria-haspopup="true">Solutions <span aria-hidden="true">&#8963;</span></button>
+          <div class="nav-dropdown__menu">
+            <a href="solutions.html#practice"><small>LITIGATION</small><strong>Move with the record</strong><span>Chronologies, briefs, transcripts, and source links.</span></a>
+            <a href="solutions.html#practice"><small>TRANSACTIONAL</small><strong>See the delta</strong><span>Compare versions and surface risk before signing.</span></a>
+            <a href="solutions.html#practice"><small>IN-HOUSE</small><strong>Keep the context</strong><span>Give the business faster answers, privately.</span></a>
+            <a href="customers.html"><small>PRACTICE ROOMS</small><strong>See the patterns</strong><span>Illustrative workflows for serious legal work.</span></a>
+          </div>
+        </div>
+        <div class="nav-dropdown" data-nav-dropdown>
+          <button class="nav-dropdown__trigger is-current" type="button" aria-expanded="false" aria-haspopup="true" aria-current="page">Resources <span aria-hidden="true">&#8963;</span></button>
+          <div class="nav-dropdown__menu">
+            <a href="resources.html"><small>RESOURCE LIBRARY</small><strong>Read the operating brief</strong><span>Security, workflows, and architecture notes.</span></a>
+            <a href="index.html#evidence"><small>EVIDENCE LEDGER</small><strong>Trace every answer</strong><span>Source spans, confidence, and review state.</span></a>
+            <a href="security.html"><small>SECURITY</small><strong>Verify the boundary</strong><span>Runtime, network, and source assurance.</span></a>
+            <a href="research.html" aria-current="page"><small>RESEARCH</small><strong>Inspect the architecture</strong><span>Runtime, evidence, deployment, and source notes.</span></a>
+            <a href="index.html#open-source"><small>OPEN SOURCE</small><strong>Review the source root</strong><span>Dependencies, claims, and implementation notes.</span></a>
+            <a href="index.html#faq"><small>FAQ</small><strong>Get the short answer</strong><span>Deployment, privacy, and rollout notes.</span></a>
+            <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI#readme" target="_blank" rel="noreferrer"><small>DOCS</small><strong>Read the brief</strong><span>Implementation notes and deployment guidance.</span></a>
+          </div>
+        </div>
+      </nav>
+      <button class="nav-command" type="button" aria-label="Open quick navigation (Control K)" data-command-open><kbd>Ctrl K</kbd></button>
+      <a class="button button--small nav__cta" href="deployment.html">Request a deployment</a>
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-navigation" data-menu-toggle><span></span><span></span></button>
+    </div>
+    <div class="mobile-menu" id="mobile-navigation" role="navigation" aria-label="Mobile navigation" aria-hidden="true" data-mobile-menu>
+      <a href="platform.html">Platform</a>
+      <a href="workflows.html">Workflows</a>
+      <a href="solutions.html">Solutions</a>
+      <a href="customers.html">Practice Rooms</a>
+      <a href="command.html">Command Center</a>
+      <a href="security.html">Security Center</a>
+      <a href="research.html" aria-current="page">Research &amp; architecture</a>
+      <a href="resources.html">Resources</a>
+      <a class="button" href="deployment.html">Request a deployment</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="research-page__hero section">
+      <div class="shell research-page__hero-inner">
+        <div class="research-page__hero-copy reveal">
+          <p class="section-kicker">RESEARCH / VERIFY THE SYSTEM</p>
+          <h1>Trust should have a visible shape.</h1>
+          <p>Read the operating model behind Vaultr in one focused room: what enters, where reasoning happens, how evidence returns, and which boundary stays closed.</p>
+          <div class="research-page__hero-actions"><a class="button button--light" href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer">Inspect the source</a><a class="button button--ghost" href="deployment.html">Prepare a private brief</a></div>
+          <div class="research-page__hero-meta"><span><i></i> ARCHITECTURE OPEN</span><span><i></i> CLAIMS ILLUSTRATIVE</span><span><i></i> LOCAL FIRST</span></div>
+        </div>
+        <div class="research-page__hero-card reveal" aria-label="Illustrative Vaultr architecture overview">
+          <div class="research-card__head"><span>VAULTR / SYSTEM MAP</span><span class="surface-disclosure">Illustrative</span><span class="research-card__local"><i></i> SOURCE OPEN</span></div>
+          <div class="research-card__body"><span class="research-card__stamp">LEX / PRIVATE RUNTIME</span><strong>One quiet path from record to answer.</strong><div class="research-card__path"><div><b>01</b><span>Matter record</span><small>source set stays local</small></div><span class="research-card__arrow" aria-hidden="true">&rarr;</span><div class="research-card__path-active"><b>02</b><span>Lex runtime</span><small>retrieval + reasoning</small></div><span class="research-card__arrow" aria-hidden="true">&rarr;</span><div><b>03</b><span>Answer trace</span><small>source + span returned</small></div></div></div>
+          <div class="research-card__foot"><span><i></i> OUTBOUND PATH</span><strong>DENIED BY PROFILE</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="research-page__architecture section">
+      <div class="shell">
+        <div class="research-page__section-intro"><div><p class="section-kicker reveal">01 / THE PATH</p><h2 class="reveal">An architecture you can explain in one sitting.</h2></div><p class="reveal">The system stays legible because the path is short. Each transition has an owner, a visible input, and a boundary you can test.</p></div>
+        <div class="research-architecture reveal" aria-label="Illustrative Vaultr data path">
+          <div class="research-architecture__nodes"><article><span>01 / INPUT</span><strong>Your documents</strong><p>Contracts, pleadings, exhibits, and correspondence enter a matter-specific source set.</p><b>RECORD / LOCAL</b></article><div class="research-architecture__connector" aria-hidden="true">&rarr;</div><article class="is-active"><span>02 / REASON</span><strong>Lex on device</strong><p>Retrieval and reasoning stay inside the configured runtime and its chosen profile.</p><b>RUNTIME / CONTAINED</b></article><div class="research-architecture__connector" aria-hidden="true">&rarr;</div><article><span>03 / OUTPUT</span><strong>Source-linked answer</strong><p>Every useful conclusion returns with the source, span, confidence, and review state.</p><b>EVIDENCE / VISIBLE</b></article></div>
+          <div class="research-architecture__blocked"><span>04 / EXCLUDED PATH</span><strong>External inference</strong><b>BLOCKED</b><p>The boundary is a runtime decision, not a promise hidden in a footer.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="research-page__evidence section">
+      <div class="shell research-page__evidence-inner">
+        <div class="research-page__evidence-copy reveal"><p class="section-kicker">02 / THE EVIDENCE CONTRACT</p><h2>Useful answers leave enough behind to be checked.</h2><p>Vaultr treats provenance as part of the interface. The output is not finished until counsel can move from conclusion to record without changing rooms.</p><a class="button button--ghost" href="index.html#evidence">Open the evidence ledger <span aria-hidden="true">&rarr;</span></a><figure class="research-page__art"><img src="assets/images/monet-seine.jpg" alt="Claude Monet Seine landscape" loading="lazy" decoding="async"><figcaption>Make the boundary visible before the pitch begins.</figcaption></figure></div>
+        <div class="research-ledger reveal" aria-label="Illustrative evidence contract"><div class="research-ledger__head"><span>LEX / EVIDENCE CONTRACT</span><span class="surface-disclosure">Illustrative</span></div><div class="research-ledger__row"><span>01</span><div><strong>Source</strong><p>Which document did the answer use?</p></div><b>REQUIRED</b></div><div class="research-ledger__row"><span>02</span><div><strong>Span</strong><p>Where in the record does the claim live?</p></div><b>LINKED</b></div><div class="research-ledger__row"><span>03</span><div><strong>Confidence</strong><p>How much review signal should counsel see?</p></div><b>VISIBLE</b></div><div class="research-ledger__row"><span>04</span><div><strong>Owner</strong><p>Who decides whether the work is ready?</p></div><b>LOCAL</b></div><div class="research-ledger__foot"><span><i></i> TRACE COMPLETE</span><strong>03 SOURCE SPANS / DEMO MATTER</strong></div></div>
+      </div>
+    </section>
+
+    <section class="research-page__source section">
+      <div class="shell">
+        <div class="research-page__section-intro research-page__section-intro--light"><div><p class="section-kicker">03 / SOURCE INSPECTION</p><h2>Read the claims at the root.</h2></div><p>Use this index as a starting point for a real security review. The values below are an illustrative interface, not a certification or customer result.</p></div>
+        <div class="research-source-grid"><article><span>RUNTIME</span><strong>local</strong><p>Execution profile selected by the firm.</p><a href="deployment.html">Review profiles <span aria-hidden="true">&rarr;</span></a></article><article><span>NETWORK</span><strong>denied</strong><p>Outbound path is explicit before rollout.</p><a href="security.html">Verify the boundary <span aria-hidden="true">&rarr;</span></a></article><article><span>TELEMETRY</span><strong>none</strong><p>Inspect what the deployment actually emits.</p><a href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer">Inspect source <span aria-hidden="true">&rarr;</span></a></article><article><span>STATUS</span><strong>reviewable</strong><p>Keep the evidence and owner close to the action.</p><a href="workflows.html">Open workflows <span aria-hidden="true">&rarr;</span></a></article></div>
+      </div>
+    </section>
+
+    <section class="research-page__cta section"><div class="shell research-page__cta-inner reveal"><p class="section-kicker">READY TO TEST THE MODEL?</p><h2>Bring the question that cannot afford a black box.</h2><a class="button button--light" href="deployment.html">Build a private deployment brief</a></div></section>
+  </main>
+
+  <footer class="footer"><div class="shell"><div class="footer__rule"></div><div class="footer__top"><div><a class="brand brand--footer" href="index.html"><span aria-hidden="true">&#10033;</span> Vaultr</a><p>Counsel Without Disclosure.</p></div><div class="footer__nav"><div><h3>Platform</h3><a href="platform.html">Overview</a><a href="index.html#product">Lex</a><a href="workflows.html">Workflows</a></div><div><h3>Trust</h3><a href="security.html">Security</a><a href="research.html">Research</a><a href="index.html#open-source">Open source</a></div><div><h3>Contact</h3><a href="deployment.html">Deployment</a><a href="resources.html">Resources</a><a href="index.html">Home</a></div></div></div><div class="footer__bottom"><span>&copy; 2026 Vaultr. Open source under MIT License.</span><a class="footer__top-link" href="#">Back to top <span aria-hidden="true">&uarr;</span></a></div></div></footer>
+</body>
+</html>
