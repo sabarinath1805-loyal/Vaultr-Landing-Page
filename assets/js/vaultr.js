@@ -390,8 +390,16 @@
 
   const showQuote = (index) => {
     currentQuote = (index + quotes.length) % quotes.length;
-    quotes.forEach((quote, i) => quote.classList.toggle('is-active', i === currentQuote));
-    dots.forEach((dot, i) => dot.classList.toggle('is-active', i === currentQuote));
+    quotes.forEach((quote, i) => {
+      const active = i === currentQuote;
+      quote.classList.toggle('is-active', active);
+      quote.setAttribute('aria-hidden', String(!active));
+    });
+    dots.forEach((dot, i) => {
+      const active = i === currentQuote;
+      dot.classList.toggle('is-active', active);
+      dot.setAttribute('aria-pressed', String(active));
+    });
   };
 
   const restartCarousel = () => {
@@ -403,6 +411,7 @@
   document.querySelector('[data-quote-prev]')?.addEventListener('click', () => { showQuote(currentQuote - 1); restartCarousel(); });
   document.querySelector('[data-quote-next]')?.addEventListener('click', () => { showQuote(currentQuote + 1); restartCarousel(); });
   dots.forEach((dot) => dot.addEventListener('click', () => { showQuote(Number(dot.dataset.quoteDot)); restartCarousel(); }));
+  showQuote(currentQuote);
   restartCarousel();
 
   const lexTabs = [...document.querySelectorAll('[data-lex-tab]')];
@@ -493,14 +502,30 @@
     correspondence: { label: 'COUNSEL CORRESPONDENCE / 14 JUN', page: 'Thread 08', title: 'Closing conditions — follow-up' }
   };
 
-  sourceFiles.forEach((file) => {
-    file.addEventListener('click', () => {
-      const data = sourceFileData[file.dataset.lexFile];
-      if (!data) return;
-      sourceFiles.forEach((item) => item.classList.toggle('is-active', item === file));
-      if (workspaceDocumentLabel) workspaceDocumentLabel.textContent = data.label;
-      if (workspaceDocumentPage) workspaceDocumentPage.textContent = data.page;
-      if (workspaceDocumentTitle) workspaceDocumentTitle.textContent = data.title;
+  const setSourceFile = (file) => {
+    const data = sourceFileData[file?.dataset.lexFile];
+    if (!data) return;
+    sourceFiles.forEach((item) => {
+      const active = item === file;
+      item.classList.toggle('is-active', active);
+      item.setAttribute('aria-pressed', String(active));
+    });
+    if (workspaceDocumentLabel) workspaceDocumentLabel.textContent = data.label;
+    if (workspaceDocumentPage) workspaceDocumentPage.textContent = data.page;
+    if (workspaceDocumentTitle) workspaceDocumentTitle.textContent = data.title;
+  };
+  sourceFiles.forEach((file, index) => {
+    file.setAttribute('aria-pressed', String(file.classList.contains('is-active')));
+    file.addEventListener('click', () => setSourceFile(file));
+    file.addEventListener('keydown', (event) => {
+      if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      const nextIndex = event.key === 'Home' ? 0
+        : event.key === 'End' ? sourceFiles.length - 1
+          : (index + (event.key === 'ArrowDown' ? 1 : -1) + sourceFiles.length) % sourceFiles.length;
+      const nextFile = sourceFiles[nextIndex];
+      nextFile?.focus();
+      setSourceFile(nextFile);
     });
   });
 
