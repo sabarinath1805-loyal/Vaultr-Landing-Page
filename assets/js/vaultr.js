@@ -21,8 +21,10 @@
     menuButton?.setAttribute('aria-expanded', String(open));
     menuButton?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
     mobileMenu?.classList.toggle('is-open', open);
+    mobileMenu?.setAttribute('aria-hidden', String(!open));
     if (open) header?.classList.remove('is-hidden');
     document.body.classList.toggle('menu-open', open);
+    if (open) window.setTimeout(() => mobileMenu?.querySelector(dialogFocusableSelector)?.focus(), 0);
   };
 
   menuButton?.addEventListener('click', () => setMenu(menuButton.getAttribute('aria-expanded') !== 'true'));
@@ -334,6 +336,7 @@
     if (!event.target.closest('[data-nav-dropdown]')) closeNavDropdowns();
   });
   document.addEventListener('keydown', (event) => {
+    if (mobileMenu?.classList.contains('is-open') && event.key === 'Tab') trapDialogFocus(mobileMenu, event);
     if (event.key === 'Escape') {
       closeNavDropdowns();
       if (mobileMenu?.classList.contains('is-open')) {
