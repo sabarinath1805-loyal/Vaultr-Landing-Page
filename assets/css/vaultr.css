@@ -1921,12 +1921,18 @@ tbody tr:nth-child(even) { background: #fafbf8; }
 .deployment-brief__body span { color: #69766e; font-size: 8px; font-weight: 700; letter-spacing: .14em; }
 .deployment-brief__body strong { color: var(--ink); font-family: var(--serif); font-size: 24px; font-weight: 500; line-height: .95; letter-spacing: -.03em; }
 .deployment-brief > p { margin: 0; padding: 0 18px 19px; color: var(--muted); font-size: 12px; line-height: 1.45; }
-.deployment-brief__download { width: auto !important; min-height: 43px; margin: 0 18px 20px; }
+.deployment-brief__actions { display: flex; flex-wrap: wrap; gap: 9px; margin: 0 18px 20px; }
+.deployment-brief__actions .button { width: auto !important; min-height: 43px; margin: 0; }
+.deployment-brief__download,
+.deployment-brief__copy { min-width: 132px; }
+.form-status.is-error { color: #9b4b4b !important; }
 
 @media (max-width: 640px) {
   .deployment-brief__head { align-items: flex-start; flex-direction: column; gap: 10px; }
   .deployment-brief__body { grid-template-columns: 1fr; gap: 14px; padding-block: 19px 17px; }
   .deployment-brief__body strong { font-size: 22px; }
+  .deployment-brief__actions { display: grid; grid-template-columns: 1fr; }
+  .deployment-brief__actions .button { width: 100% !important; }
 }
 
 /* --------------------------------------------------------------------------

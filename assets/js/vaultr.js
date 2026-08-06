@@ -876,36 +876,12 @@
   const profileLabels = { local: 'Local runtime', network: 'Private network', airgap: 'Air-gapped' };
   let currentBrief = null;
 
-  deploymentForm?.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const values = new FormData(form);
-    const email = String(values.get('email') || '').trim();
-    const practice = String(values.get('practice-area') || '').trim();
-    const size = String(values.get('firm-size') || '').trim();
-    const profile = String(values.get('deployment-profile') || 'local');
-    const status = document.querySelector('[data-form-status]');
-    if (!email || !practice || !size) return;
-    currentBrief = { email, practice, size, profile: profileLabels[profile] || profileLabels.local, created: new Date().toISOString() };
-    if (briefProfile) briefProfile.textContent = currentBrief.profile;
-    if (briefPractice) briefPractice.textContent = currentBrief.practice;
-    if (briefSize) briefSize.textContent = currentBrief.size;
-    if (briefSummary) briefSummary.textContent = `A private ${currentBrief.profile.toLowerCase()} brief for ${currentBrief.practice.toLowerCase()} / ${currentBrief.size.toLowerCase()} is ready to share with your security lead.`;
-    if (deploymentBrief) {
-      deploymentBrief.hidden = false;
-      deploymentBrief.classList.add('is-visible');
-    }
-    if (status) {
-      status.textContent = 'Private brief prepared locally. Nothing was transmitted.';
-      status.classList.add('is-success');
-    }
-  });
-
-  downloadBrief?.addEventListener('click', () => {
-    if (!currentBrief) return;
-    const contents = [
+  const briefContents = () => {
+    if (!currentBrief) return '';
+    return [
       'VAULTR / PRIVATE DEPLOYMENT BRIEF',
       '----------------------------------',
+      `Reference: ${currentBrief.id}`,
       `Profile: ${currentBrief.profile}`,
       `Practice area: ${currentBrief.practice}`,
       `Firm size: ${currentBrief.size}`,
@@ -914,11 +890,76 @@
       'Prepared locally. No data was transmitted by Vaultr.',
       `Created: ${currentBrief.created}`
     ].join('\n');
-    const url = URL.createObjectURL(new Blob([contents], { type: 'text/plain;charset=utf-8' }));
+  };
+
+  let copyBrief = deploymentBrief?.querySelector('[data-copy-brief]');
+  if (downloadBrief && !copyBrief) {
+    const actions = document.createElement('div');
+    actions.className = 'deployment-brief__actions';
+    downloadBrief.replaceWith(actions);
+    actions.append(downloadBrief);
+    copyBrief = document.createElement('button');
+    copyBrief.type = 'button';
+    copyBrief.className = 'button button--ghost deployment-brief__copy';
+    copyBrief.setAttribute('data-copy-brief', '');
+    copyBrief.textContent = 'Copy brief';
+    actions.append(copyBrief);
+  }
+
+  deploymentForm?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const status = document.querySelector('[data-form-status]');
+    if (!form.reportValidity()) {
+      status?.classList.remove('is-success');
+      status?.classList.add('is-error');
+      if (status) status.textContent = 'Complete the firm email, practice area, and firm size to prepare the brief.';
+      return;
+    }
+    const values = new FormData(form);
+    const email = String(values.get('email') || '').trim();
+    const practice = String(values.get('practice-area') || '').trim();
+    const size = String(values.get('firm-size') || '').trim();
+    const profile = String(values.get('deployment-profile') || 'local');
+    const created = new Date().toISOString();
+    const idDate = created.slice(0, 10).replaceAll('-', '');
+    const idSuffix = Math.random().toString(36).slice(2, 6).toUpperCase();
+    currentBrief = { email, practice, size, profile: profileLabels[profile] || profileLabels.local, created, id: `VLT-${idDate}-${idSuffix}` };
+    if (briefProfile) briefProfile.textContent = currentBrief.profile;
+    if (briefPractice) briefPractice.textContent = currentBrief.practice;
+    if (briefSize) briefSize.textContent = currentBrief.size;
+    if (briefSummary) briefSummary.textContent = `A private ${currentBrief.profile.toLowerCase()} brief for ${currentBrief.practice.toLowerCase()} / ${currentBrief.size.toLowerCase()} is ready to share with your security lead. Reference ${currentBrief.id}.`;
+    if (deploymentBrief) {
+      deploymentBrief.hidden = false;
+      deploymentBrief.classList.add('is-visible');
+    }
+    if (status) {
+      status.textContent = 'Private brief prepared locally. Nothing was transmitted.';
+      status.classList.remove('is-error');
+      status.classList.add('is-success');
+    }
+  });
+
+  downloadBrief?.addEventListener('click', () => {
+    if (!currentBrief) return;
+    const url = URL.createObjectURL(new Blob([briefContents()], { type: 'text/plain;charset=utf-8' }));
     const anchor = document.createElement('a');
     anchor.href = url;
-    anchor.download = 'vaultr-private-deployment-brief.txt';
+    anchor.download = `vaultr-${currentBrief.id.toLowerCase()}-brief.txt`;
     anchor.click();
     window.setTimeout(() => URL.revokeObjectURL(url), 0);
+  });
+
+  copyBrief?.addEventListener('click', async () => {
+    if (!currentBrief) return;
+    const status = document.querySelector('[data-form-status]');
+    try {
+      await navigator.clipboard.writeText(briefContents());
+      if (status) status.textContent = 'Brief copied locally. Nothing was transmitted.';
+    } catch {
+      if (status) status.textContent = 'Download the brief to share it locally. Clipboard access was unavailable.';
+    }
+    status?.classList.remove('is-error');
+    status?.classList.add('is-success');
   });
 })();
