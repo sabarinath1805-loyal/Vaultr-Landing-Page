@@ -91,6 +91,77 @@
     updateDemo(activeMode);
   }
 
+  const workbench = document.querySelector('[data-workbench]');
+  if (workbench) {
+    const workbenchSteps = [...workbench.querySelectorAll('[data-workbench-step]')];
+    const workbenchKicker = workbench.querySelector('[data-workbench-kicker]');
+    const workbenchTitle = workbench.querySelector('[data-workbench-title]');
+    const workbenchCopy = workbench.querySelector('[data-workbench-copy]');
+    const workbenchChips = workbench.querySelector('[data-workbench-chips]');
+    const workbenchStatus = workbench.querySelector('[data-workbench-status]');
+    const workbenchRun = workbench.querySelector('[data-workbench-run]');
+    const workbenchTraces = [...workbench.querySelectorAll('[data-workbench-trace]')];
+    const workbenchModes = {
+      context: {
+        kicker: 'CONTEXT / MATTER NORTHSTAR',
+        title: 'Start with the record.',
+        copy: 'Attach the matter sources and the firm playbook before Lex takes its first step.',
+        chips: ['MERGER AGREEMENT', 'DISCLOSURE SCHEDULE', 'PLAYBOOK / M&A'],
+        current: 'plan'
+      },
+      plan: {
+        kicker: 'PLAN / CONTROLLED SEQUENCE',
+        title: 'Let the agent plan the work.',
+        copy: 'Lex maps the brief into supervised steps, choosing the right local skill without hiding the route.',
+        chips: ['REVIEW CLAUSES', 'CHECK POLICY', 'DRAFT FINDINGS'],
+        current: 'plan'
+      },
+      proof: {
+        kicker: 'PROOF / REVIEW CHECKPOINT',
+        title: 'Every result stays reviewable.',
+        copy: 'Move from an answer to the exact source span, confidence signal, and owner before anything leaves the room.',
+        chips: ['SOURCE SPANS', '98% CONFIDENCE', 'PARTNER SIGN-OFF'],
+        current: 'proof'
+      }
+    };
+    let workbenchTimer;
+    const setWorkbenchMode = (mode) => {
+      const content = workbenchModes[mode] || workbenchModes.context;
+      workbenchSteps.forEach((step) => {
+        const active = step.dataset.workbenchStep === mode;
+        step.classList.toggle('is-active', active);
+        step.setAttribute('aria-selected', String(active));
+      });
+      if (workbenchKicker) workbenchKicker.textContent = content.kicker;
+      if (workbenchTitle) workbenchTitle.textContent = content.title;
+      if (workbenchCopy) workbenchCopy.textContent = content.copy;
+      if (workbenchChips) workbenchChips.innerHTML = content.chips.map((chip) => `<span>${chip}</span>`).join('');
+      workbenchTraces.forEach((trace) => {
+        trace.classList.toggle('is-current', trace.dataset.workbenchTrace === content.current);
+      });
+      if (workbenchStatus) workbenchStatus.textContent = 'READY FOR REVIEW';
+      if (workbenchRun) {
+        workbenchRun.disabled = false;
+        workbenchRun.classList.remove('is-running');
+      }
+    };
+    workbenchSteps.forEach((step) => step.addEventListener('click', () => setWorkbenchMode(step.dataset.workbenchStep)));
+    workbenchRun?.addEventListener('click', () => {
+      window.clearTimeout(workbenchTimer);
+      workbenchRun.classList.add('is-running');
+      workbenchRun.disabled = true;
+      if (workbenchStatus) workbenchStatus.textContent = 'LEX IS RUNNING LOCALLY…';
+      workbenchTraces.forEach((trace) => trace.classList.remove('is-current'));
+      workbenchTimer = window.setTimeout(() => {
+        workbenchRun.classList.remove('is-running');
+        workbenchRun.disabled = false;
+        if (workbenchStatus) workbenchStatus.textContent = 'COMPLETE / 0 B OUTBOUND';
+        workbenchTraces.forEach((trace) => trace.classList.add('is-complete'));
+      }, 860);
+    });
+    setWorkbenchMode('context');
+  }
+
   const setMenu = (open) => {
     menuButton?.setAttribute('aria-expanded', String(open));
     menuButton?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
