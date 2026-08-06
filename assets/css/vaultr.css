@@ -4094,3 +4094,93 @@ body:not(.detail-page) .hero__copy { max-width: 760px; }
   .hero-demo { width: 100%; }
   .hero-demo .hero__signal-body { padding: 28px 21px 23px; }
 }
+
+/* Contrast and gallery finish: white type on forest, white footers, art windows. */
+.deployment__card {
+  background: var(--forest) !important;
+  color: #f0ede8;
+}
+.deployment__card h2,
+.deployment__card > p,
+.deployment__card .deployment-profile,
+.deployment__card .deployment__profile-copy,
+.deployment__card .deployment-brief,
+.deployment__card .deployment-brief__body strong,
+.deployment__card .form-status { color: #f0ede8 !important; }
+.deployment__card .deployment__art figcaption { color: rgba(240, 237, 232, .74); }
+.deployment__card .deployment__profiles { border-bottom-color: rgba(240, 237, 232, .24); }
+.deployment__card .deployment-profile { color: rgba(240, 237, 232, .64); }
+.deployment__card .deployment-profile span { color: rgba(240, 237, 232, .48); }
+.deployment__card .deployment-profile:hover,
+.deployment__card .deployment-profile:focus-visible,
+.deployment__card .deployment-profile.is-active { color: #fff; }
+.deployment__card .deployment-profile.is-active { border-bottom-color: var(--gold); }
+.deployment__card .deployment-form input,
+.deployment__card .deployment-form select {
+  background: #fff;
+  border-color: rgba(255, 255, 255, .24);
+  color: var(--forest);
+}
+.deployment__card .deployment-form input::placeholder { color: #69766e; }
+.deployment__card .deployment-form .button--light {
+  background: #fff;
+  border-color: #fff;
+  color: var(--forest);
+}
+.deployment__card .deployment-form .button--light:hover { background: var(--gold); border-color: var(--gold); color: var(--forest); }
+.deployment__card .deployment-brief { border-color: rgba(240, 237, 232, .22); background: rgba(255, 255, 255, .08); }
+.deployment__card .deployment-brief__head,
+.deployment__card .deployment-brief__body { border-color: rgba(240, 237, 232, .18); }
+.deployment__card .deployment-brief__head span,
+.deployment__card .deployment-brief__body span { color: rgba(240, 237, 232, .62); }
+.deployment__card .deployment-brief__download { border-color: rgba(240, 237, 232, .5); color: #f0ede8; }
+.deployment__card .deployment-brief__download:hover { background: #fff; border-color: #fff; color: var(--forest); }
+
+/* Every footer/bottom navigation stays on the same white gallery card. */
+.footer,
+body.detail-page .footer {
+  background: #fff;
+  color: var(--forest);
+}
+.footer__top > div:first-child p { color: #6e6860; }
+.footer__nav h3 { color: #6e6860; }
+.footer__nav a,
+.footer__bottom { color: var(--forest); }
+.footer__nav a:hover { color: var(--forest-soft); }
+.footer__bottom { border-top-color: rgba(45, 74, 62, .16); }
+.footer__top-link { color: var(--forest); }
+
+/* Re-enable the framed Monet ornaments on inner pages, kept quiet behind content. */
+.detail-page .comparison::before,
+.detail-page .open-source::before,
+.detail-page .deployment::before,
+.detail-page .footer::before { display: block; }
+.footer::after {
+  position: absolute;
+  right: -7%;
+  bottom: -34%;
+  width: clamp(220px, 24vw, 390px);
+  height: clamp(220px, 24vw, 390px);
+  border: 1px solid rgba(45, 74, 62, .1);
+  background: url('../images/monet-water-lilies.jpg') center / cover;
+  box-shadow: 0 18px 50px -16px rgba(45, 74, 62, .16);
+  content: "";
+  opacity: .11;
+  pointer-events: none;
+  transform: rotate(4deg);
+  filter: contrast(105%) brightness(102%) saturate(114%);
+}
+
+/* A larger, consistent snowflake mark across all brand lockups. */
+.brand span { width: 32px; height: 32px; flex-basis: 32px; font-size: 31px; }
+.brand--footer span { width: 36px; height: 36px; flex-basis: 36px; font-size: 35px; }
+.lex-window__mark,
+.command-app__mark { width: 24px; height: 24px; flex-basis: 24px; font-size: 22px; }
+.hero-demo__mark { font-size: 24px; }
+@media (max-width: 640px) {
+  .brand span { width: 28px; height: 28px; flex-basis: 28px; font-size: 27px; }
+  .brand--footer span { width: 31px; height: 31px; flex-basis: 31px; font-size: 30px; }
+  .lex-window__mark,
+  .command-app__mark { width: 22px; height: 22px; flex-basis: 22px; font-size: 20px; }
+  .hero-demo__mark { font-size: 22px; }
+}
