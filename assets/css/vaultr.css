@@ -2709,7 +2709,21 @@ body.gallery-lightbox-open { overflow: hidden; }
 .solutions-page__hero::before,
 .resources-page__hero::before,
 .command-page__hero::before,
-.deployment-page__hero::before { opacity: .23; }
+.deployment-page__hero::before { opacity: .28; filter: contrast(110%) saturate(120%) brightness(104%); }
+.security-page__hero::before,
+.platform-page__hero::before,
+.workflow-page__hero::before,
+.solutions-page__hero::before,
+.resources-page__hero::before,
+.command-page__hero::before,
+.deployment-page__hero::before { z-index: 0; }
+.security-page__hero-inner,
+.platform-page__hero-inner,
+.workflow-page__hero-inner,
+.solutions-page__hero-inner,
+.resources-page__hero-inner,
+.command-page__hero-inner,
+.deployment-page__hero-inner { position: relative; z-index: 1; }
 .evidence-ledger::before { opacity: .2; }
 @media (max-width: 980px) {
   .security-page__hero::before,
@@ -2718,7 +2732,7 @@ body.gallery-lightbox-open { overflow: hidden; }
   .solutions-page__hero::before,
   .resources-page__hero::before,
   .command-page__hero::before,
-  .deployment-page__hero::before { opacity: .16; }
+  .deployment-page__hero::before { opacity: .18; }
   .evidence-ledger::before { opacity: .13; }
 }
 
