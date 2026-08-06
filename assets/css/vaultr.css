@@ -3743,12 +3743,14 @@ body:not(.detail-page) .privacy h2 {
   line-height: .92;
   letter-spacing: normal;
 }
+body:not(.detail-page) .privacy h2 { line-height: 1.04; }
 body:not(.detail-page) .features .feature h3 { color: var(--sage); }
 @media (max-width: 640px) {
   body:not(.detail-page) .features h2,
   body:not(.detail-page) .privacy h2 {
     font-size: clamp(48px, 15vw, 66px);
   }
+  body:not(.detail-page) .privacy h2 { line-height: 1.01; }
 }
 
 /* Charcoal finish and one consistent Vaultr snowflake mark. */
