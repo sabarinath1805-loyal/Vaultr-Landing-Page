@@ -538,6 +538,23 @@ tbody tr:nth-child(even) { background: #fafbf8; }
 .footer__top-link:hover span,
 .footer__top-link:focus-visible span { transform: translate(3px, -3px); }
 
+/* Match the shared reference footer on every route, including the external GitHub action. */
+.footer__rule {
+  height: 8px;
+  background: var(--forest);
+}
+.footer__github {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
+}
+.footer__github span {
+  font-size: 12px;
+  transition: transform .25s var(--ease);
+}
+.footer__github:hover span,
+.footer__github:focus-visible span { transform: translate(2px, -2px); }
+
 .mobile-menu { background: rgba(247, 248, 245, .98); color: var(--ink); }
 .mobile-menu a { color: var(--ink); border-bottom-color: var(--line); }
 
