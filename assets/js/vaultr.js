@@ -511,27 +511,98 @@
   if (initialLexMode && lexModes[initialLexMode]) setLexMode(initialLexMode);
 
   const sourceFiles = [...document.querySelectorAll('[data-lex-file]')];
+  const workspaceDocument = document.querySelector('.workspace-document-view');
+  const workspaceEmpty = document.querySelector('[data-lex-empty]');
+  const clearLexSource = document.querySelector('[data-lex-clear]');
   const workspaceDocumentLabel = document.querySelector('[data-lex-document-label]');
   const workspaceDocumentPage = document.querySelector('[data-lex-document-page]');
   const workspaceDocumentTitle = document.querySelector('[data-lex-document-title]');
   const sourceFileData = {
-    agreement: { label: 'MERGER AGREEMENT / § 7.4', page: 'Page 48', title: 'Representations and warranties' },
-    schedule: { label: 'DISCLOSURE SCHEDULE / § 12', page: 'Page 12', title: 'Material contracts and obligations' },
-    tracker: { label: 'DILIGENCE TRACKER / OPEN ITEMS', page: '18 open', title: 'Outstanding diligence requests' },
-    correspondence: { label: 'COUNSEL CORRESPONDENCE / 14 JUN', page: 'Thread 08', title: 'Closing conditions — follow-up' }
+    agreement: {
+      label: 'MERGER AGREEMENT / § 7.4', page: 'Page 48', title: 'Representations and warranties',
+      state: 'VERIFIED', answerTitle: 'Clause drift detected.', primary: '12 deviations flagged', secondary: 'Source spans linked',
+      citation: '§ 7.4 / Merger Agreement', citationSecondary: '§ 12 / Disclosure Schedule'
+    },
+    schedule: {
+      label: 'DISCLOSURE SCHEDULE / § 12', page: 'Page 12', title: 'Material contracts and obligations',
+      state: 'VERIFIED', answerTitle: 'Material contracts linked.', primary: '06 references resolved', secondary: 'Source spans linked',
+      citation: '§ 12 / Disclosure Schedule', citationSecondary: '§ 7.4 / Merger Agreement'
+    },
+    tracker: {
+      label: 'DILIGENCE TRACKER / OPEN ITEMS', page: '18 open', title: 'Outstanding diligence requests',
+      state: 'NEEDS REVIEW', answerTitle: 'Supplier consent needs review.', primary: '1 open item', secondary: 'Counsel decision required',
+      citation: 'Open item 18 / Diligence Tracker', citationSecondary: 'Supplier consent / Northstar'
+    },
+    correspondence: {
+      label: 'COUNSEL CORRESPONDENCE / 14 JUN', page: 'Thread 08', title: 'Closing conditions — follow-up',
+      state: 'VERIFIED', answerTitle: 'Closing condition confirmed.', primary: '1 thread resolved', secondary: 'Source spans linked',
+      citation: 'Thread 08 / Counsel Correspondence', citationSecondary: '§ 12 / Closing conditions'
+    }
+  };
+
+  let sourceRequest = 0;
+  const setLexSourceAnswer = (data, state = data.state) => {
+    if (lexState) lexState.textContent = state;
+    if (lexTitle) lexTitle.textContent = data.answerTitle;
+    if (lexMetaPrimary) lexMetaPrimary.textContent = data.primary;
+    if (lexMetaSecondary) lexMetaSecondary.textContent = data.secondary;
+    if (lexCitation) lexCitation.textContent = data.citation;
+    if (lexCitationSecondary) lexCitationSecondary.textContent = data.citationSecondary;
+    lexAnswer?.classList.toggle('is-needs-review', state === 'NEEDS REVIEW');
+  };
+
+  const clearLexSourceSelection = () => {
+    sourceRequest += 1;
+    sourceFiles.forEach((item) => {
+      item.classList.remove('is-active');
+      item.setAttribute('aria-pressed', 'false');
+    });
+    workspaceDocument?.classList.add('is-empty');
+    if (workspaceEmpty) workspaceEmpty.hidden = false;
+    writeQueryState('source', 'none');
+    if (lexLabel) lexLabel.textContent = 'LEX / EMPTY';
+    setLexSourceAnswer({
+      state: 'EMPTY',
+      answerTitle: 'Choose a source to begin.',
+      primary: '0 source spans',
+      secondary: 'Select a file to trace evidence',
+      citation: 'No source selected',
+      citationSecondary: 'Waiting for a local source'
+    }, 'EMPTY');
+    lexAnswer?.classList.add('is-changing');
+    window.setTimeout(() => lexAnswer?.classList.remove('is-changing'), 260);
   };
 
   const setSourceFile = (file) => {
     const data = sourceFileData[file?.dataset.lexFile];
     if (!data) return;
+    const request = ++sourceRequest;
     sourceFiles.forEach((item) => {
       const active = item === file;
       item.classList.toggle('is-active', active);
       item.setAttribute('aria-pressed', String(active));
     });
+    workspaceDocument?.classList.remove('is-empty');
+    if (workspaceEmpty) workspaceEmpty.hidden = true;
     if (workspaceDocumentLabel) workspaceDocumentLabel.textContent = data.label;
     if (workspaceDocumentPage) workspaceDocumentPage.textContent = data.page;
     if (workspaceDocumentTitle) workspaceDocumentTitle.textContent = data.title;
+    writeQueryState('source', file.dataset.lexFile);
+    if (lexLabel) lexLabel.textContent = 'LEX / TRACE';
+    setLexSourceAnswer({
+      ...data,
+      answerTitle: 'Tracing source spans…',
+      primary: 'Reading local source',
+      secondary: 'Linking evidence',
+      citation: data.label,
+      citationSecondary: 'Local trace in progress'
+    }, 'TRACING…');
+    lexAnswer?.classList.add('is-changing');
+    window.setTimeout(() => {
+      if (request !== sourceRequest) return;
+      setLexSourceAnswer(data);
+      lexAnswer?.classList.remove('is-changing');
+    }, 320);
   };
   sourceFiles.forEach((file, index) => {
     file.setAttribute('aria-pressed', String(file.classList.contains('is-active')));
@@ -547,6 +618,13 @@
       setSourceFile(nextFile);
     });
   });
+  clearLexSource?.addEventListener('click', clearLexSourceSelection);
+  const initialLexSource = readQueryState('source');
+  if (initialLexSource === 'none') clearLexSourceSelection();
+  else if (initialLexSource && sourceFileData[initialLexSource]) {
+    const initialSource = sourceFiles.find((file) => file.dataset.lexFile === initialLexSource);
+    if (initialSource) setSourceFile(initialSource);
+  }
 
   const workflowTabs = [...document.querySelectorAll('[data-workflow-tab]')];
   const workflowPanels = [...document.querySelectorAll('[data-workflow-panel]')];
