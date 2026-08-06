@@ -726,6 +726,8 @@
 
   const commandTabs = [...document.querySelectorAll('[data-command-range]')];
   const commandDashboard = document.querySelector('#command-dashboard');
+  commandDashboard?.setAttribute('aria-live', 'polite');
+  let commandChangeTimer;
   const commandData = {
     week: {
       matters: '12', runs: '48', bytes: '0 B', hours: '86',
@@ -738,7 +740,7 @@
       chart: ['42%', '38%', '62%', '48%', '72%', '85%', '96%'], label: 'Last 30 days'
     }
   };
-  const setCommandRange = (range) => {
+  const setCommandRange = (range, animate = true) => {
     const data = commandData[range] || commandData.week;
     writeQueryState('range', range);
     commandTabs.forEach((tab) => {
@@ -748,6 +750,11 @@
       tab.tabIndex = active ? 0 : -1;
     });
     if (commandDashboard) commandDashboard.setAttribute('aria-labelledby', `command-range-${range}`);
+    if (animate && commandDashboard) {
+      commandDashboard.classList.add('is-changing');
+      window.clearTimeout(commandChangeTimer);
+      commandChangeTimer = window.setTimeout(() => commandDashboard.classList.remove('is-changing'), 280);
+    }
     Object.entries(data).forEach(([key, value]) => {
       if (key === 'notes' || key === 'chart' || key === 'label') return;
       const element = document.querySelector(`[data-command-value="${key}"]`);
@@ -776,17 +783,18 @@
     });
   });
   const initialCommandRange = readQueryState('range');
-  if (initialCommandRange && commandData[initialCommandRange]) setCommandRange(initialCommandRange);
+  if (initialCommandRange && commandData[initialCommandRange]) setCommandRange(initialCommandRange, false);
 
   const deploymentProfiles = [...document.querySelectorAll('[data-deployment-mode]')];
   const deploymentProfileCopy = document.querySelector('[data-deployment-copy]');
   const deploymentProfileInput = document.querySelector('[data-deployment-profile-input]');
+  let deploymentChangeTimer;
   const deploymentModeData = {
     local: 'Firm-managed devices. Local inference. A deployment profile built around your existing perimeter.',
     network: 'Private network deployment. Central governance with controlled access for approved teams and matters.',
     airgap: 'Air-gapped profile. No external network path for the most sensitive work and restricted environments.'
   };
-  const setDeploymentMode = (mode) => {
+  const setDeploymentMode = (mode, animate = true) => {
     writeQueryState('profile', mode);
     deploymentProfiles.forEach((profile) => {
       const active = profile.dataset.deploymentMode === mode;
@@ -799,6 +807,11 @@
       deploymentProfileCopy.textContent = deploymentModeData[mode] || deploymentModeData.local;
       const active = deploymentProfiles.find((profile) => profile.dataset.deploymentMode === mode);
       if (active) deploymentProfileCopy.setAttribute('aria-labelledby', active.id);
+      if (animate) {
+        deploymentProfileCopy.classList.add('is-changing');
+        window.clearTimeout(deploymentChangeTimer);
+        deploymentChangeTimer = window.setTimeout(() => deploymentProfileCopy.classList.remove('is-changing'), 280);
+      }
     }
   };
   deploymentProfiles.forEach((profile, index) => {
@@ -815,10 +828,12 @@
     });
   });
   const initialDeploymentProfile = readQueryState('profile');
-  if (initialDeploymentProfile && deploymentModeData[initialDeploymentProfile]) setDeploymentMode(initialDeploymentProfile);
+  if (initialDeploymentProfile && deploymentModeData[initialDeploymentProfile]) setDeploymentMode(initialDeploymentProfile, false);
 
   const impactInputs = [...document.querySelectorAll('[data-impact-input]')];
-  const updateImpact = () => {
+  const impactResults = document.querySelector('.impact-results');
+  let impactChangeTimer;
+  const updateImpact = (animate = false) => {
     const values = Object.fromEntries(impactInputs.map((input) => [input.dataset.impactInput, Number(input.value)]));
     const documents = values.matters * values.documents;
     const hours = values.matters * values.hours;
@@ -839,8 +854,13 @@
       const result = document.querySelector(`[data-impact-result="${key}"]`);
       if (result) result.textContent = value;
     });
+    if (animate && impactResults) {
+      impactResults.classList.add('is-changing');
+      window.clearTimeout(impactChangeTimer);
+      impactChangeTimer = window.setTimeout(() => impactResults.classList.remove('is-changing'), 220);
+    }
   };
-  impactInputs.forEach((input) => input.addEventListener('input', updateImpact));
+  impactInputs.forEach((input) => input.addEventListener('input', () => updateImpact(true)));
   updateImpact();
 
   const deploymentForm = document.querySelector('[data-deployment-form]');
