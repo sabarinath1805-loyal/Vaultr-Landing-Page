@@ -5,6 +5,7 @@
   const header = document.querySelector('[data-header]');
   const menuButton = document.querySelector('[data-menu-toggle]');
   const mobileMenu = document.querySelector('[data-mobile-menu]');
+  const heroDemo = document.querySelector('[data-hero-demo]');
   const readQueryState = (key) => new URL(window.location.href).searchParams.get(key);
   const writeQueryState = (key, value) => {
     const url = new URL(window.location.href);
@@ -16,6 +17,79 @@
     banner?.classList.add('is-hidden');
     header?.style.setProperty('top', '0');
   });
+
+  const demoModes = {
+    review: {
+      label: 'OUTBOUND NETWORK', value: '0 B',
+      copy: 'Review a confidentiality clause without leaving your device.',
+      runtime: 'Local', evidence: '3', confidence: '98%',
+      result: 'Ready for a private pass.'
+    },
+    compare: {
+      label: 'DOCUMENTS COMPARED', value: '02',
+      copy: 'Compare two versions and surface the material change in seconds.',
+      runtime: 'Local', evidence: '12', confidence: '96%',
+      result: 'Ready to surface changes.'
+    },
+    draft: {
+      label: 'DRAFTING CONTEXT', value: '04',
+      copy: 'Draft a matter-aware response from the sources you selected.',
+      runtime: 'Local', evidence: '8', confidence: '94%',
+      result: 'Ready to draft from context.'
+    }
+  };
+  if (heroDemo) {
+    const modeButtons = [...heroDemo.querySelectorAll('[data-demo-mode]')];
+    const status = heroDemo.querySelector('[data-demo-status]');
+    const label = heroDemo.querySelector('[data-demo-label]');
+    const value = heroDemo.querySelector('[data-demo-value]');
+    const copy = heroDemo.querySelector('[data-demo-copy]');
+    const result = heroDemo.querySelector('[data-demo-result]');
+    const foot = heroDemo.querySelector('[data-demo-foot]');
+    const run = heroDemo.querySelector('[data-demo-run]');
+    const metrics = {
+      runtime: heroDemo.querySelector('[data-demo-metric="runtime"]'),
+      evidence: heroDemo.querySelector('[data-demo-metric="evidence"]'),
+      confidence: heroDemo.querySelector('[data-demo-metric="confidence"]')
+    };
+    let activeMode = 'review';
+    let runTimer;
+    const updateDemo = (mode) => {
+      const content = demoModes[mode] || demoModes.review;
+      activeMode = mode;
+      modeButtons.forEach((button) => {
+        const active = button.dataset.demoMode === mode;
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-selected', String(active));
+      });
+      if (label) label.textContent = content.label;
+      if (value) value.textContent = content.value;
+      if (copy) copy.textContent = content.copy;
+      if (result) result.textContent = content.result;
+      if (foot) foot.textContent = 'READY FOR A PRIVATE PASS';
+      Object.entries(metrics).forEach(([key, element]) => { if (element) element.textContent = content[key]; });
+      if (status) status.textContent = 'READY';
+      run?.classList.remove('is-running');
+      if (run) run.disabled = false;
+    };
+    modeButtons.forEach((button) => button.addEventListener('click', () => updateDemo(button.dataset.demoMode)));
+    run?.addEventListener('click', () => {
+      window.clearTimeout(runTimer);
+      run.classList.add('is-running');
+      run.disabled = true;
+      if (status) status.textContent = 'RUNNING';
+      if (foot) foot.textContent = 'PROCESSING ON DEVICE';
+      if (result) result.textContent = 'Lex is reasoning locally…';
+      runTimer = window.setTimeout(() => {
+        run.classList.remove('is-running');
+        run.disabled = false;
+        if (status) status.textContent = 'COMPLETE';
+        if (foot) foot.textContent = 'PRIVATE PASS COMPLETE';
+        if (result) result.textContent = `${demoModes[activeMode].result} Nothing left the room.`;
+      }, 720);
+    });
+    updateDemo(activeMode);
+  }
 
   const setMenu = (open) => {
     menuButton?.setAttribute('aria-expanded', String(open));

@@ -24,8 +24,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=charcoal-mark-2">
-  <script defer src="assets/js/vaultr.js?v=legacy-brand-lock-1"></script>
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=forest-demo-1">
+  <script defer src="assets/js/vaultr.js?v=forest-demo-1"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Vaultr","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/","logo":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/assets/images/vaultr-og.png","description":"Private legal intelligence that stays inside the room."}</script>
 </head>
 <body>
@@ -118,6 +118,33 @@
           </div>
           <p class="hero__proof-line"><strong>0 B outbound</strong><span>&middot;</span><span>Local runtime</span><span>&middot;</span><span>MIT licensed</span></p>
         </div>
+        <aside class="hero__signal hero-demo" aria-label="Interactive Lex local runtime demo" data-hero-demo>
+          <div class="hero__signal-head">
+            <span class="hero-demo__title"><span class="hero-demo__mark" aria-hidden="true">✳</span> LEX / LOCAL RUNTIME</span>
+            <span class="hero__signal-state"><i aria-hidden="true"></i><span data-demo-status>READY</span></span>
+          </div>
+          <div class="hero-demo__tabs" role="tablist" aria-label="Choose a Lex demo mode">
+            <button class="is-active" type="button" role="tab" aria-selected="true" data-demo-mode="review">Review</button>
+            <button type="button" role="tab" aria-selected="false" data-demo-mode="compare">Compare</button>
+            <button type="button" role="tab" aria-selected="false" data-demo-mode="draft">Draft</button>
+          </div>
+          <div class="hero__signal-body">
+            <span class="hero__signal-label" data-demo-label>OUTBOUND NETWORK</span>
+            <strong data-demo-value>0 B</strong>
+            <p data-demo-copy>Review a confidentiality clause without leaving your device.</p>
+            <div class="hero__signal-grid">
+              <div><b data-demo-metric="runtime">Local</b><span>Runtime</span></div>
+              <div><b data-demo-metric="evidence">3</b><span>Sources</span></div>
+              <div><b data-demo-metric="confidence">98%</b><span>Confidence</span></div>
+            </div>
+            <button class="hero-demo__run" type="button" data-demo-run>Run local pass <span aria-hidden="true">&rarr;</span></button>
+            <p class="hero-demo__result" data-demo-result aria-live="polite">Ready for a private pass.</p>
+          </div>
+          <div class="hero__signal-foot">
+            <span><i aria-hidden="true"></i><span data-demo-foot>READY FOR A PRIVATE PASS</span></span>
+            <span>MIT / OPEN</span>
+          </div>
+        </aside>
       </div>
     </section>
 
