@@ -3721,3 +3721,32 @@ body.detail-page .section.research-page__cta {
   background: #1a1815;
   color: #f0ede8;
 }
+
+/* Legacy Vaultr brand lock: preserve the original type and logo treatment. */
+.brand,
+.brand--footer,
+.section h2,
+.feature h3,
+.quote blockquote {
+  font-family: var(--serif);
+}
+.brand span {
+  background: transparent !important;
+  color: var(--gold) !important;
+  font-family: var(--sans);
+  font-size: 17px;
+}
+body:not(.detail-page) .features h2,
+body:not(.detail-page) .privacy h2 {
+  font-family: var(--serif);
+  font-size: clamp(58px, 6.3vw, 102px);
+  line-height: .92;
+  letter-spacing: normal;
+}
+body:not(.detail-page) .features .feature h3 { color: var(--sage); }
+@media (max-width: 640px) {
+  body:not(.detail-page) .features h2,
+  body:not(.detail-page) .privacy h2 {
+    font-size: clamp(48px, 15vw, 66px);
+  }
+}
