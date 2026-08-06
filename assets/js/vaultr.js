@@ -662,19 +662,50 @@
   const redlineAction = document.querySelector('[data-redline-action]');
   const redlineStatus = document.querySelector('[data-redline-status]');
   redlineAction?.addEventListener('click', () => {
-    redlineAction.classList.add('is-complete');
-    redlineAction.innerHTML = 'Accepted in local draft <span aria-hidden="true">✓</span>';
-    if (redlineStatus) redlineStatus.textContent = 'Saved locally. No external request made.';
+    const accepted = redlineAction.dataset.redlineAccepted === 'true';
+    redlineAction.dataset.redlineAccepted = String(!accepted);
+    redlineAction.classList.toggle('is-complete', !accepted);
+    redlineAction.innerHTML = accepted
+      ? 'Accept in local draft <span aria-hidden="true">↗</span>'
+      : 'Accepted in local draft <span aria-hidden="true">✓</span>';
+    if (redlineStatus) redlineStatus.textContent = accepted
+      ? 'Demo reset. Nothing leaves this room.'
+      : 'Saved locally. No external request made.';
   });
 
   document.querySelectorAll('[data-diligence-action]').forEach((action) => {
     action.addEventListener('click', () => {
       const card = action.closest('[data-diligence-card]');
       if (!card) return;
-      card.classList.add('is-complete');
-      card.querySelector('.diligence-card__tag').textContent = 'REVIEWED';
-      action.innerHTML = 'Reviewed locally <span aria-hidden="true">✓</span>';
-      action.disabled = true;
+      const tag = card.querySelector('.diligence-card__tag');
+      let stateNote = card.querySelector('[data-diligence-state]');
+      if (!stateNote) {
+        stateNote = document.createElement('span');
+        stateNote.className = 'diligence-card__owner';
+        stateNote.dataset.diligenceState = '';
+        card.insertBefore(stateNote, action);
+      }
+      const state = card.dataset.diligenceStage || 'open';
+      if (state === 'open') {
+        card.dataset.diligenceStage = 'review';
+        card.classList.add('is-reviewing');
+        tag.textContent = 'IN REVIEW';
+        stateNote.textContent = 'Reviewing locally / awaiting verification';
+        action.innerHTML = 'Verify locally <span aria-hidden="true">→</span>';
+      } else if (state === 'review') {
+        card.dataset.diligenceStage = 'verified';
+        card.classList.remove('is-reviewing');
+        card.classList.add('is-complete');
+        tag.textContent = 'VERIFIED';
+        stateNote.textContent = 'Verified locally / ready for checklist';
+        action.innerHTML = 'Replay item <span aria-hidden="true">↺</span>';
+      } else {
+        card.dataset.diligenceStage = 'open';
+        card.classList.remove('is-reviewing', 'is-complete');
+        tag.textContent = 'CONSENT';
+        stateNote.textContent = 'Open / awaiting review';
+        action.innerHTML = 'Review item <span aria-hidden="true">→</span>';
+      }
     });
   });
 

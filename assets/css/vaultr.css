@@ -2257,6 +2257,8 @@ tbody tr:nth-child(even) { background: #fafbf8; }
 .lex-window__answer.is-needs-review { border-color: rgba(155, 107, 66, .35); }
 .lex-window__answer.is-needs-review .answer-state { color: #9b6b42; }
 .lex-window__answer.is-changing .answer-state { color: var(--muted); }
+.diligence-card.is-reviewing { border-color: rgba(155, 107, 66, .32); background: rgba(155, 107, 66, .05); }
+.diligence-card.is-reviewing .diligence-card__tag { color: #9b6b42; }
 
 @media (max-width: 640px) {
   .surface-disclosure { min-height: 19px; padding-inline: 6px; font-size: 7px; }
