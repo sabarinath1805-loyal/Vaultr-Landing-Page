@@ -388,6 +388,8 @@
 
   const quotes = [...document.querySelectorAll('[data-quote]')];
   const dots = [...document.querySelectorAll('[data-quote-dot]')];
+  const quoteCarousel = document.querySelector('[data-carousel]');
+  const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   let currentQuote = 0;
   let quoteTimer;
 
@@ -406,14 +408,25 @@
   };
 
   const restartCarousel = () => {
-    if (!quotes.length) return;
+    if (!quotes.length || reducedMotion) return;
     window.clearInterval(quoteTimer);
     quoteTimer = window.setInterval(() => showQuote(currentQuote + 1), 7000);
   };
+  const pauseCarousel = () => window.clearInterval(quoteTimer);
 
   document.querySelector('[data-quote-prev]')?.addEventListener('click', () => { showQuote(currentQuote - 1); restartCarousel(); });
   document.querySelector('[data-quote-next]')?.addEventListener('click', () => { showQuote(currentQuote + 1); restartCarousel(); });
   dots.forEach((dot) => dot.addEventListener('click', () => { showQuote(Number(dot.dataset.quoteDot)); restartCarousel(); }));
+  quoteCarousel?.addEventListener('mouseenter', pauseCarousel);
+  quoteCarousel?.addEventListener('mouseleave', restartCarousel);
+  quoteCarousel?.addEventListener('focusin', pauseCarousel);
+  quoteCarousel?.addEventListener('focusout', (event) => {
+    if (!quoteCarousel.contains(event.relatedTarget)) restartCarousel();
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) pauseCarousel();
+    else restartCarousel();
+  });
   showQuote(currentQuote);
   restartCarousel();
 
