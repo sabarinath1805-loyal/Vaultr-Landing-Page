@@ -609,6 +609,143 @@ tbody tr:nth-child(even) { background: #fafbf8; }
 }
 .gallery-ribbon__card figcaption { padding: 11px 13px 13px; }
 
+/* --------------------------------------------------------------------------
+   Proof rail / the product claims made legible
+   -------------------------------------------------------------------------- */
+.proof-rail {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+.proof-rail::after {
+  content: "";
+  position: absolute;
+  right: -7%;
+  bottom: -42%;
+  width: min(520px, 42vw);
+  aspect-ratio: 1;
+  border: 1px solid rgba(45, 74, 62, .1);
+  border-radius: 50%;
+  background: url('../images/monet-seine.jpg') center / cover;
+  opacity: .11;
+  filter: contrast(105%) brightness(102%) saturate(114%);
+  pointer-events: none;
+}
+.proof-rail__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(260px, .74fr) minmax(0, 1.7fr);
+  gap: clamp(36px, 7vw, 110px);
+  padding-block: 66px 72px;
+}
+.proof-rail__intro h2 {
+  max-width: 360px;
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: clamp(37px, 4vw, 55px);
+  font-weight: 400;
+  line-height: .98;
+  letter-spacing: -.055em;
+}
+.proof-rail__intro > p:last-child {
+  max-width: 340px;
+  margin: 24px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.proof-rail__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+.proof-signal {
+  position: relative;
+  display: flex;
+  min-height: 170px;
+  flex-direction: column;
+  padding: 20px 22px 18px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: rgba(247, 248, 245, .78);
+  transition: background .3s var(--ease), color .3s var(--ease), transform .3s var(--ease), box-shadow .3s var(--ease);
+}
+.proof-signal:hover,
+.proof-signal:focus-visible {
+  z-index: 1;
+  outline: none;
+  background: var(--sage);
+  color: #fff;
+  box-shadow: 0 18px 35px -20px rgba(45, 74, 62, .6);
+  transform: translateY(-3px);
+}
+.proof-signal__index {
+  color: var(--sage);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  transition: color .3s var(--ease);
+}
+.proof-signal strong {
+  display: block;
+  margin-top: 34px;
+  font-family: var(--serif);
+  font-size: clamp(32px, 3.2vw, 50px);
+  font-weight: 400;
+  line-height: .88;
+  letter-spacing: -.06em;
+}
+.proof-signal small {
+  max-width: 180px;
+  margin-top: 11px;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.4;
+  transition: color .3s var(--ease);
+}
+.proof-signal b {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 18px;
+  color: var(--ink);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .01em;
+  transition: color .3s var(--ease);
+}
+.proof-signal b span { font-size: 15px; font-weight: 400; transition: transform .3s var(--ease); }
+.proof-signal:hover .proof-signal__index,
+.proof-signal:focus-visible .proof-signal__index,
+.proof-signal:hover small,
+.proof-signal:focus-visible small,
+.proof-signal:hover b,
+.proof-signal:focus-visible b { color: rgba(255, 255, 255, .72); }
+.proof-signal:hover b span,
+.proof-signal:focus-visible b span { color: #fff; transform: translate(3px, -3px); }
+@media (max-width: 980px) {
+  .proof-rail__inner { grid-template-columns: 1fr; gap: 38px; }
+  .proof-rail__intro h2 { max-width: 500px; }
+  .proof-rail__intro > p:last-child { max-width: 520px; }
+}
+@media (max-width: 640px) {
+  .proof-rail::after { right: -34%; bottom: -17%; width: 340px; opacity: .09; }
+  .proof-rail__inner { gap: 30px; padding-block: 50px 54px; }
+  .proof-rail__intro h2 { max-width: 320px; font-size: 42px; }
+  .proof-rail__intro > p:last-child { font-size: 12px; }
+  .proof-rail__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .proof-signal { min-height: 158px; padding: 17px 14px 16px; }
+  .proof-signal strong { margin-top: 25px; font-size: clamp(27px, 8.2vw, 36px); }
+  .proof-signal small { font-size: 9px; }
+  .proof-signal b { font-size: 9px; }
+}
+
 .art-strip {
   overflow: hidden;
   margin: -14px 0 66px;
