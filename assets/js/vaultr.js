@@ -367,6 +367,94 @@
     renderKnowledge(initialKnowledge && knowledgeFilters.some((tab) => tab.dataset.knowledgeFilter === initialKnowledge) ? initialKnowledge : 'all');
   }
 
+  const governanceDesk = document.querySelector('[data-governance-desk]');
+  if (governanceDesk) {
+    const governanceViews = [...governanceDesk.querySelectorAll('[data-governance-view]')];
+    const governanceViewLabel = governanceDesk.querySelector('[data-governance-view-label]');
+    const governanceViewTitle = governanceDesk.querySelector('[data-governance-view-title]');
+    const governanceViewCopy = governanceDesk.querySelector('[data-governance-view-copy]');
+    const governanceViewPanel = governanceDesk.querySelector('[role="tabpanel"]');
+    const governanceToggles = [...governanceDesk.querySelectorAll('[data-governance-toggle]')];
+    const governanceStatus = governanceDesk.querySelector('[data-governance-status]');
+    const governanceFoot = governanceDesk.querySelector('[data-governance-foot]');
+    const governanceRun = governanceDesk.querySelector('[data-governance-run]');
+    const governancePacket = governanceDesk.querySelector('[data-governance-packet]');
+    const governanceRows = {
+      access: governanceDesk.querySelector('[data-governance-row="access"]'),
+      connection: governanceDesk.querySelector('[data-governance-row="connection"]'),
+      retention: governanceDesk.querySelector('[data-governance-row="retention"]')
+    };
+    const governanceViewData = {
+      access: { label: 'ACCESS / MATTER ROLES', title: 'Keep the room scoped.', copy: 'Only the people assigned to Northstar can see the handoff. Raw matter files remain firm-owned.' },
+      connections: { label: 'CONNECTIONS / APPROVED PATHS', title: 'Make every route explicit.', copy: 'Show which approved system can read the matter and keep every other path denied by profile.' },
+      retention: { label: 'RETENTION / OWNERSHIP', title: 'Keep the record yours.', copy: 'A local packet can prove the policy without creating a second uncontrolled copy of the matter.' }
+    };
+    let governanceActiveView = 'access';
+    let governanceTimer;
+    const renderGovernanceControls = () => {
+      const selected = governanceToggles.filter((toggle) => toggle.checked && !toggle.disabled);
+      const counsel = governanceDesk.querySelector('[data-governance-toggle="counsel"]')?.checked;
+      const client = governanceDesk.querySelector('[data-governance-toggle="client"]')?.checked;
+      const dms = governanceDesk.querySelector('[data-governance-toggle="dms"]')?.checked;
+      if (governanceRows.access) governanceRows.access.textContent = counsel && client ? 'Assigned + scoped' : counsel ? 'Assigned counsel only' : 'No assigned owner';
+      if (governanceRows.connection) governanceRows.connection.textContent = dms ? '1 approved system' : 'No systems approved';
+      if (governanceRows.retention) governanceRows.retention.textContent = selected.length > 1 ? 'Firm-owned' : 'Review required';
+      if (governanceFoot) governanceFoot.textContent = `${selected.length} controls selected / 0 B outbound`;
+      if (governanceRun) governanceRun.disabled = selected.length === 0;
+      governancePacket?.setAttribute('disabled', '');
+      if (governanceStatus) governanceStatus.textContent = 'READY TO CHECK';
+    };
+    const setGovernanceView = (view, focus = false) => {
+      governanceActiveView = governanceViewData[view] ? view : 'access';
+      const content = governanceViewData[governanceActiveView];
+      governanceViews.forEach((tab) => {
+        const active = tab.dataset.governanceView === governanceActiveView;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', String(active));
+        tab.setAttribute('tabindex', active ? '0' : '-1');
+      });
+      if (governanceViewLabel) governanceViewLabel.textContent = content.label;
+      if (governanceViewTitle) governanceViewTitle.textContent = content.title;
+      if (governanceViewCopy) governanceViewCopy.textContent = content.copy;
+      const activeTab = governanceViews.find((tab) => tab.dataset.governanceView === governanceActiveView);
+      if (activeTab && governanceViewPanel) governanceViewPanel.setAttribute('aria-labelledby', activeTab.id);
+      if (focus) activeTab?.focus();
+    };
+    governanceViews.forEach((tab, index) => {
+      tab.addEventListener('click', () => setGovernanceView(tab.dataset.governanceView));
+      tab.addEventListener('keydown', (event) => {
+        if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? governanceViews.length - 1 :
+          (index + (event.key === 'ArrowRight' ? 1 : -1) + governanceViews.length) % governanceViews.length;
+        setGovernanceView(governanceViews[nextIndex].dataset.governanceView, true);
+      });
+    });
+    governanceToggles.forEach((toggle) => toggle.addEventListener('change', renderGovernanceControls));
+    governanceRun?.addEventListener('click', () => {
+      window.clearTimeout(governanceTimer);
+      governanceRun.disabled = true;
+      governanceRun.classList.add('is-running');
+      if (governanceStatus) governanceStatus.textContent = 'CHECKING POLICY';
+      if (governanceFoot) governanceFoot.textContent = 'Validating local controls…';
+      governanceTimer = window.setTimeout(() => {
+        governanceRun.disabled = false;
+        governanceRun.classList.remove('is-running');
+        if (governanceStatus) governanceStatus.textContent = 'POLICY VERIFIED';
+        if (governanceFoot) governanceFoot.textContent = 'Policy verified / 0 B outbound';
+        governancePacket?.removeAttribute('disabled');
+      }, 850);
+    });
+    governancePacket?.addEventListener('click', () => {
+      if (governancePacket.disabled) return;
+      governancePacket.innerHTML = 'Packet staged locally <span aria-hidden="true">✓</span>';
+      if (governanceStatus) governanceStatus.textContent = 'ADMIN PACKET READY';
+      if (governanceFoot) governanceFoot.textContent = 'Local packet staged / 0 B outbound';
+    });
+    setGovernanceView('access');
+    renderGovernanceControls();
+  }
+
   const ecosystemMap = document.querySelector('[data-ecosystem-map]');
   if (ecosystemMap) {
     const ecosystemTabs = [...ecosystemMap.querySelectorAll('[data-ecosystem-tab]')];
@@ -888,12 +976,13 @@
           <a href="customers.html" data-quick-nav-item><span><strong>Practice Rooms</strong><small>Illustrative patterns for legal work</small></span><kbd>06</kbd></a>
           <a href="platform.html#delivery" data-quick-nav-item><span><strong>Delivery Room</strong><small>Scoped handoffs and client-ready work</small></span><kbd>07</kbd></a>
           <a href="command.html" data-quick-nav-item><span><strong>Command Center</strong><small>Practice activity and governance signals</small></span><kbd>08</kbd></a>
-          <a href="platform.html#evidence" data-quick-nav-item><span><strong>Evidence Ledger</strong><small>Source, span, confidence</small></span><kbd>09</kbd></a>
-          <a href="platform.html#proof" data-quick-nav-item><span><strong>Room Signals</strong><small>Boundary, ledger, runtime, root</small></span><kbd>10</kbd></a>
-          <a href="security.html" data-quick-nav-item><span><strong>Security Center</strong><small>Runtime, network, and source boundary</small></span><kbd>11</kbd></a>
-          <a href="privacy.html" data-quick-nav-item><span><strong>Privacy brief</strong><small>Data handling, ownership, and review boundaries</small></span><kbd>12</kbd></a>
-          <a href="research.html" data-quick-nav-item><span><strong>Research &amp; architecture</strong><small>Inspect runtime, evidence, and source notes</small></span><kbd>13</kbd></a>
-          <a href="deployment.html" data-quick-nav-item><span><strong>Deployment Desk</strong><small>Build a private deployment brief</small></span><kbd>14</kbd></a>
+          <a href="command.html#governance" data-quick-nav-item><span><strong>Governance Desk</strong><small>Access, connections, and policy proof</small></span><kbd>09</kbd></a>
+          <a href="platform.html#evidence" data-quick-nav-item><span><strong>Evidence Ledger</strong><small>Source, span, confidence</small></span><kbd>10</kbd></a>
+          <a href="platform.html#proof" data-quick-nav-item><span><strong>Room Signals</strong><small>Boundary, ledger, runtime, root</small></span><kbd>11</kbd></a>
+          <a href="security.html" data-quick-nav-item><span><strong>Security Center</strong><small>Runtime, network, and source boundary</small></span><kbd>12</kbd></a>
+          <a href="privacy.html" data-quick-nav-item><span><strong>Privacy brief</strong><small>Data handling, ownership, and review boundaries</small></span><kbd>13</kbd></a>
+          <a href="research.html" data-quick-nav-item><span><strong>Research &amp; architecture</strong><small>Inspect runtime, evidence, and source notes</small></span><kbd>14</kbd></a>
+          <a href="deployment.html" data-quick-nav-item><span><strong>Deployment Desk</strong><small>Build a private deployment brief</small></span><kbd>15</kbd></a>
           <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer" data-quick-nav-item><span><strong>Open architecture</strong><small>Inspect the source and implementation notes</small></span><kbd>↗</kbd></a>
         </nav>
         <p class="quick-nav__empty" data-quick-nav-empty hidden>No matching destination.</p>

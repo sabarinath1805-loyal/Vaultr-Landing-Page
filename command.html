@@ -24,8 +24,8 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preload" as="image" href="assets/images/monet-water-lilies.jpg" fetchpriority="high">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-12">
-  <script defer src="assets/js/vaultr.js?v=library-12"></script>
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-13">
+  <script defer src="assets/js/vaultr.js?v=library-13"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Vaultr Command Center","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/command.html","isPartOf":{"@type":"WebSite","name":"Vaultr","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/"}}</script>
 </head>
 <body class="detail-page command-page">
@@ -112,7 +112,54 @@
       </div>
     </section>
 
-    <section class="command-page__proof section"><div class="shell"><div class="command-page__section-intro"><p class="section-kicker reveal">02 / GOVERNANCE SIGNALS</p><h2 class="reveal">Measure the system without opening the matter.</h2><p class="reveal">Command Center keeps the useful operational layer visible and the privileged record private.</p></div><div class="command-proof__grid"><article class="command-proof-card reveal"><span>01 / ACTIVITY</span><h3>Know what moved.</h3><p>See which matters, runs, and workflows need attention without exposing the documents beneath them.</p><b>MATTER / SIGNAL</b></article><article class="command-proof-card reveal"><span>02 / HEALTH</span><h3>Know the room is intact.</h3><p>Runtime, network, and local-run signals make the boundary a live operating state.</p><b>RUNTIME / HEALTH</b></article><article class="command-proof-card reveal"><span>03 / AUDIT</span><h3>Know what to prove.</h3><p>Keep a visible trail of activity, ownership, and source-linked outcomes for the people responsible for the system.</p><b>GOVERN / VERIFY</b></article></div></div></section>
+    <section class="command-page__governance section" id="governance">
+      <div class="shell">
+        <div class="command-page__section-intro">
+          <p class="section-kicker reveal">02 / GOVERNANCE DESK</p>
+          <h2 class="reveal">Prove the policy before the matter opens.</h2>
+          <p class="reveal">Give an admin one quiet surface for access, approved connections, and retention. The system should make the safe path the easiest path to inspect.</p>
+        </div>
+        <div class="governance-desk reveal" data-governance-desk>
+          <div class="governance-desk__controls">
+            <div class="governance-desk__head"><span>ADMIN / NORTHSTAR</span><span class="governance-desk__local"><i></i> POLICY MODE</span></div>
+            <div class="governance-desk__tabs" role="tablist" aria-label="Governance desk views">
+              <button class="is-active" id="governance-view-access" type="button" role="tab" aria-controls="governance-view-panel" aria-selected="true" data-governance-view="access">Access</button>
+              <button id="governance-view-connections" type="button" role="tab" aria-controls="governance-view-panel" aria-selected="false" tabindex="-1" data-governance-view="connections">Connections</button>
+              <button id="governance-view-retention" type="button" role="tab" aria-controls="governance-view-panel" aria-selected="false" tabindex="-1" data-governance-view="retention">Retention</button>
+            </div>
+            <div class="governance-desk__view" id="governance-view-panel" role="tabpanel" aria-labelledby="governance-view-access">
+              <span data-governance-view-label>ACCESS / MATTER ROLES</span>
+              <strong data-governance-view-title>Keep the room scoped.</strong>
+              <p data-governance-view-copy>Only the people assigned to Northstar can see the handoff. Raw matter files remain firm-owned.</p>
+            </div>
+            <fieldset class="governance-desk__checks">
+              <legend>ACTIVE POLICY CONTROLS</legend>
+              <label><input type="checkbox" checked data-governance-toggle="counsel"><span>Assigned counsel</span><small>Owner</small></label>
+              <label><input type="checkbox" checked data-governance-toggle="client"><span>Client handoff</span><small>Scoped</small></label>
+              <label><input type="checkbox" checked data-governance-toggle="dms"><span>Approved DMS</span><small>Read-only</small></label>
+              <label class="is-muted"><input type="checkbox" disabled data-governance-toggle="external"><span>External inference</span><small>Blocked</small></label>
+            </fieldset>
+            <button class="governance-desk__run" type="button" data-governance-run>Run policy check <span aria-hidden="true">→</span></button>
+          </div>
+          <div class="governance-desk__preview">
+            <div class="governance-desk__head"><span>POLICY / NORTHSTAR</span><span class="governance-desk__status"><i></i><span data-governance-status>READY TO CHECK</span></span></div>
+            <div class="governance-desk__preview-body">
+              <span class="governance-desk__stamp">FIRM CONTROL PLANE / 06 AUG 2026</span>
+              <h3 data-governance-title>Northstar access policy</h3>
+              <p data-governance-copy>Four controls are visible before a workflow begins. Run the check to stage a local admin packet.</p>
+              <div class="governance-desk__rows">
+                <div><span>01 / ACCESS</span><strong data-governance-row="access">Assigned + scoped</strong><small>Role boundary visible</small></div>
+                <div><span>02 / CONNECTION</span><strong data-governance-row="connection">1 approved system</strong><small>Outbound route denied</small></div>
+                <div><span>03 / RETENTION</span><strong data-governance-row="retention">Firm-owned</strong><small>Local packet only</small></div>
+              </div>
+            </div>
+            <div class="governance-desk__foot"><span data-governance-foot>Policy not yet run / 0 B outbound</span><button type="button" data-governance-packet disabled>Stage admin packet <span aria-hidden="true">↓</span></button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="command-page__proof section"><div class="shell"><div class="command-page__section-intro"><p class="section-kicker reveal">03 / GOVERNANCE SIGNALS</p><h2 class="reveal">Measure the system without opening the matter.</h2><p class="reveal">Command Center keeps the useful operational layer visible and the privileged record private.</p></div><div class="command-proof__grid"><article class="command-proof-card reveal"><span>01 / ACTIVITY</span><h3>Know what moved.</h3><p>See which matters, runs, and workflows need attention without exposing the documents beneath them.</p><b>MATTER / SIGNAL</b></article><article class="command-proof-card reveal"><span>02 / HEALTH</span><h3>Know the room is intact.</h3><p>Runtime, network, and local-run signals make the boundary a live operating state.</p><b>RUNTIME / HEALTH</b></article><article class="command-proof-card reveal"><span>03 / AUDIT</span><h3>Know what to prove.</h3><p>Keep a visible trail of activity, ownership, and source-linked outcomes for the people responsible for the system.</p><b>GOVERN / VERIFY</b></article></div></div></section>
 
     <section class="command-page__cta section"><div class="shell command-page__cta-inner reveal"><p class="section-kicker">READY FOR PRACTICE VISIBILITY?</p><h2>Keep the documents private. Make the system legible.</h2><a class="button button--light" href="deployment.html">Build a private deployment brief</a></div></section>
 
