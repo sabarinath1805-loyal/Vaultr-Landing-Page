@@ -487,6 +487,76 @@
   }
 
   const ecosystemMap = document.querySelector('[data-ecosystem-map]');
+  const connectionsLab = document.querySelector('[data-connections-lab]');
+  if (connectionsLab) {
+    const connectionTabs = [...connectionsLab.querySelectorAll('[data-connection-tab]')];
+    const connectionLabel = connectionsLab.querySelector('[data-connection-label]');
+    const connectionStatus = connectionsLab.querySelector('[data-connection-status]');
+    const connectionTitle = connectionsLab.querySelector('[data-connection-title]');
+    const connectionCopy = connectionsLab.querySelector('[data-connection-copy]');
+    const connectionRoute = connectionsLab.querySelector('[data-connection-route]');
+    const connectionScope = connectionsLab.querySelector('[data-connection-scope]');
+    const connectionBoundary = connectionsLab.querySelector('[data-connection-boundary]');
+    const connectionCheck = connectionsLab.querySelector('[data-connection-check]');
+    const connectionNote = connectionsLab.querySelector('[data-connection-note]');
+    const connectionFoot = connectionsLab.querySelector('[data-connection-foot]');
+    const connectionData = {
+      imanage: { label: 'IMANAGE / DOCUMENT MANAGEMENT', status: 'APPROVED / READ-ONLY', title: 'Read the record where it already lives.', copy: 'Vaultr can index an approved matter workspace without creating a second uncontrolled copy. The route stays read-only until a firm owner changes the policy.', route: 'Firm-managed DMS', scope: 'Northstar / 24 sources', boundary: 'Local index / 0 B' },
+      sharepoint: { label: 'SHAREPOINT / APPROVED REPOSITORY', status: 'REVIEW / SCOPED IMPORT', title: 'Bring only the matter set you approved.', copy: 'Select a firm-owned folder and import the source set into a local room. The connection never becomes a general-purpose cloud route.', route: 'Approved folder', scope: 'Meridian / 18 sources', boundary: 'Scoped import / 0 B' },
+      m365: { label: 'MICROSOFT 365 / DRAFT SURFACE', status: 'REVIEW / LOCAL ADD-IN', title: 'Carry the answer into the work product.', copy: 'Use a local handoff to move a source-linked draft into the document surface your team already knows. The evidence remains attached to the decision.', route: 'Local document surface', scope: 'Northstar / 03 citations', boundary: 'Draft only / 0 B' },
+      box: { label: 'BOX / SCOPED IMPORT', status: 'DENIED BY DEFAULT', title: 'Keep file exchange deliberate.', copy: 'A file exchange path stays closed until a matter owner approves the exact folder, recipients, and retention window.', route: 'Owner-approved folder', scope: 'No active scope', boundary: 'Blocked / 0 B' }
+    };
+    let connectionActive = 'imanage';
+    let connectionTimer;
+    const setConnection = (key, focus = false) => {
+      connectionActive = connectionData[key] ? key : 'imanage';
+      const data = connectionData[connectionActive];
+      connectionTabs.forEach((tab) => {
+        const active = tab.dataset.connectionTab === connectionActive;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', String(active));
+        tab.tabIndex = active ? 0 : -1;
+      });
+      if (connectionLabel) connectionLabel.textContent = data.label;
+      if (connectionStatus) connectionStatus.textContent = data.status;
+      if (connectionTitle) connectionTitle.textContent = data.title;
+      if (connectionCopy) connectionCopy.textContent = data.copy;
+      if (connectionRoute) connectionRoute.textContent = data.route;
+      if (connectionScope) connectionScope.textContent = data.scope;
+      if (connectionBoundary) connectionBoundary.textContent = data.boundary;
+      if (connectionNote) connectionNote.textContent = 'No connection data leaves the room.';
+      if (connectionCheck) { connectionCheck.disabled = false; connectionCheck.classList.remove('is-running'); connectionCheck.innerHTML = 'Check local path <span aria-hidden="true">→</span>'; }
+      if (connectionFoot) connectionFoot.textContent = `${String(connectionTabs.findIndex((tab) => tab.dataset.connectionTab === connectionActive) + 1).padStart(2, '0')} selected / policy not yet checked`;
+      const activeTab = connectionTabs.find((tab) => tab.dataset.connectionTab === connectionActive);
+      if (activeTab && connectionsLab.querySelector('[role="tabpanel"]')) connectionsLab.querySelector('[role="tabpanel"]').setAttribute('aria-labelledby', activeTab.id);
+      if (focus) activeTab?.focus();
+    };
+    connectionTabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => setConnection(tab.dataset.connectionTab));
+      tab.addEventListener('keydown', (event) => {
+        if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? connectionTabs.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + connectionTabs.length) % connectionTabs.length;
+        setConnection(connectionTabs[nextIndex].dataset.connectionTab, true);
+      });
+    });
+    connectionCheck?.addEventListener('click', () => {
+      window.clearTimeout(connectionTimer);
+      connectionCheck.disabled = true;
+      connectionCheck.classList.add('is-running');
+      if (connectionStatus) connectionStatus.textContent = 'CHECKING / LOCAL PATH';
+      if (connectionNote) connectionNote.textContent = 'Validating scope, owner, and outbound policy locally…';
+      if (connectionFoot) connectionFoot.textContent = 'Checking approved path / 0 B outbound';
+      connectionTimer = window.setTimeout(() => {
+        connectionCheck.disabled = false;
+        connectionCheck.classList.remove('is-running');
+        if (connectionStatus) connectionStatus.textContent = connectionActive === 'box' ? 'DENIED / POLICY INTACT' : 'PATH VERIFIED / 0 B OUTBOUND';
+        if (connectionNote) connectionNote.textContent = connectionActive === 'box' ? 'The path remains closed until an owner approves the exact scope.' : 'Local path verified. The matter stays inside its deployment boundary.';
+        if (connectionFoot) connectionFoot.textContent = connectionActive === 'box' ? 'Denied by profile / 0 B outbound' : 'Path verified / 0 B outbound';
+      }, 820);
+    });
+    setConnection('imanage');
+  }
   if (ecosystemMap) {
     const ecosystemTabs = [...ecosystemMap.querySelectorAll('[data-ecosystem-tab]')];
     const ecosystemLabel = ecosystemMap.querySelector('[data-ecosystem-label]');
@@ -1072,7 +1142,7 @@
       <section class="quick-nav__panel" role="dialog" aria-modal="true" aria-labelledby="quick-nav-title">
         <div class="quick-nav__head"><div><span class="quick-nav__eyebrow">VAULTR / QUICK NAVIGATION</span><h2 id="quick-nav-title">Go where the work is.</h2></div><button class="quick-nav__close" type="button" aria-label="Close quick navigation" data-quick-nav-close>Esc</button></div>
         <label class="quick-nav__search"><span aria-hidden="true">⌘K</span><input id="quick-nav-search" type="search" autocomplete="off" placeholder="Search matters, sources, and surfaces" aria-label="Search matters, sources, and surfaces"></label>
-        <div class="quick-nav__summary" role="status" aria-live="polite"><div><span class="quick-nav__summary-label">LOCAL WORKSPACE INDEX</span><strong data-quick-nav-count>4 matters · 17 surfaces</strong></div><span class="quick-nav__summary-status"><i aria-hidden="true"></i> 0 B outbound</span></div>
+        <div class="quick-nav__summary" role="status" aria-live="polite"><div><span class="quick-nav__summary-label">LOCAL WORKSPACE INDEX</span><strong data-quick-nav-count>4 matters · 18 surfaces</strong></div><span class="quick-nav__summary-status"><i aria-hidden="true"></i> 0 B outbound</span></div>
         <div class="quick-nav__section">
           <div class="quick-nav__section-head"><span>RECENT MATTERS</span><small>LOCAL / ILLUSTRATIVE</small></div>
           <nav class="quick-nav__items quick-nav__items--matter" aria-label="Local matter index">
@@ -1095,12 +1165,13 @@
           <a href="platform.html#delivery" data-quick-nav-item><span><strong>Delivery Room</strong><small>Scoped handoffs and client-ready work</small></span><kbd>07</kbd></a>
           <a href="command.html" data-quick-nav-item><span><strong>Command Center</strong><small>Practice activity and governance signals</small></span><kbd>08</kbd></a>
           <a href="command.html#governance" data-quick-nav-item><span><strong>Governance Desk</strong><small>Access, connections, and policy proof</small></span><kbd>09</kbd></a>
-          <a href="platform.html#evidence" data-quick-nav-item><span><strong>Evidence Ledger</strong><small>Source, span, confidence</small></span><kbd>10</kbd></a>
-          <a href="platform.html#proof" data-quick-nav-item><span><strong>Room Signals</strong><small>Boundary, ledger, runtime, root</small></span><kbd>11</kbd></a>
-          <a href="security.html" data-quick-nav-item><span><strong>Security Center</strong><small>Runtime, network, and source boundary</small></span><kbd>12</kbd></a>
-          <a href="privacy.html" data-quick-nav-item><span><strong>Privacy brief</strong><small>Data handling, ownership, and review boundaries</small></span><kbd>13</kbd></a>
-          <a href="research.html" data-quick-nav-item><span><strong>Research &amp; architecture</strong><small>Inspect runtime, evidence, and source notes</small></span><kbd>14</kbd></a>
-          <a href="deployment.html" data-quick-nav-item><span><strong>Deployment Desk</strong><small>Build a private deployment brief</small></span><kbd>15</kbd></a>
+          <a href="command.html#connections" data-quick-nav-item><span><strong>Connections Lab</strong><small>Approved bridges into the legal stack</small></span><kbd>10</kbd></a>
+          <a href="platform.html#evidence" data-quick-nav-item><span><strong>Evidence Ledger</strong><small>Source, span, confidence</small></span><kbd>11</kbd></a>
+          <a href="platform.html#proof" data-quick-nav-item><span><strong>Room Signals</strong><small>Boundary, ledger, runtime, root</small></span><kbd>12</kbd></a>
+          <a href="security.html" data-quick-nav-item><span><strong>Security Center</strong><small>Runtime, network, and source boundary</small></span><kbd>13</kbd></a>
+          <a href="privacy.html" data-quick-nav-item><span><strong>Privacy brief</strong><small>Data handling, ownership, and review boundaries</small></span><kbd>14</kbd></a>
+          <a href="research.html" data-quick-nav-item><span><strong>Research &amp; architecture</strong><small>Inspect runtime, evidence, and source notes</small></span><kbd>15</kbd></a>
+          <a href="deployment.html" data-quick-nav-item><span><strong>Deployment Desk</strong><small>Build a private deployment brief</small></span><kbd>16</kbd></a>
           <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer" data-quick-nav-item><span><strong>Open architecture</strong><small>Inspect the source and implementation notes</small></span><kbd>↗</kbd></a>
           </nav>
         </div>
