@@ -664,9 +664,34 @@
       activity: ['ACTIVITY / AUDIT TRAIL', 'Every permission change has a visible finish line.']
     };
     let sharedActive = 'overview';
-    const setSharedTab = (key, focus = false) => {
+    const sharedStorageKey = 'vaultr.shared-room';
+    let sharedState = { invite: false, approved: false };
+    try {
+      const storedSharedState = JSON.parse(window.localStorage.getItem(sharedStorageKey) || '{}');
+      sharedState = { invite: storedSharedState?.invite === true, approved: storedSharedState?.approved === true };
+    } catch (error) {
+      sharedState = { invite: false, approved: false };
+    }
+    const persistSharedState = () => {
+      try { window.localStorage.setItem(sharedStorageKey, JSON.stringify(sharedState)); } catch (error) { /* local-only room state is best effort */ }
+    };
+    const reflectSharedState = () => {
+      if (sharedInvite) {
+        sharedInvite.disabled = sharedState.invite;
+        sharedInvite.innerHTML = sharedState.invite ? 'Invite drafted <span aria-hidden="true">âœ“</span>' : 'Invite scoped collaborator <span aria-hidden="true">→</span>';
+      }
+      if (sharedApprove) {
+        sharedApprove.disabled = sharedState.approved;
+        sharedApprove.innerHTML = sharedState.approved ? 'Preview approved <span aria-hidden="true">âœ“</span>' : 'Approve preview <span aria-hidden="true">→</span>';
+      }
+      if (sharedState.approved && sharedStatus) sharedStatus.textContent = 'Preview approved locally. Invite a scoped collaborator when ready.';
+      if (sharedState.invite && sharedFooterCopy) sharedFooterCopy.textContent = sharedState.approved ? 'The client sees the approved artifact—not the raw matter record.' : 'Scoped invite drafted / view-only / expires in 24 hours.';
+      if (sharedFoot) sharedFoot.textContent = sharedState.invite && sharedState.approved ? 'INVITE DRAFTED / PREVIEW APPROVED / 0 B OUTBOUND' : sharedState.invite ? 'INVITE DRAFTED / 0 B OUTBOUND' : sharedState.approved ? 'PREVIEW APPROVED / 0 B OUTBOUND' : '0 B OUTBOUND';
+    };
+    const setSharedTab = (key, focus = false, sync = true) => {
       const next = sharedTitles[key] ? key : 'overview';
       sharedActive = next;
+      if (sync) writeQueryState('space', next);
       sharedTabs.forEach((tab) => {
         const active = tab.dataset.sharedTab === next;
         tab.classList.toggle('is-active', active);
@@ -692,15 +717,21 @@
       });
     });
     sharedInvite?.addEventListener('click', () => {
+      sharedState.invite = true;
+      persistSharedState();
       if (sharedFooterCopy) sharedFooterCopy.textContent = 'Scoped invite drafted / view-only / expires in 24 hours.';
       if (sharedFoot) sharedFoot.textContent = 'INVITE DRAFTED / 0 B OUTBOUND';
+      reflectSharedState();
       if (sharedInvite) { sharedInvite.disabled = true; sharedInvite.innerHTML = 'Invite drafted <span aria-hidden="true">✓</span>'; }
     });
     sharedApprove?.addEventListener('click', () => {
+      sharedState.approved = true;
+      persistSharedState();
       if (sharedStatus) sharedStatus.textContent = 'Preview approved locally. Invite a scoped collaborator when ready.';
       if (sharedFoot) sharedFoot.textContent = 'PREVIEW APPROVED / 0 B OUTBOUND';
       if (sharedFooterCopy) sharedFooterCopy.textContent = 'The client sees the artifact—not the raw matter record.';
       sharedApprove.disabled = true;
+      reflectSharedState();
       sharedApprove.innerHTML = 'Preview approved <span aria-hidden="true">✓</span>';
     });
     sharedSpace.querySelectorAll('[data-shared-run]').forEach((button) => button.addEventListener('click', () => {
@@ -720,7 +751,9 @@
       if (sharedFooterCopy) sharedFooterCopy.textContent = 'Room brief copied locally. Nothing was uploaded.';
       if (sharedCopy) sharedCopy.innerHTML = 'Brief copied <span aria-hidden="true">✓</span>';
     });
-    setSharedTab(sharedActive);
+    const initialSharedTab = readQueryState('space');
+    setSharedTab(sharedTitles[initialSharedTab] ? initialSharedTab : sharedActive, false, false);
+    reflectSharedState();
   }
 
   const monitorDesk = document.querySelector('[data-monitor-desk]');
