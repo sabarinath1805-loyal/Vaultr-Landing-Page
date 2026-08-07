@@ -398,6 +398,111 @@
     renderKnowledge(initialKnowledge && knowledgeFilters.some((tab) => tab.dataset.knowledgeFilter === initialKnowledge) ? initialKnowledge : 'all');
   }
 
+  const researchDesk = document.querySelector('[data-research-desk]');
+  if (researchDesk) {
+    const researchForm = researchDesk.querySelector('[data-research-form]');
+    const researchSearch = researchDesk.querySelector('[data-research-search]');
+    const researchFilters = [...researchDesk.querySelectorAll('[data-research-filter]')];
+    const researchResults = [...researchDesk.querySelectorAll('[data-research-result]')];
+    const researchEmpty = researchDesk.querySelector('[data-research-empty]');
+    const researchKind = researchDesk.querySelector('[data-research-detail-kind]');
+    const researchState = researchDesk.querySelector('[data-research-detail-state]');
+    const researchTitle = researchDesk.querySelector('[data-research-detail-title]');
+    const researchCopy = researchDesk.querySelector('[data-research-detail-copy]');
+    const researchQuote = researchDesk.querySelector('[data-research-detail-quote]');
+    const researchSource = researchDesk.querySelector('[data-research-detail-source]');
+    const researchSpan = researchDesk.querySelector('[data-research-detail-span]');
+    const researchOwner = researchDesk.querySelector('[data-research-detail-owner]');
+    const researchStage = researchDesk.querySelector('[data-research-stage]');
+    const researchStageStatus = researchDesk.querySelector('[data-research-stage-status]');
+    const researchFoot = researchDesk.querySelector('[data-research-foot]');
+    const researchData = {
+      consent: { kind: 'PRECEDENT / SOURCE TRACE', state: 'VERIFIED', title: 'Change-of-control consent', copy: 'The agreement requires written consent before a change of control if the counterparty has a material supplier dependency. The result stays open to counsel because the tracker and clause use different thresholds.', quote: '“Neither party may assign this Agreement in connection with a change of control without prior written consent.”', source: 'Merger Agreement', span: '§ 9.2 / Assignment', owner: 'J. Chen' },
+      indemnity: { kind: 'PRECEDENT / SOURCE TRACE', state: 'NEEDS REVIEW', title: 'Indemnity fallback position', copy: 'The negotiation playbook prefers a capped indemnity with a fraud carve-out. Lex found the fallback language in the approved precedent set and kept the decision with the deal lead.', quote: '“The indemnity cap will not apply to losses arising from fraud or wilful misconduct.”', source: 'Negotiation Playbook', span: '04 / Indemnity fallback', owner: 'M. Chen' },
+      privacy: { kind: 'POLICY / SOURCE TRACE', state: 'CURRENT', title: 'Approved AI boundary', copy: 'The firm policy requires a local runtime for privileged matters, explicit review gates, and a recorded owner before any output is shared beyond the matter team.', quote: '“Approved AI systems must preserve the matter boundary and expose an auditable review path.”', source: 'Privacy & AI Policy', span: '§ 3 / Approved systems', owner: 'KM / Security' },
+      closing: { kind: 'MEMO / SOURCE TRACE', state: 'NEEDS REVIEW', title: 'Closing conditions', copy: 'Counsel correspondence identifies supplier consent and the revised liability cap as the two conditions to resolve before execution.', quote: '“Confirm the consent position and cap language before circulating the final signing set.”', source: 'Counsel Thread', span: 'Thread 08 / Closing', owner: 'J. Chen' }
+    };
+    let researchFilter = 'all';
+    let researchActive = 'consent';
+    const setResearchDetail = (key, focus = false) => {
+      const data = researchData[key] || researchData.consent;
+      researchActive = key;
+      researchResults.forEach((result) => {
+        const active = result.dataset.researchResult === key;
+        result.classList.toggle('is-active', active);
+        result.setAttribute('aria-selected', String(active));
+        result.tabIndex = active ? 0 : -1;
+      });
+      if (researchKind) researchKind.textContent = data.kind;
+      if (researchState) researchState.textContent = data.state;
+      if (researchTitle) researchTitle.textContent = data.title;
+      if (researchCopy) researchCopy.textContent = data.copy;
+      if (researchQuote) researchQuote.textContent = data.quote;
+      if (researchSource) researchSource.textContent = data.source;
+      if (researchSpan) researchSpan.textContent = data.span;
+      if (researchOwner) researchOwner.textContent = data.owner;
+      if (researchStage) { researchStage.disabled = false; researchStage.innerHTML = 'Stage research memo <span aria-hidden="true">→</span>'; }
+      if (researchStageStatus) researchStageStatus.textContent = 'Source trace ready for counsel.';
+      if (focus) researchResults.find((result) => result.dataset.researchResult === key)?.focus();
+    };
+    const renderResearch = () => {
+      const query = (researchSearch?.value || '').trim().toLowerCase();
+      const normalizedQuery = query.replace(/[\u2010-\u2015-]/g, ' ');
+      researchFilters.forEach((filter) => {
+        const active = filter.dataset.researchFilter === researchFilter;
+        filter.classList.toggle('is-active', active);
+        filter.setAttribute('aria-selected', String(active));
+        filter.tabIndex = active ? 0 : -1;
+      });
+      const visible = researchResults.filter((result) => {
+        const matchesKind = researchFilter === 'all' || result.dataset.researchKind === researchFilter;
+        const normalizedText = result.textContent.toLowerCase().replace(/[\u2010-\u2015-]/g, ' ');
+        const matchesQuery = !normalizedQuery || normalizedText.includes(normalizedQuery);
+        result.hidden = !(matchesKind && matchesQuery);
+        return matchesKind && matchesQuery;
+      });
+      if (researchEmpty) researchEmpty.hidden = visible.length !== 0;
+      const next = visible.find((result) => result.dataset.researchResult === researchActive) || visible[0];
+      if (next) setResearchDetail(next.dataset.researchResult);
+      if (researchFoot) researchFoot.innerHTML = `<span><i></i> ${String(visible.length).padStart(2, '0')} RESULTS / SOURCE-LINKED</span><strong>LOCAL CORPUS / NORTHSTAR</strong>`;
+    };
+    researchFilters.forEach((filter, index) => {
+      filter.addEventListener('click', () => { researchFilter = filter.dataset.researchFilter; renderResearch(); });
+      filter.addEventListener('keydown', (event) => {
+        if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? researchFilters.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + researchFilters.length) % researchFilters.length;
+        researchFilter = researchFilters[nextIndex].dataset.researchFilter;
+        renderResearch();
+        researchFilters[nextIndex].focus();
+      });
+    });
+    researchResults.forEach((result, index) => {
+      result.addEventListener('click', () => setResearchDetail(result.dataset.researchResult));
+      result.addEventListener('keydown', (event) => {
+        if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const visible = researchResults.filter((item) => !item.hidden);
+        const current = visible.indexOf(result);
+        const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? visible.length - 1 : (current + (event.key === 'ArrowDown' ? 1 : -1) + visible.length) % visible.length;
+        setResearchDetail(visible[nextIndex].dataset.researchResult, true);
+      });
+    });
+    researchForm?.addEventListener('submit', (event) => { event.preventDefault(); renderResearch(); });
+    researchSearch?.addEventListener('input', renderResearch);
+    researchStage?.addEventListener('click', () => {
+      researchStage.disabled = true;
+      researchStage.innerHTML = 'Memo staged locally <span aria-hidden="true">✓</span>';
+      if (researchStageStatus) researchStageStatus.textContent = 'Opening Workflow Studio with the citation attached…';
+      if (researchFoot) researchFoot.innerHTML = '<span><i></i> MEMO STAGED / 0 B OUTBOUND</span><strong>LOCAL CORPUS / NORTHSTAR</strong>';
+      const workflowUrl = new URL('workflows.html', window.location.href);
+      workflowUrl.searchParams.set('source', `research-${researchActive}`);
+      workflowUrl.hash = 'studio';
+      window.setTimeout(() => { window.location.href = workflowUrl.toString(); }, 320);
+    });
+    renderResearch();
+  }
+
   const governanceDesk = document.querySelector('[data-governance-desk]');
   if (governanceDesk) {
     const governanceViews = [...governanceDesk.querySelectorAll('[data-governance-view]')];
@@ -921,7 +1026,11 @@
       liability: { title: 'Northstar liability playbook', copy: 'Northstar liability playbook / staged locally' },
       meridian: { title: 'Meridian employment set', copy: 'Meridian employment set / staged locally' },
       consent: { title: 'Supplier consent library', copy: 'Supplier consent library / staged locally' },
-      privacy: { title: 'Privacy and AI policy', copy: 'Privacy and AI policy / staged locally' }
+      privacy: { title: 'Privacy and AI policy', copy: 'Privacy and AI policy / staged locally' },
+      'research-consent': { title: 'Change-of-control consent', copy: 'Change-of-control consent / research memo staged locally' },
+      'research-indemnity': { title: 'Indemnity fallback position', copy: 'Indemnity fallback position / research memo staged locally' },
+      'research-privacy': { title: 'Approved AI boundary', copy: 'Approved AI boundary / research memo staged locally' },
+      'research-closing': { title: 'Closing conditions', copy: 'Closing conditions / research memo staged locally' }
     };
     const importedSource = composerSourceSets[readQueryState('source')];
     if (importedSource) composerCatalog.sources.copy = importedSource.copy;
@@ -1170,7 +1279,7 @@
           <a href="platform.html#proof" data-quick-nav-item><span><strong>Room Signals</strong><small>Boundary, ledger, runtime, root</small></span><kbd>12</kbd></a>
           <a href="security.html" data-quick-nav-item><span><strong>Security Center</strong><small>Runtime, network, and source boundary</small></span><kbd>13</kbd></a>
           <a href="privacy.html" data-quick-nav-item><span><strong>Privacy brief</strong><small>Data handling, ownership, and review boundaries</small></span><kbd>14</kbd></a>
-          <a href="research.html" data-quick-nav-item><span><strong>Research &amp; architecture</strong><small>Inspect runtime, evidence, and source notes</small></span><kbd>15</kbd></a>
+          <a href="research.html#desk" data-quick-nav-item><span><strong>Research &amp; architecture</strong><small>Cited research and source traces</small></span><kbd>15</kbd></a>
           <a href="deployment.html" data-quick-nav-item><span><strong>Deployment Desk</strong><small>Build a private deployment brief</small></span><kbd>16</kbd></a>
           <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer" data-quick-nav-item><span><strong>Open architecture</strong><small>Inspect the source and implementation notes</small></span><kbd>↗</kbd></a>
           </nav>

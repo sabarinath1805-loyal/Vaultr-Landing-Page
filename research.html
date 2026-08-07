@@ -24,8 +24,8 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preload" as="image" href="assets/images/monet-seine.jpg" fetchpriority="high">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-29">
-  <script defer src="assets/js/vaultr.js?v=library-29"></script>
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-30">
+  <script defer src="assets/js/vaultr.js?v=library-30"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Vaultr Research & Architecture","description":"An illustrative guide to Vaultr's local runtime, evidence contract, and deployment boundary.","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/research.html","isPartOf":{"@type":"WebSite","name":"Vaultr","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/"}}</script>
 </head>
 <body class="detail-page research-page">
@@ -132,9 +132,41 @@
       </div>
     </section>
 
+    <section class="research-page__desk section" id="desk">
+      <div class="shell">
+        <div class="research-page__section-intro"><div><p class="section-kicker reveal">03 / RESEARCH DESK</p><h2 class="reveal">Ask the record. Keep the citation.</h2></div><p class="reveal">Search a matter-specific research set, inspect the exact span behind a result, and stage a source-linked memo without leaving the private room.</p></div>
+        <div class="research-desk reveal" data-research-desk>
+          <div class="research-desk__head"><span>LEX / LOCAL RESEARCH</span><span class="research-desk__local"><i></i> 0 B OUTBOUND</span></div>
+          <div class="research-desk__toolbar">
+            <form class="research-desk__search" data-research-form><label for="research-query">Search the Northstar matter</label><div><span aria-hidden="true">⌕</span><input id="research-query" type="search" autocomplete="off" placeholder="Try: change of control consent" aria-label="Search the Northstar research set" data-research-search><button type="submit">Search <span aria-hidden="true">↗</span></button></div></form>
+            <div class="research-desk__filters" role="tablist" aria-label="Research source filters"><button class="is-active" type="button" role="tab" aria-selected="true" data-research-filter="all">All <span>04</span></button><button type="button" role="tab" aria-selected="false" tabindex="-1" data-research-filter="precedent">Precedent <span>02</span></button><button type="button" role="tab" aria-selected="false" tabindex="-1" data-research-filter="policy">Policy <span>01</span></button></div>
+          </div>
+          <div class="research-desk__body">
+            <div class="research-desk__results" role="listbox" aria-label="Source-linked research results" data-research-results>
+              <button class="is-active" type="button" role="option" aria-selected="true" data-research-result="consent" data-research-kind="precedent"><span>01 / PRECEDENT</span><strong>Change-of-control consent</strong><small>Merger Agreement / § 9.2</small><b>98% <i>verified</i></b></button>
+              <button type="button" role="option" aria-selected="false" tabindex="-1" data-research-result="indemnity" data-research-kind="precedent"><span>02 / PRECEDENT</span><strong>Indemnity fallback position</strong><small>Negotiation Playbook / 04</small><b>94% <i>review</i></b></button>
+              <button type="button" role="option" aria-selected="false" tabindex="-1" data-research-result="privacy" data-research-kind="policy"><span>03 / POLICY</span><strong>Approved AI boundary</strong><small>Privacy &amp; AI Policy / § 3</small><b>100% <i>current</i></b></button>
+              <button type="button" role="option" aria-selected="false" tabindex="-1" data-research-result="closing" data-research-kind="memo"><span>04 / MEMO</span><strong>Closing conditions</strong><small>Counsel Thread / 08</small><b>91% <i>review</i></b></button>
+              <p class="research-desk__empty" data-research-empty hidden>No source-linked result matches that search.</p>
+            </div>
+            <article class="research-desk__detail" aria-live="polite" data-research-detail>
+              <div class="research-desk__detail-head"><span data-research-detail-kind>PRECEDENT / SOURCE TRACE</span><span class="research-desk__detail-state"><i></i><span data-research-detail-state>VERIFIED</span></span></div>
+              <h3 data-research-detail-title>Change-of-control consent</h3>
+              <p data-research-detail-copy>The agreement requires written consent before a change of control if the counterparty has a material supplier dependency. The result stays open to counsel because the tracker and clause use different thresholds.</p>
+              <blockquote data-research-detail-quote>“Neither party may assign this Agreement in connection with a change of control without prior written consent.”</blockquote>
+              <div class="research-desk__detail-grid"><div><span>SOURCE</span><strong data-research-detail-source>Merger Agreement</strong></div><div><span>SPAN</span><strong data-research-detail-span>§ 9.2 / Assignment</strong></div><div><span>OWNER</span><strong data-research-detail-owner>J. Chen</strong></div></div>
+              <button class="research-desk__stage" type="button" data-research-stage>Stage research memo <span aria-hidden="true">→</span></button>
+              <p class="research-desk__stage-status" data-research-stage-status aria-live="polite">Source trace ready for counsel.</p>
+            </article>
+          </div>
+          <div class="research-desk__foot"><span data-research-foot><i></i> 04 RESULTS / SOURCE-LINKED</span><strong>LOCAL CORPUS / NORTHSTAR</strong></div>
+        </div>
+      </div>
+    </section>
+
     <section class="research-page__source section">
       <div class="shell">
-        <div class="research-page__section-intro research-page__section-intro--light"><div><p class="section-kicker">03 / SOURCE INSPECTION</p><h2>Read the claims at the root.</h2></div><p>Use this index as a starting point for a real security review. The values below are an illustrative interface, not a certification or customer result.</p></div>
+        <div class="research-page__section-intro research-page__section-intro--light"><div><p class="section-kicker">04 / SOURCE INSPECTION</p><h2>Read the claims at the root.</h2></div><p>Use this index as a starting point for a real security review. The values below are an illustrative interface, not a certification or customer result.</p></div>
         <div class="research-source-grid"><article><span>RUNTIME</span><strong>local</strong><p>Execution profile selected by the firm.</p><a href="deployment.html">Review profiles <span aria-hidden="true">&rarr;</span></a></article><article><span>NETWORK</span><strong>denied</strong><p>Outbound path is explicit before rollout.</p><a href="security.html">Verify the boundary <span aria-hidden="true">&rarr;</span></a></article><article><span>TELEMETRY</span><strong>none</strong><p>Inspect what the deployment actually emits.</p><a href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer">Inspect source <span aria-hidden="true">&rarr;</span></a></article><article><span>STATUS</span><strong>reviewable</strong><p>Keep the evidence and owner close to the action.</p><a href="workflows.html">Open workflows <span aria-hidden="true">&rarr;</span></a></article></div>
       </div>
     </section>
