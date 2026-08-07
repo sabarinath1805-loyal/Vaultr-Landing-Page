@@ -1440,6 +1440,124 @@
     }
   }
 
+  const matterList = document.querySelector('[data-matter-list]');
+  if (matterList) {
+    const listFilters = [...matterList.querySelectorAll('[data-list-filter]')];
+    const listRows = [...matterList.querySelectorAll('[data-list-row]')];
+    const listEmpty = matterList.querySelector('[data-list-empty]');
+    const listKind = matterList.querySelector('[data-list-detail-kind]');
+    const listState = matterList.querySelector('[data-list-detail-state]');
+    const listTitle = matterList.querySelector('[data-list-detail-title]');
+    const listCopy = matterList.querySelector('[data-list-detail-copy]');
+    const listSource = matterList.querySelector('[data-list-detail-source]');
+    const listOwner = matterList.querySelector('[data-list-detail-owner]');
+    const listDue = matterList.querySelector('[data-list-detail-due]');
+    const listStatus = matterList.querySelector('[data-list-detail-status]');
+    const listFoot = matterList.querySelector('[data-list-foot]');
+    const listMonitor = matterList.querySelector('[data-list-monitor]');
+    const listDraft = matterList.querySelector('[data-list-draft]');
+    const listData = {
+      liability: { kind: 'OPEN / MATERIAL TERM', state: 'OWNER ACTION', title: 'Resolve revised liability cap.', copy: 'The latest agreement changes the cap to two times fees. Decide whether the change remains a closing condition before the next client preview.', source: 'Merger Agreement / § 7.4', owner: 'J. Chen', due: '08 Aug 2026', monitor: 'liability' },
+      consent: { kind: 'REVIEW / CONSENT', state: 'NEEDS REVIEW', title: 'Confirm supplier consent.', copy: 'The disclosure schedule identifies five suppliers. Confirm notice requirements before the signing set goes to the client.', source: 'Disclosure Schedule / Schedule 5', owner: 'M. Patel', due: '10 Aug 2026', monitor: 'regulation' },
+      dpa: { kind: 'OPEN / POLICY CHECK', state: 'OWNER ACTION', title: 'Verify DPA schedule.', copy: 'Compare the data processing addendum with the approved subprocessor list and record the exception, if any.', source: 'Data Processing Addendum / § 12', owner: 'KM / Security', due: '12 Aug 2026', monitor: 'regulation' },
+      board: { kind: 'OPEN / APPROVAL', state: 'OWNER ACTION', title: 'Circulate board memo.', copy: 'Counsel correspondence confirms the approval memo is ready. Keep the board-facing version separate from the raw thread.', source: 'Counsel Thread / Thread 08', owner: 'A. Rao', due: '07 Aug 2026', monitor: 'exhibit' },
+      signing: { kind: 'DONE / CHECKPOINT', state: 'COMPLETE', title: 'Prepare final signing set.', copy: 'The final signing set was prepared and checked against the closing checklist. The source trail remains available for audit.', source: 'Closing Checklist / Item 05', owner: 'M. Chen', due: '15 Aug 2026', monitor: 'exhibit' },
+      insurance: { kind: 'OPEN / EXHIBIT', state: 'OWNER ACTION', title: 'Confirm insurance certificate.', copy: 'The insurance schedule is missing the latest certificate. Request the approved version before the diligence packet is finalized.', source: 'Insurance Schedule / Exhibit C', owner: 'L. Grant', due: '16 Aug 2026', monitor: 'exhibit' }
+    };
+    let listFilter = 'all';
+    let listActive = 'liability';
+    const setListDetail = (key, focus = false) => {
+      const data = listData[key] || listData.liability;
+      listActive = key;
+      listRows.forEach((row) => {
+        const active = row.dataset.listKey === key;
+        row.classList.toggle('is-active', active);
+        row.setAttribute('aria-selected', String(active));
+      });
+      if (listKind) listKind.textContent = data.kind;
+      if (listState) listState.textContent = data.state;
+      if (listTitle) listTitle.textContent = data.title;
+      if (listCopy) listCopy.textContent = data.copy;
+      if (listSource) listSource.textContent = data.source;
+      if (listOwner) listOwner.textContent = data.owner;
+      if (listDue) listDue.textContent = data.due;
+      if (listStatus) listStatus.textContent = rowFor(key)?.dataset.listKind === 'done' ? 'Complete locally. Source and owner remain attached.' : 'Source and owner stay attached to the item.';
+      if (listMonitor) listMonitor.disabled = rowFor(key)?.dataset.listKind === 'done';
+      if (listDraft) listDraft.disabled = rowFor(key)?.dataset.listKind === 'done';
+      if (focus) rowFor(key)?.focus();
+    };
+    const rowFor = (key) => listRows.find((row) => row.dataset.listKey === key);
+    const renderList = (nextFilter = listFilter) => {
+      listFilter = nextFilter;
+      listFilters.forEach((filter) => {
+        const active = filter.dataset.listFilter === listFilter;
+        filter.classList.toggle('is-active', active);
+        filter.setAttribute('aria-selected', String(active));
+        filter.tabIndex = active ? 0 : -1;
+      });
+      const visible = listRows.filter((row) => {
+        const shown = listFilter === 'all' || row.dataset.listKind === listFilter;
+        row.hidden = !shown;
+        return shown;
+      });
+      if (listEmpty) listEmpty.hidden = visible.length !== 0;
+      const next = visible.find((row) => row.dataset.listKey === listActive) || visible[0];
+      if (next) setListDetail(next.dataset.listKey);
+      const open = listRows.filter((row) => row.dataset.listKind === 'open').length;
+      const review = listRows.filter((row) => row.dataset.listKind === 'review').length;
+      const done = listRows.filter((row) => row.dataset.listKind === 'done').length;
+      if (listFoot) listFoot.innerHTML = `<i></i> ${String(open).padStart(2, '0')} OPEN / ${String(review).padStart(2, '0')} NEEDS REVIEW / ${String(done).padStart(2, '0')} DONE`;
+    };
+    listFilters.forEach((filter, index) => {
+      filter.addEventListener('click', () => renderList(filter.dataset.listFilter));
+      filter.addEventListener('keydown', (event) => {
+        if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? listFilters.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + listFilters.length) % listFilters.length;
+        renderList(listFilters[nextIndex].dataset.listFilter);
+        listFilters[nextIndex].focus();
+      });
+    });
+    listRows.forEach((row) => {
+      row.addEventListener('click', (event) => { if (!event.target.closest('[data-list-toggle]')) setListDetail(row.dataset.listKey); });
+      row.addEventListener('keydown', (event) => {
+        if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const visible = listRows.filter((item) => !item.hidden);
+        const current = visible.indexOf(row);
+        const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? visible.length - 1 : (current + (event.key === 'ArrowDown' ? 1 : -1) + visible.length) % visible.length;
+        setListDetail(visible[nextIndex].dataset.listKey, true);
+      });
+      row.querySelector('[data-list-toggle]')?.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const check = event.currentTarget;
+        const complete = !check.classList.contains('is-complete');
+        check.classList.toggle('is-complete', complete);
+        row.dataset.listKind = complete ? 'done' : 'open';
+        const state = row.querySelector('b');
+        if (state) state.textContent = complete ? 'DONE' : 'OPEN';
+        setListDetail(row.dataset.listKey);
+        renderList();
+      });
+    });
+    listMonitor?.addEventListener('click', () => {
+      const monitor = listData[listActive]?.monitor || 'liability';
+      const monitorUrl = new URL('command.html', window.location.href);
+      monitorUrl.searchParams.set('monitor', monitor);
+      monitorUrl.hash = 'monitors';
+      window.location.href = monitorUrl.toString();
+    });
+    listDraft?.addEventListener('click', () => {
+      const draftUrl = new URL('workflows.html', window.location.href);
+      draftUrl.searchParams.set('list', listActive);
+      draftUrl.hash = 'editor';
+      window.location.href = draftUrl.toString();
+    });
+    const initialList = readQueryState('list');
+    if (initialList && listData[initialList]) listActive = initialList;
+    renderList();
+  }
+
   const editorRoom = document.querySelector('[data-editor-room]');
   if (editorRoom) {
     const editorModes = [...editorRoom.querySelectorAll('[data-editor-mode]')];
@@ -1593,6 +1711,23 @@
     });
     setEditorMode('draft');
     setEditorCitation('cap');
+    const editorListSeed = readQueryState('list');
+    const editorListData = {
+      liability: { title: 'Liability response', heading: 'Resolve the cap before signing', citation: 'cap' },
+      consent: { title: 'Supplier consent response', heading: 'Confirm the notice path', citation: 'notice' },
+      dpa: { title: 'DPA schedule review', heading: 'Verify the approved processors', citation: 'notice' },
+      board: { title: 'Board approval note', heading: 'Make the decision legible', citation: 'draft' },
+      signing: { title: 'Final signing set', heading: 'Prepare the last review', citation: 'draft' },
+      insurance: { title: 'Insurance certificate request', heading: 'Close the missing exhibit', citation: 'notice' }
+    };
+    if (editorListSeed && editorListData[editorListSeed]) {
+      const content = editorListData[editorListSeed];
+      if (editorTitle) editorTitle.textContent = content.title;
+      if (editorHeading) editorHeading.textContent = content.heading;
+      if (editorStatus) editorStatus.textContent = 'LIST ITEM IMPORTED / LOCAL DRAFT';
+      if (editorSaveState) editorSaveState.textContent = 'List item imported · source context attached';
+      setEditorCitation(content.citation);
+    }
   }
 
   const setMenu = (open) => {
@@ -1633,6 +1768,7 @@
           <a href="workflows.html" data-quick-nav-item><span><strong>Workflow Studio</strong><small>Composer, redlines, and supervised runs</small></span><kbd>03</kbd></a>
           <a href="workflows.html#editor" data-quick-nav-item><span><strong>Source-linked Editor</strong><small>Draft, compare, cite, and comment</small></span><kbd>04</kbd></a>
           <a href="workflows.html#review-table" data-quick-nav-item data-quick-nav-keywords="tabular review extraction structured facts issues rows diligence"><span><strong>Tabular Review</strong><small>Extract issues across a matter</small></span><kbd>05</kbd></a>
+          <a href="workflows.html#lists" data-quick-nav-item data-quick-nav-keywords="matter list closing checklist chronology tasks owners deadlines signoff"><span><strong>Matter List</strong><small>Source-linked owners, deadlines, and sign-off</small></span><kbd>06</kbd></a>
           <a href="solutions.html" data-quick-nav-item><span><strong>Solutions</strong><small>Litigation, transactional, in-house</small></span><kbd>05</kbd></a>
           <a href="customers.html" data-quick-nav-item><span><strong>Practice Rooms</strong><small>Illustrative patterns for legal work</small></span><kbd>06</kbd></a>
           <a href="customers.html#shared-space" data-quick-nav-item data-quick-nav-keywords="shared space portal collaboration client permissions audit"><span><strong>Shared Matter Room</strong><small>Scoped client collaboration with an audit trail</small></span><kbd>07</kbd></a>
@@ -1829,6 +1965,7 @@
   const roomIndexConfig = document.body.classList.contains('workflow-page') ? [
     { id: 'studio', label: 'Workflow studio' },
     { id: 'review-table', label: 'Tabular review' },
+    { id: 'lists', label: 'Matter list' },
     { id: 'editor', label: 'Source editor' },
     { id: 'impact', label: 'Capacity model' }
   ] : document.body.classList.contains('detail-page') ? [

@@ -24,8 +24,8 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preload" as="image" href="assets/images/monet-sunrise-display.jpg" fetchpriority="high">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-36">
-  <script defer src="assets/js/vaultr.js?v=library-36"></script>
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-38">
+  <script defer src="assets/js/vaultr.js?v=library-38"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Vaultr Workflow Studio","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/workflows.html","isPartOf":{"@type":"WebSite","name":"Vaultr","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/"}}</script>
 </head>
 <body class="detail-page workflow-page">
@@ -56,7 +56,7 @@
             <a href="workflows.html" aria-current="page"><small>WORKFLOW STUDIO</small><strong>Redlines &amp; diligence</strong><span>Move from clause to confidence with evidence.</span></a>
             <a href="workflows.html#impact"><small>IMPACT</small><strong>Model your load</strong><span>Make the matter workload visible and adjustable.</span></a>
             <a href="workflows.html#editor"><small>EDITOR</small><strong>Draft with sources</strong><span>Carry citations, deltas, and comments into work product.</span></a>
-            <a href="workflows.html#review-table"><small>REVIEW TABLE</small><strong>See the signal</strong><span>Extract structured facts at scale.</span></a>
+            <a href="workflows.html#review-table"><small>REVIEW TABLE</small><strong>See the signal</strong><span>Extract structured facts at scale.</span></a><a href="workflows.html#lists" data-list-nav><small>MATTER LIST</small><strong>Own every next move</strong><span>Source-linked owners, deadlines, and sign-off.</span></a>
           </div>
         </div>
         <div class="nav-dropdown" data-nav-dropdown>
@@ -197,10 +197,33 @@
       </div>
     </section>
 
+    <section class="workflow-page__list section" id="lists">
+      <div class="shell">
+        <div class="workflow-page__section-intro"><div><p class="section-kicker reveal">03 / MATTER LIST</p><h2 class="reveal">Every obligation has an owner, source, and next move.</h2></div><p class="reveal">Turn a review into a live closing checklist. Each row stays linked to the clause it came from, the person who owns it, and the handoff that follows.</p></div>
+        <div class="matter-list reveal" data-matter-list>
+          <div class="matter-list__head"><span>LIST / NORTHSTAR CLOSING CHECKLIST</span><span class="matter-list__local"><i></i> SOURCE-LINKED / LOCAL ONLY</span></div>
+          <div class="matter-list__toolbar"><div class="matter-list__filters" role="tablist" aria-label="Matter list filters"><button class="is-active" type="button" role="tab" aria-selected="true" data-list-filter="all">All <span>06</span></button><button type="button" role="tab" aria-selected="false" tabindex="-1" data-list-filter="open">Open <span>04</span></button><button type="button" role="tab" aria-selected="false" tabindex="-1" data-list-filter="review">Needs review <span>01</span></button><button type="button" role="tab" aria-selected="false" tabindex="-1" data-list-filter="done">Done <span>01</span></button></div><span class="matter-list__last">UPDATED LOCALLY / 4 MIN AGO</span></div>
+          <div class="matter-list__body">
+            <div class="matter-list__rows" role="tabpanel" aria-label="Northstar closing checklist" data-list-rows>
+              <article class="matter-list__row is-active" data-list-row data-list-key="liability" data-list-kind="open" tabindex="0" aria-selected="true"><button class="matter-list__check" type="button" data-list-toggle aria-label="Mark liability cap item complete"></button><div><strong>Resolve revised liability cap</strong><small>Merger Agreement &middot; &sect; 7.4 / Limitation</small></div><span class="matter-list__owner">J. Chen</span><time>08 AUG</time><b>OPEN</b></article>
+              <article class="matter-list__row" data-list-row data-list-key="consent" data-list-kind="review" tabindex="0" aria-selected="false"><button class="matter-list__check" type="button" data-list-toggle aria-label="Mark supplier consent item complete"></button><div><strong>Confirm supplier consent</strong><small>Disclosure Schedule &middot; Schedule 5</small></div><span class="matter-list__owner">M. Patel</span><time>10 AUG</time><b>REVIEW</b></article>
+              <article class="matter-list__row" data-list-row data-list-key="dpa" data-list-kind="open" tabindex="0" aria-selected="false"><button class="matter-list__check" type="button" data-list-toggle aria-label="Mark DPA schedule item complete"></button><div><strong>Verify DPA schedule</strong><small>Data Processing Addendum &middot; &sect; 12</small></div><span class="matter-list__owner">KM / Sec</span><time>12 AUG</time><b>OPEN</b></article>
+              <article class="matter-list__row" data-list-row data-list-key="board" data-list-kind="open" tabindex="0" aria-selected="false"><button class="matter-list__check" type="button" data-list-toggle aria-label="Mark board memo item complete"></button><div><strong>Circulate board memo</strong><small>Counsel Thread &middot; Thread 08 / Approval</small></div><span class="matter-list__owner">A. Rao</span><time>TODAY</time><b>OPEN</b></article>
+              <article class="matter-list__row" data-list-row data-list-key="signing" data-list-kind="done" tabindex="0" aria-selected="false"><button class="matter-list__check is-complete" type="button" data-list-toggle aria-label="Mark signing set incomplete"></button><div><strong>Prepare final signing set</strong><small>Closing Checklist &middot; Item 05</small></div><span class="matter-list__owner">M. Chen</span><time>15 AUG</time><b>DONE</b></article>
+              <article class="matter-list__row" data-list-row data-list-key="insurance" data-list-kind="open" tabindex="0" aria-selected="false"><button class="matter-list__check" type="button" data-list-toggle aria-label="Mark insurance certificate item complete"></button><div><strong>Confirm insurance certificate</strong><small>Insurance Schedule &middot; Exhibit C</small></div><span class="matter-list__owner">L. Grant</span><time>16 AUG</time><b>OPEN</b></article>
+              <p class="matter-list__empty" data-list-empty hidden>No item matches this queue.</p>
+            </div>
+            <aside class="matter-list__detail" aria-live="polite"><div class="matter-list__detail-head"><span data-list-detail-kind>OPEN / MATERIAL TERM</span><span><i></i><strong data-list-detail-state>OWNER ACTION</strong></span></div><h3 data-list-detail-title>Resolve revised liability cap.</h3><p data-list-detail-copy>The latest agreement changes the cap to two times fees. Decide whether the change remains a closing condition before the next client preview.</p><div class="matter-list__detail-grid"><div><span>SOURCE</span><strong data-list-detail-source>Merger Agreement / &sect; 7.4</strong></div><div><span>OWNER</span><strong data-list-detail-owner>J. Chen</strong></div><div><span>DUE</span><strong data-list-detail-due>08 Aug 2026</strong></div></div><div class="matter-list__detail-actions"><button type="button" data-list-monitor>Open monitor <span aria-hidden="true">&rarr;</span></button><button type="button" data-list-draft>Draft response <span aria-hidden="true">&rarr;</span></button></div><p class="matter-list__detail-status" data-list-detail-status>Source and owner stay attached to the item.</p></aside>
+          </div>
+          <div class="matter-list__foot"><span data-list-foot><i></i> 03 OPEN / 01 NEEDS REVIEW / 01 DONE</span><a href="platform.html?packet=editor-closing#delivery">Prepare scoped delivery <span aria-hidden="true">&rarr;</span></a></div>
+        </div>
+      </div>
+    </section>
+
     <section class="workflow-page__editor section" id="editor">
       <div class="shell">
         <div class="workflow-page__section-intro">
-          <p class="section-kicker reveal">03 / SOURCE-LINKED EDITOR</p>
+          <p class="section-kicker reveal">04 / SOURCE-LINKED EDITOR</p>
           <h2 class="reveal">Draft with the record in the margin.</h2>
           <p class="reveal">Move from a suggested clause to a reviewable work product without losing the citation, the comment, or the owner behind the decision.</p>
         </div>
@@ -246,7 +269,7 @@
 
     <section class="workflow-page__proof section">
       <div class="shell">
-        <div class="workflow-page__section-intro"><p class="section-kicker reveal">04 / OPERATING RHYTHM</p><h2 class="reveal">Fast enough for practice. Controlled enough for privilege.</h2><p class="reveal">The workflow is not a black box between upload and answer. It is a sequence your team can see, pause, and prove.</p></div>
+        <div class="workflow-page__section-intro"><p class="section-kicker reveal">05 / OPERATING RHYTHM</p><h2 class="reveal">Fast enough for practice. Controlled enough for privilege.</h2><p class="reveal">The workflow is not a black box between upload and answer. It is a sequence your team can see, pause, and prove.</p></div>
         <div class="workflow-proof__grid"><article class="workflow-proof-card reveal"><span>01</span><h3>Find the delta.</h3><p>Compare versions and surface the clause that changed before it becomes a surprise.</p><b>COMPARE / SOURCE</b></article><article class="workflow-proof-card reveal"><span>02</span><h3>Understand the risk.</h3><p>Trace the issue across the matter record and keep the relevant context in view.</p><b>REASON / CONTEXT</b></article><article class="workflow-proof-card reveal"><span>03</span><h3>Make the call.</h3><p>Accept a local draft, assign a diligence item, or leave the next move with counsel.</p><b>ACT / SUPERVISE</b></article><article class="workflow-proof-card reveal"><span>04</span><h3>Leave the proof.</h3><p>Keep the answer attached to its sources, owner, and deployment boundary.</p><b>VERIFY / AUDIT</b></article></div>
       </div>
     </section>
