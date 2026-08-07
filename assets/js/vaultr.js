@@ -62,9 +62,10 @@
     };
     let activeMode = 'review';
     let runTimer;
-    const updateDemo = (mode) => {
+    const updateDemo = (mode, sync = true) => {
       const content = demoModes[mode] || demoModes.review;
       activeMode = mode;
+      if (sync) writeQueryState('demo', mode);
       modeButtons.forEach((button) => {
         const active = button.dataset.demoMode === mode;
         button.classList.toggle('is-active', active);
@@ -118,7 +119,8 @@
         if (result) result.textContent = `${demoModes[activeMode].result} Nothing left the room.`;
       }, 720);
     });
-    updateDemo(activeMode);
+    const initialDemo = readQueryState('demo');
+    updateDemo(Object.prototype.hasOwnProperty.call(demoModes, initialDemo) ? initialDemo : activeMode, false);
   }
 
   const workbench = document.querySelector('[data-workbench]');
@@ -156,8 +158,9 @@
       }
     };
     let workbenchTimer;
-    const setWorkbenchMode = (mode) => {
+    const setWorkbenchMode = (mode, sync = true) => {
       const content = workbenchModes[mode] || workbenchModes.context;
+      if (sync) writeQueryState('workbench', mode);
       workbenchSteps.forEach((step) => {
         const active = step.dataset.workbenchStep === mode;
         step.classList.toggle('is-active', active);
@@ -192,7 +195,8 @@
         workbenchTraces.forEach((trace) => trace.classList.add('is-complete'));
       }, 860);
     });
-    setWorkbenchMode('context');
+    const initialWorkbench = readQueryState('workbench');
+    setWorkbenchMode(Object.prototype.hasOwnProperty.call(workbenchModes, initialWorkbench) ? initialWorkbench : 'context', false);
   }
 
   const boundaryLab = document.querySelector('[data-boundary-lab]');
@@ -227,8 +231,9 @@
         external: 'All external paths', blocked: 'BLOCKED', note: 'For restricted environments, the entire reasoning path stays inside the isolated room.'
       }
     };
-    const setBoundaryMode = (mode) => {
+    const setBoundaryMode = (mode, sync = true) => {
       const content = boundaryModes[mode] || boundaryModes.local;
+      if (sync) writeQueryState('boundary', mode);
       boundaryTabs.forEach((tab) => {
         const active = tab.dataset.boundaryMode === mode;
         tab.classList.toggle('is-active', active);
@@ -257,7 +262,8 @@
       nextTab.focus();
       setBoundaryMode(nextTab.dataset.boundaryMode);
     }));
-    setBoundaryMode('local');
+    const initialBoundary = readQueryState('boundary');
+    setBoundaryMode(Object.prototype.hasOwnProperty.call(boundaryModes, initialBoundary) ? initialBoundary : 'local', false);
   }
 
   const resourceLibrary = document.querySelector('[data-resource-library]');
@@ -3171,9 +3177,9 @@
     network: { route: 'Approved firm network', network: 'Controlled internal route', fit: 'Shared team governance', proof: 'Boundary + access review' },
     airgap: { route: 'Restricted environment', network: 'No external path', fit: 'Sensitive / regulated matters', proof: 'Air-gap validation packet' }
   };
-  const setDeploymentMode = (mode, animate = true) => {
-    const selectedMode = deploymentModeData[mode] ? mode : 'local';
-    writeQueryState('profile', selectedMode);
+  const setDeploymentMode = (mode, animate = true, sync = true) => {
+    const selectedMode = Object.prototype.hasOwnProperty.call(deploymentModeData, mode) ? mode : 'local';
+    if (sync) writeQueryState('profile', selectedMode);
     deploymentProfiles.forEach((profile) => {
       const active = profile.dataset.deploymentMode === selectedMode;
       profile.classList.toggle('is-active', active);
@@ -3211,7 +3217,7 @@
     });
   });
   const initialDeploymentProfile = readQueryState('profile');
-  if (initialDeploymentProfile && deploymentModeData[initialDeploymentProfile]) setDeploymentMode(initialDeploymentProfile, false);
+  if (Object.prototype.hasOwnProperty.call(deploymentModeData, initialDeploymentProfile)) setDeploymentMode(initialDeploymentProfile, false, false);
 
   const impactInputs = [...document.querySelectorAll('[data-impact-input]')];
   const impactResults = document.querySelector('.impact-results');
