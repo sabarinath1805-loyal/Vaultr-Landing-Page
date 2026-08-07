@@ -6176,6 +6176,9 @@ body.detail-page .footer::after { display: none !important; }
 .outcome-desk__detail-actions a:focus-visible { border-color: var(--gold); background: var(--gold); color: var(--ink); outline: none; transform: translateY(-1px); }
 .outcome-desk__detail-actions button:disabled { cursor: default; opacity: .68; transform: none; }
 .outcome-desk__detail-actions .is-quiet { border-color: rgba(255, 255, 255, .45); background: transparent; color: #fff; }
+.outcome-desk__detail-actions .is-delivery { border-color: var(--gold); background: var(--gold); color: var(--ink); }
+.outcome-desk__detail-actions .is-delivery:hover,
+.outcome-desk__detail-actions .is-delivery:focus-visible { border-color: #fff; background: #fff; color: var(--forest); }
 .outcome-desk__detail-status { min-height: 15px; margin-top: 11px !important; color: rgba(255, 255, 255, .58) !important; font-size: 9px !important; }
 .outcome-desk__foot { min-height: 58px; border-top: 1px solid rgba(0, 0, 0, .1); background: #f4f5f0; color: #69766e; }
 .outcome-desk__foot > span { display: inline-flex; align-items: center; gap: 7px; }

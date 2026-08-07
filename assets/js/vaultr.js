@@ -3744,6 +3744,7 @@
     const outcomeSteps = outcomeDesk.querySelector('[data-outcome-steps]');
     const outcomePrimary = outcomeDesk.querySelector('[data-outcome-primary]');
     const outcomeSecondary = outcomeDesk.querySelector('[data-outcome-secondary]');
+    const outcomeDeliveryLink = outcomeDesk.querySelector('[data-outcome-delivery-link]');
     const outcomeStatus = outcomeDesk.querySelector('[data-outcome-status]');
     const outcomeFoot = outcomeDesk.querySelector('[data-outcome-foot]');
     const outcomeOpen = outcomeDesk.querySelector('[data-outcome-open]');
@@ -3751,22 +3752,22 @@
       closing: {
         kind: 'NEEDS APPROVAL / NORTHSTAR', state: 'COUNSEL APPROVAL', title: 'Release the closing brief.',
         copy: 'The source-linked brief is complete. One counsel approval remains before the delivery room can show the client-ready view.', owner: 'J. CHEN / DEAL LEAD', evidence: '19 CITATIONS', next: 'COUNSEL SIGN-OFF',
-        steps: [['Local synthesis', 'COMPLETE', 'complete'], ['Source review', 'COMPLETE', 'complete'], ['Counsel release', 'WAITING', 'active']], primary: 'Stage sign-off', secondary: 'Open evidence', open: 'platform.html#evidence', foot: 'NORTHSTAR / 01 NEEDS ACTION / 0 B OUTBOUND'
+        steps: [['Local synthesis', 'COMPLETE', 'complete'], ['Source review', 'COMPLETE', 'complete'], ['Counsel release', 'WAITING', 'active']], primary: 'Stage sign-off', secondary: 'Open evidence', open: 'platform.html#evidence', delivery: 'platform.html?packet=editor-closing#delivery', foot: 'NORTHSTAR / 01 NEEDS ACTION / 0 B OUTBOUND'
       },
       policy: {
         kind: 'NEEDS CLARIFICATION / MERIDIAN', state: 'NEEDS ANSWER', title: 'Resolve the policy checkpoint.',
         copy: 'The approved-systems check is ready for KM / Security. Answer the clarification before the next local run begins.', owner: 'KM / SECURITY', evidence: '04 CONTROLS', next: 'ANSWER + RE-RUN',
-        steps: [['Policy set loaded', 'COMPLETE', 'complete'], ['Boundary check', 'COMPLETE', 'complete'], ['Counsel clarification', 'WAITING', 'active']], primary: 'Stage response', secondary: 'Open thread', open: 'command.html?thread=policy#threads', foot: 'MERIDIAN / 01 NEEDS ACTION / 0 B OUTBOUND'
+        steps: [['Policy set loaded', 'COMPLETE', 'complete'], ['Boundary check', 'COMPLETE', 'complete'], ['Counsel clarification', 'WAITING', 'active']], primary: 'Stage response', secondary: 'Open thread', open: 'command.html?thread=policy#threads', delivery: 'platform.html?packet=agent-policy#delivery', foot: 'MERIDIAN / 01 NEEDS ACTION / 0 B OUTBOUND'
       },
       handoff: {
         kind: 'IN REVIEW / NORTHSTAR', state: 'OWNER REVIEW', title: 'Publish the client handoff.',
         copy: 'Six source-linked artifacts are staged for a scoped delivery room. Confirm the recipient view before anything is shared.', owner: 'M. CHEN / DEAL LEAD', evidence: '06 ARTIFACTS', next: 'RECIPIENT SCOPE',
-        steps: [['Artifacts selected', 'COMPLETE', 'complete'], ['Owner review', 'IN REVIEW', 'active'], ['Client release', 'LOCKED', 'locked']], primary: 'Stage handoff', secondary: 'Open shared room', open: 'customers.html?space=questions#shared-space', foot: 'NORTHSTAR / 01 IN REVIEW / 0 B OUTBOUND'
+        steps: [['Artifacts selected', 'COMPLETE', 'complete'], ['Owner review', 'IN REVIEW', 'active'], ['Client release', 'LOCKED', 'locked']], primary: 'Stage handoff', secondary: 'Open shared room', open: 'customers.html?space=questions#shared-space', delivery: 'platform.html?packet=agent-diligence#delivery', foot: 'NORTHSTAR / 01 IN REVIEW / 0 B OUTBOUND'
       },
       chronology: {
         kind: 'SIGNED OFF / CEDAR', state: 'READY TO DELIVER', title: 'Chronology refresh is ready.',
         copy: 'The local chronology has been reviewed and signed off. Move the source-linked timeline into the delivery room when counsel is ready.', owner: 'A. RAO / PRACTICE OPS', evidence: '42 EVENTS', next: 'DELIVERY ROOM',
-        steps: [['Events normalized', 'COMPLETE', 'complete'], ['Counsel review', 'COMPLETE', 'complete'], ['Delivery handoff', 'READY', 'active']], primary: 'Stage delivery', secondary: 'Open delivery room', open: 'workflows.html?list=chronology#lists', foot: 'CEDAR / 01 SIGNED OFF / 0 B OUTBOUND'
+        steps: [['Events normalized', 'COMPLETE', 'complete'], ['Counsel review', 'COMPLETE', 'complete'], ['Delivery handoff', 'READY', 'active']], primary: 'Stage delivery', secondary: 'Open delivery room', open: 'workflows.html?list=chronology#lists', delivery: 'platform.html?packet=agent-chronology#delivery', foot: 'CEDAR / 01 SIGNED OFF / 0 B OUTBOUND'
       }
     };
     let outcomeActive = 'closing';
@@ -3798,6 +3799,10 @@
         outcomePrimary.innerHTML = staged ? 'Decision staged <span aria-hidden="true">&#10003;</span>' : `${data.primary} <span aria-hidden="true">&#8594;</span>`;
       }
       if (outcomeSecondary) { outcomeSecondary.textContent = data.secondary; outcomeSecondary.href = data.open; }
+      if (outcomeDeliveryLink) {
+        outcomeDeliveryLink.href = data.delivery || 'platform.html#delivery';
+        outcomeDeliveryLink.hidden = !staged;
+      }
       if (outcomeOpen) outcomeOpen.href = data.open;
       if (outcomeStatus) outcomeStatus.textContent = staged ? 'Staged locally. Counsel review is still required.' : 'Nothing is released until counsel approves locally.';
       const visible = outcomeCards.filter((card) => !card.hidden);
