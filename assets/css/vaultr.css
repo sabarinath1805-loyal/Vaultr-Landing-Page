@@ -4092,6 +4092,13 @@ body:not(.detail-page) .hero__copy { max-width: 760px; }
 .hero-demo .hero__signal-body > p { margin-top: 21px; }
 .hero-demo .hero__signal-grid { margin-top: 27px; }
 .hero-demo .hero__signal-foot { font-size: 8px; }
+.hero-demo__trace { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 21px; padding-top: 13px; border-top: 1px solid rgba(240, 237, 232, .2); }
+.hero-demo__trace > div { display: grid; min-width: 0; gap: 4px; }
+.hero-demo__trace-label { color: rgba(240, 237, 232, .58); font-size: 8px; font-weight: 700; letter-spacing: .14em; }
+.hero-demo__trace strong { overflow: hidden; color: #f0ede8; font-size: 11px; font-weight: 700; letter-spacing: .02em; text-overflow: ellipsis; white-space: nowrap; }
+.hero-demo__trace small { color: rgba(240, 237, 232, .62); font-size: 9px; line-height: 1.2; }
+.hero-demo__trace-state { flex: 0 0 auto; padding: 5px 7px; border: 1px solid rgba(240, 237, 232, .3); color: rgba(240, 237, 232, .74); font-size: 8px; font-weight: 700; letter-spacing: .12em; }
+.hero-demo__trace-state.is-verified { border-color: rgba(201, 168, 76, .72); color: var(--gold); }
 .hero-demo__run {
   width: 100%;
   min-height: 42px;
@@ -4126,6 +4133,8 @@ body:not(.detail-page) .hero__copy { max-width: 760px; }
   body:not(.detail-page) .hero__content { display: grid; grid-template-columns: 1fr; gap: 34px; padding-top: 132px; padding-bottom: 226px; }
   .hero-demo { width: 100%; }
   .hero-demo .hero__signal-body { padding: 28px 21px 23px; }
+  .hero-demo__trace { gap: 10px; }
+  .hero-demo__trace strong { font-size: 10px; }
 }
 
 /* Contrast and gallery finish: white type on forest, white footers, art windows. */

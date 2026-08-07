@@ -23,18 +23,21 @@
       label: 'OUTBOUND NETWORK', value: '0 B',
       copy: 'Review a confidentiality clause without leaving your device.',
       runtime: 'Local', evidence: '3', confidence: '98%',
+      source: 'MERGER AGREEMENT · §9.2', sourceMeta: '3 cited spans · 48 pages indexed',
       result: 'Ready for a private pass.'
     },
     compare: {
       label: 'DOCUMENTS COMPARED', value: '02',
       copy: 'Compare two versions and surface the material change in seconds.',
       runtime: 'Local', evidence: '12', confidence: '96%',
+      source: 'REVISION 04 → REVISION 05', sourceMeta: '12 deltas · 2 material changes',
       result: 'Ready to surface changes.'
     },
     draft: {
       label: 'DRAFTING CONTEXT', value: '04',
       copy: 'Draft a matter-aware response from the sources you selected.',
       runtime: 'Local', evidence: '8', confidence: '94%',
+      source: 'APPROVED PLAYBOOK / M&A', sourceMeta: '8 references · 1 review gate',
       result: 'Ready to draft from context.'
     }
   };
@@ -46,6 +49,10 @@
     const copy = heroDemo.querySelector('[data-demo-copy]');
     const result = heroDemo.querySelector('[data-demo-result]');
     const foot = heroDemo.querySelector('[data-demo-foot]');
+    const source = heroDemo.querySelector('[data-demo-source]');
+    const sourceMeta = heroDemo.querySelector('[data-demo-source-meta]');
+    const trace = heroDemo.querySelector('[data-demo-trace]');
+    const traceState = heroDemo.querySelector('[data-demo-trace-state]');
     const run = heroDemo.querySelector('[data-demo-run]');
     const demoPanel = heroDemo.querySelector('[role="tabpanel"]');
     const metrics = {
@@ -68,8 +75,12 @@
       if (label) label.textContent = content.label;
       if (value) value.textContent = content.value;
       if (copy) copy.textContent = content.copy;
+      if (source) source.textContent = content.source;
+      if (sourceMeta) sourceMeta.textContent = content.sourceMeta;
       if (result) result.textContent = content.result;
       if (foot) foot.textContent = 'READY FOR A PRIVATE PASS';
+      trace?.classList.remove('is-verified');
+      if (traceState) traceState.textContent = 'READY';
       Object.entries(metrics).forEach(([key, element]) => { if (element) element.textContent = content[key]; });
       if (status) status.textContent = 'READY';
       run?.classList.remove('is-running');
@@ -82,12 +93,15 @@
       run.disabled = true;
       if (status) status.textContent = 'RUNNING';
       if (foot) foot.textContent = 'PROCESSING ON DEVICE';
+      if (traceState) traceState.textContent = 'CHECKING';
       if (result) result.textContent = 'Lex is reasoning locally…';
       runTimer = window.setTimeout(() => {
         run.classList.remove('is-running');
         run.disabled = false;
         if (status) status.textContent = 'COMPLETE';
         if (foot) foot.textContent = 'PRIVATE PASS COMPLETE';
+        trace?.classList.add('is-verified');
+        if (traceState) traceState.textContent = 'VERIFIED';
         if (result) result.textContent = `${demoModes[activeMode].result} Nothing left the room.`;
       }, 720);
     });
