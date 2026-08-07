@@ -8,3 +8,4 @@ https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/resources.html
 https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/command.html
 https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/deployment.html
 https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/security.html
+https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/privacy.html
