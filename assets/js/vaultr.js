@@ -69,6 +69,7 @@
         const active = button.dataset.demoMode === mode;
         button.classList.toggle('is-active', active);
         button.setAttribute('aria-selected', String(active));
+        button.tabIndex = active ? 0 : -1;
       });
       const activeButton = modeButtons.find((button) => button.dataset.demoMode === mode);
       if (activeButton && demoPanel) demoPanel.setAttribute('aria-labelledby', activeButton.id);
@@ -83,10 +84,22 @@
       if (traceState) traceState.textContent = 'READY';
       Object.entries(metrics).forEach(([key, element]) => { if (element) element.textContent = content[key]; });
       if (status) status.textContent = 'READY';
+      window.clearTimeout(runTimer);
       run?.classList.remove('is-running');
       if (run) run.disabled = false;
     };
-    modeButtons.forEach((button) => button.addEventListener('click', () => updateDemo(button.dataset.demoMode)));
+    modeButtons.forEach((button, index) => {
+      button.addEventListener('click', () => updateDemo(button.dataset.demoMode));
+      button.addEventListener('keydown', (event) => {
+        if (!['ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const direction = event.key === 'ArrowLeft' || event.key === 'ArrowUp' ? -1 : 1;
+        const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? modeButtons.length - 1 : (index + direction + modeButtons.length) % modeButtons.length;
+        const nextButton = modeButtons[nextIndex];
+        nextButton?.focus();
+        if (nextButton) updateDemo(nextButton.dataset.demoMode);
+      });
+    });
     run?.addEventListener('click', () => {
       window.clearTimeout(runTimer);
       run.classList.add('is-running');
@@ -1208,7 +1221,7 @@
     });
   }
 
-  const roomIndexConfig = [
+  const roomIndexConfig = document.body.classList.contains('detail-page') ? [
     { id: 'proof', label: 'Room signals' },
     { id: 'product', label: 'Lex room' },
     { id: 'evidence', label: 'Evidence ledger' },
@@ -1217,6 +1230,13 @@
     { id: 'solutions', label: 'Practice rooms' },
     { id: 'command-center', label: 'Command center' },
     { id: 'deployment', label: 'Deployment desk' }
+  ] : [
+    { id: 'gallery', label: 'Visual archive' },
+    { id: 'features', label: 'Utility' },
+    { id: 'comparison', label: 'Architecture' },
+    { id: 'privacy', label: 'Boundary' },
+    { id: 'quotes', label: 'Counsel' },
+    { id: 'deployment', label: 'Deployment' }
   ];
   const roomIndexSections = roomIndexConfig.map((item) => ({ ...item, element: document.getElementById(item.id) })).filter((item) => item.element);
   const pageFooter = document.querySelector('.footer');
