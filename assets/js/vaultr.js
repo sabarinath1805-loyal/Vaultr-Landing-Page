@@ -3744,8 +3744,8 @@
       setOutcomeSelection(outcomeActive);
     });
     const initialOutcomeFilter = readQueryState('outcomeFilter');
-    setOutcomeFilter(initialOutcomeFilter || 'all');
     const initialOutcome = readQueryState('outcome');
+    setOutcomeFilter(initialOutcomeFilter || 'all');
     if (initialOutcome && outcomeData[initialOutcome]) setOutcomeSelection(initialOutcome, false);
   }
 
