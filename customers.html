@@ -19,8 +19,8 @@
   <meta name="twitter:image" content="https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/assets/images/vaultr-og.png">
   <link rel="canonical" href="https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/customers.html">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-55">
-  <script defer src="assets/js/vaultr.js?v=library-55"></script>
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-56">
+  <script defer src="assets/js/vaultr.js?v=library-56"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Vaultr Practice Rooms","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/customers.html","description":"Illustrative legal workflows shaped around a private local runtime.","isPartOf":{"@type":"WebSite","name":"Vaultr","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/"}}</script>
 </head>
 <body class="detail-page customers-page">
@@ -138,6 +138,7 @@
             <button class="shared-space__tab" type="button" role="tab" aria-selected="false" aria-controls="shared-space-panel-documents" data-shared-tab="documents"><span><b>02</b>Documents</span><small>24 source files</small></button>
             <button class="shared-space__tab" type="button" role="tab" aria-selected="false" aria-controls="shared-space-panel-workflows" data-shared-tab="workflows"><span><b>03</b>Workflows</span><small>2 approved runs</small></button>
             <button class="shared-space__tab" type="button" role="tab" aria-selected="false" aria-controls="shared-space-panel-activity" data-shared-tab="activity"><span><b>04</b>Activity</span><small>Audit trail</small></button>
+            <button class="shared-space__tab" type="button" role="tab" aria-selected="false" aria-controls="shared-space-panel-questions" data-shared-tab="questions"><span><b>05</b>Questions</span><small>Client Q&amp;A</small></button>
             <div class="shared-space__rail-foot"><span><i></i> LOCAL RUNTIME</span><strong data-shared-foot>0 B OUTBOUND</strong></div>
           </aside>
           <div class="shared-space__main">
@@ -159,6 +160,25 @@
               <section class="shared-space__panel" id="shared-space-panel-activity" role="tabpanel" data-shared-panel="activity" hidden>
                 <div class="shared-space__panel-head"><span class="shared-space__label">ACTIVITY / FULL AUDIT TRAIL</span><strong>11 events · 0 B outbound</strong></div>
                 <ol class="shared-space__activity"><li><time>10:42</time><span><b>M. Chen</b> approved the disclosure schedule for client preview.</span><small>Source remains firm-owned.</small></li><li><time>10:38</time><span><b>Lex</b> completed a material change review.</span><small>12 deltas · 4 citations attached.</small></li><li><time>10:31</time><span><b>A. Rao</b> joined as a scoped collaborator.</span><small>View-only access · expires in 24 hours.</small></li><li><time>10:24</time><span><b>M. Chen</b> opened the room.</span><small>Local runtime initialized.</small></li></ol>
+              </section>
+              <section class="shared-space__panel" id="shared-space-panel-questions" role="tabpanel" data-shared-panel="questions" hidden>
+                <div class="shared-space__panel-head"><span class="shared-space__label">CLIENT Q&amp;A / APPROVED SOURCES</span><strong>03 visible artifacts &middot; 0 B outbound</strong></div>
+                <div class="shared-space__question-layout">
+                  <form class="shared-space__question-compose" data-shared-question-form>
+                    <label for="shared-question">Ask about the shared record</label>
+                    <textarea id="shared-question" rows="4" placeholder="Ask a question about the approved documents..." data-shared-question-input></textarea>
+                    <div class="shared-space__question-suggestions" aria-label="Suggested questions"><button type="button" data-shared-question-suggestion="What changed in the liability cap?">Liability cap change</button><button type="button" data-shared-question-suggestion="Which supplier consents remain open?">Open consents</button></div>
+                    <button class="shared-space__question-submit" type="submit">Ask Lex locally <span aria-hidden="true">&rarr;</span></button>
+                    <p class="shared-space__question-status" data-shared-question-status aria-live="polite">Questions stay in the room until counsel reviews the answer.</p>
+                  </form>
+                  <aside class="shared-space__answer" data-shared-question-answer hidden aria-live="polite">
+                    <div class="shared-space__answer-head"><span>LEX / SCOPED ANSWER</span><strong><i></i> REVIEW REQUIRED</strong></div>
+                    <h4 data-shared-question-title>Answer ready for counsel.</h4>
+                    <p data-shared-question-copy>The answer will only use artifacts explicitly shared with this room.</p>
+                    <div class="shared-space__answer-source"><span>SOURCE SPAN</span><strong data-shared-question-source>Approved artifact</strong><small data-shared-question-span>Waiting for a local question</small></div>
+                    <button type="button" data-shared-question-stage>Stage for counsel <span aria-hidden="true">&rarr;</span></button>
+                  </aside>
+                </div>
               </section>
             </div>
             <div class="shared-space__footer"><span data-shared-footer-copy>Invite only the people assigned to the matter.</span><button type="button" class="shared-space__copy" data-shared-copy>Copy room brief <span aria-hidden="true">→</span></button></div>

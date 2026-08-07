@@ -677,20 +677,30 @@
     const sharedStatus = sharedSpace.querySelector('[data-shared-status]');
     const sharedWorkflowStatus = sharedSpace.querySelector('[data-shared-workflow-status]');
     const sharedCopy = sharedSpace.querySelector('[data-shared-copy]');
+    const sharedQuestionForm = sharedSpace.querySelector('[data-shared-question-form]');
+    const sharedQuestionInput = sharedSpace.querySelector('[data-shared-question-input]');
+    const sharedQuestionAnswer = sharedSpace.querySelector('[data-shared-question-answer]');
+    const sharedQuestionTitle = sharedSpace.querySelector('[data-shared-question-title]');
+    const sharedQuestionCopy = sharedSpace.querySelector('[data-shared-question-copy]');
+    const sharedQuestionSource = sharedSpace.querySelector('[data-shared-question-source]');
+    const sharedQuestionSpan = sharedSpace.querySelector('[data-shared-question-span]');
+    const sharedQuestionStatus = sharedSpace.querySelector('[data-shared-question-status]');
+    const sharedQuestionStage = sharedSpace.querySelector('[data-shared-question-stage]');
     const sharedTitles = {
       overview: ['ROOM PULSE / 07 MAY 2026', 'One shared record. No version chase.'],
       documents: ['DOCUMENTS / CONTROLLED VIEW', 'Show the work. Withhold the record.'],
       workflows: ['WORKFLOWS / FIRM-POWERED', 'Let the client run the method—not own it.'],
-      activity: ['ACTIVITY / AUDIT TRAIL', 'Every permission change has a visible finish line.']
+      activity: ['ACTIVITY / AUDIT TRAIL', 'Every permission change has a visible finish line.'],
+      questions: ['QUESTIONS / SCOPED Q&A', 'Let the client ask. Keep the answer reviewable.']
     };
     let sharedActive = 'overview';
     const sharedStorageKey = 'vaultr.shared-room';
-    let sharedState = { invite: false, approved: false };
+    let sharedState = { invite: false, approved: false, questionStaged: false };
     try {
       const storedSharedState = JSON.parse(window.localStorage.getItem(sharedStorageKey) || '{}');
-      sharedState = { invite: storedSharedState?.invite === true, approved: storedSharedState?.approved === true };
+      sharedState = { invite: storedSharedState?.invite === true, approved: storedSharedState?.approved === true, questionStaged: storedSharedState?.questionStaged === true };
     } catch (error) {
-      sharedState = { invite: false, approved: false };
+      sharedState = { invite: false, approved: false, questionStaged: false };
     }
     const persistSharedState = () => {
       try { window.localStorage.setItem(sharedStorageKey, JSON.stringify(sharedState)); } catch (error) { /* local-only room state is best effort */ }
@@ -707,6 +717,9 @@
       if (sharedState.approved && sharedStatus) sharedStatus.textContent = 'Preview approved locally. Invite a scoped collaborator when ready.';
       if (sharedState.invite && sharedFooterCopy) sharedFooterCopy.textContent = sharedState.approved ? 'The client sees the approved artifact—not the raw matter record.' : 'Scoped invite drafted / view-only / expires in 24 hours.';
       if (sharedFoot) sharedFoot.textContent = sharedState.invite && sharedState.approved ? 'INVITE DRAFTED / PREVIEW APPROVED / 0 B OUTBOUND' : sharedState.invite ? 'INVITE DRAFTED / 0 B OUTBOUND' : sharedState.approved ? 'PREVIEW APPROVED / 0 B OUTBOUND' : '0 B OUTBOUND';
+      if (sharedState.questionStaged && sharedFooterCopy) sharedFooterCopy.textContent = 'Q&A staged for counsel / the client sees no answer until release.';
+      if (sharedState.questionStaged && sharedFoot) sharedFoot.textContent = 'Q&A STAGED / COUNSEL REVIEW / 0 B OUTBOUND';
+      if (sharedState.questionStaged && sharedQuestionStage) { sharedQuestionStage.disabled = true; sharedQuestionStage.innerHTML = 'Staged for counsel <span aria-hidden="true">&#10003;</span>'; }
     };
     const setSharedTab = (key, focus = false, sync = true) => {
       const next = sharedTitles[key] ? key : 'overview';
@@ -770,6 +783,48 @@
       navigator.clipboard?.writeText(brief).catch(() => {});
       if (sharedFooterCopy) sharedFooterCopy.textContent = 'Room brief copied locally. Nothing was uploaded.';
       if (sharedCopy) sharedCopy.innerHTML = 'Brief copied <span aria-hidden="true">✓</span>';
+    });
+    const sharedQuestionData = [
+      { test: ['liability', 'cap', 'changed'], title: 'The liability cap changed.', copy: 'The latest agreement moves the cap to two times fees. It is still held as a closing condition until counsel confirms the negotiation position.', source: 'Merger Agreement v5', span: '§ 7.4 / Limitation of liability' },
+      { test: ['supplier', 'consent'], title: 'Five supplier consents remain open.', copy: 'The disclosure schedule identifies five suppliers that may require written consent before signing. The underlying schedule remains firm-only.', source: 'Disclosure Schedule', span: 'Schedule 5 / Supplier consent' },
+      { test: ['privacy', 'approved', 'system'], title: 'The approved local boundary is current.', copy: 'The shared record confirms a local runtime, an owner review gate, and no external inference. Policy questions remain with the security owner.', source: 'Privacy & AI Policy', span: '§ 3 / Approved systems' }
+    ];
+    const answerSharedQuestion = (value) => {
+      const normalized = value.toLowerCase();
+      const data = sharedQuestionData.find((item) => item.test.some((term) => normalized.includes(term))) || { title: 'Answer held for counsel.', copy: 'Lex could not safely narrow this question to the approved artifacts. Ask the matter team to clarify the scope before an answer is prepared.', source: 'Shared artifact set', span: 'Scope review / no unsupported inference' };
+      if (sharedQuestionAnswer) sharedQuestionAnswer.hidden = false;
+      if (sharedQuestionTitle) sharedQuestionTitle.textContent = data.title;
+      if (sharedQuestionCopy) sharedQuestionCopy.textContent = data.copy;
+      if (sharedQuestionSource) sharedQuestionSource.textContent = data.source;
+      if (sharedQuestionSpan) sharedQuestionSpan.textContent = data.span;
+      if (sharedQuestionStatus) sharedQuestionStatus.textContent = 'Answer staged locally / counsel review required.';
+      if (sharedFoot) sharedFoot.textContent = 'Q&A ANSWER READY / REVIEW REQUIRED / 0 B OUTBOUND';
+      if (sharedFooterCopy) sharedFooterCopy.textContent = 'The answer is held locally until counsel stages it for release.';
+      if (sharedQuestionStage) { sharedQuestionStage.disabled = false; sharedQuestionStage.innerHTML = 'Stage for counsel <span aria-hidden="true">&#8594;</span>'; }
+    };
+    sharedQuestionForm?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const value = (sharedQuestionInput?.value || '').trim();
+      if (!value) {
+        if (sharedQuestionStatus) sharedQuestionStatus.textContent = 'Ask a question about the approved artifacts first.';
+        sharedQuestionInput?.focus();
+        return;
+      }
+      answerSharedQuestion(value);
+    });
+    sharedSpace.querySelectorAll('[data-shared-question-suggestion]').forEach((button) => button.addEventListener('click', () => {
+      const value = button.dataset.sharedQuestionSuggestion || '';
+      if (sharedQuestionInput) sharedQuestionInput.value = value;
+      answerSharedQuestion(value);
+    }));
+    sharedQuestionStage?.addEventListener('click', () => {
+      sharedState.questionStaged = true;
+      persistSharedState();
+      if (sharedQuestionStatus) sharedQuestionStatus.textContent = 'Answer staged for counsel. Nothing was sent to the client.';
+      if (sharedFoot) sharedFoot.textContent = 'Q&A STAGED / COUNSEL REVIEW / 0 B OUTBOUND';
+      if (sharedFooterCopy) sharedFooterCopy.textContent = 'Q&A staged for counsel / the client sees no answer until release.';
+      sharedQuestionStage.disabled = true;
+      sharedQuestionStage.innerHTML = 'Staged for counsel <span aria-hidden="true">&#10003;</span>';
     });
     const initialSharedTab = readQueryState('space');
     setSharedTab(sharedTitles[initialSharedTab] ? initialSharedTab : sharedActive, false, false);
