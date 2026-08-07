@@ -823,7 +823,8 @@
       extract: { label: 'Extract', copy: 'Pull the relevant facts' },
       compare: { label: 'Compare', copy: 'Surface the material delta' },
       review: { label: 'Review gate', copy: 'Leave the call with counsel' },
-      approve: { label: 'Sign-off', copy: 'Assign the next owner' }
+      approve: { label: 'Sign-off', copy: 'Assign the next owner' },
+      branch: { label: 'Decision branch', copy: 'Route by risk threshold' }
     };
     const composerSequence = workflowComposer.querySelector('[data-composer-sequence]');
     const composerStatus = workflowComposer.querySelector('[data-composer-status]');
@@ -839,7 +840,7 @@
       composerSequence.innerHTML = composerSteps.length
         ? composerSteps.map((key, index) => {
           const step = composerCatalog[key];
-          return `<div class="composer-step" role="listitem"><span>0${index + 1}</span><div><strong>${step.label}</strong><small>${step.copy}</small></div><button type="button" aria-label="Remove ${step.label}" data-composer-remove="${key}">×</button></div>`;
+          return `<div class="composer-step${key === 'branch' ? ' composer-step--branch' : ''}" role="listitem"><span>0${index + 1}</span><div><strong>${step.label}</strong><small>${step.copy}</small></div><button type="button" aria-label="Remove ${step.label}" data-composer-remove="${key}">×</button></div>`;
         }).join('')
         : '<p class="composer-empty">Add a step to start the route.</p>';
       composerAddButtons.forEach((button) => {
@@ -853,14 +854,16 @@
       }));
       if (composerFoot) composerFoot.textContent = `${composerSteps.length} STEPS / 0 B OUTBOUND`;
       if (composerTitle) composerTitle.textContent = composerSteps.length ? `Compose a ${composerSteps.length}-step private run.` : 'Start with the route.';
-      if (composerCopy) composerCopy.textContent = composerSteps.length ? 'Choose the steps counsel wants to see. The route stays explicit before Lex takes action.' : 'Add a source set, a review gate, or a sign-off before previewing the run.';
+      if (composerCopy) composerCopy.textContent = composerSteps.includes('branch')
+        ? 'The route can branch on a visible threshold before the next action. Counsel still owns the gate and the outcome.'
+        : composerSteps.length ? 'Choose the steps counsel wants to see. The route stays explicit before Lex takes action.' : 'Add a source set, a review gate, or a sign-off before previewing the run.';
       if (composerRun) composerRun.disabled = composerSteps.length < 2;
     };
     composerAddButtons.forEach((button) => button.addEventListener('click', () => {
       const step = button.dataset.composerAdd;
       if (composerSteps.includes(step)) {
         composerSteps = composerSteps.filter((item) => item !== step);
-      } else if (composerSteps.length < 5) {
+      } else if (composerSteps.length < 6) {
         composerSteps = [...composerSteps, step];
       }
       if (composerStatus) composerStatus.textContent = 'READY TO BUILD';
@@ -872,7 +875,9 @@
       composerRun.classList.add('is-running');
       if (composerStatus) composerStatus.textContent = 'PREVIEWING LOCAL RUN…';
       if (composerTitle) composerTitle.textContent = 'The route is ready for review.';
-      if (composerCopy) composerCopy.textContent = 'Lex will follow each visible step, pause at the review gate, and leave the result attached to its sources.';
+      if (composerCopy) composerCopy.textContent = composerSteps.includes('branch')
+        ? 'Lex will evaluate the visible threshold, route the run, pause at the review gate, and leave each outcome attached to its sources.'
+        : 'Lex will follow each visible step, pause at the review gate, and leave the result attached to its sources.';
       composerSequence?.classList.add('is-running');
       composerTimer = window.setTimeout(() => {
         composerRun.disabled = false;

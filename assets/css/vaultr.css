@@ -4663,6 +4663,13 @@ body:not(.detail-page) .features .feature h3 { color: var(--forest); }
 .composer-step button { width: 26px; height: 26px; border: 1px solid rgba(45, 74, 62, .18); background: #fff; color: var(--sage); cursor: pointer; font-size: 16px; line-height: 1; }
 .composer-step button:hover,
 .composer-step button:focus-visible { border-color: var(--sage); outline: none; }
+.composer-step--branch { border-color: rgba(201, 168, 76, .5); background: rgba(201, 168, 76, .08); }
+.composer-step--branch > span { color: var(--gold); }
+.composer-step--branch strong { color: var(--forest); }
+.composer-step--branch small { color: #69766e; }
+.composer-step--branch button { border-color: rgba(201, 168, 76, .35); color: var(--forest); background: rgba(255, 255, 255, .72); }
+.composer-step--branch button:hover,
+.composer-step--branch button:focus-visible { border-color: var(--gold); }
 .composer-empty { margin: 7px 0; color: var(--muted); font-size: 12px; }
 .workflow-composer__foot { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding-top: 15px; border-top: 1px solid rgba(0, 0, 0, .1); color: #69766e; font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
 .workflow-composer__foot button { display: inline-flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 40px; padding: 0 13px; border: 1px solid var(--forest); background: var(--forest); color: #f0ede8; cursor: pointer; font-size: 9px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; transition: background .25s, border-color .25s, transform .25s; }
@@ -5214,3 +5221,13 @@ body:not(.detail-page) .features .feature h3 { color: var(--forest); }
 
 /* Keep the orientation rail visible without covering product controls. */
 .room-index { z-index: 1; }
+
+/* The shared bottom navigation stays as a quiet gallery card on every route. */
+.footer::before,
+.footer::after,
+body.detail-page .footer::before,
+body.detail-page .footer::after { display: none !important; }
+.footer__rule { height: 8px; background: var(--forest); }
+.footer__github { color: var(--forest); }
+.footer__github:hover,
+.footer__github:focus-visible { color: var(--forest-soft); }
