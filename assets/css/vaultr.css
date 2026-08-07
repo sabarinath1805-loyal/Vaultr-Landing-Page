@@ -1920,6 +1920,7 @@ tbody tr:nth-child(even) { background: #fafbf8; }
 .command-card__heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; color: var(--ink); font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
 .command-card__heading a { color: var(--sage); font-size: 9px; letter-spacing: .08em; }
 .command-card__heading > span:last-child { color: #69766e; font-size: 9px; font-weight: 500; }
+.command-audit-count { margin-left: 7px; color: #89948c; font-size: 8px; font-weight: 600; letter-spacing: .08em; }
 .command-activity { display: grid; gap: 0; margin-top: 17px; }
 .command-activity > div { display: grid; grid-template-columns: 10px 1fr auto; align-items: center; gap: 10px; padding: 14px 0; border-top: 1px solid rgba(0, 0, 0, .08); }
 .activity-dot { width: 6px; height: 6px; border-radius: 50%; background: #a8b4ad; }

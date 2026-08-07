@@ -12,6 +12,22 @@
     url.searchParams.set(key, value);
     window.history.replaceState({}, '', url);
   };
+  const auditStorageKey = 'vaultr.audit-log';
+  const readAuditEvents = () => {
+    try {
+      const stored = JSON.parse(window.localStorage.getItem(auditStorageKey) || '[]');
+      return Array.isArray(stored) ? stored.filter((event) => event && typeof event.title === 'string').slice(0, 60) : [];
+    } catch (error) {
+      return [];
+    }
+  };
+  const recordAuditEvent = ({ title, context, state = 'Local', tone = 'green' }) => {
+    const event = { id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, at: new Date().toISOString(), title, context, state, tone };
+    const next = [event, ...readAuditEvents()].slice(0, 60);
+    try { window.localStorage.setItem(auditStorageKey, JSON.stringify(next)); } catch (error) { /* local-only audit is best effort */ }
+    window.dispatchEvent(new CustomEvent('vaultr:audit', { detail: event }));
+    return event;
+  };
 
   document.querySelector('[data-close-banner]')?.addEventListener('click', () => {
     banner?.classList.add('is-hidden');
@@ -117,6 +133,7 @@
         trace?.classList.add('is-verified');
         if (traceState) traceState.textContent = 'VERIFIED';
         if (result) result.textContent = `${demoModes[activeMode].result} Nothing left the room.`;
+        recordAuditEvent({ title: 'Private pass completed', context: `Homepage demo / ${demoModes[activeMode].label.toLowerCase()}`, state: 'Verified', tone: 'green' });
       }, 720);
     });
     const initialDemo = readQueryState('demo');
@@ -561,6 +578,7 @@
       agentStage.innerHTML = 'Agent staged locally <span aria-hidden="true">✓</span>';
       if (agentStageStatus) agentStageStatus.textContent = 'Opening Workflow Studio with the guardrails attached…';
       if (agentFoot) agentFoot.textContent = 'AGENT STAGED / 0 B OUTBOUND';
+      recordAuditEvent({ title: `${content.title} staged`, context: 'Agent library / Workflow Studio', state: 'Staged', tone: 'gold' });
       const workflowUrl = new URL('workflows.html', window.location.href);
       workflowUrl.searchParams.set('source', `agent-${agentActive}`);
       workflowUrl.hash = 'studio';
@@ -656,6 +674,7 @@
       builderState && (builderState.textContent = 'READY FOR REVIEW');
       builderStageStatus && (builderStageStatus.textContent = `${copy.title} is ready for counsel approval.`);
       builderFoot && (builderFoot.textContent = 'AGENT STAGED / 0 B OUTBOUND');
+      recordAuditEvent({ title: `${copy.title} configured`, context: 'Agent Builder / review contract', state: 'Staged', tone: 'gold' });
       const workflowUrl = new URL('workflows.html', window.location.href);
       workflowUrl.searchParams.set('source', `builder-${builderPurpose}`);
       workflowUrl.hash = 'studio';
@@ -795,6 +814,7 @@
       persistSharedState();
       if (sharedFooterCopy) sharedFooterCopy.textContent = 'Scoped invite drafted / view-only / expires in 24 hours.';
       if (sharedFoot) sharedFoot.textContent = 'INVITE DRAFTED / 0 B OUTBOUND';
+      recordAuditEvent({ title: 'Scoped collaborator invite drafted', context: 'Northstar shared room / access', state: 'Staged', tone: 'gold' });
       reflectSharedState();
       if (sharedInvite) { sharedInvite.disabled = true; sharedInvite.innerHTML = 'Invite drafted <span aria-hidden="true">✓</span>'; }
     });
@@ -803,6 +823,7 @@
       persistSharedState();
       if (sharedStatus) sharedStatus.textContent = 'Preview approved locally. Invite a scoped collaborator when ready.';
       if (sharedFoot) sharedFoot.textContent = 'PREVIEW APPROVED / 0 B OUTBOUND';
+      recordAuditEvent({ title: 'Client preview approved', context: 'Northstar shared room / owner gate', state: 'Approved', tone: 'green' });
       if (sharedFooterCopy) sharedFooterCopy.textContent = 'The client sees the artifact—not the raw matter record.';
       sharedApprove.disabled = true;
       reflectSharedState();
@@ -866,6 +887,7 @@
       if (sharedFooterCopy) sharedFooterCopy.textContent = 'Q&A staged for counsel / the client sees no answer until release.';
       sharedQuestionStage.disabled = true;
       sharedQuestionStage.innerHTML = 'Staged for counsel <span aria-hidden="true">&#10003;</span>';
+      recordAuditEvent({ title: 'Scoped question staged for counsel', context: 'Northstar shared room / Q&A', state: 'Review', tone: 'gold' });
     });
     sharedAccessToggles.forEach((toggle) => toggle.addEventListener('click', () => {
       const key = toggle.dataset.sharedAccessToggle;
@@ -882,6 +904,7 @@
       if (sharedFoot) sharedFoot.textContent = 'ACCESS POLICY STAGED / COUNSEL REVIEW / 0 B OUTBOUND';
       if (sharedFooterCopy) sharedFooterCopy.textContent = 'Access policy staged locally. Invite remains scoped until counsel releases it.';
       reflectAccessState();
+      recordAuditEvent({ title: 'Access policy staged', context: 'Northstar shared room / role boundary', state: 'Review', tone: 'gold' });
     });
     sharedRequestActions.forEach((action) => action.addEventListener('click', () => {
       const next = action.dataset.sharedRequestAction === 'approve' ? 'approved' : 'denied';
@@ -890,6 +913,7 @@
       if (sharedFoot) sharedFoot.textContent = next === 'approved' ? 'REQUEST APPROVED / SCOPED RUN / 0 B OUTBOUND' : 'REQUEST DENIED / NO GUEST ACTION / 0 B OUTBOUND';
       if (sharedFooterCopy) sharedFooterCopy.textContent = next === 'approved' ? 'Guest action enabled only for the approved workflow and artifact set.' : 'External request denied locally. No guest action was enabled.';
       reflectAccessState();
+      recordAuditEvent({ title: next === 'approved' ? 'External request approved' : 'External request denied', context: 'Northstar shared room / admin gate', state: next === 'approved' ? 'Approved' : 'Denied', tone: next === 'approved' ? 'green' : 'gold' });
     }));
     const initialSharedTab = readQueryState('space');
     setSharedTab(sharedTitles[initialSharedTab] ? initialSharedTab : sharedActive, false, false);
@@ -1701,6 +1725,7 @@
       renderDeliveryReview();
       if (deliveryStatus) deliveryStatus.textContent = 'REVIEW REQUESTED';
       if (deliveryFoot) deliveryFoot.textContent = 'REVIEW REQUESTED / OWNER ACTION / 0 B OUTBOUND';
+      recordAuditEvent({ title: 'Recipient review request staged', context: 'Delivery Room / local inbox', state: 'Review', tone: 'gold' });
     });
     deliveryItems.forEach((input) => input.addEventListener('change', () => {
       if (deliveryShare) { deliveryShare.setAttribute('aria-disabled', 'true'); deliveryShare.removeAttribute('disabled'); }
@@ -1741,6 +1766,7 @@
         if (deliveryFoot) deliveryFoot.textContent = `${deliveryItems.filter((input) => input.checked && !input.disabled).length} item${deliveryItems.filter((input) => input.checked && !input.disabled).length === 1 ? '' : 's'} staged · ${selectedDeliveryRecipients().length} recipient${selectedDeliveryRecipients().length === 1 ? '' : 's'} / 0 B outbound`;
         if (deliveryShare) { deliveryShare.setAttribute('aria-disabled', 'false'); deliveryShare.removeAttribute('disabled'); }
         if (deliveryDownload) { deliveryDownload.setAttribute('aria-disabled', 'false'); deliveryDownload.removeAttribute('disabled'); }
+        recordAuditEvent({ title: 'Scoped handoff prepared', context: 'Delivery Room / source-linked packet', state: 'Ready', tone: 'green' });
       }, 850);
     });
     deliveryDownload?.addEventListener('click', () => {
@@ -1775,12 +1801,14 @@
       deliveryDownload.innerHTML = 'Brief downloaded <span aria-hidden="true">&#10003;</span>';
       if (deliveryStatus) deliveryStatus.textContent = 'HANDOFF DOWNLOADED LOCALLY';
       if (deliveryFoot) deliveryFoot.textContent = 'Scoped brief downloaded / 0 B outbound';
+      recordAuditEvent({ title: 'Scoped brief downloaded', context: 'Delivery Room / local export', state: 'Local', tone: 'green' });
       window.setTimeout(() => resetDeliveryDownload(), 1800);
     });
     deliveryShare?.addEventListener('click', () => {
       if (deliveryShare.getAttribute('aria-disabled') === 'true') return;
       if (deliveryStatus) deliveryStatus.textContent = 'PREVIEW COPIED LOCALLY';
       if (deliveryFoot) deliveryFoot.textContent = 'Scoped preview copied / 0 B outbound';
+      recordAuditEvent({ title: 'Scoped preview copied', context: 'Delivery Room / local share preview', state: 'Local', tone: 'green' });
       deliveryShare.setAttribute('aria-disabled', 'true');
       deliveryShare.innerHTML = 'Preview copied <span aria-hidden="true">✓</span>';
       window.setTimeout(() => { deliveryShare.innerHTML = 'Share preview <span aria-hidden="true">↗</span>'; }, 1800);
@@ -2355,6 +2383,7 @@
       if (editorStatus) editorStatus.textContent = 'SIGN-OFF REQUESTED / J. CHEN';
       if (editorSaveState) editorSaveState.textContent = 'Review gate open · J. Chen notified locally';
       if (editorFoot) editorFoot.textContent = 'REVIEW GATE OPEN / 0 B OUTBOUND';
+      recordAuditEvent({ title: 'Editor sign-off requested', context: 'Workflow Studio / Northstar draft', state: 'Review', tone: 'gold' });
     });
     editorExport?.addEventListener('click', () => {
       const title = editorTitle?.textContent || 'Vaultr local draft';
@@ -3562,6 +3591,32 @@
   const commandTabs = [...document.querySelectorAll('[data-command-range]')];
   const commandDashboard = document.querySelector('#command-dashboard');
   commandDashboard?.setAttribute('aria-live', 'polite');
+  const commandActivity = document.querySelector('.command-card--activity .command-activity');
+  if (commandActivity) {
+    const commandActivityFallback = commandActivity.innerHTML;
+    const commandActivityHeading = commandActivity.closest('.command-card')?.querySelector('.command-card__heading > span');
+    const commandAuditCount = document.createElement('small');
+    commandAuditCount.className = 'command-audit-count';
+    commandActivityHeading?.append(' ', commandAuditCount);
+    const escapeAuditText = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
+    const formatAuditTime = (value) => {
+      const timestamp = Date.parse(value);
+      if (!Number.isFinite(timestamp)) return 'Local event';
+      const minutes = Math.max(0, Math.round((Date.now() - timestamp) / 60000));
+      if (minutes < 1) return 'Just now';
+      if (minutes < 60) return `${minutes} min ago`;
+      return new Intl.DateTimeFormat('en', { hour: 'numeric', minute: '2-digit' }).format(new Date(timestamp));
+    };
+    const renderCommandActivity = () => {
+      const events = readAuditEvents();
+      if (commandAuditCount) commandAuditCount.textContent = events.length ? `${String(events.length).padStart(2, '0')} local events` : '03 baseline signals';
+      commandActivity.innerHTML = events.length
+        ? events.slice(0, 3).map((event) => `<div><span class="activity-dot activity-dot--${escapeAuditText(event.tone || 'green')}"></span><p><strong>${escapeAuditText(event.title)}</strong><small>${escapeAuditText(event.context || 'Vaultr local runtime')} / ${escapeAuditText(formatAuditTime(event.at))}</small></p><em>${escapeAuditText(event.state || 'Local')}</em></div>`).join('')
+        : commandActivityFallback;
+    };
+    window.addEventListener('vaultr:audit', renderCommandActivity);
+    renderCommandActivity();
+  }
   let commandChangeTimer;
   const commandData = {
     week: {
@@ -3723,6 +3778,7 @@
       persistAnalytics();
       setAnalyticsScope(analyticsActive);
       if (analyticsStatus) analyticsStatus.textContent = 'Staged locally. Counsel review is still required.';
+      recordAuditEvent({ title: 'Governance brief staged', context: `Command Center / ${analyticsActive} scope`, state: 'Staged', tone: 'gold' });
     });
     const initialAnalytics = readQueryState('analytics');
     setAnalyticsScope(initialAnalytics && analyticsData[initialAnalytics] ? initialAnalytics : 'all', false);
@@ -3864,6 +3920,7 @@
       if (outcomeStaged[outcomeActive]) return;
       outcomeStaged[outcomeActive] = true;
       persistOutcomes();
+      recordAuditEvent({ title: `${outcomeData[outcomeActive]?.title || 'Outcome'} staged`, context: 'Outcome Desk / local decision gate', state: 'Staged', tone: 'gold' });
       setOutcomeSelection(outcomeActive);
     });
     const initialOutcomeFilter = readQueryState('outcomeFilter');
