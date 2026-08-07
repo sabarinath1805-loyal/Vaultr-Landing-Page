@@ -897,6 +897,7 @@
     const threadPlanList = threadDesk.querySelector('[data-thread-plan-list]');
     const threadApprove = threadDesk.querySelector('[data-thread-approve]');
     const threadPause = threadDesk.querySelector('[data-thread-pause]');
+    const threadNotify = threadDesk.querySelector('[data-thread-notify]');
     const threadStatus = threadDesk.querySelector('[data-thread-detail-status]');
     const threadOpen = threadDesk.querySelector('[data-thread-open]');
     const threadFoot = threadDesk.querySelector('[data-thread-foot]');
@@ -912,6 +913,9 @@
     };
     let threadFilter = 'all';
     let threadActive = 'closing';
+    let threadNotifications = {};
+    try { threadNotifications = JSON.parse(window.localStorage.getItem('vaultr.thread-notifications') || '{}') || {}; } catch (error) { threadNotifications = {}; }
+    const persistThreadNotifications = () => { try { window.localStorage.setItem('vaultr.thread-notifications', JSON.stringify(threadNotifications)); } catch (error) { /* local-only reminder state is best effort */ } };
     const setThreadDetail = (key, focus = false) => {
       const data = threadData[key] || threadData.closing;
       threadActive = key;
@@ -935,9 +939,18 @@
       if (threadCopy) threadCopy.textContent = data.copy;
       if (threadPlanList) threadPlanList.innerHTML = data.plan.map((step, index) => `<div class="${step[2] ? `is-${step[2]}` : ''}"><span>${String(index + 1).padStart(2, '0')}</span><strong>${step[0]}</strong><small>${step[1]}</small></div>`).join('');
       if (threadOpen) threadOpen.href = data.open;
-      if (threadApprove) { threadApprove.disabled = data.kind === 'complete' || data.kind === 'running'; threadApprove.innerHTML = data.kind === 'complete' ? 'Plan complete <span aria-hidden="true">&#10003;</span>' : data.kind === 'running' ? 'Running locally <span aria-hidden="true">&#8230;</span>' : 'Approve and run <span aria-hidden="true">&#8594;</span>'; }
+      if (threadApprove) {
+        const needsClarification = key === 'policy' && data.kind === 'input';
+        threadApprove.disabled = data.kind === 'complete' || data.kind === 'running';
+        threadApprove.innerHTML = data.kind === 'complete' ? 'Plan complete <span aria-hidden="true">&#10003;</span>' : data.kind === 'running' ? 'Running locally <span aria-hidden="true">&#8230;</span>' : needsClarification ? 'Answer clarification <span aria-hidden="true">&#8594;</span>' : 'Approve and run <span aria-hidden="true">&#8594;</span>';
+      }
       if (threadPause) { threadPause.disabled = data.kind === 'complete'; threadPause.textContent = data.kind === 'complete' ? 'Thread complete' : 'Pause thread'; }
-      if (threadStatus) threadStatus.textContent = data.kind === 'input' ? 'Nothing runs until the plan is approved locally.' : data.kind === 'running' ? 'Local progress is visible. The thread will pause at the next decision point.' : 'Complete locally. Review the source-linked output in context.';
+      if (threadNotify) {
+        const armed = threadNotifications[key] === true;
+        threadNotify.innerHTML = armed ? 'Local reminder armed <span aria-hidden="true">&#10003;</span>' : 'Notify me locally <span aria-hidden="true">+</span>';
+        threadNotify.setAttribute('aria-pressed', String(armed));
+      }
+      if (threadStatus) threadStatus.textContent = data.kind === 'input' ? 'Nothing runs until the plan is approved locally.' : data.kind === 'running' && key === 'policy' ? 'Clarification saved locally. Progress stays visible while the policy pass runs.' : data.kind === 'running' ? 'Local progress is visible. The thread will pause at the next decision point.' : 'Complete locally. Review the source-linked output in context.';
       if (focus) threadCards.find((card) => card.dataset.threadKey === key)?.focus();
     };
     const renderThreads = (nextFilter = threadFilter) => {
@@ -986,7 +999,11 @@
       data.kind = 'running';
       data.label = 'RUNNING / LOCAL';
       data.state = 'IN PROGRESS';
-      if (threadStatus) threadStatus.textContent = 'Plan approved locally. Progress stays visible while the source pass runs.';
+      if (threadActive === 'policy') {
+        data.copy = 'The clarification is recorded locally. The policy pass will now compare the approved systems against the selected owner and pause again before remediation is assigned.';
+        data.plan[data.plan.length - 1][1] = 'Owner confirmed / source pass queued';
+      }
+      if (threadStatus) threadStatus.textContent = threadActive === 'policy' ? 'Clarification saved locally. Progress stays visible while the policy pass runs.' : 'Plan approved locally. Progress stays visible while the source pass runs.';
       if (threadFoot) threadFoot.innerHTML = '<i></i> THREAD RUNNING / 0 B OUTBOUND';
       renderThreads(threadFilter);
       setThreadDetail(threadActive);
@@ -1001,6 +1018,14 @@
       if (threadFoot) threadFoot.innerHTML = '<i></i> THREAD PAUSED / LOCAL QUEUE';
       renderThreads(threadFilter);
       setThreadDetail(threadActive);
+    });
+    threadNotify?.addEventListener('click', () => {
+      const armed = threadNotifications[threadActive] === true;
+      threadNotifications[threadActive] = !armed;
+      persistThreadNotifications();
+      if (threadFoot) threadFoot.innerHTML = !armed ? '<i></i> LOCAL REMINDER ARMED / 0 B OUTBOUND' : '<i></i> LOCAL QUEUE / 0 B OUTBOUND';
+      setThreadDetail(threadActive);
+      if (threadStatus) threadStatus.textContent = !armed ? 'Local reminder armed. Nothing is sent; this browser will remember the handoff.' : 'Local reminder cleared. The thread remains in the local queue.';
     });
     const initialThread = readQueryState('thread');
     if (initialThread && threadData[initialThread]) threadActive = initialThread;
