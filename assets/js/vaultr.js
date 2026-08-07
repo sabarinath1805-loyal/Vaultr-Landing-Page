@@ -1565,6 +1565,84 @@
     if (initialSource) setSourceFile(initialSource);
   }
 
+  const lexQuestion = document.querySelector('[data-lex-question]');
+  if (lexQuestion) {
+    const lexQuestionInput = lexQuestion.querySelector('[data-lex-question-input]');
+    const lexQuestionStatus = lexQuestion.querySelector('[data-lex-question-status]');
+    const lexQuestionApply = lexQuestion.querySelector('[data-lex-question-apply]');
+    const lexQuestionChips = [...lexQuestion.querySelectorAll('[data-lex-question-chip]')];
+    const lexQuestionData = [
+      {
+        match: ['indemnity', 'cap', 'changed', 'delta'],
+        answerTitle: 'The cap moved from one year to two years.',
+        primary: '2 clauses linked', secondary: 'Answer ready / 0 B', state: 'VERIFIED',
+        citation: '§ 7.4 / Merger Agreement', citationSecondary: '§ 12 / Disclosure Schedule'
+      },
+      {
+        match: ['consent', 'supplier', 'open'],
+        answerTitle: 'Supplier consent is still open.',
+        primary: '1 open item', secondary: 'Counsel decision required', state: 'NEEDS REVIEW',
+        citation: 'Open item 18 / Diligence Tracker', citationSecondary: 'Supplier consent / Northstar'
+      },
+      {
+        match: ['closing', 'ready', 'condition'],
+        answerTitle: 'Closing condition confirmed in correspondence.',
+        primary: '1 thread resolved', secondary: 'Source spans linked', state: 'VERIFIED',
+        citation: 'Thread 08 / Counsel Correspondence', citationSecondary: '§ 12 / Closing conditions'
+      }
+    ];
+    let lexQuestionRequest = 0;
+    let lexQuestionTimer;
+
+    const runLexQuestion = (question) => {
+      const value = question.trim();
+      if (!value) {
+        lexQuestionStatus && (lexQuestionStatus.textContent = 'Ask a question about this matter.');
+        lexQuestionInput?.focus();
+        return;
+      }
+      const normalized = value.toLowerCase();
+      const data = lexQuestionData.find((item) => item.match.some((term) => normalized.includes(term))) || {
+        answerTitle: 'The answer is grounded in the Northstar record.',
+        primary: '3 source spans linked', secondary: 'Local answer / 0 B', state: 'VERIFIED',
+        citation: 'Merger Agreement / selected source set', citationSecondary: 'Northstar matter / local trace'
+      };
+      const request = ++lexQuestionRequest;
+      window.clearTimeout(lexQuestionTimer);
+      lexQuestion.classList.add('is-running');
+      if (lexQuestionApply) lexQuestionApply.disabled = true;
+      if (lexQuestionStatus) lexQuestionStatus.textContent = 'Reading the selected source set…';
+      if (lexLabel) lexLabel.textContent = 'LEX / ASK';
+      setLexSourceAnswer({ ...data, answerTitle: 'Tracing the answer…', primary: 'Reading local sources', secondary: 'Linking evidence' }, 'READING…');
+      lexAnswer?.classList.add('is-changing');
+      lexQuestionTimer = window.setTimeout(() => {
+        if (request !== lexQuestionRequest) return;
+        setLexSourceAnswer(data);
+        lexQuestion.classList.remove('is-running');
+        if (lexQuestionStatus) lexQuestionStatus.textContent = `${data.state === 'NEEDS REVIEW' ? 'Review required' : 'Answer grounded'} / 0 B outbound`;
+        if (lexQuestionApply) lexQuestionApply.disabled = false;
+        lexAnswer?.classList.remove('is-changing');
+      }, 520);
+    };
+
+    lexQuestion.addEventListener('submit', (event) => {
+      event.preventDefault();
+      runLexQuestion(lexQuestionInput?.value || '');
+    });
+    lexQuestionChips.forEach((chip) => chip.addEventListener('click', () => {
+      const value = chip.dataset.lexQuestionChip || '';
+      if (lexQuestionInput) lexQuestionInput.value = value;
+      runLexQuestion(value);
+    }));
+    lexQuestionApply?.addEventListener('click', () => {
+      if (lexQuestionApply.disabled) return;
+      lexQuestionApply.disabled = true;
+      lexQuestionApply.innerHTML = 'Draft note staged <span aria-hidden="true">✓</span>';
+      if (lexQuestionStatus) lexQuestionStatus.textContent = 'Local draft note staged / 0 B outbound';
+      if (lexState) lexState.textContent = 'DRAFT READY';
+    });
+  }
+
   const workflowTabs = [...document.querySelectorAll('[data-workflow-tab]')];
   const workflowPanels = [...document.querySelectorAll('[data-workflow-panel]')];
   const setWorkflow = (mode) => {
