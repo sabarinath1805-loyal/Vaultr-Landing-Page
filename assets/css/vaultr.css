@@ -4727,18 +4727,25 @@ body:not(.detail-page) .features .feature h3 { color: var(--forest); }
 .workbench__trace-item.is-complete { color: rgba(240, 237, 232, .88); }
 .workbench__trace-item.is-complete > i { color: #8ab38d; }
 .workbench__foot { border-top: 1px solid rgba(240, 237, 232, .18); background: rgba(17, 24, 19, .12); }
+.workbench__foot-actions { display: inline-flex; align-items: center; gap: 8px; }
 .workbench__foot > span { color: rgba(240, 237, 232, .66); font-size: 8px; }
 .workbench__run { display: inline-flex; align-items: center; justify-content: space-between; gap: 22px; min-height: 39px; padding: 0 13px; border: 1px solid #f0ede8; background: #f0ede8; color: var(--forest); cursor: pointer; font-size: 10px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; transition: background .25s, border-color .25s, transform .25s; }
 .workbench__run:hover,
 .workbench__run:focus-visible { border-color: var(--gold); background: var(--gold); outline: none; transform: translateY(-2px); }
 .workbench__run:disabled { cursor: wait; opacity: .7; transform: none; }
 .workbench__run.is-running span { animation: workbenchArrow .72s ease-in-out infinite; }
+.workbench__handoff { display: inline-flex; align-items: center; gap: 9px; min-height: 39px; padding: 0 12px; border: 1px solid rgba(240, 237, 232, .42); color: #f0ede8; font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; transition: border-color .25s, color .25s, transform .25s; }
+.workbench__handoff:hover,
+.workbench__handoff:focus-visible { border-color: var(--gold); color: var(--gold); outline: none; transform: translateY(-2px); }
+.workbench__handoff span { font-size: 14px; transition: transform .25s var(--ease); }
+.workbench__handoff:hover span,
+.workbench__handoff:focus-visible span { transform: translate(2px, -2px); }
 @keyframes workbenchArrow { 50% { transform: translateX(4px); } }
 
 @media (max-width: 900px) {
   .features__workbench { grid-template-columns: 1fr; gap: 34px; }
   .features__workbench-copy > p:not(.section-kicker) { max-width: 560px; }
-  .workbench-steps { grid-template-columns: repeat(3, 1fr); }
+  .workbench-steps { grid-template-columns: repeat(4, 1fr); }
   .workbench-step { grid-template-columns: 1fr; gap: 3px; min-height: 56px; }
 }
 @media (max-width: 640px) {
@@ -4749,6 +4756,9 @@ body:not(.detail-page) .features .feature h3 { color: var(--forest); }
   .workbench__brief { border-right: 0; border-bottom: 1px solid rgba(240, 237, 232, .18); }
   .workbench__trace { padding: 20px 16px; }
   .workbench__foot { align-items: flex-start; flex-direction: column; }
+  .workbench__foot-actions { width: 100%; flex-direction: column; align-items: stretch; }
+  .workbench__run,
+  .workbench__handoff { width: 100%; justify-content: space-between; }
 }
 
 /* Connected product surfaces: a compact operating-system map for the platform page. */

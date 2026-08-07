@@ -132,6 +132,7 @@
     const workbenchChips = workbench.querySelector('[data-workbench-chips]');
     const workbenchStatus = workbench.querySelector('[data-workbench-status]');
     const workbenchRun = workbench.querySelector('[data-workbench-run]');
+    const workbenchHandoff = workbench.querySelector('[data-workbench-handoff]');
     const workbenchTraces = [...workbench.querySelectorAll('[data-workbench-trace]')];
     const workbenchPanel = workbench.querySelector('[role="tabpanel"]');
     const workbenchModes = {
@@ -175,6 +176,12 @@
       workbenchTraces.forEach((trace) => {
         trace.classList.toggle('is-current', trace.dataset.workbenchTrace === content.current);
       });
+      workbenchTraces.forEach((trace) => trace.classList.remove('is-complete'));
+      if (workbenchHandoff) {
+        workbenchHandoff.hidden = true;
+        workbenchHandoff.setAttribute('aria-disabled', 'true');
+        workbenchHandoff.tabIndex = -1;
+      }
       if (workbenchStatus) workbenchStatus.textContent = 'READY FOR REVIEW';
       if (workbenchRun) {
         workbenchRun.disabled = false;
@@ -186,14 +193,27 @@
       window.clearTimeout(workbenchTimer);
       workbenchRun.classList.add('is-running');
       workbenchRun.disabled = true;
+      if (workbenchHandoff) {
+        workbenchHandoff.hidden = true;
+        workbenchHandoff.setAttribute('aria-disabled', 'true');
+        workbenchHandoff.tabIndex = -1;
+      }
       if (workbenchStatus) workbenchStatus.textContent = 'LEX IS RUNNING LOCALLY…';
       workbenchTraces.forEach((trace) => trace.classList.remove('is-current'));
       workbenchTimer = window.setTimeout(() => {
         workbenchRun.classList.remove('is-running');
         workbenchRun.disabled = false;
-        if (workbenchStatus) workbenchStatus.textContent = 'COMPLETE / 0 B OUTBOUND';
         workbenchTraces.forEach((trace) => trace.classList.add('is-complete'));
+        if (workbenchHandoff) {
+          workbenchHandoff.hidden = false;
+          workbenchHandoff.setAttribute('aria-disabled', 'false');
+          workbenchHandoff.tabIndex = 0;
+        }
+        if (workbenchStatus) workbenchStatus.textContent = 'COMPLETE / HANDOFF READY';
       }, 860);
+    });
+    workbenchHandoff?.addEventListener('click', (event) => {
+      if (workbenchHandoff.getAttribute('aria-disabled') === 'true') event.preventDefault();
     });
     const initialWorkbench = readQueryState('workbench');
     setWorkbenchMode(Object.prototype.hasOwnProperty.call(workbenchModes, initialWorkbench) ? initialWorkbench : 'context', false);
@@ -678,11 +698,11 @@
     const reflectSharedState = () => {
       if (sharedInvite) {
         sharedInvite.disabled = sharedState.invite;
-        sharedInvite.innerHTML = sharedState.invite ? 'Invite drafted <span aria-hidden="true">âœ“</span>' : 'Invite scoped collaborator <span aria-hidden="true">→</span>';
+        sharedInvite.innerHTML = sharedState.invite ? 'Invite drafted <span aria-hidden="true">&#10003;</span>' : 'Invite scoped collaborator <span aria-hidden="true">→</span>';
       }
       if (sharedApprove) {
         sharedApprove.disabled = sharedState.approved;
-        sharedApprove.innerHTML = sharedState.approved ? 'Preview approved <span aria-hidden="true">âœ“</span>' : 'Approve preview <span aria-hidden="true">→</span>';
+        sharedApprove.innerHTML = sharedState.approved ? 'Preview approved <span aria-hidden="true">&#10003;</span>' : 'Approve preview <span aria-hidden="true">→</span>';
       }
       if (sharedState.approved && sharedStatus) sharedStatus.textContent = 'Preview approved locally. Invite a scoped collaborator when ready.';
       if (sharedState.invite && sharedFooterCopy) sharedFooterCopy.textContent = sharedState.approved ? 'The client sees the approved artifact—not the raw matter record.' : 'Scoped invite drafted / view-only / expires in 24 hours.';
@@ -905,7 +925,7 @@
           const cardAction = card.querySelector('b');
           if (cardLabel) cardLabel.textContent = data.label;
           if (cardMeta) cardMeta.textContent = `${data.plan.length} steps · ${data.owner}`;
-          if (cardAction) cardAction.innerHTML = `${data.kind === 'complete' ? 'READY' : data.kind === 'running' ? 'RUNNING' : 'YOUR INPUT'} <span aria-hidden="true">â†’</span>`;
+          if (cardAction) cardAction.innerHTML = `${data.kind === 'complete' ? 'READY' : data.kind === 'running' ? 'RUNNING' : 'YOUR INPUT'} <span aria-hidden="true">&#8594;</span>`;
         }
       });
       if (threadKind) threadKind.textContent = data.label;
@@ -914,7 +934,7 @@
       if (threadCopy) threadCopy.textContent = data.copy;
       if (threadPlanList) threadPlanList.innerHTML = data.plan.map((step, index) => `<div class="${step[2] ? `is-${step[2]}` : ''}"><span>${String(index + 1).padStart(2, '0')}</span><strong>${step[0]}</strong><small>${step[1]}</small></div>`).join('');
       if (threadOpen) threadOpen.href = data.open;
-      if (threadApprove) { threadApprove.disabled = data.kind === 'complete' || data.kind === 'running'; threadApprove.innerHTML = data.kind === 'complete' ? 'Plan complete <span aria-hidden="true">âœ“</span>' : data.kind === 'running' ? 'Running locally <span aria-hidden="true">â€¦</span>' : 'Approve and run <span aria-hidden="true">â†’</span>'; }
+      if (threadApprove) { threadApprove.disabled = data.kind === 'complete' || data.kind === 'running'; threadApprove.innerHTML = data.kind === 'complete' ? 'Plan complete <span aria-hidden="true">&#10003;</span>' : data.kind === 'running' ? 'Running locally <span aria-hidden="true">&#8230;</span>' : 'Approve and run <span aria-hidden="true">&#8594;</span>'; }
       if (threadPause) { threadPause.disabled = data.kind === 'complete'; threadPause.textContent = data.kind === 'complete' ? 'Thread complete' : 'Pause thread'; }
       if (threadStatus) threadStatus.textContent = data.kind === 'input' ? 'Nothing runs until the plan is approved locally.' : data.kind === 'running' ? 'Local progress is visible. The thread will pause at the next decision point.' : 'Complete locally. Review the source-linked output in context.';
       if (focus) threadCards.find((card) => card.dataset.threadKey === key)?.focus();
