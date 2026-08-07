@@ -1694,7 +1694,12 @@ tbody tr:nth-child(even) { background: #fafbf8; }
 .review-table__filters button:hover,
 .review-table__filters button:focus-visible { border-color: rgba(45, 74, 62, .18); color: var(--sage); outline: none; }
 .review-table__filters button.is-active { border-color: rgba(45, 74, 62, .17); background: #fff; color: var(--sage); }
+.review-table__toolbar-actions { display: inline-flex; align-items: center; gap: 10px; }
 .review-table__summary { color: #69766e; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+.review-table__export { display: inline-flex; align-items: center; gap: 6px; min-height: 30px; padding: 0 9px; border: 1px solid rgba(45, 74, 62, .2); background: #fff; color: var(--sage); cursor: pointer; font-size: 8px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; transition: border-color .2s, background .2s, color .2s, transform .2s; }
+.review-table__export:hover,
+.review-table__export:focus-visible { border-color: var(--sage); background: var(--sage); color: #fff; outline: none; transform: translateY(-1px); }
+.review-table__export:disabled { cursor: default; opacity: .62; transform: none; }
 .review-table__body { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr); }
 .review-table__list { min-width: 0; padding: 18px 21px 20px; border-right: 1px solid rgba(0, 0, 0, .1); }
 .review-table__columns, .review-table__row { display: grid; grid-template-columns: minmax(145px, 1.25fr) minmax(150px, 1fr) minmax(90px, .64fr) minmax(70px, .48fr); align-items: center; gap: 13px; }
@@ -1745,7 +1750,8 @@ tbody tr:nth-child(even) { background: #fafbf8; }
   .review-table__toolbar { align-items: flex-start; flex-direction: column; gap: 11px; padding: 14px 16px; }
   .review-table__filters { overflow-x: auto; max-width: 100%; }
   .review-table__filters button { flex: 0 0 auto; }
-  .review-table__summary { align-self: flex-end; }
+  .review-table__toolbar-actions { width: 100%; justify-content: space-between; }
+  .review-table__summary { align-self: center; }
   .review-table__list { padding: 14px 16px 16px; }
   .review-table__columns { display: none; }
   .review-table__row { grid-template-columns: 1fr auto; gap: 7px 11px; min-height: 84px; padding: 12px 11px; }

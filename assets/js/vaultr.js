@@ -2988,6 +2988,7 @@
     const reviewDetailOwner = reviewTable.querySelector('[data-review-detail-owner]');
     const reviewDetailAction = reviewTable.querySelector('[data-review-detail-action]');
     const reviewStage = reviewTable.querySelector('[data-review-stage]');
+    const reviewExport = reviewTable.querySelector('[data-review-export]');
     const reviewDeliveryLink = reviewTable.querySelector('[data-review-delivery-link]');
     const reviewStageStatus = reviewTable.querySelector('[data-review-stage-status]');
     const reviewDetails = {
@@ -3040,6 +3041,33 @@
       reviewDetailAction.disabled = true;
       reviewDetailAction.innerHTML = 'Source trace selected <span aria-hidden="true">&#10003;</span>';
       if (reviewDetailState) reviewDetailState.textContent = 'TRACE OPEN';
+    });
+    reviewExport?.addEventListener('click', () => {
+      const csvEscape = (value) => `"${String(value ?? '').replace(/"/g, '""')}"`;
+      const visibleRows = reviewRows.filter((row) => !row.hidden);
+      const lines = [
+        ['Issue', 'Source', 'Span', 'State', 'Owner', 'Finding'].map(csvEscape).join(','),
+        ...visibleRows.map((row) => {
+          const data = reviewDetails[row.dataset.reviewRow] || reviewDetails.consent;
+          return [data.title, data.source, data.span, data.state, data.owner, data.copy].map(csvEscape).join(',');
+        })
+      ];
+      const blob = new Blob([lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+      const href = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = href;
+      link.download = 'vaultr-northstar-review.csv';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(href);
+      reviewExport.disabled = true;
+      reviewExport.innerHTML = 'CSV saved locally <span aria-hidden="true">&#10003;</span>';
+      if (reviewSummary) reviewSummary.textContent = `${String(visibleRows.length).padStart(2, '0')} rows / 0 B outbound`;
+      window.setTimeout(() => {
+        reviewExport.disabled = false;
+        reviewExport.innerHTML = 'Export CSV <span aria-hidden="true">&#8595;</span>';
+      }, 1600);
     });
     reviewStage?.addEventListener('click', () => {
       reviewStage.disabled = true;
