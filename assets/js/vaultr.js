@@ -282,6 +282,91 @@
     renderResources(initialResource && resourceFilters.some((tab) => tab.dataset.resourceFilter === initialResource) ? initialResource : 'all');
   }
 
+  const knowledgeRoom = document.querySelector('[data-knowledge-room]');
+  if (knowledgeRoom) {
+    const knowledgeFilters = [...knowledgeRoom.querySelectorAll('[data-knowledge-filter]')];
+    const knowledgeCards = [...knowledgeRoom.querySelectorAll('[data-knowledge-card]')];
+    const knowledgeSearch = knowledgeRoom.querySelector('[data-knowledge-search]');
+    const knowledgeList = knowledgeRoom.querySelector('[data-knowledge-list]');
+    const knowledgeEmpty = knowledgeRoom.querySelector('[data-knowledge-empty]');
+    const knowledgeDetailKind = knowledgeRoom.querySelector('[data-knowledge-detail-kind]');
+    const knowledgeDetailState = knowledgeRoom.querySelector('[data-knowledge-detail-state]');
+    const knowledgeDetailTitle = knowledgeRoom.querySelector('[data-knowledge-detail-title]');
+    const knowledgeDetailCopy = knowledgeRoom.querySelector('[data-knowledge-detail-copy]');
+    const knowledgeDetailOwner = knowledgeRoom.querySelector('[data-knowledge-detail-owner]');
+    const knowledgeDetailReview = knowledgeRoom.querySelector('[data-knowledge-detail-review]');
+    const knowledgeUse = knowledgeRoom.querySelector('[data-knowledge-use]');
+    const knowledgeUseStatus = knowledgeRoom.querySelector('[data-knowledge-use-status]');
+    const knowledgeFoot = knowledgeRoom.querySelector('[data-knowledge-foot]');
+    const knowledgeData = {
+      liability: { kind: 'PLAYBOOK / CURATED', state: 'VERIFIED', title: 'Northstar liability playbook', copy: 'Four approved standards for caps, exclusions, indemnity, and closing conditions. Lex can use this set as a visible guardrail before a workflow begins.', owner: 'Knowledge team', review: '06 Aug 2026' },
+      meridian: { kind: 'PRECEDENT / APPROVED', state: 'VERIFIED', title: 'Meridian employment set', copy: 'A trusted set of employment agreements and annotations for consistent review across the in-house matter queue.', owner: 'Employment group', review: '31 Jul 2026' },
+      consent: { kind: 'PRECEDENT / REVIEWED', state: 'REVIEW', title: 'Supplier consent library', copy: 'Reviewed consent language and fallback positions for change-of-control notices, with owners attached to every clause.', owner: 'Transactional group', review: '02 Aug 2026' },
+      privacy: { kind: 'POLICY / FIRM STANDARD', state: 'CURRENT', title: 'Privacy and AI policy', copy: 'The firm standard for approved runtimes, matter boundaries, review gates, and what can be shared beyond the room.', owner: 'KM / Security', review: '05 Aug 2026' }
+    };
+    let knowledgeActiveFilter = 'all';
+    let knowledgeActiveKey = 'liability';
+    const setKnowledgeDetail = (key) => {
+      const content = knowledgeData[key] || knowledgeData.liability;
+      knowledgeActiveKey = key;
+      knowledgeCards.forEach((card) => card.classList.toggle('is-active', card.dataset.knowledgeKey === key));
+      if (knowledgeDetailKind) knowledgeDetailKind.textContent = content.kind;
+      if (knowledgeDetailState) knowledgeDetailState.textContent = content.state;
+      if (knowledgeDetailTitle) knowledgeDetailTitle.textContent = content.title;
+      if (knowledgeDetailCopy) knowledgeDetailCopy.textContent = content.copy;
+      if (knowledgeDetailOwner) knowledgeDetailOwner.textContent = content.owner;
+      if (knowledgeDetailReview) knowledgeDetailReview.textContent = content.review;
+      if (knowledgeUseStatus) knowledgeUseStatus.textContent = 'Nothing added yet.';
+      if (knowledgeUse) knowledgeUse.disabled = false;
+    };
+    const renderKnowledge = (filter = knowledgeActiveFilter) => {
+      knowledgeActiveFilter = filter;
+      const query = (knowledgeSearch?.value || '').trim().toLowerCase();
+      const matches = knowledgeCards.filter((card) => {
+        const kindMatches = filter === 'all' || card.dataset.knowledgeKind === filter;
+        const textMatches = !query || card.textContent.toLowerCase().includes(query);
+        const visible = kindMatches && textMatches;
+        card.hidden = !visible;
+        return visible;
+      });
+      knowledgeFilters.forEach((tab) => {
+        const active = tab.dataset.knowledgeFilter === filter;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', String(active));
+        tab.setAttribute('tabindex', active ? '0' : '-1');
+      });
+      const activeFilter = knowledgeFilters.find((tab) => tab.dataset.knowledgeFilter === filter);
+      if (activeFilter && knowledgeList) knowledgeList.setAttribute('aria-labelledby', activeFilter.id);
+      if (knowledgeEmpty) knowledgeEmpty.hidden = matches.length !== 0;
+      const activeCard = matches.find((card) => card.dataset.knowledgeKey === knowledgeActiveKey) || matches[0];
+      if (activeCard) setKnowledgeDetail(activeCard.dataset.knowledgeKey);
+      if (knowledgeUseStatus && !activeCard) knowledgeUseStatus.textContent = 'No set selected.';
+    };
+    knowledgeFilters.forEach((tab, index) => {
+      tab.addEventListener('click', () => { writeQueryState('knowledge', tab.dataset.knowledgeFilter); renderKnowledge(tab.dataset.knowledgeFilter); });
+      tab.addEventListener('keydown', (event) => {
+        if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? knowledgeFilters.length - 1 :
+          (index + (event.key === 'ArrowRight' ? 1 : -1) + knowledgeFilters.length) % knowledgeFilters.length;
+        const next = knowledgeFilters[nextIndex];
+        writeQueryState('knowledge', next.dataset.knowledgeFilter);
+        renderKnowledge(next.dataset.knowledgeFilter);
+        next.focus();
+      });
+    });
+    knowledgeCards.forEach((card) => card.addEventListener('click', () => setKnowledgeDetail(card.dataset.knowledgeKey)));
+    knowledgeSearch?.addEventListener('input', () => renderKnowledge());
+    knowledgeUse?.addEventListener('click', () => {
+      const content = knowledgeData[knowledgeActiveKey] || knowledgeData.liability;
+      if (knowledgeUseStatus) knowledgeUseStatus.textContent = `${content.title} added to a local workflow.`;
+      if (knowledgeFoot) knowledgeFoot.textContent = 'Source set staged / 0 B outbound';
+      knowledgeUse.disabled = true;
+    });
+    const initialKnowledge = readQueryState('knowledge');
+    renderKnowledge(initialKnowledge && knowledgeFilters.some((tab) => tab.dataset.knowledgeFilter === initialKnowledge) ? initialKnowledge : 'all');
+  }
+
   const ecosystemMap = document.querySelector('[data-ecosystem-map]');
   if (ecosystemMap) {
     const ecosystemTabs = [...ecosystemMap.querySelectorAll('[data-ecosystem-tab]')];
@@ -796,18 +881,19 @@
         <label class="quick-nav__search"><span aria-hidden="true">⌘K</span><input id="quick-nav-search" type="search" autocomplete="off" placeholder="Search pages and product surfaces" aria-label="Search pages and product surfaces"></label>
         <nav class="quick-nav__items" aria-label="Vaultr destinations">
           <a href="platform.html" data-quick-nav-item><span><strong>Platform</strong><small>Lex, Vault, Knowledge, Agents</small></span><kbd>01</kbd></a>
-          <a href="workflows.html" data-quick-nav-item><span><strong>Workflow Studio</strong><small>Composer, redlines, and supervised runs</small></span><kbd>02</kbd></a>
-          <a href="workflows.html#editor" data-quick-nav-item><span><strong>Source-linked Editor</strong><small>Draft, compare, cite, and comment</small></span><kbd>03</kbd></a>
-          <a href="solutions.html" data-quick-nav-item><span><strong>Solutions</strong><small>Litigation, transactional, in-house</small></span><kbd>04</kbd></a>
-          <a href="customers.html" data-quick-nav-item><span><strong>Practice Rooms</strong><small>Illustrative patterns for legal work</small></span><kbd>05</kbd></a>
-          <a href="platform.html#delivery" data-quick-nav-item><span><strong>Delivery Room</strong><small>Scoped handoffs and client-ready work</small></span><kbd>06</kbd></a>
-          <a href="command.html" data-quick-nav-item><span><strong>Command Center</strong><small>Practice activity and governance signals</small></span><kbd>07</kbd></a>
-          <a href="platform.html#evidence" data-quick-nav-item><span><strong>Evidence Ledger</strong><small>Source, span, confidence</small></span><kbd>08</kbd></a>
-          <a href="platform.html#proof" data-quick-nav-item><span><strong>Room Signals</strong><small>Boundary, ledger, runtime, root</small></span><kbd>09</kbd></a>
-          <a href="security.html" data-quick-nav-item><span><strong>Security Center</strong><small>Runtime, network, and source boundary</small></span><kbd>10</kbd></a>
-          <a href="privacy.html" data-quick-nav-item><span><strong>Privacy brief</strong><small>Data handling, ownership, and review boundaries</small></span><kbd>11</kbd></a>
-          <a href="research.html" data-quick-nav-item><span><strong>Research &amp; architecture</strong><small>Inspect runtime, evidence, and source notes</small></span><kbd>12</kbd></a>
-          <a href="deployment.html" data-quick-nav-item><span><strong>Deployment Desk</strong><small>Build a private deployment brief</small></span><kbd>13</kbd></a>
+          <a href="platform.html#knowledge" data-quick-nav-item><span><strong>Knowledge Room</strong><small>Precedents, playbooks, and policies</small></span><kbd>02</kbd></a>
+          <a href="workflows.html" data-quick-nav-item><span><strong>Workflow Studio</strong><small>Composer, redlines, and supervised runs</small></span><kbd>03</kbd></a>
+          <a href="workflows.html#editor" data-quick-nav-item><span><strong>Source-linked Editor</strong><small>Draft, compare, cite, and comment</small></span><kbd>04</kbd></a>
+          <a href="solutions.html" data-quick-nav-item><span><strong>Solutions</strong><small>Litigation, transactional, in-house</small></span><kbd>05</kbd></a>
+          <a href="customers.html" data-quick-nav-item><span><strong>Practice Rooms</strong><small>Illustrative patterns for legal work</small></span><kbd>06</kbd></a>
+          <a href="platform.html#delivery" data-quick-nav-item><span><strong>Delivery Room</strong><small>Scoped handoffs and client-ready work</small></span><kbd>07</kbd></a>
+          <a href="command.html" data-quick-nav-item><span><strong>Command Center</strong><small>Practice activity and governance signals</small></span><kbd>08</kbd></a>
+          <a href="platform.html#evidence" data-quick-nav-item><span><strong>Evidence Ledger</strong><small>Source, span, confidence</small></span><kbd>09</kbd></a>
+          <a href="platform.html#proof" data-quick-nav-item><span><strong>Room Signals</strong><small>Boundary, ledger, runtime, root</small></span><kbd>10</kbd></a>
+          <a href="security.html" data-quick-nav-item><span><strong>Security Center</strong><small>Runtime, network, and source boundary</small></span><kbd>11</kbd></a>
+          <a href="privacy.html" data-quick-nav-item><span><strong>Privacy brief</strong><small>Data handling, ownership, and review boundaries</small></span><kbd>12</kbd></a>
+          <a href="research.html" data-quick-nav-item><span><strong>Research &amp; architecture</strong><small>Inspect runtime, evidence, and source notes</small></span><kbd>13</kbd></a>
+          <a href="deployment.html" data-quick-nav-item><span><strong>Deployment Desk</strong><small>Build a private deployment brief</small></span><kbd>14</kbd></a>
           <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer" data-quick-nav-item><span><strong>Open architecture</strong><small>Inspect the source and implementation notes</small></span><kbd>↗</kbd></a>
         </nav>
         <p class="quick-nav__empty" data-quick-nav-empty hidden>No matching destination.</p>
