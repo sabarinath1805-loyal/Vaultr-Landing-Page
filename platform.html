@@ -24,8 +24,8 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preload" as="image" href="assets/images/monet-water-lilies.jpg" fetchpriority="high">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-24">
-  <script defer src="assets/js/vaultr.js?v=library-24"></script>
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-25">
+  <script defer src="assets/js/vaultr.js?v=library-25"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Vaultr Platform","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/platform.html","isPartOf":{"@type":"WebSite","name":"Vaultr","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/"}}</script>
 </head>
 <body class="detail-page platform-page">
@@ -236,6 +236,11 @@
               <label><input type="checkbox" data-delivery-item="notes"><span>Review notes</span><small>Owner only</small></label>
               <label class="is-muted"><input type="checkbox" disabled data-delivery-item="raw"><span>Raw matter files</span><small>Not shared</small></label>
             </fieldset>
+            <fieldset class="delivery-room__policy">
+              <legend>SHARING POLICY</legend>
+              <label><input type="checkbox" checked data-delivery-policy="approval"><span>Owner approval required</span><small>Before release</small></label>
+              <label><span>Access window</span><select aria-label="Choose access window" data-delivery-expiry><option value="24 hours">24 hours</option><option value="7 days">7 days</option><option value="No expiry">No expiry</option></select></label>
+            </fieldset>
             <button class="delivery-room__prepare" type="button" data-delivery-prepare>Prepare scoped handoff <span aria-hidden="true">→</span></button>
           </div>
           <div class="delivery-room__preview">
@@ -250,6 +255,12 @@
                 <div><span>01</span><strong>Executive summary</strong><small>Prepared for the recipient</small></div>
                 <div><span>02</span><strong>Source spans</strong><small>03 links back to the record</small></div>
               </div>
+              <div class="delivery-room__timeline" data-delivery-timeline hidden>
+                <div><span>09:42</span><strong>Local pass completed</strong><small>J. Chen / private room</small></div>
+                <div><span>09:47</span><strong>Scope prepared</strong><small>2 recipients / owner approval</small></div>
+                <div><span>09:51</span><strong>Awaiting release</strong><small>Nothing shared yet</small></div>
+              </div>
+              <div class="delivery-room__policy-note" data-delivery-policy-note>Approval required · 24-hour access window</div>
             </div>
             <div class="delivery-room__foot"><span data-delivery-foot>Nothing shared / 0 B outbound</span><button type="button" data-delivery-share aria-disabled="true">Share preview <span aria-hidden="true">↗</span></button></div>
           </div>

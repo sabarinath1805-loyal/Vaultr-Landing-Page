@@ -587,6 +587,10 @@
     const deliveryFoot = deliveryRoom.querySelector('[data-delivery-foot]');
     const deliveryPrepare = deliveryRoom.querySelector('[data-delivery-prepare]');
     const deliveryShare = deliveryRoom.querySelector('[data-delivery-share]');
+    const deliveryTimeline = deliveryRoom.querySelector('[data-delivery-timeline]');
+    const deliveryPolicyNote = deliveryRoom.querySelector('[data-delivery-policy-note]');
+    const deliveryApproval = deliveryRoom.querySelector('[data-delivery-policy="approval"]');
+    const deliveryExpiry = deliveryRoom.querySelector('[data-delivery-expiry]');
     const deliveryViewData = {
       access: {
         label: 'SCOPED ACCESS',
@@ -646,6 +650,8 @@
       if (deliveryViewLabel) deliveryViewLabel.textContent = content.label;
       if (deliveryViewTitle) deliveryViewTitle.textContent = content.title;
       if (deliveryViewCopy) deliveryViewCopy.textContent = content.copy;
+      if (deliveryPreviewItems) deliveryPreviewItems.hidden = deliveryActiveView === 'activity';
+      if (deliveryTimeline) deliveryTimeline.hidden = deliveryActiveView !== 'activity';
       const activeTab = deliveryViews.find((tab) => tab.dataset.deliveryView === deliveryActiveView);
       if (activeTab && deliveryViewPanel) deliveryViewPanel.setAttribute('aria-labelledby', activeTab.id);
       if (focus) activeTab?.focus();
@@ -670,6 +676,15 @@
       if (deliveryStatus) deliveryStatus.textContent = 'PRIVATE DRAFT';
       renderDeliveryItems();
     }));
+    const renderDeliveryPolicy = () => {
+      const approval = deliveryApproval?.checked;
+      const expiry = deliveryExpiry?.value || '24 hours';
+      if (deliveryPolicyNote) deliveryPolicyNote.textContent = `${approval ? 'Approval required' : 'Owner approval not required'} / ${expiry} access window`;
+      if (deliveryShare) deliveryShare.setAttribute('aria-disabled', 'true');
+      if (deliveryStatus) deliveryStatus.textContent = 'PRIVATE DRAFT';
+    };
+    deliveryApproval?.addEventListener('change', renderDeliveryPolicy);
+    deliveryExpiry?.addEventListener('change', renderDeliveryPolicy);
     deliveryPrepare?.addEventListener('click', () => {
       window.clearTimeout(deliveryTimer);
       const recipients = selectedDeliveryRecipients();
@@ -677,7 +692,7 @@
       deliveryPrepare.classList.add('is-running');
       if (deliveryStatus) deliveryStatus.textContent = 'PREPARING LOCALLY';
       if (deliveryPreviewTitle) deliveryPreviewTitle.textContent = deliveryActiveView === 'activity' ? 'Handoff activity / owner view' : 'Decision brief: acquisition review';
-      if (deliveryPreviewCopy) deliveryPreviewCopy.textContent = `The selected handoff is staged locally for ${recipients.length} scoped recipient${recipients.length === 1 ? '' : 's'}. Review the scope before you make it available.`;
+      if (deliveryPreviewCopy) deliveryPreviewCopy.textContent = `The selected handoff is staged locally for ${recipients.length} scoped recipient${recipients.length === 1 ? '' : 's'} with ${deliveryApproval?.checked ? 'owner approval' : 'no approval gate'} and a ${deliveryExpiry?.value || '24 hours'} access window. Review the scope before you make it available.`;
       deliveryTimer = window.setTimeout(() => {
         deliveryPrepare.disabled = false;
         deliveryPrepare.classList.remove('is-running');
@@ -697,6 +712,7 @@
     const initialDeliveryView = readQueryState('delivery');
     setDeliveryView(deliveryViewData[initialDeliveryView] ? initialDeliveryView : 'access');
     renderDeliveryItems();
+    renderDeliveryPolicy();
   }
 
   const verificationLab = document.querySelector('[data-verification]');

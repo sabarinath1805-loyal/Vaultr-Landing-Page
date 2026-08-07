@@ -5189,9 +5189,27 @@ body:not(.detail-page) .features .feature h3 { color: var(--forest); }
 .delivery-room__audience { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 27px; padding: 11px 0; border-block: 1px solid rgba(45, 74, 62, .16); }
 .delivery-room__audience span { color: #89948c; font-size: 8px; font-weight: 700; letter-spacing: .13em; }
 .delivery-room__audience strong { color: var(--sage); font-size: 10px; font-weight: 700; }
+.delivery-room__policy { display: grid; gap: 0; margin: 0 21px 19px; padding: 0; border: 0; }
+.delivery-room__policy legend { margin-bottom: 7px; color: #69766e; font-size: 8px; font-weight: 700; letter-spacing: .13em; }
+.delivery-room__policy label { display: grid; grid-template-columns: 15px 1fr auto; align-items: center; gap: 8px; min-height: 35px; border-top: 1px solid rgba(0, 0, 0, .09); color: var(--ink); font-size: 10px; }
+.delivery-room__policy label:first-of-type { grid-template-columns: 15px 1fr auto; }
+.delivery-room__policy input { width: 13px; height: 13px; margin: 0; accent-color: var(--sage); }
+.delivery-room__policy label > span { min-width: 0; }
+.delivery-room__policy label small { color: var(--muted); font-size: 8px; }
+.delivery-room__policy select { min-height: 25px; padding: 0 5px; border: 1px solid rgba(45, 74, 62, .18); background: #fff; color: var(--sage); font-size: 9px; }
+.delivery-room__policy select:focus { border-color: var(--sage); outline: 0; box-shadow: 0 0 0 3px rgba(45, 74, 62, .1); }
+.delivery-room__timeline { display: grid; gap: 0; margin-top: 49px; border-top: 1px solid rgba(45, 74, 62, .23); }
+.delivery-room__timeline[hidden] { display: none; }
+.delivery-room__timeline > div { display: grid; grid-template-columns: 45px 1fr; gap: 5px 13px; min-height: 58px; padding: 12px 0; border-bottom: 1px solid rgba(0, 0, 0, .08); }
+.delivery-room__timeline span { color: var(--gold); font-size: 8px; font-weight: 700; letter-spacing: .1em; }
+.delivery-room__timeline strong { color: var(--ink); font-size: 11px; font-weight: 650; }
+.delivery-room__timeline small { grid-column: 2; color: var(--muted); font-size: 9px; }
+.delivery-room__policy-note { margin-top: 15px; color: #69766e; font-size: 9px; line-height: 1.4; }
 @media (max-width: 640px) {
-  .delivery-room__recipients { margin-inline: 16px; }
+  .delivery-room__recipients,
+  .delivery-room__policy { margin-inline: 16px; }
   .delivery-room__audience { align-items: flex-start; flex-direction: column; gap: 5px; }
+  .delivery-room__timeline { margin-top: 35px; }
 }
 
 /* Keep the orientation rail visible without covering product controls. */
