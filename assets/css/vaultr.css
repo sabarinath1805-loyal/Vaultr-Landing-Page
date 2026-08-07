@@ -4586,3 +4586,13 @@ body:not(.detail-page) .features .feature h3 { color: var(--forest); }
   .evidence-ledger__panel-foot { align-items: flex-start; flex-direction: column; }
   .evidence-ledger__export { margin-left: 0; }
 }
+
+/* Final interaction polish: keep keyboard focus visible across every surface. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--gold) !important;
+  outline-offset: 4px;
+}
+
+/* The new Command Center preview supersedes the preserved moved section below it.
+   Keep that original markup in the source archive without rendering a duplicate dashboard. */
+.command-center--archive[aria-hidden="true"] { display: none; }
