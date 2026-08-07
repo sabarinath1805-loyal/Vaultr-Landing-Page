@@ -4681,6 +4681,10 @@ body:not(.detail-page) .features .feature h3 { color: var(--forest); }
 .workflow-composer__foot button:focus-visible { border-color: var(--gold); background: var(--gold); color: var(--ink); outline: none; transform: translateY(-2px); }
 .workflow-composer__foot button:disabled { cursor: not-allowed; opacity: .45; transform: none; }
 .workflow-composer__foot button.is-running span { animation: composerArrow .7s ease-in-out infinite; }
+.workflow-composer__delivery-link { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 18px; padding: 9px 11px; border: 1px solid rgba(201, 168, 76, .48); background: rgba(201, 168, 76, .08); color: var(--forest); font-size: 9px; font-weight: 700; letter-spacing: .08em; text-decoration: none; text-transform: uppercase; transition: background .25s, border-color .25s, transform .25s; }
+.workflow-composer__delivery-link[hidden] { display: none; }
+.workflow-composer__delivery-link:hover,
+.workflow-composer__delivery-link:focus-visible { border-color: var(--gold); background: var(--gold); color: var(--ink); outline: none; transform: translateY(-2px); }
 @keyframes composerArrow { 50% { transform: translateX(4px); } }
 @media (max-width: 820px) {
   .workflow-composer__body { grid-template-columns: 1fr; }
@@ -5275,11 +5279,14 @@ body:not(.detail-page) .features .feature h3 { color: var(--forest); }
 .delivery-room__timeline strong { color: var(--ink); font-size: 11px; font-weight: 650; }
 .delivery-room__timeline small { grid-column: 2; color: var(--muted); font-size: 9px; }
 .delivery-room__policy-note { margin-top: 15px; color: #69766e; font-size: 9px; line-height: 1.4; }
+.delivery-room__context { display: block; margin: 49px 48px -36px; color: var(--gold); font-size: 8px; font-weight: 700; letter-spacing: .12em; line-height: 1.5; text-transform: uppercase; }
+.delivery-room__context[hidden] { display: none; }
 @media (max-width: 640px) {
   .delivery-room__recipients,
   .delivery-room__policy { margin-inline: 16px; }
   .delivery-room__audience { align-items: flex-start; flex-direction: column; gap: 5px; }
   .delivery-room__timeline { margin-top: 35px; }
+  .delivery-room__context { margin: 37px 20px -28px; }
 }
 
 /* Keep the orientation rail visible without covering product controls. */

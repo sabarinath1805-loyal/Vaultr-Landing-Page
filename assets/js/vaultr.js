@@ -771,13 +771,18 @@
     const deliveryApproval = deliveryRoom.querySelector('[data-delivery-policy="approval"]');
     const deliveryExpiry = deliveryRoom.querySelector('[data-delivery-expiry]');
     const deliveryImport = deliveryRoom.querySelector('[data-delivery-import]');
+    const deliveryContext = deliveryRoom.querySelector('[data-delivery-context]');
     const deliveryPacketSets = {
       consent: { title: 'Supplier consent', source: 'Diligence Tracker', span: 'Open items / 04', copy: 'The top five suppliers may require notice before closing.' },
       cap: { title: 'Liability cap', source: 'Merger Agreement', span: '§ 7.4 / Limitation', copy: 'The revised cap is two times the fees paid under the agreement.' },
       dpa: { title: 'Subprocessor schedule', source: 'Disclosure Schedule', span: '§ 12 / Data processing', copy: 'The data processing addendum needs to be checked against the approved subprocessor list.' },
-      board: { title: 'Board approval', source: 'Counsel Thread', span: 'Thread 08 / Approval', copy: 'Counsel correspondence confirms the approval memo is ready for the closing checklist.' }
+      board: { title: 'Board approval', source: 'Counsel Thread', span: 'Thread 08 / Approval', copy: 'Counsel correspondence confirms the approval memo is ready for the closing checklist.' },
+      'research-consent': { title: 'Change-of-control consent', source: 'Merger Agreement', span: '§ 9.2 / Assignment', owner: 'J. Chen', copy: 'The top five suppliers may require notice before closing.' },
+      'research-indemnity': { title: 'Indemnity fallback position', source: 'Merger Agreement', span: '§ 8.1 / Indemnity', owner: 'M. Chen', copy: 'The indemnity fallback position is held for the negotiation brief.' },
+      'research-privacy': { title: 'Approved AI boundary', source: 'AI Use Policy', span: '§ 4 / Approved systems', owner: 'S. Patel', copy: 'The approved local runtime boundary is ready for the policy review.' },
+      'research-closing': { title: 'Closing conditions', source: 'Diligence Tracker', span: 'Open items / 18', owner: 'J. Chen', copy: 'The remaining closing conditions are ready for an owner-scoped handoff.' }
     };
-    const importedPacket = deliveryPacketSets[readQueryState('packet')];
+    const importedPacket = deliveryPacketSets[readQueryState('packet') || readQueryState('source')];
     const deliveryViewData = {
       access: {
         label: 'SCOPED ACCESS',
@@ -904,6 +909,13 @@
     renderDeliveryPolicy();
     if (importedPacket) {
       if (deliveryImport) deliveryImport.hidden = false;
+      deliveryItems.forEach((input) => {
+        if (!input.disabled) input.checked = ['summary', 'sources', 'notes'].includes(input.dataset.deliveryItem);
+      });
+      if (deliveryContext) {
+        deliveryContext.hidden = false;
+        deliveryContext.textContent = `SOURCE CONTEXT / ${importedPacket.source} · ${importedPacket.span}${importedPacket.owner ? ` · OWNER ${importedPacket.owner}` : ''}`;
+      }
       if (deliveryStatus) deliveryStatus.textContent = 'PACKET IMPORTED';
       if (deliveryPreviewTitle) deliveryPreviewTitle.textContent = `${importedPacket.title} / decision brief`;
       if (deliveryPreviewCopy) deliveryPreviewCopy.textContent = `${importedPacket.copy} The staged packet keeps ${importedPacket.source} / ${importedPacket.span} attached for the recipient.`;
@@ -1027,10 +1039,10 @@
       meridian: { title: 'Meridian employment set', copy: 'Meridian employment set / staged locally' },
       consent: { title: 'Supplier consent library', copy: 'Supplier consent library / staged locally' },
       privacy: { title: 'Privacy and AI policy', copy: 'Privacy and AI policy / staged locally' },
-      'research-consent': { title: 'Change-of-control consent', copy: 'Change-of-control consent / research memo staged locally' },
-      'research-indemnity': { title: 'Indemnity fallback position', copy: 'Indemnity fallback position / research memo staged locally' },
-      'research-privacy': { title: 'Approved AI boundary', copy: 'Approved AI boundary / research memo staged locally' },
-      'research-closing': { title: 'Closing conditions', copy: 'Closing conditions / research memo staged locally' }
+      'research-consent': { title: 'Change-of-control consent', copy: 'Change-of-control consent / research memo staged locally', packet: 'research-consent', source: 'Merger Agreement', span: '§ 9.2 / Assignment', owner: 'J. Chen' },
+      'research-indemnity': { title: 'Indemnity fallback position', copy: 'Indemnity fallback position / research memo staged locally', packet: 'research-indemnity', source: 'Merger Agreement', span: '§ 8.1 / Indemnity', owner: 'M. Chen' },
+      'research-privacy': { title: 'Approved AI boundary', copy: 'Approved AI boundary / research memo staged locally', packet: 'research-privacy', source: 'AI Use Policy', span: '§ 4 / Approved systems', owner: 'S. Patel' },
+      'research-closing': { title: 'Closing conditions', copy: 'Closing conditions / research memo staged locally', packet: 'research-closing', source: 'Diligence Tracker', span: 'Open items / 18', owner: 'J. Chen' }
     };
     const importedSource = composerSourceSets[readQueryState('source')];
     if (importedSource) composerCatalog.sources.copy = importedSource.copy;
@@ -1041,6 +1053,7 @@
     const composerDisclosure = workflowComposer.querySelector('[data-composer-disclosure]');
     const composerFoot = workflowComposer.querySelector('[data-composer-foot]');
     const composerRun = workflowComposer.querySelector('[data-composer-run]');
+    const composerDelivery = workflowComposer.querySelector('[data-composer-delivery]');
     const composerAddButtons = [...workflowComposer.querySelectorAll('[data-composer-add]')];
     let composerSteps = ['sources', 'review'];
     let composerTimer;
@@ -1067,6 +1080,7 @@
         ? 'The route can branch on a visible threshold before the next action. Counsel still owns the gate and the outcome.'
         : composerSteps.length ? 'Choose the steps counsel wants to see. The route stays explicit before Lex takes action.' : 'Add a source set, a review gate, or a sign-off before previewing the run.';
       if (composerRun) composerRun.disabled = composerSteps.length < 2;
+      if (composerDelivery) composerDelivery.hidden = true;
     };
     composerAddButtons.forEach((button) => button.addEventListener('click', () => {
       const step = button.dataset.composerAdd;
@@ -1094,6 +1108,14 @@
         composerSequence?.classList.remove('is-running');
         if (composerStatus) composerStatus.textContent = 'PREVIEW COMPLETE / 0 B OUTBOUND';
         if (composerFoot) composerFoot.textContent = `${composerSteps.length} STEPS / READY FOR COUNSEL`;
+        if (composerDelivery && importedSource?.packet) {
+          const deliveryUrl = new URL('platform.html', window.location.href);
+          deliveryUrl.searchParams.set('packet', importedSource.packet);
+          deliveryUrl.searchParams.set('source', readQueryState('source'));
+          deliveryUrl.hash = 'delivery';
+          composerDelivery.href = deliveryUrl.toString();
+          composerDelivery.hidden = false;
+        }
       }, 980);
     });
     renderComposer();
