@@ -326,6 +326,13 @@
         copy: 'Move from an answer to its exact source span, confidence signal, and review state before the work moves forward.',
         pills: ['SOURCE SPANS', 'CONFIDENCE', 'REVIEW STATE'], foot: '05 / PROVENANCE',
         href: 'platform.html#evidence', link: 'Trace the evidence'
+      },
+      delivery: {
+        label: 'DELIVERY ROOM / SCOPED HANDOFF',
+        title: 'Share the answer. Keep the matter.',
+        copy: 'Prepare a source-linked handoff with only the evidence and permissions a client or business partner needs. The private record stays with counsel.',
+        pills: ['SCOPED ACCESS', 'SOURCE LINKS', 'OWNER CONTROL'], foot: '06 / HANDOFF',
+        href: 'customers.html', link: 'See a practice room'
       }
     };
     const setEcosystemMode = (mode, focus = false) => {
@@ -1457,24 +1464,31 @@
   const deploymentProfiles = [...document.querySelectorAll('[data-deployment-mode]')];
   const deploymentProfileCopy = document.querySelector('[data-deployment-copy]');
   const deploymentProfileInput = document.querySelector('[data-deployment-profile-input]');
+  const deploymentDetailNodes = [...document.querySelectorAll('[data-deployment-detail]')];
   let deploymentChangeTimer;
   const deploymentModeData = {
     local: 'Firm-managed devices. Local inference. A deployment profile built around your existing perimeter.',
     network: 'Private network deployment. Central governance with controlled access for approved teams and matters.',
     airgap: 'Air-gapped profile. No external network path for the most sensitive work and restricted environments.'
   };
+  const deploymentModeDetails = {
+    local: { route: 'Firm-managed device', network: 'Outbound denied', fit: 'Most private / offline capable', proof: 'Source + local packet' },
+    network: { route: 'Approved firm network', network: 'Controlled internal route', fit: 'Shared team governance', proof: 'Boundary + access review' },
+    airgap: { route: 'Restricted environment', network: 'No external path', fit: 'Sensitive / regulated matters', proof: 'Air-gap validation packet' }
+  };
   const setDeploymentMode = (mode, animate = true) => {
-    writeQueryState('profile', mode);
+    const selectedMode = deploymentModeData[mode] ? mode : 'local';
+    writeQueryState('profile', selectedMode);
     deploymentProfiles.forEach((profile) => {
-      const active = profile.dataset.deploymentMode === mode;
+      const active = profile.dataset.deploymentMode === selectedMode;
       profile.classList.toggle('is-active', active);
       profile.setAttribute('aria-selected', String(active));
       profile.tabIndex = active ? 0 : -1;
     });
-    if (deploymentProfileInput) deploymentProfileInput.value = mode;
+    if (deploymentProfileInput) deploymentProfileInput.value = selectedMode;
     if (deploymentProfileCopy) {
-      deploymentProfileCopy.textContent = deploymentModeData[mode] || deploymentModeData.local;
-      const active = deploymentProfiles.find((profile) => profile.dataset.deploymentMode === mode);
+      deploymentProfileCopy.textContent = deploymentModeData[selectedMode];
+      const active = deploymentProfiles.find((profile) => profile.dataset.deploymentMode === selectedMode);
       if (active) deploymentProfileCopy.setAttribute('aria-labelledby', active.id);
       if (animate) {
         deploymentProfileCopy.classList.add('is-changing');
@@ -1482,6 +1496,11 @@
         deploymentChangeTimer = window.setTimeout(() => deploymentProfileCopy.classList.remove('is-changing'), 280);
       }
     }
+    const details = deploymentModeDetails[selectedMode];
+    deploymentDetailNodes.forEach((node) => {
+      const value = details?.[node.dataset.deploymentDetail];
+      if (value) node.textContent = value;
+    });
   };
   deploymentProfiles.forEach((profile, index) => {
     profile.addEventListener('click', () => setDeploymentMode(profile.dataset.deploymentMode));

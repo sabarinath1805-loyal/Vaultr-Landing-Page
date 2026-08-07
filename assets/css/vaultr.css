@@ -4414,8 +4414,9 @@ body:not(.detail-page) .features .feature h3 { color: var(--forest); }
 
 @media (max-width: 900px) {
   .ecosystem-map { grid-template-columns: 1fr; }
-  .ecosystem-map__rail { grid-template-columns: repeat(5, 1fr); gap: 7px; padding: 10px; }
+  .ecosystem-map__rail { grid-template-columns: repeat(3, 1fr); gap: 7px; padding: 10px; }
   .ecosystem-tab { display: grid; align-content: space-between; min-height: 92px; padding: 13px 11px; border-right: 1px solid rgba(240, 237, 232, .14); border-bottom: 0; }
+  .ecosystem-tab:nth-child(3n) { border-right-color: transparent; }
   .ecosystem-tab:last-child { border-right-color: transparent; }
   .ecosystem-tab small { max-width: none; text-align: left; }
   .ecosystem-tab:hover,
@@ -4593,6 +4594,41 @@ body:not(.detail-page) .features .feature h3 { color: var(--forest); }
 @media (max-width: 640px) {
   .evidence-ledger__panel-foot { align-items: flex-start; flex-direction: column; }
   .evidence-ledger__export { margin-left: 0; }
+}
+
+/* Deployment profile matrix: make the decision legible before the brief is prepared. */
+.deployment-profile-matrix {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  margin: 0 22px 26px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(0, 0, 0, .1);
+}
+.deployment-profile-matrix div {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding: 11px 12px;
+  border: 1px solid rgba(45, 74, 62, .13);
+  background: #fff;
+}
+.deployment-profile-matrix span {
+  color: var(--sage);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .14em;
+}
+.deployment-profile-matrix strong {
+  overflow-wrap: anywhere;
+  color: var(--ink);
+  font-size: 10px;
+  font-weight: 650;
+  line-height: 1.35;
+}
+@media (max-width: 640px) {
+  .deployment-profile-matrix { margin-inline: 16px; gap: 7px; }
+  .deployment-profile-matrix div { padding: 10px; }
 }
 
 /* Final interaction polish: keep keyboard focus visible across every surface. */
