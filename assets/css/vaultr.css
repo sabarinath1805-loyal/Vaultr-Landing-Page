@@ -372,7 +372,7 @@ button { color: inherit; }
 .menu-toggle[aria-expanded="true"] span:last-child { transform: translateY(-4px) rotate(-45deg); }
 .mobile-menu { display: none; }
 
-.hero { position: relative; min-height: max(820px, 100svh); display: flex; align-items: flex-end; background-image: linear-gradient(rgba(15,14,13,.82), rgba(15,14,13,.82)), url('../images/monet-water-lilies.jpg'); background-size: cover; background-position: center; background-attachment: fixed; }
+.hero { position: relative; min-height: max(820px, 100svh); display: flex; align-items: flex-end; background-image: linear-gradient(rgba(15,14,13,.82), rgba(15,14,13,.82)), url('../images/optimized2/monet-water-lilies.jpg'); background-size: cover; background-position: center; background-attachment: fixed; }
 .hero::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(8,8,7,.45), transparent 54%), linear-gradient(0deg, rgba(8,8,7,.5), transparent 40%); }
 .hero__grain { position: absolute; inset: 0; z-index: 1; opacity: .15; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.3'/%3E%3C/svg%3E"); }
 .hero__content { position: relative; z-index: 2; padding: 190px 0 210px; }
@@ -394,7 +394,7 @@ h1 { max-width: 1080px; margin-bottom: 30px; font-size: clamp(70px, 8.4vw, 132px
 .section { position: relative; padding: 150px 0; }
 .section h2 { max-width: 980px; margin-bottom: 56px; font-size: clamp(58px, 6.3vw, 102px); line-height: .92; text-wrap: balance; }
 .section p { color: var(--muted); font-size: 18px; line-height: 1.65; }
-.section--monet-sunrise { background-image: linear-gradient(rgba(15,14,13,.90), rgba(15,14,13,.90)), url('../images/monet-sunrise-display.jpg'); background-size: cover; background-position: center; }
+.section--monet-sunrise { background-image: linear-gradient(rgba(15,14,13,.90), rgba(15,14,13,.90)), url('../images/optimized2/monet-sunrise-display.jpg'); background-size: cover; background-position: center; }
 .product__layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 8vw; align-items: center; }
 .product__copy h2 { margin-bottom: 32px; }
 .product__copy p { max-width: 580px; }
@@ -416,7 +416,7 @@ h1 { max-width: 1080px; margin-bottom: 30px; font-size: clamp(70px, 8.4vw, 132px
 .lex-window__answer p { margin: 16px 0 28px; color: var(--ivory); font-family: var(--serif); font-size: 30px; line-height: 1.05; }
 .answer-meta { display: flex; gap: 18px; color: var(--muted); font-size: 11px; }
 
-.quotes { min-height: 760px; display: flex; align-items: center; background-image: linear-gradient(rgba(15,14,13,.85), rgba(15,14,13,.85)), url('../images/monet-parliament.jpg'); background-size: cover; background-position: center; }
+.quotes { min-height: 760px; display: flex; align-items: center; background-image: linear-gradient(rgba(15,14,13,.85), rgba(15,14,13,.85)), url('../images/optimized2/monet-parliament.jpg'); background-size: cover; background-position: center; }
 .quotes__shell { width: min(1180px, var(--shell)); }
 .quote { display: none; animation: quoteIn .75s var(--ease); }
 .quote.is-active { display: block; }
@@ -460,7 +460,7 @@ th:last-child, td:last-child { border-right: 0; }
 .check { font-size: 22px; }
 .cross { color: var(--red); font-size: 19px; }
 
-.section--monet-seine { background-image: linear-gradient(rgba(15,14,13,.88), rgba(15,14,13,.88)), url('../images/monet-seine.jpg'); background-size: cover; background-position: center; }
+.section--monet-seine { background-image: linear-gradient(rgba(15,14,13,.88), rgba(15,14,13,.88)), url('../images/optimized2/monet-seine.jpg'); background-size: cover; background-position: center; }
 .privacy__layout { display: grid; grid-template-columns: .9fr 1.1fr; gap: 9vw; align-items: center; }
 .privacy__copy h2 { margin-bottom: 32px; }
 .privacy-diagram { padding: 42px; border: 1px solid rgba(244,240,232,.22); background: rgba(10,9,8,.55); backdrop-filter: blur(12px); }
@@ -666,10 +666,10 @@ a { color: inherit; }
   box-shadow: 0 10px 30px -5px rgba(0, 0, 0, .05);
   pointer-events: none;
 }
-.hero::before { background-image: url('../images/monet-water-lilies.jpg'); }
-.section--monet-sunrise::before { background-image: url('../images/monet-sunrise-display.jpg'); }
-.quotes::before { background-image: url('../images/monet-parliament.jpg'); }
-.section--monet-seine::before { background-image: url('../images/monet-seine.jpg'); }
+.hero::before { background-image: url('../images/optimized2/monet-water-lilies.jpg'); }
+.section--monet-sunrise::before { background-image: url('../images/optimized2/monet-sunrise-display.jpg'); }
+.quotes::before { background-image: url('../images/optimized2/monet-parliament.jpg'); }
+.section--monet-seine::before { background-image: url('../images/optimized2/monet-seine.jpg'); }
 .hero::after,
 .section--monet-sunrise::after,
 .quotes::after,
@@ -961,7 +961,7 @@ tbody tr:nth-child(even) { background: #fafbf8; }
   aspect-ratio: 1;
   border: 1px solid rgba(45, 74, 62, .1);
   border-radius: 50%;
-  background: url('../images/monet-seine.jpg') center / cover;
+  background: url('../images/optimized2/monet-seine.jpg') center / cover;
   opacity: .11;
   filter: contrast(105%) brightness(102%) saturate(114%);
   pointer-events: none;
@@ -1159,10 +1159,10 @@ tbody tr:nth-child(even) { background: #fafbf8; }
   pointer-events: none;
   filter: contrast(105%) brightness(102%) saturate(114%);
 }
-.comparison::before { top: 8%; right: -10%; background-image: url('../images/monet-seine.jpg'); transform: rotate(5deg); }
-.open-source::before { bottom: -16%; left: -9%; background-image: url('../images/monet-sunrise-display.jpg'); transform: rotate(-6deg); }
-.deployment::before { top: -18%; right: -8%; background-image: url('../images/monet-water-lilies.jpg'); transform: rotate(4deg); }
-.footer::before { bottom: -30%; right: 4%; background-image: url('../images/monet-parliament.jpg'); transform: rotate(-4deg); opacity: .1; }
+.comparison::before { top: 8%; right: -10%; background-image: url('../images/optimized2/monet-seine.jpg'); transform: rotate(5deg); }
+.open-source::before { bottom: -16%; left: -9%; background-image: url('../images/optimized2/monet-sunrise-display.jpg'); transform: rotate(-6deg); }
+.deployment::before { top: -18%; right: -8%; background-image: url('../images/optimized2/monet-water-lilies.jpg'); transform: rotate(4deg); }
+.footer::before { bottom: -30%; right: 4%; background-image: url('../images/optimized2/monet-parliament.jpg'); transform: rotate(-4deg); opacity: .1; }
 .comparison > .shell,
 .open-source > .shell,
 .deployment > .shell,
@@ -2177,7 +2177,7 @@ tbody tr:nth-child(even) { background: #fafbf8; }
    -------------------------------------------------------------------------- */
 .detail-page { background: var(--canvas); color: var(--ink); }
 .security-page__hero { position: relative; overflow: hidden; min-height: 720px; display: flex; align-items: center; padding-top: 160px; background: #eef0ea; isolation: isolate; }
-.security-page__hero::before { position: absolute; z-index: -1; right: -13%; bottom: -28%; width: 65vw; height: 65vw; border: 1px solid rgba(45, 74, 62, .16); border-radius: 50%; background: url('../images/monet-seine.jpg') center / cover; opacity: .18; content: ""; filter: contrast(105%) brightness(102%); }
+.security-page__hero::before { position: absolute; z-index: -1; right: -13%; bottom: -28%; width: 65vw; height: 65vw; border: 1px solid rgba(45, 74, 62, .16); border-radius: 50%; background: url('../images/optimized2/monet-seine.jpg') center / cover; opacity: .18; content: ""; filter: contrast(105%) brightness(102%); }
 .security-page__hero-inner { display: grid; grid-template-columns: 1fr .8fr; align-items: center; gap: 9vw; }
 .security-page__hero-copy { max-width: 700px; }
 .security-page__hero-copy h1 { max-width: 760px; margin: 30px 0 28px; color: var(--ink); font-family: var(--serif); font-size: clamp(70px, 8.2vw, 124px); font-weight: 400; line-height: .84; letter-spacing: -.06em; }
@@ -2278,7 +2278,7 @@ tbody tr:nth-child(even) { background: #fafbf8; }
    Evidence Ledger / source provenance layer
    -------------------------------------------------------------------------- */
 .evidence-ledger { position: relative; overflow: hidden; background: #eef0ea; isolation: isolate; }
-.evidence-ledger::before { position: absolute; z-index: -1; top: -22%; right: -12%; width: min(56vw, 790px); height: min(56vw, 790px); border: 1px solid rgba(45, 74, 62, .14); border-radius: 50%; background: url('../images/monet-parliament.jpg') center / cover; opacity: .16; content: ""; filter: contrast(105%) brightness(102%); }
+.evidence-ledger::before { position: absolute; z-index: -1; top: -22%; right: -12%; width: min(56vw, 790px); height: min(56vw, 790px); border: 1px solid rgba(45, 74, 62, .14); border-radius: 50%; background: url('../images/optimized2/monet-parliament.jpg') center / cover; opacity: .16; content: ""; filter: contrast(105%) brightness(102%); }
 .evidence-ledger__intro { display: grid; grid-template-columns: 1.1fr .75fr; align-items: end; gap: 8vw; margin-bottom: 58px; }
 .evidence-ledger__intro h2 { max-width: 780px; margin: 0; }
 .evidence-ledger__intro > p { max-width: 390px; margin: 0 0 7px; color: var(--muted); font-size: 16px; line-height: 1.6; }
@@ -2373,7 +2373,7 @@ tbody tr:nth-child(even) { background: #fafbf8; }
    Platform route / product operating layer
    -------------------------------------------------------------------------- */
 .platform-page__hero { position: relative; overflow: hidden; min-height: 760px; display: flex; align-items: center; padding-top: 145px; background: #eef0ea; isolation: isolate; }
-.platform-page__hero::before { position: absolute; z-index: -1; right: -16%; bottom: -35%; width: 70vw; height: 70vw; border: 1px solid rgba(45, 74, 62, .14); border-radius: 50%; background: url('../images/monet-water-lilies.jpg') center / cover; opacity: .18; content: ""; filter: contrast(105%) brightness(102%); }
+.platform-page__hero::before { position: absolute; z-index: -1; right: -16%; bottom: -35%; width: 70vw; height: 70vw; border: 1px solid rgba(45, 74, 62, .14); border-radius: 50%; background: url('../images/optimized2/monet-water-lilies.jpg') center / cover; opacity: .18; content: ""; filter: contrast(105%) brightness(102%); }
 .platform-page__hero-inner { display: grid; grid-template-columns: .92fr 1.08fr; align-items: center; gap: 7vw; }
 .platform-page__hero-copy { max-width: 690px; }
 .platform-page__hero-copy h1 { max-width: 700px; margin: 30px 0 27px; color: var(--ink); font-family: var(--serif); font-size: clamp(67px, 7.4vw, 112px); font-weight: 400; line-height: .86; letter-spacing: -.06em; }
@@ -2508,7 +2508,7 @@ tbody tr:nth-child(even) { background: #fafbf8; }
    Workflow Studio route / supervised matter work
    -------------------------------------------------------------------------- */
 .workflow-page__hero { position: relative; overflow: hidden; min-height: 760px; display: flex; align-items: center; padding-top: 145px; background: #f4f5f0; isolation: isolate; }
-.workflow-page__hero::before { position: absolute; z-index: -1; left: -19%; bottom: -38%; width: 68vw; height: 68vw; border: 1px solid rgba(45, 74, 62, .14); border-radius: 50%; background: url('../images/monet-sunrise-display.jpg') center / cover; opacity: .16; content: ""; filter: contrast(105%) brightness(102%); }
+.workflow-page__hero::before { position: absolute; z-index: -1; left: -19%; bottom: -38%; width: 68vw; height: 68vw; border: 1px solid rgba(45, 74, 62, .14); border-radius: 50%; background: url('../images/optimized2/monet-sunrise-display.jpg') center / cover; opacity: .16; content: ""; filter: contrast(105%) brightness(102%); }
 .workflow-page__hero-inner { display: grid; grid-template-columns: .95fr 1.05fr; align-items: center; gap: 8vw; }
 .workflow-page__hero-copy { max-width: 700px; }
 .workflow-page__hero-copy h1 { max-width: 720px; margin: 30px 0 27px; color: var(--ink); font-family: var(--serif); font-size: clamp(68px, 7.7vw, 116px); font-weight: 400; line-height: .85; letter-spacing: -.06em; }
@@ -2592,7 +2592,7 @@ tbody tr:nth-child(even) { background: #fafbf8; }
    Solutions route / practice-specific entry points
    -------------------------------------------------------------------------- */
 .solutions-page__hero { position: relative; overflow: hidden; min-height: 760px; display: flex; align-items: center; padding-top: 145px; background: #eef0ea; isolation: isolate; }
-.solutions-page__hero::before { position: absolute; z-index: -1; right: -17%; bottom: -37%; width: 69vw; height: 69vw; border: 1px solid rgba(45, 74, 62, .14); border-radius: 50%; background: url('../images/monet-seine.jpg') center / cover; opacity: .16; content: ""; filter: contrast(105%) brightness(102%); }
+.solutions-page__hero::before { position: absolute; z-index: -1; right: -17%; bottom: -37%; width: 69vw; height: 69vw; border: 1px solid rgba(45, 74, 62, .14); border-radius: 50%; background: url('../images/optimized2/monet-seine.jpg') center / cover; opacity: .16; content: ""; filter: contrast(105%) brightness(102%); }
 .solutions-page__hero-inner { display: grid; grid-template-columns: .95fr 1.05fr; align-items: center; gap: 8vw; }
 .solutions-page__hero-copy { max-width: 710px; }
 .solutions-page__hero-copy h1 { max-width: 735px; margin: 30px 0 27px; color: var(--ink); font-family: var(--serif); font-size: clamp(67px, 7.6vw, 114px); font-weight: 400; line-height: .85; letter-spacing: -.06em; }
@@ -2741,7 +2741,7 @@ tbody tr:nth-child(even) { background: #fafbf8; }
    Resources route / editorial operating brief
    -------------------------------------------------------------------------- */
 .resources-page__hero { position: relative; overflow: hidden; min-height: 740px; display: flex; align-items: center; padding-top: 145px; background: #f4f5f0; isolation: isolate; }
-.resources-page__hero::before { position: absolute; z-index: -1; left: -17%; bottom: -37%; width: 69vw; height: 69vw; border: 1px solid rgba(45, 74, 62, .14); border-radius: 50%; background: url('../images/monet-parliament.jpg') center / cover; opacity: .16; content: ""; filter: contrast(105%) brightness(102%); }
+.resources-page__hero::before { position: absolute; z-index: -1; left: -17%; bottom: -37%; width: 69vw; height: 69vw; border: 1px solid rgba(45, 74, 62, .14); border-radius: 50%; background: url('../images/optimized2/monet-parliament.jpg') center / cover; opacity: .16; content: ""; filter: contrast(105%) brightness(102%); }
 .resources-page__hero-inner { display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: 8vw; }
 .resources-page__hero-copy { max-width: 700px; }
 .resources-page__hero-copy h1 { max-width: 720px; margin: 30px 0 27px; color: var(--ink); font-family: var(--serif); font-size: clamp(68px, 7.7vw, 116px); font-weight: 400; line-height: .85; letter-spacing: -.06em; }
@@ -2802,7 +2802,7 @@ tbody tr:nth-child(even) { background: #fafbf8; }
    Command Center route / governance signals
    -------------------------------------------------------------------------- */
 .command-page__hero { position: relative; overflow: hidden; min-height: 740px; display: flex; align-items: center; padding-top: 145px; background: #eef0ea; isolation: isolate; }
-.command-page__hero::before { position: absolute; z-index: -1; right: -18%; bottom: -35%; width: 69vw; height: 69vw; border: 1px solid rgba(45, 74, 62, .14); border-radius: 50%; background: url('../images/monet-water-lilies.jpg') center / cover; opacity: .15; content: ""; filter: contrast(105%) brightness(102%); }
+.command-page__hero::before { position: absolute; z-index: -1; right: -18%; bottom: -35%; width: 69vw; height: 69vw; border: 1px solid rgba(45, 74, 62, .14); border-radius: 50%; background: url('../images/optimized2/monet-water-lilies.jpg') center / cover; opacity: .15; content: ""; filter: contrast(105%) brightness(102%); }
 .command-page__hero-inner { display: grid; grid-template-columns: 1fr .9fr; align-items: center; gap: 8vw; }
 .command-page__hero-copy { max-width: 700px; }
 .command-page__hero-copy h1 { max-width: 720px; margin: 30px 0 27px; color: var(--ink); font-family: var(--serif); font-size: clamp(68px, 7.6vw, 114px); font-weight: 400; line-height: .85; letter-spacing: -.06em; }
@@ -2876,7 +2876,7 @@ tbody tr:nth-child(even) { background: #fafbf8; }
    Deployment route / private brief desk
    -------------------------------------------------------------------------- */
 .deployment-page__hero { position: relative; overflow: hidden; min-height: 700px; display: flex; align-items: center; padding-top: 145px; background: #f4f5f0; isolation: isolate; }
-.deployment-page__hero::before { position: absolute; z-index: -1; left: -18%; bottom: -38%; width: 69vw; height: 69vw; border: 1px solid rgba(45, 74, 62, .14); border-radius: 50%; background: url('../images/monet-sunrise-display.jpg') center / cover; opacity: .15; content: ""; filter: contrast(105%) brightness(102%); }
+.deployment-page__hero::before { position: absolute; z-index: -1; left: -18%; bottom: -38%; width: 69vw; height: 69vw; border: 1px solid rgba(45, 74, 62, .14); border-radius: 50%; background: url('../images/optimized2/monet-sunrise-display.jpg') center / cover; opacity: .15; content: ""; filter: contrast(105%) brightness(102%); }
 .deployment-page__hero-inner { display: grid; grid-template-columns: 1fr .9fr; align-items: center; gap: 8vw; }
 .deployment-page__hero-copy { max-width: 700px; }
 .deployment-page__hero-copy h1 { max-width: 730px; margin: 30px 0 27px; color: var(--ink); font-family: var(--serif); font-size: clamp(68px, 7.7vw, 116px); font-weight: 400; line-height: .85; letter-spacing: -.06em; }
@@ -3535,28 +3535,28 @@ html.js .error-page .reveal { opacity: 1; transform: none; }
 .workflow-proof-card:nth-child(4n + 1)::before,
 .solutions-proof-card:nth-child(4n + 1)::before,
 .command-proof-card:nth-child(4n + 1)::before,
-.feature:nth-child(4n + 1)::before { background-image: url('../images/monet-water-lilies.jpg'); }
+.feature:nth-child(4n + 1)::before { background-image: url('../images/optimized2/monet-water-lilies.jpg'); }
 .platform-card:nth-child(4n + 2)::before,
 .platform-stack-card:nth-child(4n + 2)::before,
 .platform-sequence-card:nth-child(4n + 2)::before,
 .workflow-proof-card:nth-child(4n + 2)::before,
 .solutions-proof-card:nth-child(4n + 2)::before,
 .command-proof-card:nth-child(4n + 2)::before,
-.feature:nth-child(4n + 2)::before { background-image: url('../images/monet-parliament.jpg'); }
+.feature:nth-child(4n + 2)::before { background-image: url('../images/optimized2/monet-parliament.jpg'); }
 .platform-card:nth-child(4n + 3)::before,
 .platform-stack-card:nth-child(4n + 3)::before,
 .platform-sequence-card:nth-child(4n + 3)::before,
 .workflow-proof-card:nth-child(4n + 3)::before,
 .solutions-proof-card:nth-child(4n + 3)::before,
 .command-proof-card:nth-child(4n + 3)::before,
-.feature:nth-child(4n + 3)::before { background-image: url('../images/monet-sunrise-display.jpg'); }
+.feature:nth-child(4n + 3)::before { background-image: url('../images/optimized2/monet-sunrise-display.jpg'); }
 .platform-card:nth-child(4n + 4)::before,
 .platform-stack-card:nth-child(4n + 4)::before,
 .platform-sequence-card:nth-child(4n + 4)::before,
 .workflow-proof-card:nth-child(4n + 4)::before,
 .solutions-proof-card:nth-child(4n + 4)::before,
 .command-proof-card:nth-child(4n + 4)::before,
-.feature:nth-child(4n + 4)::before { background-image: url('../images/monet-seine.jpg'); }
+.feature:nth-child(4n + 4)::before { background-image: url('../images/optimized2/monet-seine.jpg'); }
 .platform-card > *,
 .platform-stack-card > *,
 .platform-sequence-card > *,
@@ -3604,7 +3604,7 @@ html.js .error-page .reveal { opacity: 1; transform: none; }
   height: 70vw;
   border: 1px solid rgba(45, 74, 62, .13);
   border-radius: 50%;
-  background: url('../images/monet-sunrise-display.jpg') center / cover;
+  background: url('../images/optimized2/monet-sunrise-display.jpg') center / cover;
   opacity: .18;
   content: "";
   filter: contrast(105%) brightness(102%) saturate(114%);
@@ -3798,7 +3798,7 @@ html.js .error-page .reveal { opacity: 1; transform: none; }
   height: min(63vw, 900px);
   border: 1px solid rgba(45, 74, 62, .16);
   border-radius: 50%;
-  background: url('../images/monet-seine.jpg') center / cover;
+  background: url('../images/optimized2/monet-seine.jpg') center / cover;
   opacity: .22;
   content: "";
   filter: contrast(105%) brightness(102%) saturate(112%);
@@ -3980,7 +3980,7 @@ body { background-color: #faf8f5; }
 body:not(.detail-page) .hero {
   min-height: max(700px, 100svh);
   align-items: center;
-  background: url('../images/monet-water-lilies.jpg') center / cover no-repeat;
+  background: url('../images/optimized2/monet-water-lilies.jpg') center / cover no-repeat;
   background-attachment: scroll;
   color: #1a1815;
 }
@@ -4288,10 +4288,10 @@ body { color: var(--charcoal); }
 }
 
 .hero {
-  background-image: linear-gradient(rgba(37, 35, 33, .7), rgba(37, 35, 33, .7)), url('../images/monet-water-lilies.jpg');
+  background-image: linear-gradient(rgba(37, 35, 33, .7), rgba(37, 35, 33, .7)), url('../images/optimized2/monet-water-lilies.jpg');
 }
 body:not(.detail-page) .hero {
-  background-image: url('../images/monet-water-lilies.jpg');
+  background-image: url('../images/optimized2/monet-water-lilies.jpg');
 }
 .hero::after {
   background: linear-gradient(90deg, rgba(37, 35, 33, .34), transparent 54%), linear-gradient(0deg, rgba(37, 35, 33, .38), transparent 40%);
@@ -4621,7 +4621,7 @@ body.detail-page .footer {
   width: clamp(220px, 24vw, 390px);
   height: clamp(220px, 24vw, 390px);
   border: 1px solid rgba(45, 74, 62, .1);
-  background: url('../images/monet-water-lilies.jpg') center / cover;
+  background: url('../images/optimized2/monet-water-lilies.jpg') center / cover;
   box-shadow: 0 18px 50px -16px rgba(45, 74, 62, .16);
   content: "";
   opacity: .11;
@@ -6340,7 +6340,7 @@ body { background: var(--ivory); color: var(--ink); }
 .site-header.is-fixed .nav__links a::after { background: var(--gold); }
 .nav-dropdown__trigger { color: inherit; }
 .nav-dropdown__menu { background: var(--ink); }
-.hero { min-height: max(760px, 100svh); background-image: linear-gradient(rgba(26, 24, 21, .78), rgba(26, 24, 21, .84)), url('../images/monet-water-lilies.jpg'); }
+.hero { min-height: max(760px, 100svh); background-image: linear-gradient(rgba(26, 24, 21, .78), rgba(26, 24, 21, .84)), url('../images/optimized2/monet-water-lilies.jpg'); }
 .hero__content { display: grid; grid-template-columns: minmax(0, .9fr) minmax(520px, 1.1fr); gap: clamp(36px, 6vw, 104px); align-items: center; padding: 150px 0 116px; }
 .hero__copy { padding-top: 38px; }
 .hero__eyebrow { color: var(--gold); font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
@@ -6410,8 +6410,15 @@ body { background: var(--ivory); color: var(--ink); }
 .ticker__track { animation-duration: 40s; }
 .ticker__track span { color: var(--ink); font-size: 22px; }
 .ticker:hover .ticker__track { animation-play-state: paused; }
+.stats--homepage { padding: 76px 0; background: #f5f2ee; }
+.stats--homepage .stats__grid { grid-template-columns: repeat(4, 1fr); }
+.stats--homepage .stat { min-height: 150px; }
+.stats--homepage .stat strong { color: var(--ink); }
+.stats--homepage .stat span { color: var(--body); }
 .gallery-ribbon { background: var(--ivory); }
 .gallery-ribbon__card img { transition: transform .8s var(--ease), filter .8s var(--ease); }
+.gallery-ribbon__card figcaption { transform: translateY(12px); opacity: .45; transition: transform 600ms var(--ease), opacity 600ms var(--ease); }
+.gallery-ribbon__card.is-visible figcaption { transform: translateY(0); opacity: 1; }
 .gallery-ribbon__card:hover img { transform: scale(1.02); filter: saturate(1.05); }
 .features { background: #1a1815; }
 .features__lede { color: rgba(250, 248, 244, .68) !important; }
@@ -6479,7 +6486,19 @@ body { background: var(--ivory); color: var(--ink); }
 .evidence-trail__sources { display: grid; gap: 8px; padding: 0 22px 24px; color: rgba(250, 248, 244, .6); font: 11px/1.4 Consolas, monospace; }
 .evidence-trail__card footer { padding: 15px 22px; border-top: 1px solid rgba(250, 248, 244, .13); color: var(--gold); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }
 .deployment { background: #211e1a; }
+.deployment-brief[hidden] { display: block; max-height: 0; margin-top: 0; overflow: hidden; opacity: 0; }
+.deployment-brief { max-height: 360px; opacity: 1; transition: max-height 600ms var(--ease), opacity 400ms var(--ease), margin-top 600ms var(--ease); }
+.deployment-brief.is-visible { margin-top: 22px; }
 .footer { background: #1a1815; }
+main > section[class*="__hero"] { min-height: 465px; padding-top: 170px; padding-bottom: 92px; background: #1a1815 !important; background-image: none !important; color: #faf8f4; }
+main > section[class*="__hero"] h1 { max-width: 780px; margin-top: 14px; color: #faf8f4; font-size: clamp(58px, 6vw, 96px); }
+main > section[class*="__hero"] p:not(.section-kicker):not(.page-breadcrumb) { color: rgba(250, 248, 244, .7); }
+main > section[class*="__hero"] .section-kicker { margin-top: 20px; color: var(--gold); }
+.page-breadcrumb { margin: 0; color: rgba(250, 248, 244, .48) !important; font: 10px/1.2 Consolas, monospace; letter-spacing: .08em; text-transform: uppercase; }
+main > section[class*="__hero"] .page-breadcrumb + .section-kicker { margin-top: 20px; }
+.nav__links a[aria-current="page"] { color: var(--gold) !important; }
+.footer__top-link { transition: color .25s var(--ease); }
+.footer__top-link:hover { color: var(--gold); }
 .reveal { opacity: 1; transform: none; transition: opacity 600ms var(--ease), transform 600ms var(--ease); transition-delay: var(--reveal-delay, 0ms); }
 .js .reveal:not(.is-visible) { opacity: 0; transform: translateY(20px); }
 .js .reveal.is-visible { opacity: 1; transform: translateY(0); }
@@ -6515,6 +6534,9 @@ body { background: var(--ivory); color: var(--ink); }
   .gallery-ribbon__track { display: grid; grid-template-columns: 1fr; width: 100%; }
   .gallery-ribbon__card { width: 100%; }
   .features__grid, .architecture-trust__grid, .model-support__grid { grid-template-columns: 1fr; }
+  .stats--homepage .stats__grid { grid-template-columns: repeat(2, 1fr); }
+  .stats--homepage .stat:nth-child(2n) { border-right: 0; }
+  .stats--homepage .stat:nth-last-child(-n+2) { border-bottom: 0; }
   .workflow-step { min-height: 390px; }
   .workflow-step h3 { font-size: 38px; }
   .section { padding: 92px 0; }

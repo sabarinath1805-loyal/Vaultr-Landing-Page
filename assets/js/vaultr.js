@@ -2492,7 +2492,7 @@
           <a href="privacy.html" data-quick-nav-item><span><strong>Privacy brief</strong><small>Data handling, ownership, and review boundaries</small></span><kbd>17</kbd></a>
           <a href="research.html#desk" data-quick-nav-item><span><strong>Research &amp; architecture</strong><small>Cited research and source traces</small></span><kbd>18</kbd></a>
           <a href="deployment.html" data-quick-nav-item><span><strong>Deployment Desk</strong><small>Build a private deployment brief</small></span><kbd>19</kbd></a>
-          <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer" data-quick-nav-item><span><strong>Open architecture</strong><small>Inspect the source and implementation notes</small></span><kbd>↗</kbd></a>
+          <a href="https://github.com/sabarinath1805-loyal/Vaultr-Landing-Page" target="_blank" rel="noreferrer" data-quick-nav-item><span><strong>Open architecture</strong><small>Inspect the source and implementation notes</small></span><kbd>↗</kbd></a>
           </nav>
         </div>
         <p class="quick-nav__empty" data-quick-nav-empty hidden>No matching matter or destination.</p>
@@ -4170,13 +4170,40 @@
   });
 
   document.documentElement.classList.add('is-loaded');
+  const currentFile = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('img[src*="assets/images/optimized2/"]').forEach((image) => {
+    const source = image.getAttribute('src');
+    if (!source || image.hasAttribute('srcset')) return;
+    image.setAttribute('srcset', `${source} 1400w`);
+    image.setAttribute('sizes', '(max-width: 767px) 100vw, 50vw');
+  });
+  const pageHero = document.querySelector('main > section[class*="__hero"]');
+  const pageName = document.title.split(' — ')[0].replace(/^Vaultr\s*[—-]\s*/, '').trim() || 'Overview';
+  if (pageHero) {
+    const heroKicker = pageHero.querySelector('.section-kicker');
+    if (heroKicker && !pageHero.querySelector('.page-breadcrumb')) {
+      const breadcrumb = document.createElement('p');
+      breadcrumb.className = 'page-breadcrumb';
+      breadcrumb.textContent = `Vaultr / ${pageName}`;
+      heroKicker.before(breadcrumb);
+    }
+  }
+  document.querySelectorAll('.nav__links a, .mobile-menu a').forEach((link) => {
+    const href = link.getAttribute('href') || '';
+    if (!href || href.startsWith('#') || href.startsWith('http')) return;
+    const linkFile = href.split('#')[0] || 'index.html';
+    if (linkFile === currentFile) link.setAttribute('aria-current', 'page');
+  });
+  const footerHomeLink = document.querySelector('.footer__top-link');
+  if (footerHomeLink && currentFile !== 'index.html') footerHomeLink.firstChild.textContent = 'Back to homepage ';
   const heroAnnotation = document.querySelector('.annotation-window');
   if (heroAnnotation && !reducedMotion) window.setTimeout(() => heroAnnotation.classList.add('is-floating'), 1700);
 
   const formatGithubNumber = (value) => new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 1 }).format(value);
   const githubRepo = document.querySelector('[data-github-stars]');
   if (githubRepo) {
-    const githubBase = 'https://api.github.com/repos/sabarinath1805-loyal/Vaultr-AI';
+    const githubBases = ['https://api.github.com/repos/sabarinath1805-loyal/Vaultr-Landing-Page'];
+    let githubBase = githubBases[0];
     const readGithubTotal = async (path) => {
       const response = await fetch(`${githubBase}/${path}`, { headers: { Accept: 'application/vnd.github+json' } });
       if (!response.ok) throw new Error(`GitHub ${response.status}`);
@@ -4188,11 +4215,16 @@
     };
     const loadGithubProof = async () => {
       try {
-        const [repoResponse, contributors, commits] = await Promise.all([
-          fetch(githubBase, { headers: { Accept: 'application/vnd.github+json' } }).then((response) => {
-            if (!response.ok) throw new Error(`GitHub ${response.status}`);
-            return response.json();
-          }),
+        let repoResponse;
+        for (const candidate of githubBases) {
+          const response = await fetch(candidate, { headers: { Accept: 'application/vnd.github+json' } });
+          if (!response.ok) continue;
+          githubBase = candidate;
+          repoResponse = await response.json();
+          break;
+        }
+        if (!repoResponse) throw new Error('GitHub repository unavailable');
+        const [contributors, commits] = await Promise.all([
           readGithubTotal('contributors?per_page=1'),
           readGithubTotal('commits?per_page=1')
         ]);
