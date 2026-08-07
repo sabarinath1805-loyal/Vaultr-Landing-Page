@@ -24,8 +24,8 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preload" as="image" href="assets/images/monet-water-lilies.jpg" fetchpriority="high">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-56">
-  <script defer src="assets/js/vaultr.js?v=library-56"></script>
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-57">
+  <script defer src="assets/js/vaultr.js?v=library-57"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Vaultr Command Center","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/command.html","isPartOf":{"@type":"WebSite","name":"Vaultr","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/"}}</script>
 </head>
 <body class="detail-page command-page">
@@ -47,7 +47,7 @@
             <a href="platform.html#ecosystem"><small>SURFACES</small><strong>Connected surfaces</strong><span>Move between Lex, workflows, command, and evidence.</span></a>
             <a href="platform.html#knowledge"><small>KNOWLEDGE</small><strong>Curated room</strong><span>Precedents, playbooks, and policies.</span></a>
             <a href="platform.html#agents"><small>AGENTS</small><strong>Agent library</strong><span>Governed legal agents, ready to stage.</span></a>
-            <a href="command.html" aria-current="page"><small>COMMAND</small><strong>Practice visibility</strong><span>Activity and audit signals without document exposure.</span></a><a href="command.html#monitors" data-monitor-nav><small>MONITOR DESK</small><strong>Proactive matter signals</strong><span>Scheduled checks, nudges, and review queues.</span></a>
+            <a href="command.html" aria-current="page"><small>COMMAND</small><strong>Practice visibility</strong><span>Activity and audit signals without document exposure.</span></a><a href="command.html#analytics" data-analytics-nav><small>SPACE ANALYTICS</small><strong>Value and adoption</strong><span>Measure outcomes without opening the matter.</span></a><a href="command.html#monitors" data-monitor-nav><small>MONITOR DESK</small><strong>Proactive matter signals</strong><span>Scheduled checks, nudges, and review queues.</span></a>
           </div>
         </div>
         <div class="nav-dropdown" data-nav-dropdown>
@@ -114,10 +114,51 @@
       </div>
     </section>
 
+    <section class="command-page__analytics section" id="analytics">
+      <div class="shell">
+        <div class="command-page__section-intro">
+          <div><p class="section-kicker reveal">02 / SPACE ANALYTICS</p><h2 class="reveal">Prove the value without opening the matter.</h2></div>
+          <p class="reveal">Adoption, throughput, and governance stay visible as aggregates. The privileged record remains in its room, while the next useful action stays obvious.</p>
+        </div>
+        <div class="analytics-desk reveal" data-analytics-desk>
+          <div class="analytics-desk__head"><span>VAULTR / VALUE + GOVERNANCE</span><span class="analytics-desk__local"><i></i> AGGREGATE ONLY / 0 B OUTBOUND</span></div>
+          <div class="analytics-desk__toolbar">
+            <div class="analytics-desk__tabs" role="tablist" aria-label="Analytics matter scope">
+              <button class="is-active" id="analytics-tab-all" type="button" role="tab" aria-controls="analytics-panel" aria-selected="true" data-analytics-matter="all">All spaces <span>03</span></button>
+              <button id="analytics-tab-northstar" type="button" role="tab" aria-controls="analytics-panel" aria-selected="false" tabindex="-1" data-analytics-matter="northstar">Northstar <span>01</span></button>
+              <button id="analytics-tab-meridian" type="button" role="tab" aria-controls="analytics-panel" aria-selected="false" tabindex="-1" data-analytics-matter="meridian">Meridian <span>01</span></button>
+              <button id="analytics-tab-cedar" type="button" role="tab" aria-controls="analytics-panel" aria-selected="false" tabindex="-1" data-analytics-matter="cedar">Cedar <span>01</span></button>
+            </div>
+            <span class="analytics-desk__period" data-analytics-period>LAST 30 DAYS / LOCAL INDEX</span>
+          </div>
+          <div class="analytics-desk__body" id="analytics-panel" role="tabpanel" aria-labelledby="analytics-tab-all">
+            <div class="analytics-desk__metrics">
+              <article class="analytics-metric"><span>Active collaborators</span><strong data-analytics-value="collaborators">18</strong><small data-analytics-note="collaborators">03 practice groups</small></article>
+              <article class="analytics-metric"><span>Completed local runs</span><strong data-analytics-value="runs">184</strong><small data-analytics-note="runs">+24% vs prior period</small></article>
+              <article class="analytics-metric"><span>Source-linked artifacts</span><strong data-analytics-value="artifacts">42</strong><small data-analytics-note="artifacts">12 ready for handoff</small></article>
+              <article class="analytics-metric"><span>Adoption signal</span><strong data-analytics-value="adoption">74%</strong><small data-analytics-note="adoption">+11 pts vs prior period</small></article>
+            </div>
+            <div class="analytics-desk__trend">
+              <div class="analytics-desk__trend-head"><span>Workspace pulse</span><strong data-analytics-trend-label>RUNS + HANDOFFS</strong></div>
+              <div class="analytics-chart" role="img" aria-label="Illustrative local workspace activity chart"><span style="--analytics-bar:34%" data-analytics-bar="0"></span><span style="--analytics-bar:52%" data-analytics-bar="1"></span><span style="--analytics-bar:46%" data-analytics-bar="2"></span><span style="--analytics-bar:68%" data-analytics-bar="3"></span><span style="--analytics-bar:79%" data-analytics-bar="4"></span><span style="--analytics-bar:72%" data-analytics-bar="5"></span><span style="--analytics-bar:90%" data-analytics-bar="6"></span></div>
+              <div class="analytics-chart__labels"><span data-analytics-day="0">M</span><span data-analytics-day="1">T</span><span data-analytics-day="2">W</span><span data-analytics-day="3">T</span><span data-analytics-day="4">F</span><span data-analytics-day="5">S</span><span data-analytics-day="6">S</span></div>
+              <p class="analytics-desk__trend-note" data-analytics-trend-note>Illustrative telemetry / no document content included.</p>
+            </div>
+          </div>
+          <div class="analytics-desk__insight">
+            <div><span data-analytics-insight-kind>01 / NEXT BEST ACTION</span><h3 data-analytics-insight-title>Standardize the approved handoff.</h3><p data-analytics-insight-copy>Northstar and Meridian are using source-linked delivery rooms. Cedar is still waiting for an owner before its first client-facing handoff.</p><div class="analytics-desk__insight-meta"><span>OWNER <strong data-analytics-insight-owner>KM / OPERATIONS</strong></span><span>STATE <strong data-analytics-insight-state>READY TO STAGE</strong></span></div></div>
+            <div class="analytics-desk__insight-action"><button type="button" data-analytics-stage>Stage governance brief <span aria-hidden="true">&rarr;</span></button><p data-analytics-status>Local draft only. Counsel reviews before release.</p></div>
+          </div>
+          <div class="analytics-desk__foot"><span><i></i> <span data-analytics-foot>03 SPACES / AGGREGATE TELEMETRY / 0 B OUTBOUND</span></span><a href="customers.html#shared-space" data-analytics-open>Open shared matter room <span aria-hidden="true">&rarr;</span></a></div>
+        </div>
+        <p class="command-center__caption">Illustrative local telemetry. Vaultr exposes the operating layer while matter documents remain private.</p>
+      </div>
+    </section>
+
     <section class="command-page__threads section" id="threads">
       <div class="shell">
         <div class="command-page__section-intro">
-          <div><p class="section-kicker reveal">02 / ACTIVE THREADS</p><h2 class="reveal">Approve the plan. Keep the decision yours.</h2></div>
+          <div><p class="section-kicker reveal">03 / ACTIVE THREADS</p><h2 class="reveal">Approve the plan. Keep the decision yours.</h2></div>
           <p class="reveal">Delegate multi-step work without losing the moment counsel needs to intervene. Every thread exposes its plan, progress, owner, and next decision before it moves.</p>
         </div>
         <div class="thread-desk reveal" data-thread-desk>
@@ -162,7 +203,7 @@
     <section class="command-page__governance section" id="governance">
       <div class="shell">
         <div class="command-page__section-intro">
-          <p class="section-kicker reveal">03 / GOVERNANCE DESK</p>
+          <p class="section-kicker reveal">04 / GOVERNANCE DESK</p>
           <h2 class="reveal">Prove the policy before the matter opens.</h2>
           <p class="reveal">Give an admin one quiet surface for access, approved connections, and retention. The system should make the safe path the easiest path to inspect.</p>
         </div>
@@ -209,7 +250,7 @@
     <section class="command-page__connections section" id="connections">
       <div class="shell">
         <div class="command-page__section-intro">
-          <p class="section-kicker reveal">04 / CONNECTIONS LAB</p>
+          <p class="section-kicker reveal">05 / CONNECTIONS LAB</p>
           <h2 class="reveal">Bring the stack in. Keep the boundary visible.</h2>
           <p class="reveal">Review the approved bridges your firm can use with Vaultr. Every adapter is scoped, inspectable, and denied by default until counsel approves the path.</p>
         </div>
@@ -239,7 +280,7 @@
 
     <section class="command-page__monitors section" id="monitors">
       <div class="shell">
-        <div class="command-page__section-intro"><div><p class="section-kicker reveal">05 / MONITOR DESK</p><h2 class="reveal">Surface the change before it becomes a fire.</h2></div><p class="reveal">Keep recurring checks visible, assign the next human decision, and let the local runtime bring only high-signal changes into the room.</p></div>
+        <div class="command-page__section-intro"><div><p class="section-kicker reveal">06 / MONITOR DESK</p><h2 class="reveal">Surface the change before it becomes a fire.</h2></div><p class="reveal">Keep recurring checks visible, assign the next human decision, and let the local runtime bring only high-signal changes into the room.</p></div>
         <div class="monitor-desk reveal" data-monitor-desk>
           <div class="monitor-desk__head"><span>VAULTR / PROACTIVE MATTER SIGNALS</span><span class="monitor-desk__local"><i></i> LOCAL SCHEDULE / 0 B OUTBOUND</span></div>
           <div class="monitor-desk__toolbar"><div class="monitor-desk__filters" role="tablist" aria-label="Monitor filters"><button class="is-active" type="button" role="tab" aria-selected="true" data-monitor-filter="all">All <span>05</span></button><button type="button" role="tab" aria-selected="false" tabindex="-1" data-monitor-filter="urgent">Needs review <span>02</span></button><button type="button" role="tab" aria-selected="false" tabindex="-1" data-monitor-filter="watching">Watching <span>02</span></button><button type="button" role="tab" aria-selected="false" tabindex="-1" data-monitor-filter="resolved">Resolved <span>01</span></button></div><label class="monitor-desk__schedule"><input type="checkbox" data-monitor-schedule checked><span><i></i> Run local checks nightly</span></label></div>
@@ -259,7 +300,7 @@
       </div>
     </section>
 
-    <section class="command-page__proof section"><div class="shell"><div class="command-page__section-intro"><p class="section-kicker reveal">06 / GOVERNANCE SIGNALS</p><h2 class="reveal">Measure the system without opening the matter.</h2><p class="reveal">Command Center keeps the useful operational layer visible and the privileged record private.</p></div><div class="command-proof__grid"><article class="command-proof-card reveal"><span>01 / ACTIVITY</span><h3>Know what moved.</h3><p>See which matters, runs, and workflows need attention without exposing the documents beneath them.</p><b>MATTER / SIGNAL</b></article><article class="command-proof-card reveal"><span>02 / HEALTH</span><h3>Know the room is intact.</h3><p>Runtime, network, and local-run signals make the boundary a live operating state.</p><b>RUNTIME / HEALTH</b></article><article class="command-proof-card reveal"><span>03 / AUDIT</span><h3>Know what to prove.</h3><p>Keep a visible trail of activity, ownership, and source-linked outcomes for the people responsible for the system.</p><b>GOVERN / VERIFY</b></article></div></div></section>
+    <section class="command-page__proof section"><div class="shell"><div class="command-page__section-intro"><p class="section-kicker reveal">07 / GOVERNANCE SIGNALS</p><h2 class="reveal">Measure the system without opening the matter.</h2><p class="reveal">Command Center keeps the useful operational layer visible and the privileged record private.</p></div><div class="command-proof__grid"><article class="command-proof-card reveal"><span>01 / ACTIVITY</span><h3>Know what moved.</h3><p>See which matters, runs, and workflows need attention without exposing the documents beneath them.</p><b>MATTER / SIGNAL</b></article><article class="command-proof-card reveal"><span>02 / HEALTH</span><h3>Know the room is intact.</h3><p>Runtime, network, and local-run signals make the boundary a live operating state.</p><b>RUNTIME / HEALTH</b></article><article class="command-proof-card reveal"><span>03 / AUDIT</span><h3>Know what to prove.</h3><p>Keep a visible trail of activity, ownership, and source-linked outcomes for the people responsible for the system.</p><b>GOVERN / VERIFY</b></article></div></div></section>
 
     <section class="command-page__cta section"><div class="shell command-page__cta-inner reveal"><p class="section-kicker">READY FOR PRACTICE VISIBILITY?</p><h2>Keep the documents private. Make the system legible.</h2><a class="button button--light" href="deployment.html">Build a private deployment brief</a></div></section>
 

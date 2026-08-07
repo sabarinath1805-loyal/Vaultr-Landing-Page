@@ -2334,15 +2334,16 @@
           <a href="customers.html#shared-space" data-quick-nav-item data-quick-nav-keywords="shared space portal collaboration client permissions audit"><span><strong>Shared Matter Room</strong><small>Scoped client collaboration with an audit trail</small></span><kbd>07</kbd></a>
           <a href="platform.html#delivery" data-quick-nav-item><span><strong>Delivery Room</strong><small>Scoped handoffs and client-ready work</small></span><kbd>07</kbd></a>
           <a href="command.html" data-quick-nav-item><span><strong>Command Center</strong><small>Practice activity and governance signals</small></span><kbd>08</kbd></a>
-          <a href="command.html#threads" data-quick-nav-item data-quick-nav-keywords="active threads plan mode progress tracker parallel runs waiting input approval"><span><strong>Active Threads</strong><small>Approve plans and supervise parallel runs</small></span><kbd>09</kbd></a>
-          <a href="command.html#governance" data-quick-nav-item><span><strong>Governance Desk</strong><small>Access, connections, and policy proof</small></span><kbd>09</kbd></a>
-          <a href="command.html#connections" data-quick-nav-item><span><strong>Connections Lab</strong><small>Approved bridges into the legal stack</small></span><kbd>10</kbd></a>
-          <a href="platform.html#evidence" data-quick-nav-item><span><strong>Evidence Ledger</strong><small>Source, span, confidence</small></span><kbd>11</kbd></a>
-          <a href="platform.html#proof" data-quick-nav-item><span><strong>Room Signals</strong><small>Boundary, ledger, runtime, root</small></span><kbd>12</kbd></a>
-          <a href="security.html" data-quick-nav-item><span><strong>Security Center</strong><small>Runtime, network, and source boundary</small></span><kbd>13</kbd></a>
-          <a href="privacy.html" data-quick-nav-item><span><strong>Privacy brief</strong><small>Data handling, ownership, and review boundaries</small></span><kbd>14</kbd></a>
-          <a href="research.html#desk" data-quick-nav-item><span><strong>Research &amp; architecture</strong><small>Cited research and source traces</small></span><kbd>15</kbd></a>
-          <a href="deployment.html" data-quick-nav-item><span><strong>Deployment Desk</strong><small>Build a private deployment brief</small></span><kbd>16</kbd></a>
+          <a href="command.html#analytics" data-quick-nav-item data-quick-nav-keywords="space analytics adoption value outcomes practice groups aggregate telemetry shared matters governance report"><span><strong>Space Analytics</strong><small>Measure adoption and value without document exposure</small></span><kbd>09</kbd></a>
+          <a href="command.html#threads" data-quick-nav-item data-quick-nav-keywords="active threads plan mode progress tracker parallel runs waiting input approval"><span><strong>Active Threads</strong><small>Approve plans and supervise parallel runs</small></span><kbd>10</kbd></a>
+          <a href="command.html#governance" data-quick-nav-item><span><strong>Governance Desk</strong><small>Access, connections, and policy proof</small></span><kbd>10</kbd></a>
+          <a href="command.html#connections" data-quick-nav-item><span><strong>Connections Lab</strong><small>Approved bridges into the legal stack</small></span><kbd>11</kbd></a>
+          <a href="platform.html#evidence" data-quick-nav-item><span><strong>Evidence Ledger</strong><small>Source, span, confidence</small></span><kbd>12</kbd></a>
+          <a href="platform.html#proof" data-quick-nav-item><span><strong>Room Signals</strong><small>Boundary, ledger, runtime, root</small></span><kbd>13</kbd></a>
+          <a href="security.html" data-quick-nav-item><span><strong>Security Center</strong><small>Runtime, network, and source boundary</small></span><kbd>14</kbd></a>
+          <a href="privacy.html" data-quick-nav-item><span><strong>Privacy brief</strong><small>Data handling, ownership, and review boundaries</small></span><kbd>15</kbd></a>
+          <a href="research.html#desk" data-quick-nav-item><span><strong>Research &amp; architecture</strong><small>Cited research and source traces</small></span><kbd>16</kbd></a>
+          <a href="deployment.html" data-quick-nav-item><span><strong>Deployment Desk</strong><small>Build a private deployment brief</small></span><kbd>17</kbd></a>
           <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer" data-quick-nav-item><span><strong>Open architecture</strong><small>Inspect the source and implementation notes</small></span><kbd>↗</kbd></a>
           </nav>
         </div>
@@ -2539,6 +2540,7 @@
     { id: 'workflows', label: 'Workflow studio' },
     { id: 'solutions', label: 'Practice rooms' },
     { id: 'command-center', label: 'Command center' },
+    { id: 'analytics', label: 'Space analytics' },
     { id: 'threads', label: 'Active threads' },
     { id: 'monitors', label: 'Monitor desk' },
     { id: 'deployment', label: 'Deployment desk' }
@@ -3497,6 +3499,114 @@
   });
   const initialCommandRange = readQueryState('range');
   if (initialCommandRange && commandData[initialCommandRange]) setCommandRange(initialCommandRange, false);
+
+  const analyticsDesk = document.querySelector('[data-analytics-desk]');
+  if (analyticsDesk) {
+    const analyticsTabs = [...analyticsDesk.querySelectorAll('[data-analytics-matter]')];
+    const analyticsPanel = analyticsDesk.querySelector('#analytics-panel');
+    const analyticsValues = Object.fromEntries(['collaborators', 'runs', 'artifacts', 'adoption'].map((key) => [key, analyticsDesk.querySelector(`[data-analytics-value="${key}"]`)]));
+    const analyticsNotes = Object.fromEntries(['collaborators', 'runs', 'artifacts', 'adoption'].map((key) => [key, analyticsDesk.querySelector(`[data-analytics-note="${key}"]`)]));
+    const analyticsBars = [...analyticsDesk.querySelectorAll('[data-analytics-bar]')];
+    const analyticsDays = [...analyticsDesk.querySelectorAll('[data-analytics-day]')];
+    const analyticsPeriod = analyticsDesk.querySelector('[data-analytics-period]');
+    const analyticsTrendLabel = analyticsDesk.querySelector('[data-analytics-trend-label]');
+    const analyticsTrendNote = analyticsDesk.querySelector('[data-analytics-trend-note]');
+    const analyticsInsightKind = analyticsDesk.querySelector('[data-analytics-insight-kind]');
+    const analyticsInsightTitle = analyticsDesk.querySelector('[data-analytics-insight-title]');
+    const analyticsInsightCopy = analyticsDesk.querySelector('[data-analytics-insight-copy]');
+    const analyticsInsightOwner = analyticsDesk.querySelector('[data-analytics-insight-owner]');
+    const analyticsInsightState = analyticsDesk.querySelector('[data-analytics-insight-state]');
+    const analyticsStage = analyticsDesk.querySelector('[data-analytics-stage]');
+    const analyticsStatus = analyticsDesk.querySelector('[data-analytics-status]');
+    const analyticsFoot = analyticsDesk.querySelector('[data-analytics-foot]');
+    const analyticsData = {
+      all: {
+        values: { collaborators: '18', runs: '184', artifacts: '42', adoption: '74%' },
+        notes: { collaborators: '03 practice groups', runs: '+24% vs prior period', artifacts: '12 ready for handoff', adoption: '+11 pts vs prior period' },
+        chart: ['34%', '52%', '46%', '68%', '79%', '72%', '90%'],
+        days: ['M', 'T', 'W', 'T', 'F', 'S', 'S'], period: 'LAST 30 DAYS / LOCAL INDEX', trend: 'RUNS + HANDOFFS', trendNote: 'Illustrative telemetry / no document content included.',
+        insightKind: '01 / NEXT BEST ACTION', insightTitle: 'Standardize the approved handoff.', insightCopy: 'Northstar and Meridian are using source-linked delivery rooms. Cedar is still waiting for an owner before its first client-facing handoff.', owner: 'KM / OPERATIONS', state: 'READY TO STAGE', foot: '03 SPACES / AGGREGATE TELEMETRY / 0 B OUTBOUND', open: 'customers.html#shared-space'
+      },
+      northstar: {
+        values: { collaborators: '07', runs: '86', artifacts: '19', adoption: '88%' },
+        notes: { collaborators: 'Deal team / 02 guests', runs: '+31% vs prior period', artifacts: '06 ready for handoff', adoption: '+16 pts vs prior period' },
+        chart: ['42%', '58%', '51%', '73%', '86%', '78%', '96%'],
+        days: ['M', 'T', 'W', 'T', 'F', 'S', 'S'], period: 'NORTHSTAR / LAST 30 DAYS', trend: 'CLOSING PULSE', trendNote: 'Source-linked activity only / document content stays scoped.',
+        insightKind: '01 / NEXT BEST ACTION', insightTitle: 'Release the closing brief.', insightCopy: 'The source-linked brief is complete. One counsel approval remains before the delivery room can show the client-ready view.', owner: 'J. CHEN / DEAL LEAD', state: 'COUNSEL APPROVAL', foot: 'NORTHSTAR / 07 COLLABORATORS / 0 B OUTBOUND', open: 'customers.html?space=questions#shared-space'
+      },
+      meridian: {
+        values: { collaborators: '05', runs: '54', artifacts: '13', adoption: '71%' },
+        notes: { collaborators: 'HR / 01 guest', runs: '+18% vs prior period', artifacts: '04 ready for handoff', adoption: '+09 pts vs prior period' },
+        chart: ['28%', '46%', '39%', '57%', '62%', '67%', '75%'],
+        days: ['M', 'T', 'W', 'T', 'F', 'S', 'S'], period: 'MERIDIAN / LAST 30 DAYS', trend: 'POLICY PULSE', trendNote: 'Policy gaps are aggregated; approved sources remain in the room.',
+        insightKind: '01 / NEXT BEST ACTION', insightTitle: 'Answer the policy checkpoint.', insightCopy: 'Lex has staged the approved-systems gap for KM / Security. Resolve the clarification before the next local run begins.', owner: 'KM / SECURITY', state: 'NEEDS CLARIFICATION', foot: 'MERIDIAN / 05 COLLABORATORS / 0 B OUTBOUND', open: 'command.html?thread=policy#threads'
+      },
+      cedar: {
+        values: { collaborators: '06', runs: '44', artifacts: '10', adoption: '63%' },
+        notes: { collaborators: 'Litigation / 00 guests', runs: '+08% vs prior period', artifacts: '02 ready for handoff', adoption: '+05 pts vs prior period' },
+        chart: ['24%', '31%', '38%', '46%', '54%', '59%', '66%'],
+        days: ['M', 'T', 'W', 'T', 'F', 'S', 'S'], period: 'CEDAR / LAST 30 DAYS', trend: 'CHRONOLOGY PULSE', trendNote: 'Local chronology and ownership signals / no exhibits exposed.',
+        insightKind: '01 / NEXT BEST ACTION', insightTitle: 'Assign the next reviewer.', insightCopy: 'The chronology refresh is complete, but the delivery path has no named owner. Assign one before the next evidence pass.', owner: 'A. RAO / PRACTICE OPS', state: 'OWNER REQUIRED', foot: 'CEDAR / 06 COLLABORATORS / 0 B OUTBOUND', open: 'workflows.html?list=chronology#lists'
+      }
+    };
+    let analyticsActive = 'all';
+    let analyticsStaged = {};
+    try { analyticsStaged = JSON.parse(window.localStorage.getItem('vaultr.analytics-staged') || '{}') || {}; } catch (error) { analyticsStaged = {}; }
+    const persistAnalytics = () => { try { window.localStorage.setItem('vaultr.analytics-staged', JSON.stringify(analyticsStaged)); } catch (error) { /* local-only state is best effort */ } };
+    const setAnalyticsScope = (scope, animate = true) => {
+      const key = analyticsData[scope] ? scope : 'all';
+      const data = analyticsData[key];
+      analyticsActive = key;
+      writeQueryState('analytics', key);
+      analyticsTabs.forEach((tab) => {
+        const active = tab.dataset.analyticsMatter === key;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', String(active));
+        tab.tabIndex = active ? 0 : -1;
+      });
+      if (analyticsPanel) analyticsPanel.setAttribute('aria-labelledby', `analytics-tab-${key}`);
+      Object.entries(data.values).forEach(([name, value]) => { if (analyticsValues[name]) analyticsValues[name].textContent = value; });
+      Object.entries(data.notes).forEach(([name, value]) => { if (analyticsNotes[name]) analyticsNotes[name].textContent = value; });
+      analyticsBars.forEach((bar, index) => { bar.style.setProperty('--analytics-bar', data.chart[index] || '8%'); });
+      analyticsDays.forEach((day, index) => { day.textContent = data.days[index] || ''; });
+      if (analyticsPeriod) analyticsPeriod.textContent = data.period;
+      if (analyticsTrendLabel) analyticsTrendLabel.textContent = data.trend;
+      if (analyticsTrendNote) analyticsTrendNote.textContent = data.trendNote;
+      if (analyticsInsightKind) analyticsInsightKind.textContent = data.insightKind;
+      if (analyticsInsightTitle) analyticsInsightTitle.textContent = data.insightTitle;
+      if (analyticsInsightCopy) analyticsInsightCopy.textContent = data.insightCopy;
+      if (analyticsInsightOwner) analyticsInsightOwner.textContent = data.owner;
+      if (analyticsInsightState) analyticsInsightState.textContent = analyticsStaged[key] ? 'STAGED LOCALLY' : data.state;
+      const staged = analyticsStaged[key] === true;
+      if (analyticsStage) { analyticsStage.disabled = staged; analyticsStage.innerHTML = staged ? 'Governance brief staged <span aria-hidden="true">&#10003;</span>' : 'Stage governance brief <span aria-hidden="true">&#8594;</span>'; }
+      if (analyticsStatus) analyticsStatus.textContent = staged ? 'Staged locally. Counsel review is still required.' : 'Local draft only. Counsel reviews before release.';
+      if (analyticsFoot) analyticsFoot.textContent = staged ? `${data.foot.split(' / 0 B')[0]} / BRIEF STAGED / 0 B OUTBOUND` : data.foot;
+      const open = analyticsDesk.querySelector('[data-analytics-open]');
+      if (open) open.href = data.open;
+      if (animate) {
+        analyticsDesk.classList.add('is-changing');
+        window.setTimeout(() => analyticsDesk.classList.remove('is-changing'), 280);
+      }
+    };
+    analyticsTabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => setAnalyticsScope(tab.dataset.analyticsMatter));
+      tab.addEventListener('keydown', (event) => {
+        if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? analyticsTabs.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + analyticsTabs.length) % analyticsTabs.length;
+        analyticsTabs[nextIndex].focus();
+        setAnalyticsScope(analyticsTabs[nextIndex].dataset.analyticsMatter);
+      });
+    });
+    analyticsStage?.addEventListener('click', () => {
+      analyticsStaged[analyticsActive] = true;
+      persistAnalytics();
+      setAnalyticsScope(analyticsActive);
+      if (analyticsStatus) analyticsStatus.textContent = 'Staged locally. Counsel review is still required.';
+    });
+    const initialAnalytics = readQueryState('analytics');
+    setAnalyticsScope(initialAnalytics && analyticsData[initialAnalytics] ? initialAnalytics : 'all', false);
+  }
 
   const deploymentProfiles = [...document.querySelectorAll('[data-deployment-mode]')];
   const deploymentProfileCopy = document.querySelector('[data-deployment-copy]');
