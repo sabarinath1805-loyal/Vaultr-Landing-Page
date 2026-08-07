@@ -24,8 +24,8 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preload" as="image" href="assets/images/monet-water-lilies.jpg" fetchpriority="high">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=trust-6">
-  <script defer src="assets/js/vaultr.js?v=trust-6"></script>
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=a11y-7">
+  <script defer src="assets/js/vaultr.js?v=a11y-7"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Vaultr Platform","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/platform.html","isPartOf":{"@type":"WebSite","name":"Vaultr","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/"}}</script>
 </head>
 <body class="detail-page platform-page">
@@ -248,9 +248,9 @@
             <span>Lex</span>
             <span class="surface-disclosure">Illustrative demo</span>
             <div class="lex-window__tabs" role="tablist" aria-label="Lex workspace modes">
-              <button class="lex-tab is-active" type="button" role="tab" aria-controls="lex-answer" aria-selected="true" tabindex="0" data-lex-tab="review">Review</button>
-              <button class="lex-tab" type="button" role="tab" aria-controls="lex-answer" aria-selected="false" tabindex="-1" data-lex-tab="compare">Compare</button>
-              <button class="lex-tab" type="button" role="tab" aria-controls="lex-answer" aria-selected="false" tabindex="-1" data-lex-tab="draft">Draft</button>
+              <button class="lex-tab is-active" id="lex-tab-review" type="button" role="tab" aria-controls="lex-answer" aria-selected="true" tabindex="0" data-lex-tab="review">Review</button>
+              <button class="lex-tab" id="lex-tab-compare" type="button" role="tab" aria-controls="lex-answer" aria-selected="false" tabindex="-1" data-lex-tab="compare">Compare</button>
+              <button class="lex-tab" id="lex-tab-draft" type="button" role="tab" aria-controls="lex-answer" aria-selected="false" tabindex="-1" data-lex-tab="draft">Draft</button>
             </div>
             <span class="lex-window__local"><i></i> On device</span>
           </div>
@@ -293,7 +293,7 @@
                 </div>
               </div>
             </div>
-            <div class="lex-window__answer" id="lex-answer" role="tabpanel" aria-live="polite">
+            <div class="lex-window__answer" id="lex-answer" role="tabpanel" aria-labelledby="lex-tab-review" aria-live="polite">
               <div class="answer-topline"><span class="answer-label" data-lex-label>LEX / REVIEW</span><span class="answer-state" data-lex-state>VERIFIED</span></div>
               <p data-lex-title>Clause drift detected.</p>
               <div class="answer-citations"><span data-lex-citation>§ 7.4 / Merger Agreement</span><span data-lex-citation-secondary>§ 12 / Disclosure Schedule</span></div>
@@ -328,11 +328,11 @@
           <div class="evidence-ledger__panel reveal" aria-label="Lex evidence ledger">
             <div class="evidence-ledger__panel-head"><span>LEX / EVIDENCE LEDGER</span><span class="surface-disclosure">Illustrative</span><span class="evidence-ledger__local"><i></i> LOCAL ONLY</span></div>
             <div class="evidence-ledger__filters" role="tablist" aria-label="Evidence confidence filters">
-              <button class="evidence-filter is-active" type="button" role="tab" aria-selected="true" tabindex="0" data-evidence-filter="all">All <span>04</span></button>
-              <button class="evidence-filter" type="button" role="tab" aria-selected="false" tabindex="-1" data-evidence-filter="verified">Verified <span>03</span></button>
-              <button class="evidence-filter" type="button" role="tab" aria-selected="false" tabindex="-1" data-evidence-filter="review">Needs review <span>01</span></button>
+              <button class="evidence-filter is-active" id="evidence-filter-all" type="button" role="tab" aria-controls="evidence-rows" aria-selected="true" tabindex="0" data-evidence-filter="all">All <span>04</span></button>
+              <button class="evidence-filter" id="evidence-filter-verified" type="button" role="tab" aria-controls="evidence-rows" aria-selected="false" tabindex="-1" data-evidence-filter="verified">Verified <span>03</span></button>
+              <button class="evidence-filter" id="evidence-filter-review" type="button" role="tab" aria-controls="evidence-rows" aria-selected="false" tabindex="-1" data-evidence-filter="review">Needs review <span>01</span></button>
             </div>
-            <div class="evidence-ledger__rows">
+            <div class="evidence-ledger__rows" id="evidence-rows" role="tabpanel" aria-labelledby="evidence-filter-all">
               <article class="evidence-row" tabindex="0" role="button" aria-expanded="false" data-evidence-key="agreement" data-evidence-state="verified"><span class="evidence-row__type">PDF / § 7.4</span><div><strong>Merger Agreement</strong><small>Clause drift detected in representations.</small></div><span class="evidence-row__confidence">98% / VERIFIED</span></article>
               <article class="evidence-row" tabindex="0" role="button" aria-expanded="false" data-evidence-key="schedule" data-evidence-state="verified"><span class="evidence-row__type">PDF / § 12</span><div><strong>Disclosure Schedule</strong><small>Material contracts cross-referenced.</small></div><span class="evidence-row__confidence">96% / VERIFIED</span></article>
               <article class="evidence-row" tabindex="0" role="button" aria-expanded="false" data-evidence-key="tracker" data-evidence-state="review"><span class="evidence-row__type">XLS / OPEN ITEMS</span><div><strong>Diligence Tracker</strong><small>Supplier consent requires counsel review.</small></div><span class="evidence-row__confidence evidence-row__confidence--review">REVIEW / OPEN</span></article>

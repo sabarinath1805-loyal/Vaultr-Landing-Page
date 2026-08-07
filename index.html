@@ -24,8 +24,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=trust-6">
-  <script defer src="assets/js/vaultr.js?v=trust-6"></script>
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=a11y-7">
+  <script defer src="assets/js/vaultr.js?v=a11y-7"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Vaultr","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/","logo":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/assets/images/vaultr-og.png","description":"Private legal intelligence that stays inside the room."}</script>
 </head>
 <body>
@@ -125,11 +125,11 @@
             <span class="hero__signal-state"><i aria-hidden="true"></i><span data-demo-status>READY</span><span class="surface-disclosure">Illustrative</span></span>
           </div>
           <div class="hero-demo__tabs" role="tablist" aria-label="Choose a Lex demo mode">
-            <button class="is-active" type="button" role="tab" aria-selected="true" data-demo-mode="review">Review</button>
-            <button type="button" role="tab" aria-selected="false" data-demo-mode="compare">Compare</button>
-            <button type="button" role="tab" aria-selected="false" data-demo-mode="draft">Draft</button>
+            <button class="is-active" id="hero-demo-tab-review" type="button" role="tab" aria-controls="hero-demo-panel" aria-selected="true" data-demo-mode="review">Review</button>
+            <button id="hero-demo-tab-compare" type="button" role="tab" aria-controls="hero-demo-panel" aria-selected="false" data-demo-mode="compare">Compare</button>
+            <button id="hero-demo-tab-draft" type="button" role="tab" aria-controls="hero-demo-panel" aria-selected="false" data-demo-mode="draft">Draft</button>
           </div>
-          <div class="hero__signal-body">
+          <div class="hero__signal-body" id="hero-demo-panel" role="tabpanel" aria-labelledby="hero-demo-tab-review">
             <span class="hero__signal-label" data-demo-label>OUTBOUND NETWORK</span>
             <strong data-demo-value>0 B</strong>
             <p data-demo-copy>Review a confidentiality clause without leaving your device.</p>
@@ -206,12 +206,12 @@
             <h3>Give the brief. Keep the judgment.</h3>
             <p>Vaultr turns a high-level instruction into a visible, reviewable run—grounded in your matter and paused at the checkpoints you control.</p>
             <div class="workbench-steps" role="tablist" aria-label="Matter run stages">
-              <button class="workbench-step is-active" type="button" role="tab" aria-selected="true" data-workbench-step="context"><span>01</span>Context</button>
-              <button class="workbench-step" type="button" role="tab" aria-selected="false" data-workbench-step="plan"><span>02</span>Plan</button>
-              <button class="workbench-step" type="button" role="tab" aria-selected="false" data-workbench-step="proof"><span>03</span>Proof</button>
+              <button class="workbench-step is-active" id="workbench-tab-context" type="button" role="tab" aria-controls="workbench-panel" aria-selected="true" data-workbench-step="context"><span>01</span>Context</button>
+              <button class="workbench-step" id="workbench-tab-plan" type="button" role="tab" aria-controls="workbench-panel" aria-selected="false" data-workbench-step="plan"><span>02</span>Plan</button>
+              <button class="workbench-step" id="workbench-tab-proof" type="button" role="tab" aria-controls="workbench-panel" aria-selected="false" data-workbench-step="proof"><span>03</span>Proof</button>
             </div>
           </div>
-          <div class="workbench" aria-label="Interactive supervised matter run">
+          <div class="workbench" id="workbench-panel" role="tabpanel" aria-labelledby="workbench-tab-context" aria-label="Interactive supervised matter run">
             <div class="workbench__head"><span>VAULTR / SUPERVISED RUN</span><span class="workbench__local"><i></i> LOCAL ONLY</span></div>
             <div class="workbench__body">
               <div class="workbench__brief">
@@ -273,11 +273,11 @@
             <span class="boundary-lab__status"><i aria-hidden="true"></i><span data-boundary-status>OUTBOUND DENIED</span></span>
           </div>
           <div class="boundary-lab__tabs" role="tablist" aria-label="Choose a deployment profile">
-            <button class="is-active" type="button" role="tab" aria-selected="true" data-boundary-mode="local">Local runtime</button>
-            <button type="button" role="tab" aria-selected="false" data-boundary-mode="network">Private network</button>
-            <button type="button" role="tab" aria-selected="false" data-boundary-mode="airgap">Air-gapped</button>
+            <button class="is-active" id="boundary-tab-local" type="button" role="tab" aria-controls="boundary-panel" aria-selected="true" data-boundary-mode="local">Local runtime</button>
+            <button id="boundary-tab-network" type="button" role="tab" aria-controls="boundary-panel" aria-selected="false" data-boundary-mode="network">Private network</button>
+            <button id="boundary-tab-airgap" type="button" role="tab" aria-controls="boundary-panel" aria-selected="false" data-boundary-mode="airgap">Air-gapped</button>
           </div>
-          <div class="diagram-flow">
+          <div class="diagram-flow" id="boundary-panel" role="tabpanel" aria-labelledby="boundary-tab-local">
             <div class="diagram-node"><span data-boundary-source>Your Documents</span><small data-boundary-source-meta>Firm-managed device</small></div>
             <span class="diagram-arrow" aria-hidden="true">→</span>
             <div class="diagram-node diagram-node--gold"><span data-boundary-runtime>Lex, On Device</span><small data-boundary-runtime-meta>Inference stays local</small></div>

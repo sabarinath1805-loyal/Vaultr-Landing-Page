@@ -47,6 +47,7 @@
     const result = heroDemo.querySelector('[data-demo-result]');
     const foot = heroDemo.querySelector('[data-demo-foot]');
     const run = heroDemo.querySelector('[data-demo-run]');
+    const demoPanel = heroDemo.querySelector('[role="tabpanel"]');
     const metrics = {
       runtime: heroDemo.querySelector('[data-demo-metric="runtime"]'),
       evidence: heroDemo.querySelector('[data-demo-metric="evidence"]'),
@@ -62,6 +63,8 @@
         button.classList.toggle('is-active', active);
         button.setAttribute('aria-selected', String(active));
       });
+      const activeButton = modeButtons.find((button) => button.dataset.demoMode === mode);
+      if (activeButton && demoPanel) demoPanel.setAttribute('aria-labelledby', activeButton.id);
       if (label) label.textContent = content.label;
       if (value) value.textContent = content.value;
       if (copy) copy.textContent = content.copy;
@@ -101,6 +104,7 @@
     const workbenchStatus = workbench.querySelector('[data-workbench-status]');
     const workbenchRun = workbench.querySelector('[data-workbench-run]');
     const workbenchTraces = [...workbench.querySelectorAll('[data-workbench-trace]')];
+    const workbenchPanel = workbench.querySelector('[role="tabpanel"]');
     const workbenchModes = {
       context: {
         kicker: 'CONTEXT / MATTER NORTHSTAR',
@@ -132,6 +136,8 @@
         step.classList.toggle('is-active', active);
         step.setAttribute('aria-selected', String(active));
       });
+      const activeStep = workbenchSteps.find((step) => step.dataset.workbenchStep === mode);
+      if (activeStep && workbenchPanel) workbenchPanel.setAttribute('aria-labelledby', activeStep.id);
       if (workbenchKicker) workbenchKicker.textContent = content.kicker;
       if (workbenchTitle) workbenchTitle.textContent = content.title;
       if (workbenchCopy) workbenchCopy.textContent = content.copy;
@@ -167,6 +173,7 @@
     const boundaryTabs = [...boundaryLab.querySelectorAll('[data-boundary-mode]')];
     const boundaryTitle = boundaryLab.querySelector('[data-boundary-title]');
     const boundaryStatus = boundaryLab.querySelector('[data-boundary-status]');
+    const boundaryPanel = boundaryLab.querySelector('[role="tabpanel"]');
     const boundarySource = boundaryLab.querySelector('[data-boundary-source]');
     const boundarySourceMeta = boundaryLab.querySelector('[data-boundary-source-meta]');
     const boundaryRuntime = boundaryLab.querySelector('[data-boundary-runtime]');
@@ -200,6 +207,8 @@
         tab.classList.toggle('is-active', active);
         tab.setAttribute('aria-selected', String(active));
       });
+      const activeTab = boundaryTabs.find((tab) => tab.dataset.boundaryMode === mode);
+      if (activeTab && boundaryPanel) boundaryPanel.setAttribute('aria-labelledby', activeTab.id);
       if (boundaryTitle) boundaryTitle.textContent = content.title;
       if (boundaryStatus) boundaryStatus.textContent = content.status;
       if (boundarySource) boundarySource.textContent = content.source;
@@ -940,6 +949,8 @@
       tab.setAttribute('aria-selected', String(active));
       tab.tabIndex = active ? 0 : -1;
     });
+    const activeLexTab = lexTabs.find((tab) => tab.dataset.lexTab === mode);
+    if (activeLexTab && lexAnswer) lexAnswer.setAttribute('aria-labelledby', activeLexTab.id);
     if (lexAnswer) {
       lexAnswer.classList.add('is-changing');
       window.setTimeout(() => lexAnswer.classList.remove('is-changing'), 260);
@@ -1203,6 +1214,7 @@
 
   const evidenceFilters = [...document.querySelectorAll('[data-evidence-filter]')];
   const evidenceRows = [...document.querySelectorAll('[data-evidence-state]')];
+  const evidenceRowsPanel = document.querySelector('#evidence-rows');
   const evidenceDetail = document.querySelector('[data-evidence-detail]');
   const evidenceDetailType = document.querySelector('[data-evidence-detail-type]');
   const evidenceDetailState = document.querySelector('[data-evidence-detail-state]');
@@ -1264,6 +1276,8 @@
       tab.setAttribute('aria-selected', String(active));
       tab.tabIndex = active ? 0 : -1;
     });
+    const activeEvidenceTab = evidenceFilters.find((tab) => tab.dataset.evidenceFilter === filter);
+    if (activeEvidenceTab && evidenceRowsPanel) evidenceRowsPanel.setAttribute('aria-labelledby', activeEvidenceTab.id);
     evidenceRows.forEach((row) => {
       row.hidden = filter !== 'all' && row.dataset.evidenceState !== filter;
     });
