@@ -507,6 +507,85 @@
     renderAgents(initialAgent && agentFilters.some((filter) => filter.dataset.agentFilter === initialAgent) ? initialAgent : 'all');
   }
 
+  const sharedSpace = document.querySelector('[data-shared-space]');
+  if (sharedSpace) {
+    const sharedTabs = [...sharedSpace.querySelectorAll('[data-shared-tab]')];
+    const sharedPanels = [...sharedSpace.querySelectorAll('[data-shared-panel]')];
+    const sharedTitle = sharedSpace.querySelector('[data-shared-title]');
+    const sharedKicker = sharedSpace.querySelector('[data-shared-kicker]');
+    const sharedFoot = sharedSpace.querySelector('[data-shared-foot]');
+    const sharedFooterCopy = sharedSpace.querySelector('[data-shared-footer-copy]');
+    const sharedInvite = sharedSpace.querySelector('[data-shared-invite]');
+    const sharedApprove = sharedSpace.querySelector('[data-shared-approve]');
+    const sharedStatus = sharedSpace.querySelector('[data-shared-status]');
+    const sharedWorkflowStatus = sharedSpace.querySelector('[data-shared-workflow-status]');
+    const sharedCopy = sharedSpace.querySelector('[data-shared-copy]');
+    const sharedTitles = {
+      overview: ['ROOM PULSE / 07 MAY 2026', 'One shared record. No version chase.'],
+      documents: ['DOCUMENTS / CONTROLLED VIEW', 'Show the work. Withhold the record.'],
+      workflows: ['WORKFLOWS / FIRM-POWERED', 'Let the client run the method—not own it.'],
+      activity: ['ACTIVITY / AUDIT TRAIL', 'Every permission change has a visible finish line.']
+    };
+    let sharedActive = 'overview';
+    const setSharedTab = (key, focus = false) => {
+      const next = sharedTitles[key] ? key : 'overview';
+      sharedActive = next;
+      sharedTabs.forEach((tab) => {
+        const active = tab.dataset.sharedTab === next;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', String(active));
+        tab.tabIndex = active ? 0 : -1;
+      });
+      sharedPanels.forEach((panel) => {
+        const active = panel.dataset.sharedPanel === next;
+        panel.classList.toggle('is-active', active);
+        panel.hidden = !active;
+      });
+      if (sharedKicker) sharedKicker.textContent = sharedTitles[next][0];
+      if (sharedTitle) sharedTitle.textContent = sharedTitles[next][1];
+      if (focus) sharedTabs.find((tab) => tab.dataset.sharedTab === next)?.focus();
+    };
+    sharedTabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => setSharedTab(tab.dataset.sharedTab));
+      tab.addEventListener('keydown', (event) => {
+        if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? sharedTabs.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + sharedTabs.length) % sharedTabs.length;
+        setSharedTab(sharedTabs[nextIndex].dataset.sharedTab, true);
+      });
+    });
+    sharedInvite?.addEventListener('click', () => {
+      if (sharedFooterCopy) sharedFooterCopy.textContent = 'Scoped invite drafted / view-only / expires in 24 hours.';
+      if (sharedFoot) sharedFoot.textContent = 'INVITE DRAFTED / 0 B OUTBOUND';
+      if (sharedInvite) { sharedInvite.disabled = true; sharedInvite.innerHTML = 'Invite drafted <span aria-hidden="true">✓</span>'; }
+    });
+    sharedApprove?.addEventListener('click', () => {
+      if (sharedStatus) sharedStatus.textContent = 'Preview approved locally. Invite a scoped collaborator when ready.';
+      if (sharedFoot) sharedFoot.textContent = 'PREVIEW APPROVED / 0 B OUTBOUND';
+      if (sharedFooterCopy) sharedFooterCopy.textContent = 'The client sees the artifact—not the raw matter record.';
+      sharedApprove.disabled = true;
+      sharedApprove.innerHTML = 'Preview approved <span aria-hidden="true">✓</span>';
+    });
+    sharedSpace.querySelectorAll('[data-shared-run]').forEach((button) => button.addEventListener('click', () => {
+      const name = button.dataset.sharedRun;
+      if (sharedWorkflowStatus) sharedWorkflowStatus.textContent = `${name} is running in the local room…`;
+      if (sharedFoot) sharedFoot.textContent = 'LOCAL RUN IN PROGRESS / 0 B OUTBOUND';
+      sharedSpace.querySelectorAll('[data-shared-run]').forEach((item) => { item.disabled = true; });
+      window.setTimeout(() => {
+        if (sharedWorkflowStatus) sharedWorkflowStatus.textContent = `${name} complete. Review-ready output is waiting for counsel.`;
+        if (sharedFoot) sharedFoot.textContent = 'RUN COMPLETE / HUMAN REVIEW REQUIRED';
+        sharedSpace.querySelectorAll('[data-shared-run]').forEach((item) => { item.disabled = false; });
+      }, 720);
+    }));
+    sharedCopy?.addEventListener('click', () => {
+      const brief = 'Northstar / Acquisition review — 24 files, 3 approved artifacts, 0 B outbound.';
+      navigator.clipboard?.writeText(brief).catch(() => {});
+      if (sharedFooterCopy) sharedFooterCopy.textContent = 'Room brief copied locally. Nothing was uploaded.';
+      if (sharedCopy) sharedCopy.innerHTML = 'Brief copied <span aria-hidden="true">✓</span>';
+    });
+    setSharedTab(sharedActive);
+  }
+
   const researchDesk = document.querySelector('[data-research-desk]');
   if (researchDesk) {
     const researchForm = researchDesk.querySelector('[data-research-form]');
@@ -1415,6 +1494,7 @@
           <a href="workflows.html#review-table" data-quick-nav-item data-quick-nav-keywords="tabular review extraction structured facts issues rows diligence"><span><strong>Tabular Review</strong><small>Extract issues across a matter</small></span><kbd>05</kbd></a>
           <a href="solutions.html" data-quick-nav-item><span><strong>Solutions</strong><small>Litigation, transactional, in-house</small></span><kbd>05</kbd></a>
           <a href="customers.html" data-quick-nav-item><span><strong>Practice Rooms</strong><small>Illustrative patterns for legal work</small></span><kbd>06</kbd></a>
+          <a href="customers.html#shared-space" data-quick-nav-item data-quick-nav-keywords="shared space portal collaboration client permissions audit"><span><strong>Shared Matter Room</strong><small>Scoped client collaboration with an audit trail</small></span><kbd>07</kbd></a>
           <a href="platform.html#delivery" data-quick-nav-item><span><strong>Delivery Room</strong><small>Scoped handoffs and client-ready work</small></span><kbd>07</kbd></a>
           <a href="command.html" data-quick-nav-item><span><strong>Command Center</strong><small>Practice activity and governance signals</small></span><kbd>08</kbd></a>
           <a href="command.html#governance" data-quick-nav-item><span><strong>Governance Desk</strong><small>Access, connections, and policy proof</small></span><kbd>09</kbd></a>
