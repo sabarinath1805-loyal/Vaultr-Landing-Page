@@ -787,6 +787,129 @@
     renderMonitors();
   }
 
+  const threadDesk = document.querySelector('[data-thread-desk]');
+  if (threadDesk) {
+    const threadFilters = [...threadDesk.querySelectorAll('[data-thread-filter]')];
+    const threadCards = [...threadDesk.querySelectorAll('[data-thread-card]')];
+    const threadEmpty = threadDesk.querySelector('[data-thread-empty]');
+    const threadCount = threadDesk.querySelector('[data-thread-count]');
+    const threadKind = threadDesk.querySelector('[data-thread-detail-kind]');
+    const threadState = threadDesk.querySelector('[data-thread-detail-state]');
+    const threadTitle = threadDesk.querySelector('[data-thread-detail-title]');
+    const threadCopy = threadDesk.querySelector('[data-thread-detail-copy]');
+    const threadPlanList = threadDesk.querySelector('[data-thread-plan-list]');
+    const threadApprove = threadDesk.querySelector('[data-thread-approve]');
+    const threadPause = threadDesk.querySelector('[data-thread-pause]');
+    const threadStatus = threadDesk.querySelector('[data-thread-detail-status]');
+    const threadOpen = threadDesk.querySelector('[data-thread-open]');
+    const threadFoot = threadDesk.querySelector('[data-thread-foot]');
+    const threadData = {
+      closing: {
+        kind: 'input', label: 'WAITING / PLAN REVIEW', state: 'NEEDS YOUR INPUT', title: 'Northstar closing recommendation', copy: 'Lex has prepared a five-step local plan. Approve the route or adjust the decision point before the first source pass begins.', owner: 'J. Chen', open: 'workflows.html?source=builder-review#studio', plan: [['Index the signing set', '24 sources / ready', 'complete'], ['Compare liability language', 'Waiting for approval', 'active'], ['Check supplier consent', 'Queued after step 02', ''], ['Draft the decision brief', 'Source-linked output', ''], ['Hold for counsel sign-off', 'Human review required', '']] },
+      consent: {
+        kind: 'running', label: 'RUNNING / LOCAL', state: 'IN PROGRESS', title: 'Supplier consent sweep', copy: 'The local run is checking the tracker against the change-of-control clauses and will pause if thresholds disagree.', owner: 'M. Patel', open: 'workflows.html?source=research-consent#studio', plan: [['Load supplier tracker', '04 open items / ready', 'complete'], ['Find consent thresholds', '12 sources / running', 'active'], ['Compare approved precedent', 'Queued next', ''], ['Route exceptions to owner', 'Review gate', '']] },
+      policy: {
+        kind: 'input', label: 'WAITING / CLARIFICATION', state: 'NEEDS AN ANSWER', title: 'Meridian policy gap scan', copy: 'The local plan found two approved-system references with different owners. Confirm which policy owner should receive the remediation queue.', owner: 'KM / Security', open: 'research.html?monitor=privacy#desk', plan: [['Index approved systems', '01 policy set / ready', 'complete'], ['Cluster policy gaps', '06 references / complete', 'complete'], ['Confirm remediation owner', 'Waiting for your answer', 'active']] },
+      chronology: {
+        kind: 'complete', label: 'COMPLETE / LOCAL', state: 'READY FOR REVIEW', title: 'Cedar chronology refresh', copy: 'The chronology is complete and every event remains linked to the filing, witness note, or exhibit that supports it.', owner: 'A. Rao', open: 'workflows.html#review-table', plan: [['Index filings and exhibits', '42 events / complete', 'complete'], ['Normalize dates and parties', '06 clusters / complete', 'complete'], ['Flag missing source spans', '03 items / complete', 'complete'], ['Prepare chronology packet', 'Ready for counsel', 'complete']] }
+    };
+    let threadFilter = 'all';
+    let threadActive = 'closing';
+    const setThreadDetail = (key, focus = false) => {
+      const data = threadData[key] || threadData.closing;
+      threadActive = key;
+      threadCards.forEach((card) => {
+        const active = card.dataset.threadKey === key;
+        card.classList.toggle('is-active', active);
+        card.setAttribute('aria-selected', String(active));
+        if (active) {
+          card.dataset.threadKind = data.kind;
+          const cardLabel = card.querySelector('span');
+          const cardMeta = card.querySelector('small');
+          const cardAction = card.querySelector('b');
+          if (cardLabel) cardLabel.textContent = data.label;
+          if (cardMeta) cardMeta.textContent = `${data.plan.length} steps · ${data.owner}`;
+          if (cardAction) cardAction.innerHTML = `${data.kind === 'complete' ? 'READY' : data.kind === 'running' ? 'RUNNING' : 'YOUR INPUT'} <span aria-hidden="true">â†’</span>`;
+        }
+      });
+      if (threadKind) threadKind.textContent = data.label;
+      if (threadState) threadState.textContent = data.state;
+      if (threadTitle) threadTitle.textContent = data.title;
+      if (threadCopy) threadCopy.textContent = data.copy;
+      if (threadPlanList) threadPlanList.innerHTML = data.plan.map((step, index) => `<div class="${step[2] ? `is-${step[2]}` : ''}"><span>${String(index + 1).padStart(2, '0')}</span><strong>${step[0]}</strong><small>${step[1]}</small></div>`).join('');
+      if (threadOpen) threadOpen.href = data.open;
+      if (threadApprove) { threadApprove.disabled = data.kind === 'complete' || data.kind === 'running'; threadApprove.innerHTML = data.kind === 'complete' ? 'Plan complete <span aria-hidden="true">âœ“</span>' : data.kind === 'running' ? 'Running locally <span aria-hidden="true">â€¦</span>' : 'Approve and run <span aria-hidden="true">â†’</span>'; }
+      if (threadPause) { threadPause.disabled = data.kind === 'complete'; threadPause.textContent = data.kind === 'complete' ? 'Thread complete' : 'Pause thread'; }
+      if (threadStatus) threadStatus.textContent = data.kind === 'input' ? 'Nothing runs until the plan is approved locally.' : data.kind === 'running' ? 'Local progress is visible. The thread will pause at the next decision point.' : 'Complete locally. Review the source-linked output in context.';
+      if (focus) threadCards.find((card) => card.dataset.threadKey === key)?.focus();
+    };
+    const renderThreads = (nextFilter = threadFilter) => {
+      threadFilter = nextFilter;
+      threadFilters.forEach((filter) => {
+        const active = filter.dataset.threadFilter === threadFilter;
+        filter.classList.toggle('is-active', active);
+        filter.setAttribute('aria-selected', String(active));
+        filter.tabIndex = active ? 0 : -1;
+      });
+      const visible = threadCards.filter((card) => {
+        const shown = threadFilter === 'all' || card.dataset.threadKind === threadFilter;
+        card.hidden = !shown;
+        return shown;
+      });
+      if (threadEmpty) threadEmpty.hidden = visible.length !== 0;
+      const next = visible.find((card) => card.dataset.threadKey === threadActive) || visible[0];
+      if (next) setThreadDetail(next.dataset.threadKey);
+      if (threadCount) threadCount.textContent = `${String(visible.length).padStart(2, '0')} ACTIVE THREAD${visible.length === 1 ? '' : 'S'} / LOCAL INDEX`;
+      if (threadFoot) threadFoot.innerHTML = `<i></i> ${String(threadCards.filter((card) => card.dataset.threadKind === 'input').length).padStart(2, '0')} NEEDS YOUR INPUT / LOCAL QUEUE`;
+    };
+    threadFilters.forEach((filter, index) => {
+      filter.addEventListener('click', () => renderThreads(filter.dataset.threadFilter));
+      filter.addEventListener('keydown', (event) => {
+        if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? threadFilters.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + threadFilters.length) % threadFilters.length;
+        renderThreads(threadFilters[nextIndex].dataset.threadFilter);
+        threadFilters[nextIndex].focus();
+      });
+    });
+    threadCards.forEach((card, index) => {
+      card.addEventListener('click', () => setThreadDetail(card.dataset.threadKey));
+      card.addEventListener('keydown', (event) => {
+        if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const visible = threadCards.filter((item) => !item.hidden);
+        const current = visible.indexOf(card);
+        const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? visible.length - 1 : (current + (event.key === 'ArrowDown' ? 1 : -1) + visible.length) % visible.length;
+        setThreadDetail(visible[nextIndex].dataset.threadKey, true);
+      });
+    });
+    threadApprove?.addEventListener('click', () => {
+      const data = threadData[threadActive] || threadData.closing;
+      if (data.kind !== 'input') return;
+      data.kind = 'running';
+      data.label = 'RUNNING / LOCAL';
+      data.state = 'IN PROGRESS';
+      if (threadStatus) threadStatus.textContent = 'Plan approved locally. Progress stays visible while the source pass runs.';
+      if (threadFoot) threadFoot.innerHTML = '<i></i> THREAD RUNNING / 0 B OUTBOUND';
+      renderThreads(threadFilter);
+      setThreadDetail(threadActive);
+    });
+    threadPause?.addEventListener('click', () => {
+      const data = threadData[threadActive] || threadData.closing;
+      if (data.kind === 'complete') return;
+      data.kind = 'input';
+      data.label = 'PAUSED / LOCAL';
+      data.state = 'PAUSED LOCALLY';
+      if (threadStatus) threadStatus.textContent = 'The thread is paused locally. Resume it when counsel is ready.';
+      if (threadFoot) threadFoot.innerHTML = '<i></i> THREAD PAUSED / LOCAL QUEUE';
+      renderThreads(threadFilter);
+      setThreadDetail(threadActive);
+    });
+    const initialThread = readQueryState('thread');
+    if (initialThread && threadData[initialThread]) threadActive = initialThread;
+    renderThreads();
+  }
+
   const researchDesk = document.querySelector('[data-research-desk]');
   if (researchDesk) {
     const researchForm = researchDesk.querySelector('[data-research-form]');
@@ -1935,6 +2058,7 @@
           <a href="customers.html#shared-space" data-quick-nav-item data-quick-nav-keywords="shared space portal collaboration client permissions audit"><span><strong>Shared Matter Room</strong><small>Scoped client collaboration with an audit trail</small></span><kbd>07</kbd></a>
           <a href="platform.html#delivery" data-quick-nav-item><span><strong>Delivery Room</strong><small>Scoped handoffs and client-ready work</small></span><kbd>07</kbd></a>
           <a href="command.html" data-quick-nav-item><span><strong>Command Center</strong><small>Practice activity and governance signals</small></span><kbd>08</kbd></a>
+          <a href="command.html#threads" data-quick-nav-item data-quick-nav-keywords="active threads plan mode progress tracker parallel runs waiting input approval"><span><strong>Active Threads</strong><small>Approve plans and supervise parallel runs</small></span><kbd>09</kbd></a>
           <a href="command.html#governance" data-quick-nav-item><span><strong>Governance Desk</strong><small>Access, connections, and policy proof</small></span><kbd>09</kbd></a>
           <a href="command.html#connections" data-quick-nav-item><span><strong>Connections Lab</strong><small>Approved bridges into the legal stack</small></span><kbd>10</kbd></a>
           <a href="platform.html#evidence" data-quick-nav-item><span><strong>Evidence Ledger</strong><small>Source, span, confidence</small></span><kbd>11</kbd></a>
@@ -2137,6 +2261,7 @@
     { id: 'workflows', label: 'Workflow studio' },
     { id: 'solutions', label: 'Practice rooms' },
     { id: 'command-center', label: 'Command center' },
+    { id: 'threads', label: 'Active threads' },
     { id: 'monitors', label: 'Monitor desk' },
     { id: 'deployment', label: 'Deployment desk' }
   ] : [
