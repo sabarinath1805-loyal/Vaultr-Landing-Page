@@ -551,9 +551,11 @@
     const deliveryViewCopy = deliveryRoom.querySelector('[data-delivery-view-copy]');
     const deliveryViewPanel = deliveryRoom.querySelector('[role="tabpanel"]');
     const deliveryItems = [...deliveryRoom.querySelectorAll('[data-delivery-item]')];
+    const deliveryRecipients = [...deliveryRoom.querySelectorAll('[data-delivery-recipient]')];
     const deliveryPreviewItems = deliveryRoom.querySelector('[data-delivery-preview-items]');
     const deliveryPreviewTitle = deliveryRoom.querySelector('[data-delivery-preview-title]');
     const deliveryPreviewCopy = deliveryRoom.querySelector('[data-delivery-preview-copy]');
+    const deliveryRecipientCopy = deliveryRoom.querySelector('[data-delivery-recipient-copy]');
     const deliveryStatus = deliveryRoom.querySelector('[data-delivery-status]');
     const deliveryFoot = deliveryRoom.querySelector('[data-delivery-foot]');
     const deliveryPrepare = deliveryRoom.querySelector('[data-delivery-prepare]');
@@ -583,6 +585,12 @@
     };
     let deliveryTimer;
     let deliveryActiveView = 'access';
+    const selectedDeliveryRecipients = () => deliveryRecipients.filter((input) => input.checked && !input.disabled);
+    const renderDeliveryRecipients = () => {
+      const selected = selectedDeliveryRecipients();
+      if (deliveryRecipientCopy) deliveryRecipientCopy.textContent = selected.length ? `${selected.length} scoped recipient${selected.length === 1 ? '' : 's'}` : 'No recipient selected';
+      return selected;
+    };
     const renderDeliveryItems = () => {
       const selected = deliveryItems.filter((input) => input.checked && !input.disabled);
       if (deliveryPreviewItems) {
@@ -593,8 +601,11 @@
           }).join('')
           : '<p class="delivery-room__empty">Choose the smallest useful handoff before preparing the preview.</p>';
       }
-      if (deliveryFoot) deliveryFoot.textContent = `${selected.length} item${selected.length === 1 ? '' : 's'} selected / 0 B outbound`;
-      if (deliveryPrepare) deliveryPrepare.disabled = selected.length === 0;
+      const recipients = renderDeliveryRecipients();
+      if (deliveryFoot) deliveryFoot.textContent = selected.length && recipients.length
+        ? `${selected.length} item${selected.length === 1 ? '' : 's'} · ${recipients.length} recipient${recipients.length === 1 ? '' : 's'} / 0 B outbound`
+        : 'Choose scope and recipients / 0 B outbound';
+      if (deliveryPrepare) deliveryPrepare.disabled = selected.length === 0 || recipients.length === 0;
     };
     const setDeliveryView = (view, focus = false) => {
       const content = deliveryViewData[view] || deliveryViewData.access;
@@ -623,28 +634,36 @@
       });
     });
     deliveryItems.forEach((input) => input.addEventListener('change', () => {
-      deliveryShare?.setAttribute('disabled', '');
+      if (deliveryShare) { deliveryShare.setAttribute('aria-disabled', 'true'); deliveryShare.removeAttribute('disabled'); }
+      if (deliveryStatus) deliveryStatus.textContent = 'PRIVATE DRAFT';
+      renderDeliveryItems();
+    }));
+    deliveryRecipients.forEach((input) => input.addEventListener('change', () => {
+      if (deliveryShare) { deliveryShare.setAttribute('aria-disabled', 'true'); deliveryShare.removeAttribute('disabled'); }
       if (deliveryStatus) deliveryStatus.textContent = 'PRIVATE DRAFT';
       renderDeliveryItems();
     }));
     deliveryPrepare?.addEventListener('click', () => {
       window.clearTimeout(deliveryTimer);
+      const recipients = selectedDeliveryRecipients();
       deliveryPrepare.disabled = true;
       deliveryPrepare.classList.add('is-running');
       if (deliveryStatus) deliveryStatus.textContent = 'PREPARING LOCALLY';
       if (deliveryPreviewTitle) deliveryPreviewTitle.textContent = deliveryActiveView === 'activity' ? 'Handoff activity / owner view' : 'Decision brief: acquisition review';
-      if (deliveryPreviewCopy) deliveryPreviewCopy.textContent = 'The selected handoff is staged locally. Review the scope before you make it available to a recipient.';
+      if (deliveryPreviewCopy) deliveryPreviewCopy.textContent = `The selected handoff is staged locally for ${recipients.length} scoped recipient${recipients.length === 1 ? '' : 's'}. Review the scope before you make it available.`;
       deliveryTimer = window.setTimeout(() => {
         deliveryPrepare.disabled = false;
         deliveryPrepare.classList.remove('is-running');
         if (deliveryStatus) deliveryStatus.textContent = 'READY TO SHARE';
-        if (deliveryFoot) deliveryFoot.textContent = `${deliveryItems.filter((input) => input.checked && !input.disabled).length} items staged / 0 B outbound`;
-        deliveryShare?.removeAttribute('disabled');
+        if (deliveryFoot) deliveryFoot.textContent = `${deliveryItems.filter((input) => input.checked && !input.disabled).length} item${deliveryItems.filter((input) => input.checked && !input.disabled).length === 1 ? '' : 's'} staged · ${selectedDeliveryRecipients().length} recipient${selectedDeliveryRecipients().length === 1 ? '' : 's'} / 0 B outbound`;
+        if (deliveryShare) { deliveryShare.setAttribute('aria-disabled', 'false'); deliveryShare.removeAttribute('disabled'); }
       }, 850);
     });
     deliveryShare?.addEventListener('click', () => {
-      if (deliveryShare.disabled) return;
+      if (deliveryShare.getAttribute('aria-disabled') === 'true') return;
       if (deliveryStatus) deliveryStatus.textContent = 'PREVIEW COPIED LOCALLY';
+      if (deliveryFoot) deliveryFoot.textContent = 'Scoped preview copied / 0 B outbound';
+      deliveryShare.setAttribute('aria-disabled', 'true');
       deliveryShare.innerHTML = 'Preview copied <span aria-hidden="true">✓</span>';
       window.setTimeout(() => { deliveryShare.innerHTML = 'Share preview <span aria-hidden="true">↗</span>'; }, 1800);
     });

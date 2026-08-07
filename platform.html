@@ -24,8 +24,8 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preload" as="image" href="assets/images/monet-water-lilies.jpg" fetchpriority="high">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-15">
-  <script defer src="assets/js/vaultr.js?v=library-15"></script>
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-18">
+  <script defer src="assets/js/vaultr.js?v=library-18"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Vaultr Platform","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/platform.html","isPartOf":{"@type":"WebSite","name":"Vaultr","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/"}}</script>
 </head>
 <body class="detail-page platform-page">
@@ -222,6 +222,12 @@
               <strong data-delivery-view-title>Invite without opening the room.</strong>
               <p data-delivery-view-copy>Set an explicit boundary for the people who need to review the answer. They see the handoff, not the private matter.</p>
             </div>
+            <fieldset class="delivery-room__recipients">
+              <legend>RECIPIENT ACCESS / 2 INVITED</legend>
+              <label><input type="checkbox" checked data-delivery-recipient="counsel"><span><strong>Mara Chen</strong><small>Northstar / General Counsel</small></span><em>Owner</em></label>
+              <label><input type="checkbox" checked data-delivery-recipient="lead"><span><strong>Ravi Shah</strong><small>Northstar / Deal lead</small></span><em>Review</em></label>
+              <label class="is-muted"><input type="checkbox" disabled data-delivery-recipient="external"><span><strong>External guest</strong><small>Requires approval</small></span><em>Blocked</em></label>
+            </fieldset>
             <fieldset class="delivery-room__scope">
               <legend>HANDOFF CONTENT</legend>
               <label><input type="checkbox" checked data-delivery-item="summary"><span>Executive summary</span><small>Client-ready</small></label>
@@ -238,12 +244,13 @@
               <span class="delivery-room__preview-kicker">CLIENT HANDOFF / 07 MAY 2026</span>
               <h3 data-delivery-preview-title>Decision brief: acquisition review</h3>
               <p class="delivery-room__preview-copy" data-delivery-preview-copy>Three material deviations are ready for a focused conversation. Each conclusion stays linked to the underlying agreement.</p>
+              <div class="delivery-room__audience"><span>SHARED WITH</span><strong data-delivery-recipient-copy>2 scoped recipients</strong></div>
               <div class="delivery-room__preview-items" data-delivery-preview-items>
                 <div><span>01</span><strong>Executive summary</strong><small>Prepared for the recipient</small></div>
                 <div><span>02</span><strong>Source spans</strong><small>03 links back to the record</small></div>
               </div>
             </div>
-            <div class="delivery-room__foot"><span data-delivery-foot>Nothing shared / 0 B outbound</span><button type="button" data-delivery-share disabled>Share preview <span aria-hidden="true">↗</span></button></div>
+            <div class="delivery-room__foot"><span data-delivery-foot>Nothing shared / 0 B outbound</span><button type="button" data-delivery-share aria-disabled="true">Share preview <span aria-hidden="true">↗</span></button></div>
           </div>
         </div>
       </div>
