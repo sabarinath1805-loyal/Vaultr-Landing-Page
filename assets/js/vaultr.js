@@ -798,6 +798,7 @@
       liability: { kind: 'HIGH / MATERIAL CHANGE', state: 'NEEDS REVIEW', title: 'Liability cap changed.', copy: 'Lex found a material delta in the latest agreement. The change is held here until counsel decides whether it changes the negotiation position.', source: 'Merger Agreement v5', owner: 'M. Chen', cadence: 'Nightly / local', research: 'consent' },
       regulation: { kind: 'MEDIUM / POLICY WATCH', state: 'NEEDS REVIEW', title: 'Privacy policy update.', copy: 'A new approved-systems policy source is ready for a source-linked comparison. The runtime is waiting for a reviewer before it changes the firm standard.', source: 'Privacy & AI Policy', owner: 'KM / Security', cadence: 'Weekly / local', research: 'privacy' },
       renewal: { kind: 'WATCHING / DEADLINE', state: 'WATCHING', title: 'Renewal window opening.', copy: 'The vendor agreement enters its notice window in fourteen days. Keep the signal visible without escalating it to the matter team yet.', source: 'Vendor Agreement', owner: 'Legal Ops', cadence: 'Daily / local', research: 'closing' },
+      horizon: { kind: 'WATCHING / REGULATORY', state: 'WATCHING', title: 'Regulatory digest ready.', copy: 'An approved regulation source has changed. Lex has clustered the update against the firm policy set and is waiting for a human decision before it creates a remediation task.', source: 'Approved regulation feed', owner: 'KM / Compliance', cadence: 'Weekly / local', research: 'regulatory' },
       exhibit: { kind: 'RESOLVED / SOURCE SET', state: 'RESOLVED', title: 'New exhibit indexed.', copy: 'Six pages were added to the Cedar case record and linked to the chronology. The source set is complete and the alert is closed.', source: 'Cedar Case Record', owner: 'A. Rao', cadence: 'Event / local', research: 'closing' }
     };
     let monitorFilter = 'all';
@@ -1028,7 +1029,8 @@
       consent: { kind: 'PRECEDENT / SOURCE TRACE', state: 'VERIFIED', title: 'Change-of-control consent', copy: 'The agreement requires written consent before a change of control if the counterparty has a material supplier dependency. The result stays open to counsel because the tracker and clause use different thresholds.', quote: '“Neither party may assign this Agreement in connection with a change of control without prior written consent.”', source: 'Merger Agreement', span: '§ 9.2 / Assignment', owner: 'J. Chen' },
       indemnity: { kind: 'PRECEDENT / SOURCE TRACE', state: 'NEEDS REVIEW', title: 'Indemnity fallback position', copy: 'The negotiation playbook prefers a capped indemnity with a fraud carve-out. Lex found the fallback language in the approved precedent set and kept the decision with the deal lead.', quote: '“The indemnity cap will not apply to losses arising from fraud or wilful misconduct.”', source: 'Negotiation Playbook', span: '04 / Indemnity fallback', owner: 'M. Chen' },
       privacy: { kind: 'POLICY / SOURCE TRACE', state: 'CURRENT', title: 'Approved AI boundary', copy: 'The firm policy requires a local runtime for privileged matters, explicit review gates, and a recorded owner before any output is shared beyond the matter team.', quote: '“Approved AI systems must preserve the matter boundary and expose an auditable review path.”', source: 'Privacy & AI Policy', span: '§ 3 / Approved systems', owner: 'KM / Security' },
-      closing: { kind: 'MEMO / SOURCE TRACE', state: 'NEEDS REVIEW', title: 'Closing conditions', copy: 'Counsel correspondence identifies supplier consent and the revised liability cap as the two conditions to resolve before execution.', quote: '“Confirm the consent position and cap language before circulating the final signing set.”', source: 'Counsel Thread', span: 'Thread 08 / Closing', owner: 'J. Chen' }
+      closing: { kind: 'MEMO / SOURCE TRACE', state: 'NEEDS REVIEW', title: 'Closing conditions', copy: 'Counsel correspondence identifies supplier consent and the revised liability cap as the two conditions to resolve before execution.', quote: '“Confirm the consent position and cap language before circulating the final signing set.”', source: 'Counsel Thread', span: 'Thread 08 / Closing', owner: 'J. Chen' },
+      regulatory: { kind: 'REGULATORY / SOURCE TRACE', state: 'WATCHING', title: 'Regulatory digest', copy: 'The approved regulation feed has a new source-linked update. Lex keeps the change in a review queue until counsel decides whether it affects a policy, contract, or control.', quote: '“New regulatory material is held for review before it becomes a firm action.”', source: 'Approved regulation feed', span: 'Digest / 03 linked sources', owner: 'KM / Compliance' }
     };
     let researchFilter = 'all';
     let researchActive = 'consent';
@@ -1110,7 +1112,7 @@
     });
     renderResearch();
     const monitorSeed = readQueryState('monitor');
-    const monitorResearchKey = { liability: 'consent', regulation: 'privacy', renewal: 'closing', exhibit: 'closing' }[monitorSeed] || monitorSeed;
+    const monitorResearchKey = { liability: 'consent', regulation: 'privacy', renewal: 'closing', horizon: 'regulatory', exhibit: 'closing' }[monitorSeed] || monitorSeed;
     if (monitorResearchKey && researchData[monitorResearchKey]) setResearchDetail(monitorResearchKey);
   }
 
@@ -1323,6 +1325,13 @@
         copy: 'Prepare a source-linked handoff with only the evidence and permissions a client or business partner needs. The private record stays with counsel.',
         pills: ['SCOPED ACCESS', 'SOURCE LINKS', 'OWNER CONTROL'], foot: '06 / HANDOFF',
         href: 'customers.html', link: 'See a practice room'
+      },
+      monitors: {
+        label: 'MONITOR DESK / REGULATORY HORIZON',
+        title: 'See the change before it becomes a task.',
+        copy: 'Keep approved regulation sources on a local watch, cluster the signal against firm controls, and hold the next decision for counsel.',
+        pills: ['OFFICIAL SOURCES', 'LOCAL WATCH', 'HUMAN GATE'], foot: '07 / HORIZON',
+        href: 'command.html#monitors', link: 'Open Monitor Desk'
       }
     };
     const setEcosystemMode = (mode, focus = false) => {
