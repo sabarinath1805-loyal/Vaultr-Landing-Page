@@ -5215,11 +5215,34 @@ body:not(.detail-page) .features .feature h3 { color: var(--forest); }
 .editor-room__collabbar > div:first-child span { color: var(--sage); font-size: 8px; font-weight: 700; letter-spacing: .14em; }
 .editor-room__collabbar > div:first-child small { color: #89948c; font-size: 9px; }
 .editor-room__collabbar > div:last-child { display: flex; flex-wrap: wrap; gap: 8px; }
+.editor-room__collab-actions { position: relative; display: flex; flex-wrap: wrap; gap: 8px; }
 .editor-room__collabbar button { display: inline-flex; align-items: center; gap: 10px; min-height: 32px; padding: 0 11px; border: 1px solid var(--sage); background: var(--sage); color: #fff; cursor: pointer; font-size: 8px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; transition: background .25s, border-color .25s, color .25s, transform .25s; }
 .editor-room__collabbar button:hover,
 .editor-room__collabbar button:focus-visible { border-color: var(--gold); background: var(--gold); color: var(--ink); outline: none; transform: translateY(-2px); }
 .editor-room__collabbar button.is-quiet { border-color: rgba(45, 74, 62, .22); background: transparent; color: var(--sage); }
 .editor-room__collabbar button:disabled { cursor: default; opacity: .58; transform: none; }
+.editor-room__history { position: relative; }
+.editor-room__history-toggle { border-color: rgba(45, 74, 62, .22) !important; background: #fff !important; color: var(--sage) !important; }
+.editor-room__history-toggle span { color: var(--gold); font-family: Consolas, monospace; font-size: 9px; }
+.editor-room__history-toggle:hover,
+.editor-room__history-toggle:focus-visible,
+.editor-room__history.is-open .editor-room__history-toggle { border-color: var(--sage) !important; background: #eef0ea !important; color: var(--sage) !important; }
+.editor-room__history-panel { position: absolute; z-index: 8; top: calc(100% + 9px); right: 0; width: min(330px, calc(100vw - 32px)); padding: 9px; border: 1px solid rgba(45, 74, 62, .22); background: #fff; box-shadow: 0 24px 45px -24px rgba(17, 24, 19, .38); }
+.editor-room__history-panel[hidden] { display: none; }
+.editor-room__history-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 8px 9px; border-bottom: 1px solid rgba(0, 0, 0, .1); color: var(--sage); font-size: 8px; font-weight: 700; letter-spacing: .12em; }
+.editor-room__history-head small { color: #89948c; font-size: 8px; letter-spacing: .05em; }
+.editor-room__history-panel > button:not(.editor-room__history-restore) { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 53px; padding: 9px 8px; border: 1px solid transparent; border-bottom-color: rgba(0, 0, 0, .08); background: transparent; color: var(--ink); cursor: pointer; text-align: left; }
+.editor-room__history-panel > button:not(.editor-room__history-restore):hover,
+.editor-room__history-panel > button:not(.editor-room__history-restore):focus-visible { border-color: rgba(45, 74, 62, .18); background: #f4f5f0; outline: none; }
+.editor-room__history-panel > button:not(.editor-room__history-restore).is-active { background: rgba(45, 74, 62, .07); box-shadow: inset 3px 0 var(--gold); }
+.editor-room__history-panel > button:not(.editor-room__history-restore) > span { display: grid; gap: 4px; }
+.editor-room__history-panel > button:not(.editor-room__history-restore) strong { font-size: 11px; font-weight: 700; }
+.editor-room__history-panel > button:not(.editor-room__history-restore) small { color: var(--muted); font-size: 10px; }
+.editor-room__history-panel > button:not(.editor-room__history-restore) em { color: #89948c; font-size: 8px; font-style: normal; font-weight: 700; letter-spacing: .08em; }
+.editor-room__history-restore { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 34px; margin-top: 9px; padding: 0 9px; border: 1px solid var(--sage) !important; background: var(--sage) !important; color: #fff !important; font-size: 8px !important; }
+.editor-room__history-restore:hover,
+.editor-room__history-restore:focus-visible { border-color: var(--gold) !important; background: var(--gold) !important; color: var(--ink) !important; }
+.editor-room__history-restore:disabled { cursor: default !important; opacity: .45 !important; }
 .editor-room.is-signoff-requested .editor-room__collabbar { background: rgba(201, 168, 76, .08); }
 .editor-room__body { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(260px, .75fr); }
 .editor-room__document { min-width: 0; min-height: 620px; padding: 37px 48px 45px; background: #fff; }

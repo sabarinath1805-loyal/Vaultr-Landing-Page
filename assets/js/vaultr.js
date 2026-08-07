@@ -1685,10 +1685,24 @@
     const editorSaveState = editorRoom.querySelector('[data-editor-save-state]');
     const editorSignoff = editorRoom.querySelector('[data-editor-signoff]');
     const editorExport = editorRoom.querySelector('[data-editor-export]');
+    const editorHistory = editorRoom.querySelector('[data-editor-history]');
+    const editorHistoryToggle = editorRoom.querySelector('[data-editor-history-toggle]');
+    const editorHistoryPanel = editorRoom.querySelector('[data-editor-history-panel]');
+    const editorVersionChoices = [...editorRoom.querySelectorAll('[data-editor-version]')];
+    const editorHistoryRestore = editorRoom.querySelector('[data-editor-history-restore]');
+    const editorVersionLabel = editorRoom.querySelector('[data-editor-version-label]');
+    const editorDocumentVersion = editorRoom.querySelector('[data-editor-document-version]');
     const editorModeData = {
       draft: { title: 'Closing recommendation', heading: 'Recommendation to proceed' },
       compare: { title: 'Liability cap / version delta', heading: 'Compare the decision before signing' }
     };
+    const editorVersionData = {
+      3: { label: 'VERSION 03 / PRIVATE DRAFT', document: 'PRIVATE DRAFT / V3', title: 'Closing recommendation', heading: 'Recommendation to proceed', state: 'LOCAL DRAFT', save: 'Saved locally · 2 min ago · 4 reviewers' },
+      2: { label: 'VERSION 02 / REVIEWED DRAFT', document: 'REVIEWED DRAFT / V2', title: 'Closing recommendation', heading: 'Recommendation to proceed', state: 'VERSION 02 / REVIEWED', save: 'Saved locally · 06 Aug 2026 · 3 reviewers' },
+      1: { label: 'VERSION 01 / SOURCE PASS', document: 'SOURCE PASS / V1', title: 'Initial source pass', heading: 'Issue summary for counsel', state: 'VERSION 01 / READ ONLY', save: 'Saved locally · 05 Aug 2026 · 1 reviewer' }
+    };
+    let editorVersion = '3';
+    let editorHistoryOpen = false;
     const editorCitationData = {
       cap: {
         label: 'SOURCE / MERGER AGREEMENT', title: '§ 7.4 / Limitation of liability',
@@ -1734,6 +1748,38 @@
       window.setTimeout(() => editorTrace?.classList.remove('is-changing'), 260);
       if (focus) editorRoom.querySelector(`[data-editor-citation="${citation}"]`)?.focus();
     };
+    const setEditorVersion = (version, focus = false) => {
+      editorVersion = editorVersionData[version] ? String(version) : '3';
+      const content = editorVersionData[editorVersion];
+      editorVersionChoices.forEach((choice) => {
+        const active = choice.dataset.editorVersion === editorVersion;
+        choice.classList.toggle('is-active', active);
+        choice.setAttribute('aria-pressed', String(active));
+      });
+      if (editorVersionLabel) editorVersionLabel.textContent = content.label;
+      if (editorDocumentVersion) editorDocumentVersion.textContent = content.document;
+      if (editorTitle && editorActiveMode === 'draft') editorTitle.textContent = content.title;
+      if (editorHeading && editorActiveMode === 'draft') editorHeading.textContent = content.heading;
+      if (editorStatus && editorVersion === '3') editorStatus.textContent = 'LOCAL DRAFT';
+      if (editorStatus && editorVersion !== '3') editorStatus.textContent = content.state;
+      if (editorSaveState) editorSaveState.textContent = content.save;
+      if (editorHistoryRestore) editorHistoryRestore.disabled = editorVersion === '3';
+      const historyNumber = editorHistoryToggle?.querySelector('span');
+      if (historyNumber) historyNumber.textContent = `0${editorVersion}`;
+      if (focus) editorVersionChoices.find((choice) => choice.dataset.editorVersion === editorVersion)?.focus();
+    };
+    const setEditorHistory = (open) => {
+      editorHistoryOpen = open;
+      if (editorHistoryPanel) editorHistoryPanel.hidden = !open;
+      editorHistoryToggle?.setAttribute('aria-expanded', String(open));
+      editorHistory?.classList.toggle('is-open', open);
+    };
+    document.addEventListener('click', (event) => {
+      if (editorHistoryOpen && editorHistory && !editorHistory.contains(event.target)) setEditorHistory(false);
+    });
+    document.addEventListener('keydown', (event) => {
+      if (editorHistoryOpen && event.key === 'Escape') { event.preventDefault(); setEditorHistory(false); editorHistoryToggle?.focus(); }
+    });
     editorModes.forEach((tab, index) => {
       tab.addEventListener('click', () => setEditorMode(tab.dataset.editorMode));
       tab.addEventListener('keydown', (event) => {
@@ -1743,6 +1789,19 @@
           (index + (event.key === 'ArrowRight' ? 1 : -1) + editorModes.length) % editorModes.length;
         setEditorMode(editorModes[nextIndex].dataset.editorMode, true);
       });
+    });
+    editorHistoryToggle?.addEventListener('click', () => setEditorHistory(!editorHistoryOpen));
+    editorVersionChoices.forEach((choice) => choice.addEventListener('click', () => {
+      setEditorVersion(choice.dataset.editorVersion);
+      setEditorHistory(false);
+    }));
+    editorHistoryRestore?.addEventListener('click', () => {
+      const restored = editorVersion;
+      setEditorVersion('3');
+      setEditorHistory(false);
+      if (editorStatus) editorStatus.textContent = `VERSION ${String(restored).padStart(2, '0')} RESTORED LOCALLY`;
+      if (editorSaveState) editorSaveState.textContent = `Restored locally · Version ${String(restored).padStart(2, '0')} · ready for review`;
+      if (editorFoot) editorFoot.textContent = 'VERSION RESTORED / 0 B OUTBOUND';
     });
     editorCitations.forEach((citation) => citation.addEventListener('click', () => setEditorCitation(citation.dataset.editorCitation)));
     editorAccept?.addEventListener('click', () => {
@@ -1811,6 +1870,8 @@
     });
     setEditorMode('draft');
     setEditorCitation('cap');
+    const initialEditorVersion = readQueryState('version');
+    setEditorVersion(initialEditorVersion && editorVersionData[initialEditorVersion] ? initialEditorVersion : '3');
     const editorListSeed = readQueryState('list');
     const editorListData = {
       liability: { title: 'Liability response', heading: 'Resolve the cap before signing', citation: 'cap' },
