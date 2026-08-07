@@ -1079,6 +1079,7 @@
       'research-indemnity': { title: 'Indemnity fallback position', source: 'Merger Agreement', span: '§ 8.1 / Indemnity', owner: 'M. Chen', copy: 'The indemnity fallback position is held for the negotiation brief.' },
       'research-privacy': { title: 'Approved AI boundary', source: 'AI Use Policy', span: '§ 4 / Approved systems', owner: 'S. Patel', copy: 'The approved local runtime boundary is ready for the policy review.' },
       'research-closing': { title: 'Closing conditions', source: 'Diligence Tracker', span: 'Open items / 18', owner: 'J. Chen', copy: 'The remaining closing conditions are ready for an owner-scoped handoff.' },
+      'editor-closing': { title: 'Closing recommendation', source: 'Merger Agreement', span: '§ 7.4 / Limitation', owner: 'J. Chen', copy: 'The source-linked closing recommendation is ready for a scoped delivery review.' },
       'agent-diligence': { title: 'Diligence exceptions', source: 'Diligence Tracker', span: 'Open items / 18', owner: 'J. Chen', copy: 'The staged agent packet groups the open exceptions for a source-linked review.' },
       'agent-redline': { title: 'Clause drift review', source: 'Merger Agreement', span: '§ 7.4 / Limitation', owner: 'M. Chen', copy: 'The staged agent packet keeps each material delta next to its supporting clause.' },
       'agent-chronology': { title: 'Chronology builder', source: 'Case Record', span: 'Chronology / 42 events', owner: 'A. Rao', copy: 'The staged agent packet gives counsel a source-linked timeline to reorder and review.' },
@@ -1463,6 +1464,9 @@
     const editorCommentInput = editorCommentForm?.querySelector('textarea');
     const editorCommentList = editorRoom.querySelector('[data-editor-comment-list]');
     const editorSave = editorRoom.querySelector('[data-editor-save]');
+    const editorSaveState = editorRoom.querySelector('[data-editor-save-state]');
+    const editorSignoff = editorRoom.querySelector('[data-editor-signoff]');
+    const editorExport = editorRoom.querySelector('[data-editor-export]');
     const editorModeData = {
       draft: { title: 'Closing recommendation', heading: 'Recommendation to proceed' },
       compare: { title: 'Liability cap / version delta', heading: 'Compare the decision before signing' }
@@ -1558,7 +1562,34 @@
       editorSave.disabled = true;
       editorSave.innerHTML = 'Saved locally <span aria-hidden="true">✓</span>';
       if (editorStatus) editorStatus.textContent = 'DRAFT SAVED LOCALLY';
+      if (editorSaveState) editorSaveState.textContent = 'Saved locally · just now · 4 reviewers';
       if (editorFoot) editorFoot.textContent = '03 citations linked / 0 B outbound';
+    });
+    editorSignoff?.addEventListener('click', () => {
+      editorSignoff.disabled = true;
+      editorSignoff.innerHTML = 'Sign-off requested <span aria-hidden="true">✓</span>';
+      editorRoom.classList.add('is-signoff-requested');
+      if (editorStatus) editorStatus.textContent = 'SIGN-OFF REQUESTED / J. CHEN';
+      if (editorSaveState) editorSaveState.textContent = 'Review gate open · J. Chen notified locally';
+      if (editorFoot) editorFoot.textContent = 'REVIEW GATE OPEN / 0 B OUTBOUND';
+    });
+    editorExport?.addEventListener('click', () => {
+      const title = editorTitle?.textContent || 'Vaultr local draft';
+      const text = editorDocument?.innerText || '';
+      const exportHtml = `<html><head><meta charset="utf-8"><title>${title}</title></head><body><h1>${title}</h1><p>Vaultr / Northstar Acquisition · local export</p><hr><pre style="font:16px Georgia;white-space:pre-wrap">${text.replace(/[&<>]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[char]))}</pre></body></html>`;
+      const blob = new Blob([exportHtml], { type: 'application/msword' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'vaultr-northstar-closing-recommendation.doc';
+      document.body.append(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      editorExport.disabled = true;
+      editorExport.innerHTML = 'Word handoff ready <span aria-hidden="true">✓</span>';
+      if (editorStatus) editorStatus.textContent = 'LOCAL WORD HANDOFF PREPARED';
+      if (editorFoot) editorFoot.textContent = 'EXPORT READY / 0 B OUTBOUND';
     });
     setEditorMode('draft');
     setEditorCitation('cap');
