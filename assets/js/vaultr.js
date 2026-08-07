@@ -2335,15 +2335,16 @@
           <a href="platform.html#delivery" data-quick-nav-item><span><strong>Delivery Room</strong><small>Scoped handoffs and client-ready work</small></span><kbd>07</kbd></a>
           <a href="command.html" data-quick-nav-item><span><strong>Command Center</strong><small>Practice activity and governance signals</small></span><kbd>08</kbd></a>
           <a href="command.html#analytics" data-quick-nav-item data-quick-nav-keywords="space analytics adoption value outcomes practice groups aggregate telemetry shared matters governance report"><span><strong>Space Analytics</strong><small>Measure adoption and value without document exposure</small></span><kbd>09</kbd></a>
-          <a href="command.html#threads" data-quick-nav-item data-quick-nav-keywords="active threads plan mode progress tracker parallel runs waiting input approval"><span><strong>Active Threads</strong><small>Approve plans and supervise parallel runs</small></span><kbd>10</kbd></a>
-          <a href="command.html#governance" data-quick-nav-item><span><strong>Governance Desk</strong><small>Access, connections, and policy proof</small></span><kbd>10</kbd></a>
-          <a href="command.html#connections" data-quick-nav-item><span><strong>Connections Lab</strong><small>Approved bridges into the legal stack</small></span><kbd>11</kbd></a>
-          <a href="platform.html#evidence" data-quick-nav-item><span><strong>Evidence Ledger</strong><small>Source, span, confidence</small></span><kbd>12</kbd></a>
-          <a href="platform.html#proof" data-quick-nav-item><span><strong>Room Signals</strong><small>Boundary, ledger, runtime, root</small></span><kbd>13</kbd></a>
-          <a href="security.html" data-quick-nav-item><span><strong>Security Center</strong><small>Runtime, network, and source boundary</small></span><kbd>14</kbd></a>
-          <a href="privacy.html" data-quick-nav-item><span><strong>Privacy brief</strong><small>Data handling, ownership, and review boundaries</small></span><kbd>15</kbd></a>
-          <a href="research.html#desk" data-quick-nav-item><span><strong>Research &amp; architecture</strong><small>Cited research and source traces</small></span><kbd>16</kbd></a>
-          <a href="deployment.html" data-quick-nav-item><span><strong>Deployment Desk</strong><small>Build a private deployment brief</small></span><kbd>17</kbd></a>
+          <a href="command.html#outcomes" data-quick-nav-item data-quick-nav-keywords="outcome desk decision sign off priority queue evidence owner next move action"><span><strong>Outcome Desk</strong><small>Turn a signal into signed-off work</small></span><kbd>10</kbd></a>
+          <a href="command.html#threads" data-quick-nav-item data-quick-nav-keywords="active threads plan mode progress tracker parallel runs waiting input approval"><span><strong>Active Threads</strong><small>Approve plans and supervise parallel runs</small></span><kbd>11</kbd></a>
+          <a href="command.html#governance" data-quick-nav-item><span><strong>Governance Desk</strong><small>Access, connections, and policy proof</small></span><kbd>12</kbd></a>
+          <a href="command.html#connections" data-quick-nav-item><span><strong>Connections Lab</strong><small>Approved bridges into the legal stack</small></span><kbd>13</kbd></a>
+          <a href="platform.html#evidence" data-quick-nav-item><span><strong>Evidence Ledger</strong><small>Source, span, confidence</small></span><kbd>14</kbd></a>
+          <a href="platform.html#proof" data-quick-nav-item><span><strong>Room Signals</strong><small>Boundary, ledger, runtime, root</small></span><kbd>15</kbd></a>
+          <a href="security.html" data-quick-nav-item><span><strong>Security Center</strong><small>Runtime, network, and source boundary</small></span><kbd>16</kbd></a>
+          <a href="privacy.html" data-quick-nav-item><span><strong>Privacy brief</strong><small>Data handling, ownership, and review boundaries</small></span><kbd>17</kbd></a>
+          <a href="research.html#desk" data-quick-nav-item><span><strong>Research &amp; architecture</strong><small>Cited research and source traces</small></span><kbd>18</kbd></a>
+          <a href="deployment.html" data-quick-nav-item><span><strong>Deployment Desk</strong><small>Build a private deployment brief</small></span><kbd>19</kbd></a>
           <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer" data-quick-nav-item><span><strong>Open architecture</strong><small>Inspect the source and implementation notes</small></span><kbd>↗</kbd></a>
           </nav>
         </div>
@@ -2541,6 +2542,7 @@
     { id: 'solutions', label: 'Practice rooms' },
     { id: 'command-center', label: 'Command center' },
     { id: 'analytics', label: 'Space analytics' },
+    { id: 'outcomes', label: 'Outcome desk' },
     { id: 'threads', label: 'Active threads' },
     { id: 'monitors', label: 'Monitor desk' },
     { id: 'deployment', label: 'Deployment desk' }
@@ -3606,6 +3608,145 @@
     });
     const initialAnalytics = readQueryState('analytics');
     setAnalyticsScope(initialAnalytics && analyticsData[initialAnalytics] ? initialAnalytics : 'all', false);
+  }
+
+  const outcomeDesk = document.querySelector('[data-outcome-desk]');
+  if (outcomeDesk) {
+    const outcomeFilters = [...outcomeDesk.querySelectorAll('[data-outcome-filter]')];
+    const outcomeCards = [...outcomeDesk.querySelectorAll('[data-outcome-card]')];
+    const outcomeEmpty = outcomeDesk.querySelector('[data-outcome-empty]');
+    const outcomeCount = outcomeDesk.querySelector('[data-outcome-count]');
+    const outcomeKind = outcomeDesk.querySelector('[data-outcome-detail-kind]');
+    const outcomeState = outcomeDesk.querySelector('[data-outcome-detail-state]');
+    const outcomeTitle = outcomeDesk.querySelector('[data-outcome-detail-title]');
+    const outcomeCopy = outcomeDesk.querySelector('[data-outcome-detail-copy]');
+    const outcomeOwner = outcomeDesk.querySelector('[data-outcome-detail-owner]');
+    const outcomeEvidence = outcomeDesk.querySelector('[data-outcome-detail-evidence]');
+    const outcomeNext = outcomeDesk.querySelector('[data-outcome-detail-next]');
+    const outcomeSteps = outcomeDesk.querySelector('[data-outcome-steps]');
+    const outcomePrimary = outcomeDesk.querySelector('[data-outcome-primary]');
+    const outcomeSecondary = outcomeDesk.querySelector('[data-outcome-secondary]');
+    const outcomeStatus = outcomeDesk.querySelector('[data-outcome-status]');
+    const outcomeFoot = outcomeDesk.querySelector('[data-outcome-foot]');
+    const outcomeOpen = outcomeDesk.querySelector('[data-outcome-open]');
+    const outcomeData = {
+      closing: {
+        kind: 'NEEDS APPROVAL / NORTHSTAR', state: 'COUNSEL APPROVAL', title: 'Release the closing brief.',
+        copy: 'The source-linked brief is complete. One counsel approval remains before the delivery room can show the client-ready view.', owner: 'J. CHEN / DEAL LEAD', evidence: '19 CITATIONS', next: 'COUNSEL SIGN-OFF',
+        steps: [['Local synthesis', 'COMPLETE', 'complete'], ['Source review', 'COMPLETE', 'complete'], ['Counsel release', 'WAITING', 'active']], primary: 'Stage sign-off', secondary: 'Open evidence', open: 'platform.html#evidence', foot: 'NORTHSTAR / 01 NEEDS ACTION / 0 B OUTBOUND'
+      },
+      policy: {
+        kind: 'NEEDS CLARIFICATION / MERIDIAN', state: 'NEEDS ANSWER', title: 'Resolve the policy checkpoint.',
+        copy: 'The approved-systems check is ready for KM / Security. Answer the clarification before the next local run begins.', owner: 'KM / SECURITY', evidence: '04 CONTROLS', next: 'ANSWER + RE-RUN',
+        steps: [['Policy set loaded', 'COMPLETE', 'complete'], ['Boundary check', 'COMPLETE', 'complete'], ['Counsel clarification', 'WAITING', 'active']], primary: 'Stage response', secondary: 'Open thread', open: 'command.html?thread=policy#threads', foot: 'MERIDIAN / 01 NEEDS ACTION / 0 B OUTBOUND'
+      },
+      handoff: {
+        kind: 'IN REVIEW / NORTHSTAR', state: 'OWNER REVIEW', title: 'Publish the client handoff.',
+        copy: 'Six source-linked artifacts are staged for a scoped delivery room. Confirm the recipient view before anything is shared.', owner: 'M. CHEN / DEAL LEAD', evidence: '06 ARTIFACTS', next: 'RECIPIENT SCOPE',
+        steps: [['Artifacts selected', 'COMPLETE', 'complete'], ['Owner review', 'IN REVIEW', 'active'], ['Client release', 'LOCKED', 'locked']], primary: 'Stage handoff', secondary: 'Open shared room', open: 'customers.html?space=questions#shared-space', foot: 'NORTHSTAR / 01 IN REVIEW / 0 B OUTBOUND'
+      },
+      chronology: {
+        kind: 'SIGNED OFF / CEDAR', state: 'READY TO DELIVER', title: 'Chronology refresh is ready.',
+        copy: 'The local chronology has been reviewed and signed off. Move the source-linked timeline into the delivery room when counsel is ready.', owner: 'A. RAO / PRACTICE OPS', evidence: '42 EVENTS', next: 'DELIVERY ROOM',
+        steps: [['Events normalized', 'COMPLETE', 'complete'], ['Counsel review', 'COMPLETE', 'complete'], ['Delivery handoff', 'READY', 'active']], primary: 'Stage delivery', secondary: 'Open delivery room', open: 'workflows.html?list=chronology#lists', foot: 'CEDAR / 01 SIGNED OFF / 0 B OUTBOUND'
+      }
+    };
+    let outcomeActive = 'closing';
+    let outcomeFilterActive = 'all';
+    let outcomeStaged = {};
+    try { outcomeStaged = JSON.parse(window.localStorage.getItem('vaultr.outcomes') || '{}') || {}; } catch (error) { outcomeStaged = {}; }
+    const persistOutcomes = () => { try { window.localStorage.setItem('vaultr.outcomes', JSON.stringify(outcomeStaged)); } catch (error) { /* local-only state is best effort */ } };
+    const setOutcomeSelection = (key, animate = true) => {
+      const selected = outcomeData[key] ? key : 'closing';
+      const data = outcomeData[selected];
+      outcomeActive = selected;
+      writeQueryState('outcome', selected);
+      outcomeCards.forEach((card) => {
+        const active = card.dataset.outcomeKey === selected;
+        card.classList.toggle('is-active', active);
+        card.setAttribute('aria-selected', String(active));
+      });
+      const staged = outcomeStaged[selected] === true;
+      if (outcomeKind) outcomeKind.textContent = data.kind;
+      if (outcomeState) outcomeState.textContent = staged ? 'STAGED LOCALLY' : data.state;
+      if (outcomeTitle) outcomeTitle.textContent = data.title;
+      if (outcomeCopy) outcomeCopy.textContent = data.copy;
+      if (outcomeOwner) outcomeOwner.textContent = data.owner;
+      if (outcomeEvidence) outcomeEvidence.textContent = data.evidence;
+      if (outcomeNext) outcomeNext.textContent = staged ? 'COUNSEL REVIEW' : data.next;
+      if (outcomeSteps) outcomeSteps.innerHTML = data.steps.map(([label, state, kind], index) => `<div class="is-${staged && index === data.steps.length - 1 ? 'complete' : kind}"><span>${String(index + 1).padStart(2, '0')}</span><strong>${label}</strong><small>${staged && index === data.steps.length - 1 ? 'STAGED LOCALLY' : state}</small></div>`).join('');
+      if (outcomePrimary) {
+        outcomePrimary.disabled = staged;
+        outcomePrimary.innerHTML = staged ? 'Decision staged <span aria-hidden="true">&#10003;</span>' : `${data.primary} <span aria-hidden="true">&#8594;</span>`;
+      }
+      if (outcomeSecondary) { outcomeSecondary.textContent = data.secondary; outcomeSecondary.href = data.open; }
+      if (outcomeOpen) outcomeOpen.href = data.open;
+      if (outcomeStatus) outcomeStatus.textContent = staged ? 'Staged locally. Counsel review is still required.' : 'Nothing is released until counsel approves locally.';
+      const visible = outcomeCards.filter((card) => !card.hidden);
+      const needsAction = outcomeCards.filter((card) => card.dataset.outcomeKind === 'action' && !outcomeStaged[card.dataset.outcomeKey]).length;
+      const stagedCount = Object.values(outcomeStaged).filter(Boolean).length;
+      if (outcomeCount) outcomeCount.textContent = `${visible.length.toString().padStart(2, '0')} OUTCOMES / ${outcomeFilterActive === 'all' ? 'LOCAL INDEX' : outcomeFilterActive.toUpperCase()}`;
+      if (outcomeFoot) outcomeFoot.innerHTML = `<i></i> ${needsAction.toString().padStart(2, '0')} NEEDS ACTION / ${stagedCount.toString().padStart(2, '0')} STAGED / 0 B OUTBOUND`;
+      if (animate) {
+        outcomeDesk.classList.add('is-changing');
+        window.setTimeout(() => outcomeDesk.classList.remove('is-changing'), 280);
+      }
+    };
+    const setOutcomeFilter = (filter, focus = false) => {
+      const selected = ['all', 'action', 'progress', 'signed'].includes(filter) ? filter : 'all';
+      outcomeFilterActive = selected;
+      writeQueryState('outcomeFilter', selected);
+      outcomeFilters.forEach((tab) => {
+        const active = tab.dataset.outcomeFilter === selected;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', String(active));
+        tab.tabIndex = active ? 0 : -1;
+      });
+      outcomeCards.forEach((card) => {
+        card.hidden = selected !== 'all' && card.dataset.outcomeKind !== selected;
+        card.setAttribute('aria-hidden', String(card.hidden));
+      });
+      if (outcomeEmpty) outcomeEmpty.hidden = outcomeCards.some((card) => !card.hidden);
+      const currentVisible = outcomeCards.find((card) => card.dataset.outcomeKey === outcomeActive && !card.hidden);
+      const nextVisible = currentVisible || outcomeCards.find((card) => !card.hidden);
+      if (nextVisible) setOutcomeSelection(nextVisible.dataset.outcomeKey, false);
+      if (focus) {
+        const activeTab = outcomeFilters.find((tab) => tab.dataset.outcomeFilter === selected);
+        activeTab?.focus();
+      }
+    };
+    outcomeFilters.forEach((tab, index) => {
+      tab.addEventListener('click', () => setOutcomeFilter(tab.dataset.outcomeFilter));
+      tab.addEventListener('keydown', (event) => {
+        if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? outcomeFilters.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + outcomeFilters.length) % outcomeFilters.length;
+        setOutcomeFilter(outcomeFilters[nextIndex].dataset.outcomeFilter, true);
+      });
+    });
+    outcomeCards.forEach((card) => {
+      card.addEventListener('click', () => setOutcomeSelection(card.dataset.outcomeKey));
+      card.addEventListener('keydown', (event) => {
+        if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
+        const visible = outcomeCards.filter((item) => !item.hidden);
+        const index = visible.indexOf(card);
+        if (index < 0) return;
+        event.preventDefault();
+        const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? visible.length - 1 : (index + (event.key === 'ArrowDown' ? 1 : -1) + visible.length) % visible.length;
+        visible[nextIndex].focus();
+        setOutcomeSelection(visible[nextIndex].dataset.outcomeKey);
+      });
+    });
+    outcomePrimary?.addEventListener('click', () => {
+      if (outcomeStaged[outcomeActive]) return;
+      outcomeStaged[outcomeActive] = true;
+      persistOutcomes();
+      setOutcomeSelection(outcomeActive);
+    });
+    const initialOutcomeFilter = readQueryState('outcomeFilter');
+    setOutcomeFilter(initialOutcomeFilter || 'all');
+    const initialOutcome = readQueryState('outcome');
+    if (initialOutcome && outcomeData[initialOutcome]) setOutcomeSelection(initialOutcome, false);
   }
 
   const deploymentProfiles = [...document.querySelectorAll('[data-deployment-mode]')];
