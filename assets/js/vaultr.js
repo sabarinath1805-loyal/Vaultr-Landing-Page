@@ -970,7 +970,8 @@
       const next = visible.find((card) => card.dataset.threadKey === threadActive) || visible[0];
       if (next) setThreadDetail(next.dataset.threadKey);
       if (threadCount) threadCount.textContent = `${String(visible.length).padStart(2, '0')} ACTIVE THREAD${visible.length === 1 ? '' : 'S'} / LOCAL INDEX`;
-      if (threadFoot) threadFoot.innerHTML = `<i></i> ${String(threadCards.filter((card) => card.dataset.threadKind === 'input').length).padStart(2, '0')} NEEDS YOUR INPUT / LOCAL QUEUE`;
+      const inputCount = threadCards.filter((card) => (threadData[card.dataset.threadKey]?.kind || card.dataset.threadKind) === 'input').length;
+      if (threadFoot) threadFoot.innerHTML = `<i></i> ${String(inputCount).padStart(2, '0')} NEEDS YOUR INPUT / LOCAL QUEUE`;
     };
     threadFilters.forEach((filter, index) => {
       filter.addEventListener('click', () => renderThreads(filter.dataset.threadFilter));
