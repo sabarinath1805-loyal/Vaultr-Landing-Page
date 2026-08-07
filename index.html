@@ -21,6 +21,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="canonical" href="https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/">
   <link rel="preload" as="image" href="assets/images/monet-water-lilies.jpg" fetchpriority="high">
+  <link rel="preload" as="style" href="assets/css/vaultr.css?v=library-65">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
@@ -154,17 +155,44 @@
             <span>MIT / OPEN</span>
           </div>
         </aside>
+        <aside class="annotation-window hero-enter" aria-label="Lex document annotation mockup">
+          <div class="annotation-window__chrome"><span></span><span></span><span></span><strong>LEX / MATTER NORTHSTAR</strong><small>LOCAL REVIEW</small></div>
+          <div class="annotation-window__body">
+            <article class="annotation-document">
+              <div class="annotation-document__head"><span>MASTER SERVICES AGREEMENT</span><small>CONFIDENTIAL / DRAFT 04</small></div>
+              <div class="annotation-document__paper">
+                <p class="annotation-document__title">Assignment and Change of Control</p>
+                <p><b>14.1</b> Neither party may assign this Agreement without the prior written consent of the other party.</p>
+                <p class="annotation-highlight annotation-highlight--gold"><b>14.2</b> Notwithstanding the foregoing, Tenant may assign this Agreement in connection with a merger or sale of substantially all assets.</p>
+                <p class="annotation-highlight annotation-highlight--red"><b>14.3</b> Any attempted assignment in breach of this Section is void and exposes the assigning party to all resulting loss.</p>
+                <p><b>14.4</b> The obligations in this Section survive the expiration or termination of this Agreement.</p>
+              </div>
+              <div class="annotation-document__note annotation-document__note--gold"><span>LEX / MEDIUM</span>14.2 is broader than the approved playbook fallback.<i></i></div>
+              <div class="annotation-document__note annotation-document__note--red"><span>LEX / HIGH</span>14.3 creates uncapped transfer exposure.<i></i></div>
+            </article>
+            <aside class="annotation-findings">
+              <div class="annotation-findings__head"><span>LEX FINDINGS</span><b>03</b></div>
+              <div class="finding finding--gold"><i></i><div><strong>Medium risk</strong><span>Assignment carve-out</span><small>Source: &sect; 14.2</small></div></div>
+              <div class="finding finding--red"><i></i><div><strong>High risk</strong><span>Uncapped liability</span><small>Source: &sect; 14.3</small></div></div>
+              <div class="finding finding--low"><i></i><div><strong>Low risk</strong><span>Survival language</span><small>Source: &sect; 14.4</small></div></div>
+              <div class="annotation-findings__foot"><span>Source-backed</span><span>92% confidence</span></div>
+            </aside>
+          </div>
+          <div class="annotation-window__status"><span>● On device</span><span>● Source-backed</span><span>● 92% confidence</span><span>● 0 B outbound</span></div>
+        </aside>
       </div>
     </section>
 
     <section class="trust-band" id="trust" aria-label="Vaultr trust signals">
       <div class="shell trust-band__grid">
-        <a class="trust-band__item" href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer"><strong><span aria-hidden="true">&#9733;</span> Open source</strong><small>MIT License</small></a>
-        <div class="trust-band__item"><strong>Local model choice</strong><small>Ollama &middot; Groq &middot; Gemini supported</small></div>
-        <div class="trust-band__item"><strong>Zero outbound bytes</strong><small>In local mode</small></div>
-        <a class="trust-band__item" href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer"><strong>github.com/sabarinath1805-loyal/Vaultr-AI</strong><small>Star count live on GitHub</small></a>
+        <a class="trust-band__item" href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer"><strong><span aria-hidden="true">&#9733;</span> <span data-github-stars>Live GitHub proof</span></strong><small>Open source / MIT License</small></a>
+        <div class="trust-band__item"><strong><span aria-hidden="true">&#9670;</span> <span data-github-commit>Last commit: loading</span></strong><small>Source repository activity</small></div>
+        <div class="trust-band__item"><strong><span aria-hidden="true">&#9670;</span> <span data-github-repo>0 outbound bytes</span></strong><small><span data-github-issues>Issues open: loading</span> &middot; <span data-github-contributors>Contributors: loading</span></small></div>
+        <a class="trust-band__item" href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer"><strong>github.com/sabarinath1805-loyal/Vaultr-AI</strong><small><span data-github-forks>Forks loading</span> &middot; <span data-github-commits>Commits loading</span></small></a>
       </div>
     </section>
+
+    <section class="ticker" aria-label="Vaultr operating principles"><div class="ticker__track"><span>PRIVATE BY DESIGN &nbsp; · &nbsp; SOURCE-BACKED BY DEFAULT &nbsp; · &nbsp; 0 B OUTBOUND &nbsp; · &nbsp; VERIFY THE BOUNDARY &nbsp; · &nbsp; </span><span aria-hidden="true">PRIVATE BY DESIGN &nbsp; · &nbsp; SOURCE-BACKED BY DEFAULT &nbsp; · &nbsp; 0 B OUTBOUND &nbsp; · &nbsp; VERIFY THE BOUNDARY &nbsp; · &nbsp; </span></div></section>
 
 
     <section class="gallery-ribbon" id="gallery" aria-label="Vaultr visual archive">
@@ -198,15 +226,12 @@
 
     <section class="features section" id="features">
       <div class="shell">
-        <h2 class="reveal">Complete Utility. Zero Perimeter Leakage.</h2>
-        <p class="features__lede reveal">One private room for the work lawyers repeat, the judgment they keep, and the proof they need to stand behind.</p>
+        <h2 class="reveal">From clause to action, with the record attached.</h2>
+        <p class="features__lede reveal">Three deliberate steps. One local review loop. Every decision remains yours.</p>
         <div class="features__grid">
-          <article class="feature reveal"><span>01</span><h3>Private Document Review</h3><p>Lex examines contracts, pleadings, and correspondence entirely on your device.</p></article>
-          <article class="feature reveal"><span>02</span><h3>Clause-Level Analysis</h3><p>Identify obligations, deviations, risks, and missing protections with precision.</p></article>
-          <article class="feature reveal"><span>03</span><h3>Contextual Legal Drafting</h3><p>Draft and revise against the documents already before you.</p></article>
-          <article class="feature reveal"><span>04</span><h3>Matter-Wide Search</h3><p>Ask questions across an entire matter without sending a file elsewhere.</p></article>
-          <article class="feature reveal"><span>05</span><h3>Local Model Control</h3><p>Choose and operate the intelligence that handles your work.</p></article>
-          <article class="feature reveal"><span>06</span><h3>Verifiable Source Code</h3><p>Inspect the architecture, review every dependency, and confirm every claim.</p></article>
+          <article class="feature workflow-step reveal"><span>01 / UPLOAD</span><div class="workflow-step__artifact workflow-step__artifact--upload"><i></i><b>DROP MATTER FILES</b><small>PDF &middot; DOCX &middot; TXT</small></div><h3>Upload</h3><p>Drop any legal document. Lex reads it locally. Nothing leaves.</p></article>
+          <article class="feature workflow-step reveal"><span>02 / REVIEW</span><div class="workflow-step__artifact workflow-step__artifact--review"><b>14.2</b><mark>Assignment carve-out</mark><em>MEDIUM</em><small>Source linked / &sect; 14.2</small></div><h3>Review</h3><p>Lex annotates every clause. High risk in red. Medium in gold. Source linked.</p></article>
+          <article class="feature workflow-step reveal"><span>03 / ACT</span><div class="workflow-step__artifact workflow-step__artifact--act"><small>PROPOSED REVISION</small><strong>Consent required before assignment.</strong><span>Accept <i>Revise</i> Export</span></div><h3>Act</h3><p>Accept, revise, or export. Your document. Your decision. Your device.</p></article>
         </div>
         <div class="features__workbench reveal" data-workbench>
           <div class="features__workbench-copy">
@@ -240,6 +265,13 @@
             <div class="workbench__foot"><div class="workbench__foot-actions"><button class="workbench__run" type="button" data-workbench-run>Run supervised pass <span aria-hidden="true">→</span></button><a class="workbench__handoff" href="platform.html#delivery" data-workbench-handoff aria-disabled="true" tabindex="-1" hidden>Open Delivery Room <span aria-hidden="true">↗</span></a></div><span data-workbench-status>READY FOR REVIEW</span></div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="evidence-trail section" id="evidence-trail" aria-labelledby="evidence-trail-title">
+      <div class="shell evidence-trail__layout">
+        <div class="evidence-trail__copy reveal"><p class="section-kicker">LEX / EVIDENCE LEDGER</p><h2 id="evidence-trail-title">Every conclusion leaves a trail.</h2><p>Lex does not ask counsel to accept a conclusion on faith. The response, the source spans, and the boundary state travel together.</p></div>
+        <div class="evidence-trail__card reveal"><div class="evidence-trail__head"><span>LOCAL RESPONSE / NORTHSTAR</span><strong>VERIFIED</strong></div><p><b>Lex:</b> The assignment clause as drafted conflicts with &sect; 14 of the master agreement, exposing Tenant to uncapped transfer liability.</p><div class="evidence-trail__sources"><span>[1] matter/northstar/msa-v3.pdf &middot; &sect; 14.2 &middot; page 47</span><span>[2] matter/northstar/prior-lease-v1.pdf &middot; &sect; 8 &middot; page 12</span><span>[3] jurisdiction/delaware-ucc-2025.pdf &middot; &sect; 2-210</span></div><footer>All rendered locally. All source-backed. None transmitted.</footer></div>
       </div>
     </section>
 
@@ -297,6 +329,21 @@
           <p class="boundary-lab__note" data-boundary-note>Retrieval, indexing, and reasoning happen on the firm-managed device.</p>
         </div>
       </div>
+    </section>
+
+    <section class="architecture-trust section" id="architecture" aria-labelledby="architecture-title">
+      <div class="shell">
+        <div class="section-intro architecture-trust__intro"><p class="section-kicker reveal">OPEN ARCHITECTURE / VERIFY THE BOUNDARY</p><h2 id="architecture-title" class="reveal">Verify the boundary yourself.</h2><p class="reveal">Trust is stronger when the claim, the code, and the test that supports it are all within reach.</p></div>
+        <div class="architecture-trust__grid">
+          <article class="architecture-card reveal"><span>01 / SOURCE</span><h3>Inspect the code</h3><p>Every line of Lex's reasoning is open for audit. No black boxes.</p><a href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer">Open GitHub <b aria-hidden="true">↗</b></a></article>
+          <article class="architecture-card reveal"><span>02 / TEST</span><h3>Run the audit</h3><p>Clone the repo. Run the tests. Verify the network calls return zero.</p><a href="https://github.com/sabarinath1805-loyal/Vaultr-AI/blob/master/CONTRIBUTING.md" target="_blank" rel="noreferrer">Read contributing <b aria-hidden="true">↗</b></a></article>
+          <article class="architecture-card reveal"><span>03 / DESIGN</span><h3>Read the architecture</h3><p>Runtime design, data flow, and dependency chain documented in full.</p><a href="security.html">Open security brief <b aria-hidden="true">↗</b></a></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="model-support section" id="models" aria-labelledby="models-title">
+      <div class="shell"><div class="section-intro"><p class="section-kicker reveal">MODEL CHOICE / WITHOUT LOCK-IN</p><h2 id="models-title" class="reveal">Bring the model that fits the matter.</h2><p class="reveal">Vaultr keeps the runtime boundary under your control, from a local model on a laptop to a private compatible endpoint.</p></div><div class="model-support__grid"><article class="model-card model-card--featured reveal"><span class="model-card__icon">◌</span><h3>Ollama <small>LOCAL</small></h3><p>Run Phi-4, Qwen3, Gemma, or any local model. 100% offline.</p><b>ZERO DATA RETENTION</b></article><article class="model-card reveal"><span class="model-card__icon">⚡</span><h3>Groq</h3><p>Fast hosted inference when speed matters.</p><small>Use your own key</small></article><article class="model-card reveal"><span class="model-card__icon">✦</span><h3>Gemini</h3><p>Google's models via your own API key.</p><small>Provider selected by counsel</small></article><article class="model-card reveal"><span class="model-card__icon">↗</span><h3>OpenAI compatible</h3><p>Any OpenAI-compatible endpoint including custom deployments.</p><small>Bring your endpoint</small></article></div></div>
     </section>
 
     <section class="quotes section" id="quotes" aria-label="Vaultr principles">
@@ -388,10 +435,12 @@
         </div>
         <div class="footer__nav">
           <div>
-            <h3>Platform</h3>
-            <a href="platform.html">Overview</a>
-            <a href="command.html">Command Center</a>
+            <h3>Product</h3>
+            <a href="index.html#features">Overview</a>
+            <a href="platform.html#product">Lex</a>
+            <a href="platform.html">Platform</a>
             <a href="workflows.html">Workflows</a>
+            <a href="solutions.html">Solutions</a>
           </div>
           <div>
             <h3>Trust</h3>

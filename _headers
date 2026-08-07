@@ -1,0 +1,5 @@
+# GitHub Pages ignores this file; static edge hosts can use these rules.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate

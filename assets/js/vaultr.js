@@ -2858,7 +2858,10 @@
         }
       });
     }, { threshold: 0.14, rootMargin: '0px 0px -40px' });
-    document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe(element));
+    document.querySelectorAll('.reveal').forEach((element, index) => {
+      element.style.setProperty('--reveal-delay', `${Math.min(index % 8, 7) * 80}ms`);
+      revealObserver.observe(element);
+    });
   } else {
     document.querySelectorAll('.reveal').forEach((element) => element.classList.add('is-visible'));
   }
@@ -2887,7 +2890,7 @@
   const restartCarousel = () => {
     if (!quotes.length || reducedMotion) return;
     window.clearInterval(quoteTimer);
-    quoteTimer = window.setInterval(() => showQuote(currentQuote + 1), 7000);
+    quoteTimer = window.setInterval(() => showQuote(currentQuote + 1), 6000);
   };
   const pauseCarousel = () => window.clearInterval(quoteTimer);
 
@@ -4165,4 +4168,79 @@
     status?.classList.remove('is-error');
     status?.classList.add('is-success');
   });
+
+  document.documentElement.classList.add('is-loaded');
+  const heroAnnotation = document.querySelector('.annotation-window');
+  if (heroAnnotation && !reducedMotion) window.setTimeout(() => heroAnnotation.classList.add('is-floating'), 1700);
+
+  const formatGithubNumber = (value) => new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 1 }).format(value);
+  const githubRepo = document.querySelector('[data-github-stars]');
+  if (githubRepo) {
+    const githubBase = 'https://api.github.com/repos/sabarinath1805-loyal/Vaultr-AI';
+    const readGithubTotal = async (path) => {
+      const response = await fetch(`${githubBase}/${path}`, { headers: { Accept: 'application/vnd.github+json' } });
+      if (!response.ok) throw new Error(`GitHub ${response.status}`);
+      const link = response.headers.get('Link') || '';
+      const lastPage = link.match(/[?&]page=(\d+)>; rel="last"/);
+      if (lastPage) return Number(lastPage[1]);
+      const data = await response.json();
+      return Array.isArray(data) ? data.length : 0;
+    };
+    const loadGithubProof = async () => {
+      try {
+        const [repoResponse, contributors, commits] = await Promise.all([
+          fetch(githubBase, { headers: { Accept: 'application/vnd.github+json' } }).then((response) => {
+            if (!response.ok) throw new Error(`GitHub ${response.status}`);
+            return response.json();
+          }),
+          readGithubTotal('contributors?per_page=1'),
+          readGithubTotal('commits?per_page=1')
+        ]);
+        const pushed = repoResponse.pushed_at ? new Intl.DateTimeFormat('en', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(repoResponse.pushed_at)) : 'recently';
+        const stars = document.querySelector('[data-github-stars]');
+        const commit = document.querySelector('[data-github-commit]');
+        const repo = document.querySelector('[data-github-repo]');
+        const issues = document.querySelector('[data-github-issues]');
+        const contributorsNode = document.querySelector('[data-github-contributors]');
+        const forks = document.querySelector('[data-github-forks]');
+        const commitsNode = document.querySelector('[data-github-commits]');
+        if (stars) stars.textContent = `${formatGithubNumber(repoResponse.stargazers_count || 0)} stars`;
+        if (commit) commit.textContent = `Last commit: ${pushed}`;
+        if (repo) repo.textContent = `${formatGithubNumber(contributors)} contributors`;
+        if (issues) issues.textContent = `Issues open: ${formatGithubNumber(repoResponse.open_issues_count || 0)}`;
+        if (contributorsNode) contributorsNode.textContent = `${formatGithubNumber(contributors)} contributors`;
+        if (forks) forks.textContent = `${formatGithubNumber(repoResponse.forks_count || 0)} forks`;
+        if (commitsNode) commitsNode.textContent = `${formatGithubNumber(commits)} commits`;
+      } catch (error) {
+        document.querySelector('[data-github-stars]')?.replaceChildren(document.createTextNode('GitHub proof available'));
+        const commit = document.querySelector('[data-github-commit]');
+        if (commit) commit.textContent = 'Repository status available live';
+        const issues = document.querySelector('[data-github-issues]');
+        if (issues) issues.textContent = 'Open issues: inspect repository';
+      }
+    };
+    loadGithubProof();
+  }
+
+  const counters = [...document.querySelectorAll('[data-counter]')];
+  if (counters.length && supportsReveal && !reducedMotion) {
+    const counterObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const element = entry.target;
+        const target = Number(element.dataset.counter || 0);
+        const suffix = element.dataset.counterSuffix || '';
+        const start = performance.now();
+        const tick = (now) => {
+          const progress = Math.min((now - start) / 2000, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          element.textContent = `${Math.round(target * eased).toLocaleString()}${suffix}`;
+          if (progress < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+        observer.unobserve(element);
+      });
+    }, { threshold: .4 });
+    counters.forEach((counter) => counterObserver.observe(counter));
+  }
 })();
