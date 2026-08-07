@@ -162,6 +162,68 @@
     setWorkbenchMode('context');
   }
 
+  const boundaryLab = document.querySelector('[data-boundary-lab]');
+  if (boundaryLab) {
+    const boundaryTabs = [...boundaryLab.querySelectorAll('[data-boundary-mode]')];
+    const boundaryTitle = boundaryLab.querySelector('[data-boundary-title]');
+    const boundaryStatus = boundaryLab.querySelector('[data-boundary-status]');
+    const boundarySource = boundaryLab.querySelector('[data-boundary-source]');
+    const boundarySourceMeta = boundaryLab.querySelector('[data-boundary-source-meta]');
+    const boundaryRuntime = boundaryLab.querySelector('[data-boundary-runtime]');
+    const boundaryRuntimeMeta = boundaryLab.querySelector('[data-boundary-runtime-meta]');
+    const boundaryAnswer = boundaryLab.querySelector('[data-boundary-answer]');
+    const boundaryAnswerMeta = boundaryLab.querySelector('[data-boundary-answer-meta]');
+    const boundaryExternal = boundaryLab.querySelector('[data-boundary-external]');
+    const boundaryBlocked = boundaryLab.querySelector('[data-boundary-blocked]');
+    const boundaryNote = boundaryLab.querySelector('[data-boundary-note]');
+    const boundaryModes = {
+      local: {
+        title: 'Local runtime', status: 'OUTBOUND DENIED', source: 'Your Documents', sourceMeta: 'Firm-managed device',
+        runtime: 'Lex, On Device', runtimeMeta: 'Inference stays local', answer: 'Your Answer', answerMeta: 'Returned to counsel',
+        external: 'External servers', blocked: 'BLOCKED', note: 'Retrieval, indexing, and reasoning happen on the firm-managed device.'
+      },
+      network: {
+        title: 'Private network', status: 'CONTROLLED PATH', source: 'Your Documents', sourceMeta: 'Approved matter store',
+        runtime: 'Lex, Firm Network', runtimeMeta: 'Governed internal route', answer: 'Your Answer', answerMeta: 'Returned to the team',
+        external: 'Public cloud', blocked: 'BLOCKED', note: 'A firm-controlled network can serve approved teams while the public cloud remains outside the route.'
+      },
+      airgap: {
+        title: 'Air-gapped', status: 'NO NETWORK PATH', source: 'Your Documents', sourceMeta: 'Restricted environment',
+        runtime: 'Lex, Air-Gapped', runtimeMeta: 'No external route', answer: 'Your Answer', answerMeta: 'Returned in-room',
+        external: 'All external paths', blocked: 'BLOCKED', note: 'For restricted environments, the entire reasoning path stays inside the isolated room.'
+      }
+    };
+    const setBoundaryMode = (mode) => {
+      const content = boundaryModes[mode] || boundaryModes.local;
+      boundaryTabs.forEach((tab) => {
+        const active = tab.dataset.boundaryMode === mode;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', String(active));
+      });
+      if (boundaryTitle) boundaryTitle.textContent = content.title;
+      if (boundaryStatus) boundaryStatus.textContent = content.status;
+      if (boundarySource) boundarySource.textContent = content.source;
+      if (boundarySourceMeta) boundarySourceMeta.textContent = content.sourceMeta;
+      if (boundaryRuntime) boundaryRuntime.textContent = content.runtime;
+      if (boundaryRuntimeMeta) boundaryRuntimeMeta.textContent = content.runtimeMeta;
+      if (boundaryAnswer) boundaryAnswer.textContent = content.answer;
+      if (boundaryAnswerMeta) boundaryAnswerMeta.textContent = content.answerMeta;
+      if (boundaryExternal) boundaryExternal.textContent = content.external;
+      if (boundaryBlocked) boundaryBlocked.innerHTML = `${content.blocked} <i aria-hidden="true">✕</i>`;
+      if (boundaryNote) boundaryNote.textContent = content.note;
+    };
+    boundaryTabs.forEach((tab) => tab.addEventListener('click', () => setBoundaryMode(tab.dataset.boundaryMode)));
+    boundaryTabs.forEach((tab, index) => tab.addEventListener('keydown', (event) => {
+      if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? boundaryTabs.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + boundaryTabs.length) % boundaryTabs.length;
+      const nextTab = boundaryTabs[nextIndex];
+      nextTab.focus();
+      setBoundaryMode(nextTab.dataset.boundaryMode);
+    }));
+    setBoundaryMode('local');
+  }
+
   const ecosystemMap = document.querySelector('[data-ecosystem-map]');
   if (ecosystemMap) {
     const ecosystemTabs = [...ecosystemMap.querySelectorAll('[data-ecosystem-tab]')];

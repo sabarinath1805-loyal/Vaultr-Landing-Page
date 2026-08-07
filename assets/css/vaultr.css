@@ -4596,3 +4596,33 @@ body:not(.detail-page) .features .feature h3 { color: var(--forest); }
 /* The new Command Center preview supersedes the preserved moved section below it.
    Keep that original markup in the source archive without rendering a duplicate dashboard. */
 .command-center--archive[aria-hidden="true"] { display: none; }
+
+/* Boundary Lab: make the privacy architecture inspectable without adding noise. */
+.privacy-diagram[data-boundary-lab] { padding: 29px; }
+.boundary-lab__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; margin-bottom: 20px; }
+.boundary-lab__head > div { display: grid; gap: 9px; }
+.boundary-lab__eyebrow { color: var(--gold); font-size: 8px; font-weight: 700; letter-spacing: .16em; }
+.boundary-lab__head strong { color: #f0ede8; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.boundary-lab__status { display: inline-flex; align-items: center; gap: 7px; color: rgba(240,237,232,.65); font-size: 8px; font-weight: 700; letter-spacing: .12em; white-space: nowrap; }
+.boundary-lab__status i { width: 6px; height: 6px; border-radius: 50%; background: #8ab38d; box-shadow: 0 0 0 4px rgba(138,179,141,.12); }
+.boundary-lab__tabs { display: grid; grid-template-columns: repeat(3, 1fr); margin: 0 0 25px; border: 1px solid rgba(240,237,232,.15); }
+.boundary-lab__tabs button { min-height: 37px; padding: 0 9px; border: 0; border-right: 1px solid rgba(240,237,232,.15); background: transparent; color: rgba(240,237,232,.56); cursor: pointer; font-size: 8px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; transition: background .25s, color .25s; }
+.boundary-lab__tabs button:last-child { border-right: 0; }
+.boundary-lab__tabs button:hover,
+.boundary-lab__tabs button:focus-visible { background: rgba(201,168,76,.12); color: #f0ede8; outline: none; }
+.boundary-lab__tabs button.is-active { background: var(--gold); color: var(--ink); }
+.privacy-diagram[data-boundary-lab] .diagram-flow { gap: 10px; }
+.privacy-diagram[data-boundary-lab] .diagram-node { min-height: 112px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+.privacy-diagram[data-boundary-lab] .diagram-node span { display: block; }
+.privacy-diagram[data-boundary-lab] .diagram-node small { display: block; color: rgba(26,24,21,.56); font-family: var(--sans); font-size: 8px; line-height: 1.25; text-transform: uppercase; letter-spacing: .08em; }
+.privacy-diagram[data-boundary-lab] .diagram-node--gold small { color: rgba(240,237,232,.66); }
+.boundary-lab__note { min-height: 30px; margin: 19px 0 0; color: rgba(240,237,232,.62); font-size: 10px; line-height: 1.45; }
+@media (max-width: 640px) {
+  .privacy-diagram[data-boundary-lab] { padding: 21px; }
+  .boundary-lab__head { align-items: flex-start; flex-direction: column; gap: 12px; }
+  .boundary-lab__tabs { grid-template-columns: 1fr; }
+  .boundary-lab__tabs button,
+  .boundary-lab__tabs button:last-child { border-right: 0; border-bottom: 1px solid rgba(240,237,232,.15); }
+  .boundary-lab__tabs button:last-child { border-bottom: 0; }
+  .privacy-diagram[data-boundary-lab] .diagram-node { min-height: 88px; }
+}

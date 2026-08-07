@@ -24,8 +24,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=polish-3">
-  <script defer src="assets/js/vaultr.js?v=polish-3"></script>
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=boundary-4">
+  <script defer src="assets/js/vaultr.js?v=boundary-4"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Vaultr","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/","logo":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/assets/images/vaultr-og.png","description":"Private legal intelligence that stays inside the room."}</script>
 </head>
 <body>
@@ -264,15 +264,28 @@
             <div><span>03</span><strong>Source</strong><small>Open for inspection</small></div>
           </div>
         </div>
-        <div class="privacy-diagram reveal" aria-label="Privacy architecture diagram">
-          <div class="diagram-flow">
-            <div class="diagram-node">Your Documents</div>
-            <span class="diagram-arrow">→</span>
-            <div class="diagram-node diagram-node--gold">Lex, On Device</div>
-            <span class="diagram-arrow">→</span>
-            <div class="diagram-node">Your Answer</div>
+        <div class="privacy-diagram reveal" aria-label="Interactive privacy architecture diagram" data-boundary-lab>
+          <div class="boundary-lab__head">
+            <div>
+              <span class="boundary-lab__eyebrow">BOUNDARY LAB / DEPLOYMENT PROFILES</span>
+              <strong data-boundary-title>Local runtime</strong>
+            </div>
+            <span class="boundary-lab__status"><i aria-hidden="true"></i><span data-boundary-status>OUTBOUND DENIED</span></span>
           </div>
-          <div class="diagram-blocked"><span>External Servers</span><strong>BLOCKED <i>✕</i></strong></div>
+          <div class="boundary-lab__tabs" role="tablist" aria-label="Choose a deployment profile">
+            <button class="is-active" type="button" role="tab" aria-selected="true" data-boundary-mode="local">Local runtime</button>
+            <button type="button" role="tab" aria-selected="false" data-boundary-mode="network">Private network</button>
+            <button type="button" role="tab" aria-selected="false" data-boundary-mode="airgap">Air-gapped</button>
+          </div>
+          <div class="diagram-flow">
+            <div class="diagram-node"><span data-boundary-source>Your Documents</span><small data-boundary-source-meta>Firm-managed device</small></div>
+            <span class="diagram-arrow" aria-hidden="true">→</span>
+            <div class="diagram-node diagram-node--gold"><span data-boundary-runtime>Lex, On Device</span><small data-boundary-runtime-meta>Inference stays local</small></div>
+            <span class="diagram-arrow" aria-hidden="true">→</span>
+            <div class="diagram-node"><span data-boundary-answer>Your Answer</span><small data-boundary-answer-meta>Returned to counsel</small></div>
+          </div>
+          <div class="diagram-blocked"><span data-boundary-external>External servers</span><strong data-boundary-blocked>BLOCKED <i>✕</i></strong></div>
+          <p class="boundary-lab__note" data-boundary-note>Retrieval, indexing, and reasoning happen on the firm-managed device.</p>
         </div>
       </div>
     </section>
