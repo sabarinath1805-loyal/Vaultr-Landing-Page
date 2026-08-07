@@ -689,6 +689,9 @@
     const sharedAccessStage = sharedSpace.querySelector('[data-shared-access-stage]');
     const sharedAccessStatus = sharedSpace.querySelector('[data-shared-access-status]');
     const sharedAccessToggles = [...sharedSpace.querySelectorAll('[data-shared-access-toggle]')];
+    const sharedRequestBadge = sharedSpace.querySelector('[data-shared-request-badge]');
+    const sharedRequestStatus = sharedSpace.querySelector('[data-shared-request-status]');
+    const sharedRequestActions = [...sharedSpace.querySelectorAll('[data-shared-request-action]')];
     const sharedTitles = {
       overview: ['ROOM PULSE / 07 MAY 2026', 'One shared record. No version chase.'],
       documents: ['DOCUMENTS / CONTROLLED VIEW', 'Show the work. Withhold the record.'],
@@ -699,7 +702,7 @@
     };
     let sharedActive = 'overview';
     const sharedStorageKey = 'vaultr.shared-room';
-    let sharedState = { invite: false, approved: false, questionStaged: false, accessStaged: false, access: { firm: true, security: true, client: true } };
+    let sharedState = { invite: false, approved: false, questionStaged: false, accessStaged: false, request: 'pending', access: { firm: true, security: true, client: true } };
     try {
       const storedSharedState = JSON.parse(window.localStorage.getItem(sharedStorageKey) || '{}');
       sharedState = {
@@ -707,6 +710,7 @@
         approved: storedSharedState?.approved === true,
         questionStaged: storedSharedState?.questionStaged === true,
         accessStaged: storedSharedState?.accessStaged === true,
+        request: ['pending', 'approved', 'denied'].includes(storedSharedState?.request) ? storedSharedState.request : 'pending',
         access: {
           firm: storedSharedState?.access?.firm !== false,
           security: storedSharedState?.access?.security !== false,
@@ -714,7 +718,7 @@
         }
       };
     } catch (error) {
-      sharedState = { invite: false, approved: false, questionStaged: false, accessStaged: false, access: { firm: true, security: true, client: true } };
+      sharedState = { invite: false, approved: false, questionStaged: false, accessStaged: false, request: 'pending', access: { firm: true, security: true, client: true } };
     }
     const persistSharedState = () => {
       try { window.localStorage.setItem(sharedStorageKey, JSON.stringify(sharedState)); } catch (error) { /* local-only room state is best effort */ }
@@ -731,6 +735,15 @@
         sharedAccessStage.innerHTML = sharedState.accessStaged ? 'Policy staged <span aria-hidden="true">&#10003;</span>' : 'Stage access policy <span aria-hidden="true">&#8594;</span>';
       }
       if (sharedAccessStatus) sharedAccessStatus.textContent = sharedState.accessStaged ? 'Policy staged locally. Counsel review is still required before invite.' : 'Local draft only. Nothing is shared until counsel stages this policy.';
+      const requestState = sharedState.request || 'pending';
+      const requestCopy = requestState === 'approved' ? ['APPROVED / GUEST ACTION ENABLED', 'Request approved locally. The guest can run only the scoped workflow.'] : requestState === 'denied' ? ['DENIED / NO GUEST ACTION', 'Request denied locally. The room remains unchanged.'] : ['AWAITING APPROVAL', 'Requires admin approval before any guest action is enabled.'];
+      if (sharedRequestBadge) sharedRequestBadge.textContent = requestCopy[0];
+      if (sharedRequestStatus) sharedRequestStatus.textContent = requestCopy[1];
+      sharedRequestActions.forEach((action) => {
+        const disabled = requestState !== 'pending';
+        action.disabled = disabled;
+        action.classList.toggle('is-selected', requestState === (action.dataset.sharedRequestAction === 'approve' ? 'approved' : 'denied'));
+      });
     };
     const reflectSharedState = () => {
       if (sharedInvite) {
@@ -870,6 +883,14 @@
       if (sharedFooterCopy) sharedFooterCopy.textContent = 'Access policy staged locally. Invite remains scoped until counsel releases it.';
       reflectAccessState();
     });
+    sharedRequestActions.forEach((action) => action.addEventListener('click', () => {
+      const next = action.dataset.sharedRequestAction === 'approve' ? 'approved' : 'denied';
+      sharedState.request = next;
+      persistSharedState();
+      if (sharedFoot) sharedFoot.textContent = next === 'approved' ? 'REQUEST APPROVED / SCOPED RUN / 0 B OUTBOUND' : 'REQUEST DENIED / NO GUEST ACTION / 0 B OUTBOUND';
+      if (sharedFooterCopy) sharedFooterCopy.textContent = next === 'approved' ? 'Guest action enabled only for the approved workflow and artifact set.' : 'External request denied locally. No guest action was enabled.';
+      reflectAccessState();
+    }));
     const initialSharedTab = readQueryState('space');
     setSharedTab(sharedTitles[initialSharedTab] ? initialSharedTab : sharedActive, false, false);
     reflectSharedState();
