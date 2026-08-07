@@ -243,6 +243,71 @@
     setEcosystemMode('lex');
   }
 
+  const verificationLab = document.querySelector('[data-verification]');
+  if (verificationLab) {
+    const verificationChecks = [...verificationLab.querySelectorAll('[data-verification-check]')];
+    const verificationRun = verificationLab.querySelector('[data-verification-run]');
+    const verificationStatus = verificationLab.querySelector('[data-verification-status]');
+    const verificationResult = verificationLab.querySelector('[data-verification-result]');
+    const verificationCopy = verificationLab.querySelector('[data-verification-copy]');
+    let verificationTimers = [];
+    const clearVerificationTimers = () => {
+      verificationTimers.forEach((timer) => window.clearTimeout(timer));
+      verificationTimers = [];
+    };
+    const resetVerification = () => {
+      clearVerificationTimers();
+      verificationChecks.forEach((check) => {
+        check.classList.remove('is-running', 'is-complete');
+        const state = check.querySelector('[data-verification-state]');
+        if (state) state.textContent = 'READY';
+      });
+      if (verificationStatus) verificationStatus.textContent = 'READY TO RUN';
+      if (verificationResult) verificationResult.textContent = 'Run four checks before a matter opens.';
+      if (verificationCopy) verificationCopy.textContent = 'Nothing here replaces your own security review. It gives the review a shared starting point and a visible finish line.';
+      if (verificationRun) {
+        verificationRun.disabled = false;
+        verificationRun.classList.remove('is-running');
+      }
+    };
+    verificationRun?.addEventListener('click', () => {
+      clearVerificationTimers();
+      verificationRun.disabled = true;
+      verificationRun.classList.add('is-running');
+      verificationChecks.forEach((check) => {
+        check.classList.remove('is-running', 'is-complete');
+        const state = check.querySelector('[data-verification-state]');
+        if (state) state.textContent = 'QUEUED';
+      });
+      if (verificationStatus) verificationStatus.textContent = 'CHECKING BOUNDARY…';
+      if (verificationResult) verificationResult.textContent = 'Verifying the room in sequence.';
+      if (verificationCopy) verificationCopy.textContent = 'Each checkpoint stays visible so your security lead can ask the next question before rollout.';
+      verificationChecks.forEach((check, index) => {
+        const timer = window.setTimeout(() => {
+          check.classList.add('is-running');
+          const state = check.querySelector('[data-verification-state]');
+          if (state) state.textContent = 'CHECKING';
+        }, 120 + index * 270);
+        verificationTimers.push(timer);
+        const completeTimer = window.setTimeout(() => {
+          check.classList.remove('is-running');
+          check.classList.add('is-complete');
+          const state = check.querySelector('[data-verification-state]');
+          if (state) state.textContent = 'PASS';
+          if (index === verificationChecks.length - 1) {
+            verificationRun.disabled = false;
+            verificationRun.classList.remove('is-running');
+            if (verificationStatus) verificationStatus.textContent = 'VERIFICATION COMPLETE / 4 CHECKS';
+            if (verificationResult) verificationResult.textContent = 'The room is ready for a human review.';
+            if (verificationCopy) verificationCopy.textContent = 'Bring the output into your deployment brief, then validate the same boundary against your own environment.';
+          }
+        }, 390 + index * 270);
+        verificationTimers.push(completeTimer);
+      });
+    });
+    resetVerification();
+  }
+
   const setMenu = (open) => {
     menuButton?.setAttribute('aria-expanded', String(open));
     menuButton?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
