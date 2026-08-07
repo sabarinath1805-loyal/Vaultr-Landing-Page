@@ -162,6 +162,87 @@
     setWorkbenchMode('context');
   }
 
+  const ecosystemMap = document.querySelector('[data-ecosystem-map]');
+  if (ecosystemMap) {
+    const ecosystemTabs = [...ecosystemMap.querySelectorAll('[data-ecosystem-tab]')];
+    const ecosystemLabel = ecosystemMap.querySelector('[data-ecosystem-label]');
+    const ecosystemTitle = ecosystemMap.querySelector('[data-ecosystem-title]');
+    const ecosystemCopy = ecosystemMap.querySelector('[data-ecosystem-copy]');
+    const ecosystemPills = ecosystemMap.querySelector('[data-ecosystem-pills]');
+    const ecosystemFoot = ecosystemMap.querySelector('[data-ecosystem-foot]');
+    const ecosystemLink = ecosystemMap.querySelector('[data-ecosystem-link]');
+    const ecosystemModes = {
+      lex: {
+        label: 'LEX / INTELLIGENCE',
+        title: 'Every answer starts with the record.',
+        copy: 'Lex reviews, compares, and drafts across the matter while keeping the reasoning next to the sources that make it defensible.',
+        pills: ['REVIEW', 'COMPARE', 'DRAFT'], foot: '01 / INTELLIGENCE',
+        href: 'platform.html#product', link: 'Open Lex in context'
+      },
+      vault: {
+        label: 'VAULT / MATTER RECORD',
+        title: 'The record stays complete and close.',
+        copy: 'Keep contracts, pleadings, exhibits, and correspondence in one searchable private room with the matter context intact.',
+        pills: ['SOURCE SETS', 'MATTER CONTEXT', 'LOCAL INDEX'], foot: '02 / RECORD',
+        href: 'platform.html#platform', link: 'Open the private room'
+      },
+      workflows: {
+        label: 'WORKFLOW STUDIO / SUPERVISED ACTION',
+        title: 'Repeatable work gets a visible route.',
+        copy: 'Turn review, diligence, and drafting into controlled local runs with explicit inputs, checkpoints, and owner sign-off.',
+        pills: ['REDLINES', 'DILIGENCE', 'CHECKPOINTS'], foot: '03 / ACTION',
+        href: 'workflows.html#studio', link: 'Open Workflow Studio'
+      },
+      command: {
+        label: 'COMMAND CENTER / PRACTICE VISIBILITY',
+        title: 'Make the system legible without opening the matter.',
+        copy: 'See activity, runtime health, and governance signals while the privileged documents remain inside the room.',
+        pills: ['ACTIVITY', 'HEALTH', 'AUDIT'], foot: '04 / VISIBILITY',
+        href: 'command.html#dashboard', link: 'Open Command Center'
+      },
+      evidence: {
+        label: 'EVIDENCE LEDGER / SOURCE PROVENANCE',
+        title: 'Every conclusion leaves a trail.',
+        copy: 'Move from an answer to its exact source span, confidence signal, and review state before the work moves forward.',
+        pills: ['SOURCE SPANS', 'CONFIDENCE', 'REVIEW STATE'], foot: '05 / PROVENANCE',
+        href: 'platform.html#evidence', link: 'Trace the evidence'
+      }
+    };
+    const setEcosystemMode = (mode, focus = false) => {
+      const content = ecosystemModes[mode] || ecosystemModes.lex;
+      ecosystemTabs.forEach((tab) => {
+        const active = tab.dataset.ecosystemTab === mode;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', String(active));
+        tab.setAttribute('tabindex', active ? '0' : '-1');
+      });
+      if (ecosystemLabel) ecosystemLabel.textContent = content.label;
+      if (ecosystemTitle) ecosystemTitle.textContent = content.title;
+      if (ecosystemCopy) ecosystemCopy.textContent = content.copy;
+      if (ecosystemPills) ecosystemPills.innerHTML = content.pills.map((pill) => `<span>${pill}</span>`).join('');
+      if (ecosystemFoot) ecosystemFoot.textContent = content.foot;
+      if (ecosystemLink) {
+        ecosystemLink.href = content.href;
+        ecosystemLink.innerHTML = `${content.link} <span aria-hidden="true">↗</span>`;
+      }
+      const activeTab = ecosystemTabs.find((tab) => tab.dataset.ecosystemTab === mode);
+      if (activeTab) ecosystemMap.querySelector('[role="tabpanel"]')?.setAttribute('aria-labelledby', activeTab.id);
+      if (focus) activeTab?.focus();
+    };
+    ecosystemTabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => setEcosystemMode(tab.dataset.ecosystemTab));
+      tab.addEventListener('keydown', (event) => {
+        const keys = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Home', 'End'];
+        if (!keys.includes(event.key)) return;
+        event.preventDefault();
+        const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? ecosystemTabs.length - 1 :
+          (index + (event.key === 'ArrowDown' || event.key === 'ArrowRight' ? 1 : -1) + ecosystemTabs.length) % ecosystemTabs.length;
+        setEcosystemMode(ecosystemTabs[nextIndex].dataset.ecosystemTab, true);
+      });
+    });
+    setEcosystemMode('lex');
+  }
+
   const setMenu = (open) => {
     menuButton?.setAttribute('aria-expanded', String(open));
     menuButton?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
