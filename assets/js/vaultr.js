@@ -370,6 +370,116 @@
     setEcosystemMode('lex');
   }
 
+  const deliveryRoom = document.querySelector('[data-delivery-room]');
+  if (deliveryRoom) {
+    const deliveryViews = [...deliveryRoom.querySelectorAll('[data-delivery-view]')];
+    const deliveryViewLabel = deliveryRoom.querySelector('[data-delivery-view-label]');
+    const deliveryViewTitle = deliveryRoom.querySelector('[data-delivery-view-title]');
+    const deliveryViewCopy = deliveryRoom.querySelector('[data-delivery-view-copy]');
+    const deliveryViewPanel = deliveryRoom.querySelector('[role="tabpanel"]');
+    const deliveryItems = [...deliveryRoom.querySelectorAll('[data-delivery-item]')];
+    const deliveryPreviewItems = deliveryRoom.querySelector('[data-delivery-preview-items]');
+    const deliveryPreviewTitle = deliveryRoom.querySelector('[data-delivery-preview-title]');
+    const deliveryPreviewCopy = deliveryRoom.querySelector('[data-delivery-preview-copy]');
+    const deliveryStatus = deliveryRoom.querySelector('[data-delivery-status]');
+    const deliveryFoot = deliveryRoom.querySelector('[data-delivery-foot]');
+    const deliveryPrepare = deliveryRoom.querySelector('[data-delivery-prepare]');
+    const deliveryShare = deliveryRoom.querySelector('[data-delivery-share]');
+    const deliveryViewData = {
+      access: {
+        label: 'SCOPED ACCESS',
+        title: 'Invite without opening the room.',
+        copy: 'Set an explicit boundary for the people who need to review the answer. They see the handoff, not the private matter.'
+      },
+      artifacts: {
+        label: 'WORK PRODUCT',
+        title: 'Deliver the useful layer.',
+        copy: 'Share a decision brief and the evidence behind it, while the underlying record remains owned by counsel.'
+      },
+      activity: {
+        label: 'ACTIVITY / OWNER VIEW',
+        title: 'Know what moved and when.',
+        copy: 'Keep a quiet record of the handoff, recipient, and review state before anything is made available outside the firm.'
+      }
+    };
+    const deliveryCatalog = {
+      summary: { label: 'Executive summary', detail: 'Prepared for the recipient' },
+      sources: { label: 'Source spans', detail: '03 links back to the record' },
+      notes: { label: 'Review notes', detail: 'Owner context included' },
+      raw: { label: 'Raw matter files', detail: 'Not shared' }
+    };
+    let deliveryTimer;
+    let deliveryActiveView = 'access';
+    const renderDeliveryItems = () => {
+      const selected = deliveryItems.filter((input) => input.checked && !input.disabled);
+      if (deliveryPreviewItems) {
+        deliveryPreviewItems.innerHTML = selected.length
+          ? selected.map((input, index) => {
+            const item = deliveryCatalog[input.dataset.deliveryItem];
+            return `<div><span>0${index + 1}</span><strong>${item.label}</strong><small>${item.detail}</small></div>`;
+          }).join('')
+          : '<p class="delivery-room__empty">Choose the smallest useful handoff before preparing the preview.</p>';
+      }
+      if (deliveryFoot) deliveryFoot.textContent = `${selected.length} item${selected.length === 1 ? '' : 's'} selected / 0 B outbound`;
+      if (deliveryPrepare) deliveryPrepare.disabled = selected.length === 0;
+    };
+    const setDeliveryView = (view, focus = false) => {
+      const content = deliveryViewData[view] || deliveryViewData.access;
+      deliveryActiveView = deliveryViewData[view] ? view : 'access';
+      deliveryViews.forEach((tab) => {
+        const active = tab.dataset.deliveryView === deliveryActiveView;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', String(active));
+        tab.setAttribute('tabindex', active ? '0' : '-1');
+      });
+      if (deliveryViewLabel) deliveryViewLabel.textContent = content.label;
+      if (deliveryViewTitle) deliveryViewTitle.textContent = content.title;
+      if (deliveryViewCopy) deliveryViewCopy.textContent = content.copy;
+      const activeTab = deliveryViews.find((tab) => tab.dataset.deliveryView === deliveryActiveView);
+      if (activeTab && deliveryViewPanel) deliveryViewPanel.setAttribute('aria-labelledby', activeTab.id);
+      if (focus) activeTab?.focus();
+    };
+    deliveryViews.forEach((tab, index) => {
+      tab.addEventListener('click', () => setDeliveryView(tab.dataset.deliveryView));
+      tab.addEventListener('keydown', (event) => {
+        if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? deliveryViews.length - 1 :
+          (index + (event.key === 'ArrowRight' ? 1 : -1) + deliveryViews.length) % deliveryViews.length;
+        setDeliveryView(deliveryViews[nextIndex].dataset.deliveryView, true);
+      });
+    });
+    deliveryItems.forEach((input) => input.addEventListener('change', () => {
+      deliveryShare?.setAttribute('disabled', '');
+      if (deliveryStatus) deliveryStatus.textContent = 'PRIVATE DRAFT';
+      renderDeliveryItems();
+    }));
+    deliveryPrepare?.addEventListener('click', () => {
+      window.clearTimeout(deliveryTimer);
+      deliveryPrepare.disabled = true;
+      deliveryPrepare.classList.add('is-running');
+      if (deliveryStatus) deliveryStatus.textContent = 'PREPARING LOCALLY';
+      if (deliveryPreviewTitle) deliveryPreviewTitle.textContent = deliveryActiveView === 'activity' ? 'Handoff activity / owner view' : 'Decision brief: acquisition review';
+      if (deliveryPreviewCopy) deliveryPreviewCopy.textContent = 'The selected handoff is staged locally. Review the scope before you make it available to a recipient.';
+      deliveryTimer = window.setTimeout(() => {
+        deliveryPrepare.disabled = false;
+        deliveryPrepare.classList.remove('is-running');
+        if (deliveryStatus) deliveryStatus.textContent = 'READY TO SHARE';
+        if (deliveryFoot) deliveryFoot.textContent = `${deliveryItems.filter((input) => input.checked && !input.disabled).length} items staged / 0 B outbound`;
+        deliveryShare?.removeAttribute('disabled');
+      }, 850);
+    });
+    deliveryShare?.addEventListener('click', () => {
+      if (deliveryShare.disabled) return;
+      if (deliveryStatus) deliveryStatus.textContent = 'PREVIEW COPIED LOCALLY';
+      deliveryShare.innerHTML = 'Preview copied <span aria-hidden="true">✓</span>';
+      window.setTimeout(() => { deliveryShare.innerHTML = 'Share preview <span aria-hidden="true">↗</span>'; }, 1800);
+    });
+    const initialDeliveryView = readQueryState('delivery');
+    setDeliveryView(deliveryViewData[initialDeliveryView] ? initialDeliveryView : 'access');
+    renderDeliveryItems();
+  }
+
   const verificationLab = document.querySelector('[data-verification]');
   if (verificationLab) {
     const verificationChecks = [...verificationLab.querySelectorAll('[data-verification-check]')];
@@ -564,13 +674,14 @@
           <a href="workflows.html" data-quick-nav-item><span><strong>Workflow Studio</strong><small>Redlines, diligence, supervised runs</small></span><kbd>02</kbd></a>
           <a href="solutions.html" data-quick-nav-item><span><strong>Solutions</strong><small>Litigation, transactional, in-house</small></span><kbd>03</kbd></a>
           <a href="customers.html" data-quick-nav-item><span><strong>Practice Rooms</strong><small>Illustrative patterns for legal work</small></span><kbd>04</kbd></a>
-          <a href="command.html" data-quick-nav-item><span><strong>Command Center</strong><small>Practice activity and governance signals</small></span><kbd>05</kbd></a>
-          <a href="platform.html#evidence" data-quick-nav-item><span><strong>Evidence Ledger</strong><small>Source, span, confidence</small></span><kbd>06</kbd></a>
-          <a href="platform.html#proof" data-quick-nav-item><span><strong>Room Signals</strong><small>Boundary, ledger, runtime, root</small></span><kbd>07</kbd></a>
-          <a href="security.html" data-quick-nav-item><span><strong>Security Center</strong><small>Runtime, network, and source boundary</small></span><kbd>08</kbd></a>
-          <a href="privacy.html" data-quick-nav-item><span><strong>Privacy brief</strong><small>Data handling, ownership, and review boundaries</small></span><kbd>09</kbd></a>
-          <a href="research.html" data-quick-nav-item><span><strong>Research &amp; architecture</strong><small>Inspect runtime, evidence, and source notes</small></span><kbd>10</kbd></a>
-          <a href="deployment.html" data-quick-nav-item><span><strong>Deployment Desk</strong><small>Build a private deployment brief</small></span><kbd>11</kbd></a>
+          <a href="platform.html#delivery" data-quick-nav-item><span><strong>Delivery Room</strong><small>Scoped handoffs and client-ready work</small></span><kbd>05</kbd></a>
+          <a href="command.html" data-quick-nav-item><span><strong>Command Center</strong><small>Practice activity and governance signals</small></span><kbd>06</kbd></a>
+          <a href="platform.html#evidence" data-quick-nav-item><span><strong>Evidence Ledger</strong><small>Source, span, confidence</small></span><kbd>07</kbd></a>
+          <a href="platform.html#proof" data-quick-nav-item><span><strong>Room Signals</strong><small>Boundary, ledger, runtime, root</small></span><kbd>08</kbd></a>
+          <a href="security.html" data-quick-nav-item><span><strong>Security Center</strong><small>Runtime, network, and source boundary</small></span><kbd>09</kbd></a>
+          <a href="privacy.html" data-quick-nav-item><span><strong>Privacy brief</strong><small>Data handling, ownership, and review boundaries</small></span><kbd>10</kbd></a>
+          <a href="research.html" data-quick-nav-item><span><strong>Research &amp; architecture</strong><small>Inspect runtime, evidence, and source notes</small></span><kbd>11</kbd></a>
+          <a href="deployment.html" data-quick-nav-item><span><strong>Deployment Desk</strong><small>Build a private deployment brief</small></span><kbd>12</kbd></a>
           <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer" data-quick-nav-item><span><strong>Open architecture</strong><small>Inspect the source and implementation notes</small></span><kbd>↗</kbd></a>
         </nav>
         <p class="quick-nav__empty" data-quick-nav-empty hidden>No matching destination.</p>
