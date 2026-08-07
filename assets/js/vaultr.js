@@ -233,6 +233,55 @@
     setBoundaryMode('local');
   }
 
+  const resourceLibrary = document.querySelector('[data-resource-library]');
+  if (resourceLibrary) {
+    const resourceFilters = [...resourceLibrary.querySelectorAll('[data-resource-filter]')];
+    const resourceCards = [...resourceLibrary.querySelectorAll('[data-resource-kind]')];
+    const resourceSearch = resourceLibrary.querySelector('[data-resource-search]');
+    const resourceGrid = resourceLibrary.querySelector('[data-resource-grid]');
+    const resourceEmpty = resourceLibrary.querySelector('[data-resource-empty]');
+    let activeResourceFilter = 'all';
+    const renderResources = (filter = activeResourceFilter) => {
+      activeResourceFilter = filter;
+      const query = (resourceSearch?.value || '').trim().toLowerCase();
+      resourceFilters.forEach((tab) => {
+        const active = tab.dataset.resourceFilter === filter;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', String(active));
+        tab.tabIndex = active ? 0 : -1;
+      });
+      const activeTab = resourceFilters.find((tab) => tab.dataset.resourceFilter === filter);
+      if (activeTab && resourceGrid) resourceGrid.setAttribute('aria-labelledby', activeTab.id);
+      let matches = 0;
+      resourceCards.forEach((card) => {
+        const matchesFilter = filter === 'all' || card.dataset.resourceKind === filter;
+        const matchesSearch = !query || card.textContent.toLowerCase().includes(query);
+        const visible = matchesFilter && matchesSearch;
+        card.hidden = !visible;
+        if (visible) matches += 1;
+      });
+      if (resourceEmpty) resourceEmpty.hidden = matches !== 0;
+    };
+    resourceFilters.forEach((tab, index) => {
+      tab.addEventListener('click', () => {
+        writeQueryState('resource', tab.dataset.resourceFilter);
+        renderResources(tab.dataset.resourceFilter);
+      });
+      tab.addEventListener('keydown', (event) => {
+        if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? resourceFilters.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + resourceFilters.length) % resourceFilters.length;
+        const nextTab = resourceFilters[nextIndex];
+        nextTab.focus();
+        writeQueryState('resource', nextTab.dataset.resourceFilter);
+        renderResources(nextTab.dataset.resourceFilter);
+      });
+    });
+    resourceSearch?.addEventListener('input', () => renderResources());
+    const initialResource = readQueryState('resource');
+    renderResources(initialResource && resourceFilters.some((tab) => tab.dataset.resourceFilter === initialResource) ? initialResource : 'all');
+  }
+
   const ecosystemMap = document.querySelector('[data-ecosystem-map]');
   if (ecosystemMap) {
     const ecosystemTabs = [...ecosystemMap.querySelectorAll('[data-ecosystem-tab]')];
