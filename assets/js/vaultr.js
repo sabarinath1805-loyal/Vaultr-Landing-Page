@@ -1248,7 +1248,8 @@
       imanage: { label: 'IMANAGE / DOCUMENT MANAGEMENT', status: 'APPROVED / READ-ONLY', title: 'Read the record where it already lives.', copy: 'Vaultr can index an approved matter workspace without creating a second uncontrolled copy. The route stays read-only until a firm owner changes the policy.', route: 'Firm-managed DMS', scope: 'Northstar / 24 sources', boundary: 'Local index / 0 B' },
       sharepoint: { label: 'SHAREPOINT / APPROVED REPOSITORY', status: 'REVIEW / SCOPED IMPORT', title: 'Bring only the matter set you approved.', copy: 'Select a firm-owned folder and import the source set into a local room. The connection never becomes a general-purpose cloud route.', route: 'Approved folder', scope: 'Meridian / 18 sources', boundary: 'Scoped import / 0 B' },
       m365: { label: 'MICROSOFT 365 / DRAFT SURFACE', status: 'REVIEW / LOCAL ADD-IN', title: 'Carry the answer into the work product.', copy: 'Use a local handoff to move a source-linked draft into the document surface your team already knows. The evidence remains attached to the decision.', route: 'Local document surface', scope: 'Northstar / 03 citations', boundary: 'Draft only / 0 B' },
-      box: { label: 'BOX / SCOPED IMPORT', status: 'DENIED BY DEFAULT', title: 'Keep file exchange deliberate.', copy: 'A file exchange path stays closed until a matter owner approves the exact folder, recipients, and retention window.', route: 'Owner-approved folder', scope: 'No active scope', boundary: 'Blocked / 0 B' }
+      box: { label: 'BOX / SCOPED IMPORT', status: 'DENIED BY DEFAULT', title: 'Keep file exchange deliberate.', copy: 'A file exchange path stays closed until a matter owner approves the exact folder, recipients, and retention window.', route: 'Owner-approved folder', scope: 'No active scope', boundary: 'Blocked / 0 B' },
+      mcp: { label: 'MCP GATEWAY / CONTROLLED TOOLS', status: 'REVIEW / HUMAN GATED', title: 'Connect tools without opening the room.', copy: 'Expose a narrow tool contract to Lex: read the approved record, stage a local draft, or return an executed file only after the owner confirms the scope.', route: 'Local MCP session', scope: 'Northstar / 03 tools', boundary: 'Read-first / 0 B', check: 'Inspect tool permissions', verifiedStatus: 'MCP HANDSHAKE VERIFIED', verifiedNote: 'Tool scope verified locally. Read access is active; write actions remain held for owner approval.', verifiedFoot: 'MCP verified / 0 B outbound' }
     };
     let connectionActive = 'imanage';
     let connectionTimer;
@@ -1269,7 +1270,7 @@
       if (connectionScope) connectionScope.textContent = data.scope;
       if (connectionBoundary) connectionBoundary.textContent = data.boundary;
       if (connectionNote) connectionNote.textContent = 'No connection data leaves the room.';
-      if (connectionCheck) { connectionCheck.disabled = false; connectionCheck.classList.remove('is-running'); connectionCheck.innerHTML = 'Check local path <span aria-hidden="true">→</span>'; }
+      if (connectionCheck) { connectionCheck.disabled = false; connectionCheck.classList.remove('is-running'); connectionCheck.innerHTML = `${data.check || 'Check local path'} <span aria-hidden="true">&#8594;</span>`; }
       if (connectionFoot) connectionFoot.textContent = `${String(connectionTabs.findIndex((tab) => tab.dataset.connectionTab === connectionActive) + 1).padStart(2, '0')} selected / policy not yet checked`;
       const activeTab = connectionTabs.find((tab) => tab.dataset.connectionTab === connectionActive);
       if (activeTab && connectionsLab.querySelector('[role="tabpanel"]')) connectionsLab.querySelector('[role="tabpanel"]').setAttribute('aria-labelledby', activeTab.id);
@@ -1294,9 +1295,10 @@
       connectionTimer = window.setTimeout(() => {
         connectionCheck.disabled = false;
         connectionCheck.classList.remove('is-running');
-        if (connectionStatus) connectionStatus.textContent = connectionActive === 'box' ? 'DENIED / POLICY INTACT' : 'PATH VERIFIED / 0 B OUTBOUND';
-        if (connectionNote) connectionNote.textContent = connectionActive === 'box' ? 'The path remains closed until an owner approves the exact scope.' : 'Local path verified. The matter stays inside its deployment boundary.';
-        if (connectionFoot) connectionFoot.textContent = connectionActive === 'box' ? 'Denied by profile / 0 B outbound' : 'Path verified / 0 B outbound';
+        const data = connectionData[connectionActive];
+        if (connectionStatus) connectionStatus.textContent = data.verifiedStatus || (connectionActive === 'box' ? 'DENIED / POLICY INTACT' : 'PATH VERIFIED / 0 B OUTBOUND');
+        if (connectionNote) connectionNote.textContent = data.verifiedNote || (connectionActive === 'box' ? 'The path remains closed until an owner approves the exact scope.' : 'Local path verified. The matter stays inside its deployment boundary.');
+        if (connectionFoot) connectionFoot.textContent = data.verifiedFoot || (connectionActive === 'box' ? 'Denied by profile / 0 B outbound' : 'Path verified / 0 B outbound');
       }, 820);
     });
     setConnection('imanage');
@@ -1358,6 +1360,13 @@
         copy: 'Keep approved regulation sources on a local watch, cluster the signal against firm controls, and hold the next decision for counsel.',
         pills: ['OFFICIAL SOURCES', 'LOCAL WATCH', 'HUMAN GATE'], foot: '07 / HORIZON',
         href: 'command.html#monitors', link: 'Open Monitor Desk'
+      },
+      mcp: {
+        label: 'MCP GATEWAY / PERMISSIONED TOOLS',
+        title: 'Connect the stack. Keep the call explicit.',
+        copy: 'Expose only the tools a matter owner approves, log each invocation locally, and hold write actions behind a human gate.',
+        pills: ['TOOL SCOPE', 'READ-FIRST', 'OWNER GATE'], foot: '08 / INTEROPERABILITY',
+        href: 'command.html#connections', link: 'Inspect MCP Gateway'
       }
     };
     const setEcosystemMode = (mode, focus = false) => {
