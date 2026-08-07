@@ -586,6 +586,113 @@
     setSharedTab(sharedActive);
   }
 
+  const monitorDesk = document.querySelector('[data-monitor-desk]');
+  if (monitorDesk) {
+    const monitorFilters = [...monitorDesk.querySelectorAll('[data-monitor-filter]')];
+    const monitorCards = [...monitorDesk.querySelectorAll('[data-monitor-card]')];
+    const monitorEmpty = monitorDesk.querySelector('[data-monitor-empty]');
+    const monitorKind = monitorDesk.querySelector('[data-monitor-detail-kind]');
+    const monitorState = monitorDesk.querySelector('[data-monitor-detail-state]');
+    const monitorTitle = monitorDesk.querySelector('[data-monitor-detail-title]');
+    const monitorCopy = monitorDesk.querySelector('[data-monitor-detail-copy]');
+    const monitorSource = monitorDesk.querySelector('[data-monitor-detail-source]');
+    const monitorOwner = monitorDesk.querySelector('[data-monitor-detail-owner]');
+    const monitorCadence = monitorDesk.querySelector('[data-monitor-detail-cadence]');
+    const monitorStatus = monitorDesk.querySelector('[data-monitor-detail-status]');
+    const monitorOpen = monitorDesk.querySelector('[data-monitor-open]');
+    const monitorSnooze = monitorDesk.querySelector('[data-monitor-snooze]');
+    const monitorFoot = monitorDesk.querySelector('[data-monitor-foot]');
+    const monitorSchedule = monitorDesk.querySelector('[data-monitor-schedule]');
+    const monitorScheduleStatus = monitorDesk.querySelector('[data-monitor-schedule-status]');
+    const monitorData = {
+      liability: { kind: 'HIGH / MATERIAL CHANGE', state: 'NEEDS REVIEW', title: 'Liability cap changed.', copy: 'Lex found a material delta in the latest agreement. The change is held here until counsel decides whether it changes the negotiation position.', source: 'Merger Agreement v5', owner: 'M. Chen', cadence: 'Nightly / local', research: 'consent' },
+      regulation: { kind: 'MEDIUM / POLICY WATCH', state: 'NEEDS REVIEW', title: 'Privacy policy update.', copy: 'A new approved-systems policy source is ready for a source-linked comparison. The runtime is waiting for a reviewer before it changes the firm standard.', source: 'Privacy & AI Policy', owner: 'KM / Security', cadence: 'Weekly / local', research: 'privacy' },
+      renewal: { kind: 'WATCHING / DEADLINE', state: 'WATCHING', title: 'Renewal window opening.', copy: 'The vendor agreement enters its notice window in fourteen days. Keep the signal visible without escalating it to the matter team yet.', source: 'Vendor Agreement', owner: 'Legal Ops', cadence: 'Daily / local', research: 'closing' },
+      exhibit: { kind: 'RESOLVED / SOURCE SET', state: 'RESOLVED', title: 'New exhibit indexed.', copy: 'Six pages were added to the Cedar case record and linked to the chronology. The source set is complete and the alert is closed.', source: 'Cedar Case Record', owner: 'A. Rao', cadence: 'Event / local', research: 'closing' }
+    };
+    let monitorFilter = 'all';
+    let monitorActive = 'liability';
+    const setMonitorDetail = (key, focus = false) => {
+      const data = monitorData[key] || monitorData.liability;
+      monitorActive = key;
+      monitorCards.forEach((card) => {
+        const active = card.dataset.monitorKey === key;
+        card.classList.toggle('is-active', active);
+        card.setAttribute('aria-selected', String(active));
+      });
+      if (monitorKind) monitorKind.textContent = data.kind;
+      if (monitorState) monitorState.textContent = data.state;
+      if (monitorTitle) monitorTitle.textContent = data.title;
+      if (monitorCopy) monitorCopy.textContent = data.copy;
+      if (monitorSource) monitorSource.textContent = data.source;
+      if (monitorOwner) monitorOwner.textContent = data.owner;
+      if (monitorCadence) monitorCadence.textContent = data.cadence;
+      if (monitorStatus) monitorStatus.textContent = data.state === 'RESOLVED' ? 'Resolved locally. The source trail remains available.' : 'Nothing leaves the room. Review stays with counsel.';
+      if (monitorOpen) { monitorOpen.disabled = data.state === 'RESOLVED'; monitorOpen.innerHTML = data.state === 'RESOLVED' ? 'Source trace archived <span aria-hidden="true">✓</span>' : 'Open source trace <span aria-hidden="true">→</span>'; }
+      if (monitorSnooze) { monitorSnooze.disabled = data.state === 'RESOLVED'; monitorSnooze.textContent = data.state === 'WATCHING' ? 'Snooze 24h' : 'Hold 24h'; }
+      if (focus) monitorCards.find((card) => card.dataset.monitorKey === key)?.focus();
+    };
+    const renderMonitors = (nextFilter = monitorFilter) => {
+      monitorFilter = nextFilter;
+      monitorFilters.forEach((filter) => {
+        const active = filter.dataset.monitorFilter === monitorFilter;
+        filter.classList.toggle('is-active', active);
+        filter.setAttribute('aria-selected', String(active));
+        filter.tabIndex = active ? 0 : -1;
+      });
+      const visible = monitorCards.filter((card) => {
+        const shown = monitorFilter === 'all' || card.dataset.monitorKind === monitorFilter;
+        card.hidden = !shown;
+        return shown;
+      });
+      if (monitorEmpty) monitorEmpty.hidden = visible.length !== 0;
+      const next = visible.find((card) => card.dataset.monitorKey === monitorActive) || visible[0];
+      if (next) setMonitorDetail(next.dataset.monitorKey);
+      if (monitorFoot) monitorFoot.innerHTML = `<i></i> ${String(visible.filter((card) => card.dataset.monitorKind === 'urgent').length).padStart(2, '0')} NEED REVIEW / LOCAL QUEUE`;
+    };
+    monitorFilters.forEach((filter, index) => {
+      filter.addEventListener('click', () => renderMonitors(filter.dataset.monitorFilter));
+      filter.addEventListener('keydown', (event) => {
+        if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? monitorFilters.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + monitorFilters.length) % monitorFilters.length;
+        renderMonitors(monitorFilters[nextIndex].dataset.monitorFilter);
+        monitorFilters[nextIndex].focus();
+      });
+    });
+    monitorCards.forEach((card, index) => {
+      card.addEventListener('click', () => setMonitorDetail(card.dataset.monitorKey));
+      card.addEventListener('keydown', (event) => {
+        if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const visible = monitorCards.filter((item) => !item.hidden);
+        const current = visible.indexOf(card);
+        const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? visible.length - 1 : (current + (event.key === 'ArrowDown' ? 1 : -1) + visible.length) % visible.length;
+        setMonitorDetail(visible[nextIndex].dataset.monitorKey, true);
+      });
+    });
+    monitorSchedule?.addEventListener('change', () => {
+      const enabled = monitorSchedule.checked;
+      if (monitorScheduleStatus) monitorScheduleStatus.textContent = enabled ? 'NEXT CHECK / TONIGHT 22:00' : 'SCHEDULE PAUSED / LOCAL ONLY';
+      if (monitorFoot) monitorFoot.innerHTML = enabled ? '<i></i> 02 NEED REVIEW / LOCAL QUEUE' : '<i></i> QUEUE HELD / NO BACKGROUND RUN';
+    });
+    monitorOpen?.addEventListener('click', () => {
+      const researchUrl = new URL('research.html', window.location.href);
+      researchUrl.searchParams.set('monitor', monitorData[monitorActive]?.research || 'consent');
+      researchUrl.hash = 'desk';
+      window.location.href = researchUrl.toString();
+    });
+    monitorSnooze?.addEventListener('click', () => {
+      if (monitorStatus) monitorStatus.textContent = 'Held for 24 hours. The local queue will bring it back if the source changes.';
+      if (monitorFoot) monitorFoot.innerHTML = '<i></i> MONITOR HELD / 0 B OUTBOUND';
+      monitorSnooze.disabled = true;
+      monitorSnooze.textContent = 'Held 24h';
+    });
+    const initialMonitor = readQueryState('monitor');
+    if (initialMonitor && monitorData[initialMonitor]) monitorActive = initialMonitor;
+    renderMonitors();
+  }
+
   const researchDesk = document.querySelector('[data-research-desk]');
   if (researchDesk) {
     const researchForm = researchDesk.querySelector('[data-research-form]');
@@ -689,6 +796,9 @@
       window.setTimeout(() => { window.location.href = workflowUrl.toString(); }, 320);
     });
     renderResearch();
+    const monitorSeed = readQueryState('monitor');
+    const monitorResearchKey = { liability: 'consent', regulation: 'privacy', renewal: 'closing', exhibit: 'closing' }[monitorSeed] || monitorSeed;
+    if (monitorResearchKey && researchData[monitorResearchKey]) setResearchDetail(monitorResearchKey);
   }
 
   const governanceDesk = document.querySelector('[data-governance-desk]');
@@ -1698,6 +1808,7 @@
     { id: 'workflows', label: 'Workflow studio' },
     { id: 'solutions', label: 'Practice rooms' },
     { id: 'command-center', label: 'Command center' },
+    { id: 'monitors', label: 'Monitor desk' },
     { id: 'deployment', label: 'Deployment desk' }
   ] : [
     { id: 'gallery', label: 'Visual archive' },

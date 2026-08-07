@@ -24,8 +24,8 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preload" as="image" href="assets/images/monet-water-lilies.jpg" fetchpriority="high">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-33">
-  <script defer src="assets/js/vaultr.js?v=library-33"></script>
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-34">
+  <script defer src="assets/js/vaultr.js?v=library-34"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Vaultr Command Center","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/command.html","isPartOf":{"@type":"WebSite","name":"Vaultr","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/"}}</script>
 </head>
 <body class="detail-page command-page">
@@ -47,7 +47,7 @@
             <a href="platform.html#ecosystem"><small>SURFACES</small><strong>Connected surfaces</strong><span>Move between Lex, workflows, command, and evidence.</span></a>
             <a href="platform.html#knowledge"><small>KNOWLEDGE</small><strong>Curated room</strong><span>Precedents, playbooks, and policies.</span></a>
             <a href="platform.html#agents"><small>AGENTS</small><strong>Agent library</strong><span>Governed legal agents, ready to stage.</span></a>
-            <a href="command.html" aria-current="page"><small>COMMAND</small><strong>Practice visibility</strong><span>Activity and audit signals without document exposure.</span></a>
+            <a href="command.html" aria-current="page"><small>COMMAND</small><strong>Practice visibility</strong><span>Activity and audit signals without document exposure.</span></a><a href="command.html#monitors" data-monitor-nav><small>MONITOR DESK</small><strong>Proactive matter signals</strong><span>Scheduled checks, nudges, and review queues.</span></a>
           </div>
         </div>
         <div class="nav-dropdown" data-nav-dropdown>
@@ -191,7 +191,28 @@
       </div>
     </section>
 
-    <section class="command-page__proof section"><div class="shell"><div class="command-page__section-intro"><p class="section-kicker reveal">04 / GOVERNANCE SIGNALS</p><h2 class="reveal">Measure the system without opening the matter.</h2><p class="reveal">Command Center keeps the useful operational layer visible and the privileged record private.</p></div><div class="command-proof__grid"><article class="command-proof-card reveal"><span>01 / ACTIVITY</span><h3>Know what moved.</h3><p>See which matters, runs, and workflows need attention without exposing the documents beneath them.</p><b>MATTER / SIGNAL</b></article><article class="command-proof-card reveal"><span>02 / HEALTH</span><h3>Know the room is intact.</h3><p>Runtime, network, and local-run signals make the boundary a live operating state.</p><b>RUNTIME / HEALTH</b></article><article class="command-proof-card reveal"><span>03 / AUDIT</span><h3>Know what to prove.</h3><p>Keep a visible trail of activity, ownership, and source-linked outcomes for the people responsible for the system.</p><b>GOVERN / VERIFY</b></article></div></div></section>
+    <section class="command-page__monitors section" id="monitors">
+      <div class="shell">
+        <div class="command-page__section-intro"><div><p class="section-kicker reveal">04 / MONITOR DESK</p><h2 class="reveal">Surface the change before it becomes a fire.</h2></div><p class="reveal">Keep recurring checks visible, assign the next human decision, and let the local runtime bring only high-signal changes into the room.</p></div>
+        <div class="monitor-desk reveal" data-monitor-desk>
+          <div class="monitor-desk__head"><span>VAULTR / PROACTIVE MATTER SIGNALS</span><span class="monitor-desk__local"><i></i> LOCAL SCHEDULE / 0 B OUTBOUND</span></div>
+          <div class="monitor-desk__toolbar"><div class="monitor-desk__filters" role="tablist" aria-label="Monitor filters"><button class="is-active" type="button" role="tab" aria-selected="true" data-monitor-filter="all">All <span>04</span></button><button type="button" role="tab" aria-selected="false" tabindex="-1" data-monitor-filter="urgent">Needs review <span>02</span></button><button type="button" role="tab" aria-selected="false" tabindex="-1" data-monitor-filter="watching">Watching <span>01</span></button><button type="button" role="tab" aria-selected="false" tabindex="-1" data-monitor-filter="resolved">Resolved <span>01</span></button></div><label class="monitor-desk__schedule"><input type="checkbox" data-monitor-schedule checked><span><i></i> Run local checks nightly</span></label></div>
+          <div class="monitor-desk__body">
+            <div class="monitor-desk__list" role="tabpanel" aria-label="Monitor queue" data-monitor-list>
+              <button class="monitor-card is-active" type="button" data-monitor-card data-monitor-key="liability" data-monitor-kind="urgent" aria-selected="true"><span>HIGH / NORTHSTAR</span><strong>Liability cap changed</strong><small>Merger Agreement v5 &middot; 2 new source spans</small><b>04 MIN <span aria-hidden="true">&rarr;</span></b></button>
+              <button class="monitor-card" type="button" data-monitor-card data-monitor-key="regulation" data-monitor-kind="urgent" aria-selected="false"><span>MEDIUM / MERIDIAN</span><strong>Privacy policy update</strong><small>Approved AI boundary &middot; 1 policy source</small><b>18 MIN <span aria-hidden="true">&rarr;</span></b></button>
+              <button class="monitor-card" type="button" data-monitor-card data-monitor-key="renewal" data-monitor-kind="watching" aria-selected="false"><span>WATCHING / CEDAR</span><strong>Renewal window opening</strong><small>Vendor agreement &middot; due in 14 days</small><b>2 DAYS <span aria-hidden="true">&rarr;</span></b></button>
+              <button class="monitor-card" type="button" data-monitor-card data-monitor-key="exhibit" data-monitor-kind="resolved" aria-selected="false"><span>RESOLVED / CEDAR</span><strong>New exhibit indexed</strong><small>Case record &middot; 6 pages source-linked</small><b>YESTERDAY <span aria-hidden="true">&rarr;</span></b></button>
+              <p class="monitor-desk__empty" data-monitor-empty hidden>No monitor matches that queue.</p>
+            </div>
+            <aside class="monitor-desk__detail" aria-live="polite"><div class="monitor-desk__detail-head"><span data-monitor-detail-kind>HIGH / MATERIAL CHANGE</span><span><i></i><strong data-monitor-detail-state>NEEDS REVIEW</strong></span></div><h3 data-monitor-detail-title>Liability cap changed.</h3><p data-monitor-detail-copy>Lex found a material delta in the latest agreement. The change is held here until counsel decides whether it changes the negotiation position.</p><div class="monitor-desk__detail-grid"><div><span>SOURCE</span><strong data-monitor-detail-source>Merger Agreement v5</strong></div><div><span>OWNER</span><strong data-monitor-detail-owner>M. Chen</strong></div><div><span>CADENCE</span><strong data-monitor-detail-cadence>Nightly / local</strong></div></div><div class="monitor-desk__detail-actions"><button type="button" data-monitor-open>Open source trace <span aria-hidden="true">&rarr;</span></button><button type="button" class="is-quiet" data-monitor-snooze>Snooze 24h</button></div><p class="monitor-desk__detail-status" data-monitor-detail-status>Nothing leaves the room. Review stays with counsel.</p></aside>
+          </div>
+          <div class="monitor-desk__foot"><span data-monitor-foot><i></i> 02 NEED REVIEW / LOCAL QUEUE</span><strong data-monitor-schedule-status>NEXT CHECK / TONIGHT 22:00</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="command-page__proof section"><div class="shell"><div class="command-page__section-intro"><p class="section-kicker reveal">05 / GOVERNANCE SIGNALS</p><h2 class="reveal">Measure the system without opening the matter.</h2><p class="reveal">Command Center keeps the useful operational layer visible and the privileged record private.</p></div><div class="command-proof__grid"><article class="command-proof-card reveal"><span>01 / ACTIVITY</span><h3>Know what moved.</h3><p>See which matters, runs, and workflows need attention without exposing the documents beneath them.</p><b>MATTER / SIGNAL</b></article><article class="command-proof-card reveal"><span>02 / HEALTH</span><h3>Know the room is intact.</h3><p>Runtime, network, and local-run signals make the boundary a live operating state.</p><b>RUNTIME / HEALTH</b></article><article class="command-proof-card reveal"><span>03 / AUDIT</span><h3>Know what to prove.</h3><p>Keep a visible trail of activity, ownership, and source-linked outcomes for the people responsible for the system.</p><b>GOVERN / VERIFY</b></article></div></div></section>
 
     <section class="command-page__cta section"><div class="shell command-page__cta-inner reveal"><p class="section-kicker">READY FOR PRACTICE VISIBILITY?</p><h2>Keep the documents private. Make the system legible.</h2><a class="button button--light" href="deployment.html">Build a private deployment brief</a></div></section>
 

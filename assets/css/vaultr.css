@@ -110,6 +110,83 @@
 .shared-space__activity small { grid-column: 2; color: var(--muted); font-size: 9px; }
 .shared-space__footer { display: flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 61px; padding: 0 24px; border-top: 1px solid rgba(0, 0, 0, .1); background: #f7f8f5; color: #69766e; font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .shared-space__copy { min-height: 31px; border-color: rgba(45, 74, 62, .3); background: transparent; color: var(--forest); }
+
+/* Monitor Desk: proactive signals with an explicit human finish line. */
+.command-page__monitors { background: #f4f5f0; }
+.monitor-desk { overflow: hidden; border: 1px solid rgba(45, 74, 62, .2); background: #fff; box-shadow: 0 28px 62px -38px rgba(45, 74, 62, .34); }
+.monitor-desk__head,
+.monitor-desk__foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; padding: 0 21px; color: var(--sage); font-size: 9px; font-weight: 700; letter-spacing: .14em; }
+.monitor-desk__head { border-bottom: 1px solid rgba(0, 0, 0, .1); }
+.monitor-desk__local { display: inline-flex; align-items: center; gap: 7px; color: #69766e; white-space: nowrap; }
+.monitor-desk__local i,
+.monitor-desk__foot i { width: 6px; height: 6px; display: inline-block; border-radius: 50%; background: #6a9a75; }
+.monitor-desk__toolbar { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 16px 21px; border-bottom: 1px solid rgba(0, 0, 0, .1); background: #f7f8f5; }
+.monitor-desk__filters { display: flex; min-width: 0; border: 1px solid rgba(45, 74, 62, .15); background: #fff; }
+.monitor-desk__filters button { min-height: 34px; padding: 0 11px; border: 0; border-right: 1px solid rgba(45, 74, 62, .12); background: transparent; color: #89948c; cursor: pointer; font-size: 8px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.monitor-desk__filters button:last-child { border-right: 0; }
+.monitor-desk__filters button span { margin-left: 4px; color: #a6afa9; }
+.monitor-desk__filters button:hover,
+.monitor-desk__filters button:focus-visible { color: var(--sage); outline: none; }
+.monitor-desk__filters button.is-active { background: var(--sage); color: #fff; }
+.monitor-desk__filters button.is-active span { color: rgba(255, 255, 255, .65); }
+.monitor-desk__schedule { display: inline-flex; align-items: center; gap: 8px; color: #69766e; cursor: pointer; font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.monitor-desk__schedule input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.monitor-desk__schedule span { display: inline-flex; align-items: center; gap: 8px; }
+.monitor-desk__schedule i { width: 27px; height: 15px; position: relative; display: inline-block; border-radius: 20px; background: #b7c1ba; transition: background .25s; }
+.monitor-desk__schedule i::after { position: absolute; top: 3px; left: 3px; width: 9px; height: 9px; border-radius: 50%; background: #fff; content: ""; transition: transform .25s; }
+.monitor-desk__schedule input:checked + span i { background: var(--sage); }
+.monitor-desk__schedule input:checked + span i::after { transform: translateX(12px); }
+.monitor-desk__schedule input:focus-visible + span i { box-shadow: 0 0 0 3px rgba(45, 74, 62, .18); }
+.monitor-desk__body { display: grid; grid-template-columns: 1fr 1fr; min-height: 488px; }
+.monitor-desk__list { display: grid; align-content: start; gap: 8px; padding: 22px 21px; border-right: 1px solid rgba(0, 0, 0, .1); background: #fff; }
+.monitor-card { display: grid; grid-template-columns: 1fr auto; gap: 5px 12px; min-height: 87px; padding: 13px; border: 1px solid rgba(45, 74, 62, .14); background: #fff; color: var(--ink); cursor: pointer; text-align: left; transition: border-color .25s, background .25s, transform .25s; }
+.monitor-card:hover,
+.monitor-card:focus-visible { border-color: rgba(45, 74, 62, .5); outline: none; transform: translateX(3px); }
+.monitor-card.is-active { border-color: var(--sage); background: #f4f5f0; box-shadow: inset 3px 0 var(--gold); }
+.monitor-card > span { grid-column: 1 / -1; color: var(--sage); font-size: 8px; font-weight: 700; letter-spacing: .13em; }
+.monitor-card strong { font-size: 12px; font-weight: 700; }
+.monitor-card small { grid-column: 1 / -1; color: var(--muted); font-size: 9px; }
+.monitor-card b { grid-column: 2; grid-row: 2 / span 2; align-self: center; color: var(--sage); font-size: 8px; letter-spacing: .08em; white-space: nowrap; }
+.monitor-card b span { font-size: 14px; font-weight: 400; }
+.monitor-desk__empty { margin: 14px 0; color: var(--muted); font-size: 11px; }
+.monitor-desk__detail { display: flex; flex-direction: column; min-width: 0; padding: 28px 30px 24px; background: var(--sage); color: #fff; }
+.monitor-desk__detail-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; color: rgba(255, 255, 255, .68); font-size: 8px; font-weight: 700; letter-spacing: .14em; }
+.monitor-desk__detail-head > span:last-child { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; }
+.monitor-desk__detail-head i { width: 6px; height: 6px; display: inline-block; border-radius: 50%; background: #d6b86a; }
+.monitor-desk__detail h3 { max-width: 410px; margin: 66px 0 16px; color: #fff; font-family: var(--serif); font-size: clamp(37px, 4vw, 58px); font-weight: 400; line-height: .9; letter-spacing: -.05em; }
+.monitor-desk__detail > p { max-width: 400px; margin: 0; color: rgba(255, 255, 255, .72); font-size: 12px; line-height: 1.55; }
+.monitor-desk__detail-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: auto; padding-top: 19px; border-top: 1px solid rgba(255, 255, 255, .2); }
+.monitor-desk__detail-grid div { display: grid; gap: 6px; }
+.monitor-desk__detail-grid span { color: rgba(255, 255, 255, .5); font-size: 7px; font-weight: 700; letter-spacing: .12em; }
+.monitor-desk__detail-grid strong { color: #fff; font-size: 10px; font-weight: 500; line-height: 1.25; }
+.monitor-desk__detail-actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 21px; }
+.monitor-desk__detail-actions button { display: inline-flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 38px; padding: 0 12px; border: 1px solid #fff; background: #fff; color: var(--sage); cursor: pointer; font-size: 9px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; transition: background .25s, border-color .25s, color .25s, transform .25s; }
+.monitor-desk__detail-actions button:hover,
+.monitor-desk__detail-actions button:focus-visible { border-color: var(--gold); background: var(--gold); color: var(--ink); outline: none; transform: translateY(-2px); }
+.monitor-desk__detail-actions button.is-quiet { border-color: rgba(255, 255, 255, .45); background: transparent; color: #fff; }
+.monitor-desk__detail-actions button:disabled { cursor: default; opacity: .58; transform: none; }
+.monitor-desk__detail-status { min-height: 15px; margin-top: 11px !important; color: rgba(255, 255, 255, .58) !important; font-size: 9px !important; }
+.monitor-desk__foot { min-height: 58px; border-top: 1px solid rgba(0, 0, 0, .1); background: #f4f5f0; color: #69766e; }
+.monitor-desk__foot span { display: inline-flex; align-items: center; gap: 7px; }
+.monitor-desk__foot strong { color: var(--sage); }
+@media (max-width: 980px) {
+  .monitor-desk__body { grid-template-columns: 1fr; }
+  .monitor-desk__list { border-right: 0; border-bottom: 1px solid rgba(0, 0, 0, .1); }
+  .monitor-desk__detail { min-height: 390px; }
+}
+@media (max-width: 640px) {
+  .monitor-desk__head { align-items: flex-start; flex-direction: column; gap: 8px; padding-block: 16px; }
+  .monitor-desk__toolbar { align-items: stretch; flex-direction: column; padding: 14px 16px; }
+  .monitor-desk__filters { overflow-x: auto; }
+  .monitor-desk__filters button { flex: 0 0 auto; }
+  .monitor-desk__schedule { justify-content: flex-end; }
+  .monitor-desk__list { padding: 16px; }
+  .monitor-desk__detail { min-height: 420px; padding: 27px 20px 22px; }
+  .monitor-desk__detail-head { align-items: flex-start; flex-direction: column; gap: 10px; }
+  .monitor-desk__detail h3 { margin-top: 48px; font-size: 46px; }
+  .monitor-desk__detail-grid { gap: 8px; }
+  .monitor-desk__foot { align-items: flex-start; flex-direction: column; gap: 8px; min-height: 0; padding-block: 15px; }
+}
 @media (max-width: 980px) {
   .customers-page__shared-intro { grid-template-columns: 1fr 1fr; gap: 24px; }
   .shared-space { grid-template-columns: 1fr; }
