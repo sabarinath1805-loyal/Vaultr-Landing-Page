@@ -24,8 +24,8 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preload" as="image" href="assets/images/monet-sunrise-display.jpg" fetchpriority="high">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-22">
-  <script defer src="assets/js/vaultr.js?v=library-22"></script>
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-24">
+  <script defer src="assets/js/vaultr.js?v=library-24"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Vaultr Workflow Studio","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/workflows.html","isPartOf":{"@type":"WebSite","name":"Vaultr","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/"}}</script>
 </head>
 <body class="detail-page workflow-page">
@@ -55,6 +55,7 @@
             <a href="workflows.html" aria-current="page"><small>WORKFLOW STUDIO</small><strong>Redlines &amp; diligence</strong><span>Move from clause to confidence with evidence.</span></a>
             <a href="workflows.html#impact"><small>IMPACT</small><strong>Model your load</strong><span>Make the matter workload visible and adjustable.</span></a>
             <a href="workflows.html#editor"><small>EDITOR</small><strong>Draft with sources</strong><span>Carry citations, deltas, and comments into work product.</span></a>
+            <a href="workflows.html#review-table"><small>REVIEW TABLE</small><strong>See the signal</strong><span>Extract structured facts at scale.</span></a>
           </div>
         </div>
         <div class="nav-dropdown" data-nav-dropdown>
@@ -156,10 +157,48 @@
       </div>
     </section>
 
+    <section class="review-table section" id="review-table">
+      <div class="shell">
+        <div class="review-table__intro">
+          <div><p class="section-kicker reveal">02 / TABULAR REVIEW</p><h2 class="reveal">See the signal across the set.</h2></div>
+          <p class="reveal">Turn a folder of matter documents into a reviewable issue table. Every row stays linked to its source, owner, and confidence before anyone exports a conclusion.</p>
+        </div>
+        <div class="review-table__app reveal" data-review-table>
+          <div class="review-table__head"><span>LEX / STRUCTURED EXTRACTION</span><span class="review-table__local"><i></i> LOCAL ONLY</span></div>
+          <div class="review-table__toolbar">
+            <div class="review-table__filters" role="tablist" aria-label="Review table filters">
+              <button class="is-active" type="button" role="tab" aria-selected="true" data-review-filter="all">All <span>04</span></button>
+              <button type="button" role="tab" aria-selected="false" data-review-filter="review">Needs review <span>02</span></button>
+              <button type="button" role="tab" aria-selected="false" data-review-filter="verified">Verified <span>02</span></button>
+            </div>
+            <span class="review-table__summary" data-review-summary>04 rows / 0 B outbound</span>
+          </div>
+          <div class="review-table__body">
+            <div class="review-table__list" role="table" aria-label="Northstar extracted issues">
+              <div class="review-table__columns" role="row"><span>ISSUE</span><span>SOURCE</span><span>STATE</span><span>OWNER</span></div>
+              <button class="review-table__row is-selected" type="button" role="row" aria-expanded="true" data-review-row="consent" data-review-state="review"><strong>Supplier consent</strong><span>Diligence Tracker / 04</span><b class="is-review">Needs review</b><small>J. Chen</small></button>
+              <button class="review-table__row" type="button" role="row" aria-expanded="false" data-review-row="cap" data-review-state="verified"><strong>Liability cap</strong><span>Merger Agreement / § 7.4</span><b>Verified</b><small>M. Chen</small></button>
+              <button class="review-table__row" type="button" role="row" aria-expanded="false" data-review-row="dpa" data-review-state="review"><strong>Subprocessor schedule</strong><span>Disclosure Schedule / § 12</span><b class="is-review">Needs review</b><small>A. Rao</small></button>
+              <button class="review-table__row" type="button" role="row" aria-expanded="false" data-review-row="board" data-review-state="verified"><strong>Board approval</strong><span>Counsel Thread / 08</span><b>Verified</b><small>J. Chen</small></button>
+              <p class="review-table__empty" data-review-empty hidden>No rows in this view.</p>
+            </div>
+            <aside class="review-table__detail" data-review-detail aria-live="polite">
+              <div class="review-table__detail-head"><span data-review-detail-type>OPEN ITEM / SOURCE TRACE</span><span class="review-table__detail-state"><i></i><span data-review-detail-state>NEEDS REVIEW</span></span></div>
+              <h3 data-review-detail-title>Supplier consent</h3>
+              <p data-review-detail-copy>The top five suppliers may require notice before closing. Lex kept the issue open because the consent language is split across the tracker and the change-of-control clause.</p>
+              <div class="review-table__detail-grid"><div><span>SOURCE</span><strong data-review-detail-source>Diligence Tracker</strong></div><div><span>SPAN</span><strong data-review-detail-span>Open items / 04</strong></div><div><span>OWNER</span><strong data-review-detail-owner>J. Chen</strong></div></div>
+              <button class="review-table__detail-action" type="button" data-review-detail-action>Open source trace <span aria-hidden="true">↗</span></button>
+            </aside>
+          </div>
+          <div class="review-table__foot"><span><i></i> 04 SOURCE-LINKED ROWS / ILLUSTRATIVE</span><button type="button" data-review-stage>Stage local packet <span aria-hidden="true">↓</span></button><strong data-review-stage-status>READY TO STAGE</strong></div>
+        </div>
+      </div>
+    </section>
+
     <section class="workflow-page__editor section" id="editor">
       <div class="shell">
         <div class="workflow-page__section-intro">
-          <p class="section-kicker reveal">02 / SOURCE-LINKED EDITOR</p>
+          <p class="section-kicker reveal">03 / SOURCE-LINKED EDITOR</p>
           <h2 class="reveal">Draft with the record in the margin.</h2>
           <p class="reveal">Move from a suggested clause to a reviewable work product without losing the citation, the comment, or the owner behind the decision.</p>
         </div>
@@ -204,7 +243,7 @@
 
     <section class="workflow-page__proof section">
       <div class="shell">
-        <div class="workflow-page__section-intro"><p class="section-kicker reveal">03 / OPERATING RHYTHM</p><h2 class="reveal">Fast enough for practice. Controlled enough for privilege.</h2><p class="reveal">The workflow is not a black box between upload and answer. It is a sequence your team can see, pause, and prove.</p></div>
+        <div class="workflow-page__section-intro"><p class="section-kicker reveal">04 / OPERATING RHYTHM</p><h2 class="reveal">Fast enough for practice. Controlled enough for privilege.</h2><p class="reveal">The workflow is not a black box between upload and answer. It is a sequence your team can see, pause, and prove.</p></div>
         <div class="workflow-proof__grid"><article class="workflow-proof-card reveal"><span>01</span><h3>Find the delta.</h3><p>Compare versions and surface the clause that changed before it becomes a surprise.</p><b>COMPARE / SOURCE</b></article><article class="workflow-proof-card reveal"><span>02</span><h3>Understand the risk.</h3><p>Trace the issue across the matter record and keep the relevant context in view.</p><b>REASON / CONTEXT</b></article><article class="workflow-proof-card reveal"><span>03</span><h3>Make the call.</h3><p>Accept a local draft, assign a diligence item, or leave the next move with counsel.</p><b>ACT / SUPERVISE</b></article><article class="workflow-proof-card reveal"><span>04</span><h3>Leave the proof.</h3><p>Keep the answer attached to its sources, owner, and deployment boundary.</p><b>VERIFY / AUDIT</b></article></div>
       </div>
     </section>

@@ -1013,7 +1013,7 @@
       <section class="quick-nav__panel" role="dialog" aria-modal="true" aria-labelledby="quick-nav-title">
         <div class="quick-nav__head"><div><span class="quick-nav__eyebrow">VAULTR / QUICK NAVIGATION</span><h2 id="quick-nav-title">Go where the work is.</h2></div><button class="quick-nav__close" type="button" aria-label="Close quick navigation" data-quick-nav-close>Esc</button></div>
         <label class="quick-nav__search"><span aria-hidden="true">⌘K</span><input id="quick-nav-search" type="search" autocomplete="off" placeholder="Search matters, sources, and surfaces" aria-label="Search matters, sources, and surfaces"></label>
-        <div class="quick-nav__summary" role="status" aria-live="polite"><div><span class="quick-nav__summary-label">LOCAL WORKSPACE INDEX</span><strong data-quick-nav-count>4 matters · 16 surfaces</strong></div><span class="quick-nav__summary-status"><i aria-hidden="true"></i> 0 B outbound</span></div>
+        <div class="quick-nav__summary" role="status" aria-live="polite"><div><span class="quick-nav__summary-label">LOCAL WORKSPACE INDEX</span><strong data-quick-nav-count>4 matters · 17 surfaces</strong></div><span class="quick-nav__summary-status"><i aria-hidden="true"></i> 0 B outbound</span></div>
         <div class="quick-nav__section">
           <div class="quick-nav__section-head"><span>RECENT MATTERS</span><small>LOCAL / ILLUSTRATIVE</small></div>
           <nav class="quick-nav__items quick-nav__items--matter" aria-label="Local matter index">
@@ -1030,6 +1030,7 @@
           <a href="platform.html#knowledge" data-quick-nav-item><span><strong>Knowledge Room</strong><small>Precedents, playbooks, and policies</small></span><kbd>02</kbd></a>
           <a href="workflows.html" data-quick-nav-item><span><strong>Workflow Studio</strong><small>Composer, redlines, and supervised runs</small></span><kbd>03</kbd></a>
           <a href="workflows.html#editor" data-quick-nav-item><span><strong>Source-linked Editor</strong><small>Draft, compare, cite, and comment</small></span><kbd>04</kbd></a>
+          <a href="workflows.html#review-table" data-quick-nav-item data-quick-nav-keywords="tabular review extraction structured facts issues rows diligence"><span><strong>Tabular Review</strong><small>Extract issues across a matter</small></span><kbd>05</kbd></a>
           <a href="solutions.html" data-quick-nav-item><span><strong>Solutions</strong><small>Litigation, transactional, in-house</small></span><kbd>05</kbd></a>
           <a href="customers.html" data-quick-nav-item><span><strong>Practice Rooms</strong><small>Illustrative patterns for legal work</small></span><kbd>06</kbd></a>
           <a href="platform.html#delivery" data-quick-nav-item><span><strong>Delivery Room</strong><small>Scoped handoffs and client-ready work</small></span><kbd>07</kbd></a>
@@ -1221,7 +1222,12 @@
     });
   }
 
-  const roomIndexConfig = document.body.classList.contains('detail-page') ? [
+  const roomIndexConfig = document.body.classList.contains('workflow-page') ? [
+    { id: 'studio', label: 'Workflow studio' },
+    { id: 'review-table', label: 'Tabular review' },
+    { id: 'editor', label: 'Source editor' },
+    { id: 'impact', label: 'Capacity model' }
+  ] : document.body.classList.contains('detail-page') ? [
     { id: 'proof', label: 'Room signals' },
     { id: 'product', label: 'Lex room' },
     { id: 'evidence', label: 'Evidence ledger' },
@@ -1799,6 +1805,82 @@
       }
     });
   });
+
+  const reviewTable = document.querySelector('[data-review-table]');
+  if (reviewTable) {
+    const reviewFilters = [...reviewTable.querySelectorAll('[data-review-filter]')];
+    const reviewRows = [...reviewTable.querySelectorAll('[data-review-row]')];
+    const reviewEmpty = reviewTable.querySelector('[data-review-empty]');
+    const reviewSummary = reviewTable.querySelector('[data-review-summary]');
+    const reviewDetail = reviewTable.querySelector('[data-review-detail]');
+    const reviewDetailType = reviewTable.querySelector('[data-review-detail-type]');
+    const reviewDetailState = reviewTable.querySelector('[data-review-detail-state]');
+    const reviewDetailTitle = reviewTable.querySelector('[data-review-detail-title]');
+    const reviewDetailCopy = reviewTable.querySelector('[data-review-detail-copy]');
+    const reviewDetailSource = reviewTable.querySelector('[data-review-detail-source]');
+    const reviewDetailSpan = reviewTable.querySelector('[data-review-detail-span]');
+    const reviewDetailOwner = reviewTable.querySelector('[data-review-detail-owner]');
+    const reviewDetailAction = reviewTable.querySelector('[data-review-detail-action]');
+    const reviewStage = reviewTable.querySelector('[data-review-stage]');
+    const reviewStageStatus = reviewTable.querySelector('[data-review-stage-status]');
+    const reviewDetails = {
+      consent: { type: 'OPEN ITEM / SOURCE TRACE', state: 'NEEDS REVIEW', title: 'Supplier consent', copy: 'The top five suppliers may require notice before closing. Lex kept the issue open because the consent language is split across the tracker and the change-of-control clause.', source: 'Diligence Tracker', span: 'Open items / 04', owner: 'J. Chen' },
+      cap: { type: 'VERIFIED / SOURCE TRACE', state: 'VERIFIED', title: 'Liability cap', copy: 'The revised cap is two times the fees paid under the agreement. The change is linked to the comparison run and the closing recommendation.', source: 'Merger Agreement', span: '§ 7.4 / Limitation', owner: 'M. Chen' },
+      dpa: { type: 'OPEN ITEM / SOURCE TRACE', state: 'NEEDS REVIEW', title: 'Subprocessor schedule', copy: 'The data processing addendum references a schedule that needs to be checked against the approved subprocessor list before execution.', source: 'Disclosure Schedule', span: '§ 12 / Data processing', owner: 'A. Rao' },
+      board: { type: 'VERIFIED / SOURCE TRACE', state: 'VERIFIED', title: 'Board approval', copy: 'Counsel correspondence confirms the approval memo is source-linked and ready for the closing checklist.', source: 'Counsel Thread', span: 'Thread 08 / Approval', owner: 'J. Chen' }
+    };
+    let reviewFilter = 'all';
+    let selectedReview = 'consent';
+    const selectReview = (key) => {
+      const data = reviewDetails[key] || reviewDetails.consent;
+      selectedReview = key;
+      reviewRows.forEach((row) => {
+        const active = row.dataset.reviewRow === key;
+        row.classList.toggle('is-selected', active);
+        row.setAttribute('aria-expanded', String(active));
+      });
+      if (reviewDetailType) reviewDetailType.textContent = data.type;
+      if (reviewDetailState) reviewDetailState.textContent = data.state;
+      if (reviewDetailTitle) reviewDetailTitle.textContent = data.title;
+      if (reviewDetailCopy) reviewDetailCopy.textContent = data.copy;
+      if (reviewDetailSource) reviewDetailSource.textContent = data.source;
+      if (reviewDetailSpan) reviewDetailSpan.textContent = data.span;
+      if (reviewDetailOwner) reviewDetailOwner.textContent = data.owner;
+      reviewDetail?.classList.remove('is-changing');
+      window.requestAnimationFrame(() => reviewDetail?.classList.add('is-changing'));
+      window.setTimeout(() => reviewDetail?.classList.remove('is-changing'), 260);
+      if (reviewDetailAction) {
+        reviewDetailAction.disabled = false;
+        reviewDetailAction.innerHTML = 'Open source trace <span aria-hidden="true">&#8599;</span>';
+      }
+    };
+    const renderReviewRows = (filter = reviewFilter) => {
+      reviewFilter = filter;
+      reviewFilters.forEach((button) => {
+        const active = button.dataset.reviewFilter === filter;
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-selected', String(active));
+      });
+      const visibleRows = reviewRows.filter((row) => filter === 'all' || row.dataset.reviewState === filter);
+      reviewRows.forEach((row) => { row.hidden = !visibleRows.includes(row); });
+      if (reviewEmpty) reviewEmpty.hidden = visibleRows.length > 0;
+      if (reviewSummary) reviewSummary.textContent = `${String(visibleRows.length).padStart(2, '0')} rows / 0 B outbound`;
+      if (!visibleRows.some((row) => row.dataset.reviewRow === selectedReview)) selectReview(visibleRows[0]?.dataset.reviewRow || 'consent');
+    };
+    reviewFilters.forEach((button) => button.addEventListener('click', () => renderReviewRows(button.dataset.reviewFilter)));
+    reviewRows.forEach((row) => row.addEventListener('click', () => selectReview(row.dataset.reviewRow)));
+    reviewDetailAction?.addEventListener('click', () => {
+      reviewDetailAction.disabled = true;
+      reviewDetailAction.innerHTML = 'Source trace selected <span aria-hidden="true">&#10003;</span>';
+      if (reviewDetailState) reviewDetailState.textContent = 'TRACE OPEN';
+    });
+    reviewStage?.addEventListener('click', () => {
+      reviewStage.disabled = true;
+      reviewStage.textContent = 'Packet staged';
+      if (reviewStageStatus) reviewStageStatus.textContent = 'STAGED LOCALLY';
+    });
+    renderReviewRows('all');
+  }
 
   const solutionTabs = [...document.querySelectorAll('[data-solution-tab]')];
   const solutionPanels = [...document.querySelectorAll('[data-solution-panel]')];
