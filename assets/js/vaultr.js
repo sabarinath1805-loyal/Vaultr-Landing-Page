@@ -309,6 +309,7 @@
   if (verificationLab) {
     const verificationChecks = [...verificationLab.querySelectorAll('[data-verification-check]')];
     const verificationRun = verificationLab.querySelector('[data-verification-run]');
+    const verificationExport = verificationLab.querySelector('[data-verification-export]');
     const verificationStatus = verificationLab.querySelector('[data-verification-status]');
     const verificationResult = verificationLab.querySelector('[data-verification-result]');
     const verificationCopy = verificationLab.querySelector('[data-verification-copy]');
@@ -330,6 +331,11 @@
       if (verificationRun) {
         verificationRun.disabled = false;
         verificationRun.classList.remove('is-running');
+      }
+      if (verificationExport) {
+        verificationExport.disabled = true;
+        verificationExport.classList.remove('is-ready');
+        verificationExport.innerHTML = 'Download local check <span aria-hidden="true">↓</span>';
       }
     };
     verificationRun?.addEventListener('click', () => {
@@ -362,10 +368,40 @@
             if (verificationStatus) verificationStatus.textContent = 'VERIFICATION COMPLETE / 4 CHECKS';
             if (verificationResult) verificationResult.textContent = 'The room is ready for a human review.';
             if (verificationCopy) verificationCopy.textContent = 'Bring the output into your deployment brief, then validate the same boundary against your own environment.';
+            if (verificationExport) {
+              verificationExport.disabled = false;
+              verificationExport.classList.add('is-ready');
+            }
           }
         }, 390 + index * 270);
         verificationTimers.push(completeTimer);
       });
+    });
+    verificationExport?.addEventListener('click', () => {
+      const packet = [
+        'VAULTR / LOCAL BOUNDARY CHECK',
+        `Generated: ${new Date().toISOString()}`,
+        'Status: verification complete / 4 checks',
+        'Profile: validate against your deployment brief',
+        '',
+        '01 / Runtime selected — PASS',
+        '02 / Outbound path — PASS',
+        '03 / Evidence linked — PASS',
+        '04 / Owner assigned — PASS',
+        '',
+        'This local packet is an illustrative review aid, not a certification or customer result.'
+      ].join('\n');
+      try {
+        const url = URL.createObjectURL(new Blob([packet], { type: 'text/plain;charset=utf-8' }));
+        const anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = 'vaultr-boundary-check.txt';
+        anchor.click();
+        window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+        verificationExport.innerHTML = 'Packet downloaded locally <span aria-hidden="true">✓</span>';
+      } catch (error) {
+        verificationExport.textContent = 'Download unavailable in this browser';
+      }
     });
     resetVerification();
   }

@@ -4475,11 +4475,17 @@ body:not(.detail-page) .features .feature h3 { color: var(--forest); }
 .verification-lab__summary > span { color: rgba(240, 237, 232, .56); font-size: 9px; font-weight: 700; letter-spacing: .15em; }
 .verification-lab__summary > strong { max-width: 360px; margin-top: 38px; color: #f0ede8; font-family: var(--serif); font-size: clamp(34px, 4vw, 54px); font-weight: 400; line-height: .92; letter-spacing: -.045em; }
 .verification-lab__summary > p { max-width: 350px; margin: 20px 0 0; color: rgba(240, 237, 232, .68); font-size: 13px; line-height: 1.55; }
-.verification-lab__run { display: inline-flex; align-items: center; justify-content: space-between; gap: 22px; width: fit-content; min-height: 42px; margin-top: auto; padding: 0 14px; border: 1px solid #f0ede8; background: #f0ede8; color: var(--forest); cursor: pointer; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; transition: border-color .25s, background .25s, transform .25s; }
+.verification-lab__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: auto; }
+.verification-lab__run { display: inline-flex; align-items: center; justify-content: space-between; gap: 22px; width: fit-content; min-height: 42px; margin-top: 0; padding: 0 14px; border: 1px solid #f0ede8; background: #f0ede8; color: var(--forest); cursor: pointer; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; transition: border-color .25s, background .25s, transform .25s; }
 .verification-lab__run:hover,
 .verification-lab__run:focus-visible { border-color: var(--gold); background: var(--gold); outline: none; transform: translateY(-2px); }
 .verification-lab__run:disabled { cursor: wait; opacity: .7; transform: none; }
 .verification-lab__run.is-running span { animation: verificationArrow .7s ease-in-out infinite; }
+.verification-lab__export { display: inline-flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 42px; padding: 0 12px; border: 1px solid rgba(240,237,232,.28); background: transparent; color: rgba(240,237,232,.74); cursor: pointer; font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; transition: border-color .25s, color .25s, background .25s, transform .25s; }
+.verification-lab__export:hover,
+.verification-lab__export:focus-visible { border-color: var(--gold); background: rgba(201,168,76,.12); color: #f0ede8; outline: none; transform: translateY(-2px); }
+.verification-lab__export:disabled { cursor: not-allowed; opacity: .42; transform: none; }
+.verification-lab__export.is-ready { border-color: rgba(138,179,141,.58); color: #b9d0bb; }
 .verification-lab__summary > small { margin-top: 15px; color: rgba(240, 237, 232, .4); font-size: 9px; line-height: 1.4; }
 @keyframes verificationArrow { 50% { transform: translateX(4px); } }
 @media (max-width: 760px) {
@@ -4492,7 +4498,9 @@ body:not(.detail-page) .features .feature h3 { color: var(--forest); }
   .verification-lab__checks { padding: 16px; }
   .verification-lab__summary { min-height: 350px; padding: 27px 20px 22px; }
   .verification-lab__summary > strong { margin-top: 31px; font-size: 45px; }
-  .verification-lab__run { width: 100%; }
+  .verification-lab__actions { align-items: stretch; flex-direction: column; }
+  .verification-lab__run,
+  .verification-lab__export { width: 100%; }
 }
 
 /* Workflow composer: make the agent route concrete before the run begins. */
