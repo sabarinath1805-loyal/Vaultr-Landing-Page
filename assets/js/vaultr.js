@@ -308,6 +308,75 @@
     resetVerification();
   }
 
+  const workflowComposer = document.querySelector('[data-workflow-composer]');
+  if (workflowComposer) {
+    const composerCatalog = {
+      sources: { label: 'Source set', copy: 'Attach matter files' },
+      extract: { label: 'Extract', copy: 'Pull the relevant facts' },
+      compare: { label: 'Compare', copy: 'Surface the material delta' },
+      review: { label: 'Review gate', copy: 'Leave the call with counsel' },
+      approve: { label: 'Sign-off', copy: 'Assign the next owner' }
+    };
+    const composerSequence = workflowComposer.querySelector('[data-composer-sequence]');
+    const composerStatus = workflowComposer.querySelector('[data-composer-status]');
+    const composerTitle = workflowComposer.querySelector('[data-composer-title]');
+    const composerCopy = workflowComposer.querySelector('[data-composer-copy]');
+    const composerFoot = workflowComposer.querySelector('[data-composer-foot]');
+    const composerRun = workflowComposer.querySelector('[data-composer-run]');
+    const composerAddButtons = [...workflowComposer.querySelectorAll('[data-composer-add]')];
+    let composerSteps = ['sources', 'review'];
+    let composerTimer;
+    const renderComposer = () => {
+      if (!composerSequence) return;
+      composerSequence.innerHTML = composerSteps.length
+        ? composerSteps.map((key, index) => {
+          const step = composerCatalog[key];
+          return `<div class="composer-step" role="listitem"><span>0${index + 1}</span><div><strong>${step.label}</strong><small>${step.copy}</small></div><button type="button" aria-label="Remove ${step.label}" data-composer-remove="${key}">×</button></div>`;
+        }).join('')
+        : '<p class="composer-empty">Add a step to start the route.</p>';
+      composerAddButtons.forEach((button) => {
+        const added = composerSteps.includes(button.dataset.composerAdd);
+        button.classList.toggle('is-added', added);
+        button.setAttribute('aria-pressed', String(added));
+      });
+      composerSequence.querySelectorAll('[data-composer-remove]').forEach((button) => button.addEventListener('click', () => {
+        composerSteps = composerSteps.filter((step) => step !== button.dataset.composerRemove);
+        renderComposer();
+      }));
+      if (composerFoot) composerFoot.textContent = `${composerSteps.length} STEPS / 0 B OUTBOUND`;
+      if (composerTitle) composerTitle.textContent = composerSteps.length ? `Compose a ${composerSteps.length}-step private run.` : 'Start with the route.';
+      if (composerCopy) composerCopy.textContent = composerSteps.length ? 'Choose the steps counsel wants to see. The route stays explicit before Lex takes action.' : 'Add a source set, a review gate, or a sign-off before previewing the run.';
+      if (composerRun) composerRun.disabled = composerSteps.length < 2;
+    };
+    composerAddButtons.forEach((button) => button.addEventListener('click', () => {
+      const step = button.dataset.composerAdd;
+      if (composerSteps.includes(step)) {
+        composerSteps = composerSteps.filter((item) => item !== step);
+      } else if (composerSteps.length < 5) {
+        composerSteps = [...composerSteps, step];
+      }
+      if (composerStatus) composerStatus.textContent = 'READY TO BUILD';
+      renderComposer();
+    }));
+    composerRun?.addEventListener('click', () => {
+      window.clearTimeout(composerTimer);
+      composerRun.disabled = true;
+      composerRun.classList.add('is-running');
+      if (composerStatus) composerStatus.textContent = 'PREVIEWING LOCAL RUN…';
+      if (composerTitle) composerTitle.textContent = 'The route is ready for review.';
+      if (composerCopy) composerCopy.textContent = 'Lex will follow each visible step, pause at the review gate, and leave the result attached to its sources.';
+      composerSequence?.classList.add('is-running');
+      composerTimer = window.setTimeout(() => {
+        composerRun.disabled = false;
+        composerRun.classList.remove('is-running');
+        composerSequence?.classList.remove('is-running');
+        if (composerStatus) composerStatus.textContent = 'PREVIEW COMPLETE / 0 B OUTBOUND';
+        if (composerFoot) composerFoot.textContent = `${composerSteps.length} STEPS / READY FOR COUNSEL`;
+      }, 980);
+    });
+    renderComposer();
+  }
+
   const setMenu = (open) => {
     menuButton?.setAttribute('aria-expanded', String(open));
     menuButton?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');

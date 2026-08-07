@@ -24,8 +24,8 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preload" as="image" href="assets/images/monet-sunrise-display.jpg" fetchpriority="high">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=verification-1">
-  <script defer src="assets/js/vaultr.js?v=verification-1"></script>
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=composer-1">
+  <script defer src="assets/js/vaultr.js?v=composer-1"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Vaultr Workflow Studio","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/workflows.html","isPartOf":{"@type":"WebSite","name":"Vaultr","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/"}}</script>
 </head>
 <body class="detail-page workflow-page">
@@ -116,19 +116,37 @@
           <div><p class="section-kicker reveal">01 / LIVE WORKSPACE</p><h2 class="reveal">From clause to confidence.</h2></div>
           <p class="reveal">Choose a workflow below. The state is illustrative, but the operating principle is real: every action is local, supervised, and source-linked.</p>
         </div>
+        <div class="workflow-composer reveal" data-workflow-composer>
+          <div class="workflow-composer__head"><span>WORKFLOW COMPOSER / NO CODE</span><span><i></i> LOCAL RUN</span></div>
+          <div class="workflow-composer__body">
+            <div class="workflow-composer__library">
+              <span class="workflow-composer__label">ADD A CONTROLLED STEP</span>
+              <button type="button" data-composer-add="sources"><b>01</b><span>Source set<small>Attach matter files</small></span><i aria-hidden="true">+</i></button>
+              <button type="button" data-composer-add="extract"><b>02</b><span>Extract<small>Pull the relevant facts</small></span><i aria-hidden="true">+</i></button>
+              <button type="button" data-composer-add="compare"><b>03</b><span>Compare<small>Surface the material delta</small></span><i aria-hidden="true">+</i></button>
+              <button type="button" data-composer-add="review"><b>04</b><span>Review gate<small>Leave the call with counsel</small></span><i aria-hidden="true">+</i></button>
+              <button type="button" data-composer-add="approve"><b>05</b><span>Sign-off<small>Assign the next owner</small></span><i aria-hidden="true">+</i></button>
+            </div>
+            <div class="workflow-composer__canvas">
+              <div class="workflow-composer__canvas-head"><div><span data-composer-status>READY TO BUILD</span><strong data-composer-title>Compose a private run.</strong><p data-composer-copy>Choose the steps counsel wants to see. The route stays explicit before Lex takes action.</p></div><span class="workflow-composer__disclosure">Illustrative</span></div>
+              <div class="workflow-composer__sequence" role="list" aria-live="polite" data-composer-sequence></div>
+              <div class="workflow-composer__foot"><span data-composer-foot>2 STEPS / 0 B OUTBOUND</span><button type="button" data-composer-run>Preview local run <span aria-hidden="true">→</span></button></div>
+            </div>
+          </div>
+        </div>
         <div class="workflow-shell reveal">
           <div class="workflow-switcher" role="tablist" aria-label="Workflow examples">
-            <button class="workflow-tab is-active" id="workflow-tab-redline" type="button" role="tab" aria-controls="workflow-redline" aria-selected="true" tabindex="0" data-workflow-tab="redline">Redline review <span>01</span></button>
-            <button class="workflow-tab" id="workflow-tab-diligence" type="button" role="tab" aria-controls="workflow-diligence" aria-selected="false" tabindex="-1" data-workflow-tab="diligence">Diligence board <span>02</span></button>
+            <button class="workflow-tab is-active" id="archive-workflow-tab-redline" type="button" role="tab" aria-controls="archive-workflow-redline" aria-selected="true" tabindex="0" data-workflow-tab="redline">Redline review <span>01</span></button>
+            <button class="workflow-tab" id="archive-workflow-tab-diligence" type="button" role="tab" aria-controls="archive-workflow-diligence" aria-selected="false" tabindex="-1" data-workflow-tab="diligence">Diligence board <span>02</span></button>
           </div>
-          <div class="workflow-panel is-active" id="workflow-redline" role="tabpanel" aria-labelledby="workflow-tab-redline" data-workflow-panel="redline">
+          <div class="workflow-panel is-active" id="archive-workflow-redline" role="tabpanel" aria-labelledby="archive-workflow-tab-redline" data-workflow-panel="redline">
             <div class="workflow-panel__header"><span>MATTER / NORTHSTAR ACQUISITION</span><span class="surface-disclosure">Illustrative</span><span class="workflow-panel__status"><i></i> LOCAL RUN</span></div>
             <div class="redline-layout">
               <div class="redline-clause"><span class="workflow-label">CLAUSE 7.4 / LIMITATION OF LIABILITY</span><p class="redline-clause__text">The aggregate liability of either party shall not exceed <del>the fees paid in the preceding twelve months</del> <ins>two times the fees paid under this Agreement</ins>.</p><div class="redline-note"><span>RISK / MEDIUM</span><p>Cap increased from one year of fees. Lex traced the change to the prior draft and flagged the counterparty's position.</p></div></div>
               <aside class="workflow-sidebar"><div class="workflow-metric"><strong>03</strong><span>Changes found</span></div><div class="workflow-metric"><strong>02</strong><span>Sources linked</span></div><div class="workflow-metric"><strong>0 B</strong><span>Sent outside</span></div><button class="workflow-action" type="button" data-redline-action>Accept in local draft <span aria-hidden="true">↗</span></button><p class="workflow-action-status" data-redline-status aria-live="polite">Nothing leaves this room.</p></aside>
             </div>
           </div>
-          <div class="workflow-panel" id="workflow-diligence" role="tabpanel" aria-labelledby="workflow-tab-diligence" data-workflow-panel="diligence" hidden>
+          <div class="workflow-panel" id="archive-workflow-diligence" role="tabpanel" aria-labelledby="archive-workflow-tab-diligence" data-workflow-panel="diligence" hidden>
             <div class="workflow-panel__header"><span>MATTER / NORTHSTAR ACQUISITION</span><span class="surface-disclosure">Illustrative</span><span class="workflow-panel__status"><i></i> 18 OPEN ITEMS</span></div>
             <div class="diligence-board"><div class="diligence-column"><div class="diligence-column__head"><span>Open</span><strong>01</strong></div><article class="diligence-card" data-diligence-card aria-live="polite"><span class="diligence-card__tag">CONSENT</span><h3>Change-of-control consent</h3><p>Confirm whether the top five suppliers require notice before closing.</p><button type="button" data-diligence-action>Review item <span aria-hidden="true">→</span></button></article></div><div class="diligence-column"><div class="diligence-column__head"><span>In review</span><strong>04</strong></div><article class="diligence-card diligence-card--quiet"><span class="diligence-card__tag">PRIVACY</span><h3>Data processing addendum</h3><p>Cross-reference subprocessors against the approved schedule.</p><span class="diligence-card__owner">Assigned / J. Chen</span></article></div><div class="diligence-column"><div class="diligence-column__head"><span>Verified</span><strong>13</strong></div><article class="diligence-card diligence-card--verified"><span class="diligence-card__tag">APPROVED</span><h3>Board approval memo</h3><p>Source-linked and ready for the closing checklist.</p><span class="diligence-card__owner">Verified locally / 09:42</span></article></div></div>
           </div>
