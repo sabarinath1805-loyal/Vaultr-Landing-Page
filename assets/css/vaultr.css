@@ -4572,3 +4572,17 @@ body:not(.detail-page) .features .feature h3 { color: var(--forest); }
   .workflow-composer__foot { align-items: flex-start; flex-direction: column; }
   .workflow-composer__foot button { width: 100%; }
 }
+
+/* Local evidence handoff: give a review team a useful next action without cloud routing. */
+.evidence-ledger__panel-foot { flex-wrap: wrap; gap: 12px; }
+.evidence-ledger__export { display: inline-flex; align-items: center; gap: 7px; margin-left: auto; padding: 0; border: 0; background: transparent; color: var(--sage); cursor: pointer; font: inherit; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.evidence-ledger__export span { font-size: 15px; font-weight: 400; transition: transform .25s var(--ease); }
+.evidence-ledger__export:hover span,
+.evidence-ledger__export:focus-visible span { transform: translateY(3px); }
+.evidence-ledger__export:hover,
+.evidence-ledger__export:focus-visible { color: var(--gold); outline: none; }
+.evidence-ledger__export.is-ready { color: #6a9a75; }
+@media (max-width: 640px) {
+  .evidence-ledger__panel-foot { align-items: flex-start; flex-direction: column; }
+  .evidence-ledger__export { margin-left: 0; }
+}

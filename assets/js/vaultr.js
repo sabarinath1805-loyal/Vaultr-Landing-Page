@@ -1197,6 +1197,40 @@
   const initialEvidence = readQueryState('evidence');
   if (initialEvidence && evidenceFilters.some((tab) => tab.dataset.evidenceFilter === initialEvidence)) setEvidenceFilter(initialEvidence);
 
+  const evidenceExport = document.querySelector('[data-evidence-export]');
+  let evidenceExportTimer;
+  evidenceExport?.addEventListener('click', () => {
+    evidenceExport.classList.add('is-ready');
+    evidenceExport.innerHTML = 'Packet staged locally / 0 B outbound <span aria-hidden="true">✓</span>';
+    const packetRows = evidenceRows.filter((row) => !row.hidden).map((row) => {
+      const data = evidenceDetailData[row.dataset.evidenceKey];
+      return `${data.source} | ${data.span} | ${data.state} | ${data.confidence}\n${data.copy}`;
+    });
+    const packet = [
+      'VAULTR / LOCAL REVIEW PACKET',
+      'Matter: Northstar Acquisition',
+      'Boundary: outbound_network denied',
+      'Status: prepared locally / 0 B outbound',
+      '',
+      ...packetRows.flatMap((row, index) => [`${String(index + 1).padStart(2, '0')} / ${row}`, ''])
+    ].join('\n');
+    try {
+      const url = URL.createObjectURL(new Blob([packet], { type: 'text/plain;charset=utf-8' }));
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = 'vaultr-local-review-packet.txt';
+      anchor.click();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch (error) {
+      // Keep the staged state visible when a browser blocks local downloads.
+    }
+    window.clearTimeout(evidenceExportTimer);
+    evidenceExportTimer = window.setTimeout(() => {
+      evidenceExport.classList.remove('is-ready');
+      evidenceExport.innerHTML = 'Stage local packet <span aria-hidden="true">↓</span>';
+    }, 4200);
+  });
+
   const commandTabs = [...document.querySelectorAll('[data-command-range]')];
   const commandDashboard = document.querySelector('#command-dashboard');
   commandDashboard?.setAttribute('aria-live', 'polite');
