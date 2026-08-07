@@ -386,9 +386,13 @@
     knowledgeSearch?.addEventListener('input', () => renderKnowledge());
     knowledgeUse?.addEventListener('click', () => {
       const content = knowledgeData[knowledgeActiveKey] || knowledgeData.liability;
-      if (knowledgeUseStatus) knowledgeUseStatus.textContent = `${content.title} added to a local workflow.`;
+      if (knowledgeUseStatus) knowledgeUseStatus.textContent = `Opening Workflow Studio with ${content.title}…`;
       if (knowledgeFoot) knowledgeFoot.textContent = 'Source set staged / 0 B outbound';
       knowledgeUse.disabled = true;
+      const workflowUrl = new URL('workflows.html', window.location.href);
+      workflowUrl.searchParams.set('source', knowledgeActiveKey);
+      workflowUrl.hash = 'studio';
+      window.setTimeout(() => { window.location.href = workflowUrl.toString(); }, 320);
     });
     const initialKnowledge = readQueryState('knowledge');
     renderKnowledge(initialKnowledge && knowledgeFilters.some((tab) => tab.dataset.knowledgeFilter === initialKnowledge) ? initialKnowledge : 'all');
@@ -826,10 +830,19 @@
       approve: { label: 'Sign-off', copy: 'Assign the next owner' },
       branch: { label: 'Decision branch', copy: 'Route by risk threshold' }
     };
+    const composerSourceSets = {
+      liability: { title: 'Northstar liability playbook', copy: 'Northstar liability playbook / staged locally' },
+      meridian: { title: 'Meridian employment set', copy: 'Meridian employment set / staged locally' },
+      consent: { title: 'Supplier consent library', copy: 'Supplier consent library / staged locally' },
+      privacy: { title: 'Privacy and AI policy', copy: 'Privacy and AI policy / staged locally' }
+    };
+    const importedSource = composerSourceSets[readQueryState('source')];
+    if (importedSource) composerCatalog.sources.copy = importedSource.copy;
     const composerSequence = workflowComposer.querySelector('[data-composer-sequence]');
     const composerStatus = workflowComposer.querySelector('[data-composer-status]');
     const composerTitle = workflowComposer.querySelector('[data-composer-title]');
     const composerCopy = workflowComposer.querySelector('[data-composer-copy]');
+    const composerDisclosure = workflowComposer.querySelector('[data-composer-disclosure]');
     const composerFoot = workflowComposer.querySelector('[data-composer-foot]');
     const composerRun = workflowComposer.querySelector('[data-composer-run]');
     const composerAddButtons = [...workflowComposer.querySelectorAll('[data-composer-add]')];
@@ -876,8 +889,8 @@
       if (composerStatus) composerStatus.textContent = 'PREVIEWING LOCAL RUN…';
       if (composerTitle) composerTitle.textContent = 'The route is ready for review.';
       if (composerCopy) composerCopy.textContent = composerSteps.includes('branch')
-        ? 'Lex will evaluate the visible threshold, route the run, pause at the review gate, and leave each outcome attached to its sources.'
-        : 'Lex will follow each visible step, pause at the review gate, and leave the result attached to its sources.';
+        ? `Lex will evaluate the visible threshold${importedSource ? ` using ${importedSource.title}` : ''}, route the run, pause at the review gate, and leave each outcome attached to its sources.`
+        : `Lex will follow each visible step${importedSource ? ` using ${importedSource.title}` : ''}, pause at the review gate, and leave the result attached to its sources.`;
       composerSequence?.classList.add('is-running');
       composerTimer = window.setTimeout(() => {
         composerRun.disabled = false;
@@ -888,6 +901,14 @@
       }, 980);
     });
     renderComposer();
+    if (importedSource) {
+      if (composerStatus) composerStatus.textContent = 'SOURCE SET IMPORTED';
+      if (composerCopy) composerCopy.textContent = `${importedSource.title} is staged as the first step. Add a review gate, branch, or sign-off before previewing the run.`;
+      if (composerDisclosure) {
+        composerDisclosure.textContent = 'Source imported';
+        composerDisclosure.classList.add('is-imported');
+      }
+    }
   }
 
   const editorRoom = document.querySelector('[data-editor-room]');

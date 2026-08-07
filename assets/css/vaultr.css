@@ -4654,6 +4654,7 @@ body:not(.detail-page) .features .feature h3 { color: var(--forest); }
 .workflow-composer__canvas-head strong { display: block; margin-top: 17px; color: var(--ink); font-family: var(--serif); font-size: clamp(33px, 4vw, 53px); font-weight: 400; line-height: .92; letter-spacing: -.045em; }
 .workflow-composer__canvas-head p { max-width: 410px; margin: 17px 0 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
 .workflow-composer__disclosure { flex: 0 0 auto; padding: 7px 9px; border: 1px solid rgba(45, 74, 62, .16); color: #69766e; font-size: 8px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.workflow-composer__disclosure.is-imported { border-color: rgba(201, 168, 76, .52); background: rgba(201, 168, 76, .1); color: var(--forest); }
 .workflow-composer__sequence { display: grid; gap: 7px; margin: 30px 0 24px; padding: 12px; border: 1px dashed rgba(45, 74, 62, .24); background: #f7f8f5; transition: border-color .25s, background .25s; }
 .workflow-composer__sequence.is-running { border-color: rgba(201, 168, 76, .72); background: rgba(201, 168, 76, .08); }
 .composer-step { display: grid; grid-template-columns: 28px 1fr auto; align-items: center; gap: 11px; min-height: 54px; padding: 9px 11px; border: 1px solid rgba(45, 74, 62, .16); background: #fff; }
