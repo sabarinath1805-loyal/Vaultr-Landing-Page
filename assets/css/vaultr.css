@@ -1921,6 +1921,15 @@ tbody tr:nth-child(even) { background: #fafbf8; }
 .command-card__heading a { color: var(--sage); font-size: 9px; letter-spacing: .08em; }
 .command-card__heading > span:last-child { color: #69766e; font-size: 9px; font-weight: 500; }
 .command-audit-count { margin-left: 7px; color: #89948c; font-size: 8px; font-weight: 600; letter-spacing: .08em; }
+.command-audit-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 14px; }
+.command-audit-filter,
+.command-audit-action { min-height: 27px; padding: 0 8px; border: 1px solid rgba(45, 74, 62, .17); background: #f7f8f5; color: var(--sage); cursor: pointer; font: inherit; font-size: 8px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
+.command-audit-filter { min-width: 100px; }
+.command-audit-filter:focus-visible,
+.command-audit-action:focus-visible,
+.command-audit-action:hover { border-color: var(--gold); background: var(--gold); color: var(--ink); outline: none; }
+.command-audit-action.is-quiet { background: transparent; color: #69766e; }
+.command-audit-empty { margin: 18px 0 0; color: #69766e; font-size: 10px; }
 .command-activity { display: grid; gap: 0; margin-top: 17px; }
 .command-activity > div { display: grid; grid-template-columns: 10px 1fr auto; align-items: center; gap: 10px; padding: 14px 0; border-top: 1px solid rgba(0, 0, 0, .08); }
 .activity-dot { width: 6px; height: 6px; border-radius: 50%; background: #a8b4ad; }

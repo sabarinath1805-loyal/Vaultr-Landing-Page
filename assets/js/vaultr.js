@@ -3594,10 +3594,32 @@
   const commandActivity = document.querySelector('.command-card--activity .command-activity');
   if (commandActivity) {
     const commandActivityFallback = commandActivity.innerHTML;
-    const commandActivityHeading = commandActivity.closest('.command-card')?.querySelector('.command-card__heading > span');
+    const commandActivityCard = commandActivity.closest('.command-card');
+    const commandActivityHeading = commandActivityCard?.querySelector('.command-card__heading > span');
     const commandAuditCount = document.createElement('small');
     commandAuditCount.className = 'command-audit-count';
     commandActivityHeading?.append(' ', commandAuditCount);
+    const commandAuditToolbar = document.createElement('div');
+    commandAuditToolbar.className = 'command-audit-toolbar';
+    const commandAuditFilter = document.createElement('select');
+    commandAuditFilter.className = 'command-audit-filter';
+    commandAuditFilter.setAttribute('aria-label', 'Filter local audit events');
+    [['all', 'All events'], ['review', 'Review'], ['staged', 'Staged'], ['approved', 'Approved'], ['local', 'Local']].forEach(([value, label]) => {
+      const option = document.createElement('option');
+      option.value = value;
+      option.textContent = label;
+      commandAuditFilter.append(option);
+    });
+    const commandAuditExport = document.createElement('button');
+    commandAuditExport.type = 'button';
+    commandAuditExport.className = 'command-audit-action';
+    commandAuditExport.textContent = 'Export local';
+    const commandAuditClear = document.createElement('button');
+    commandAuditClear.type = 'button';
+    commandAuditClear.className = 'command-audit-action is-quiet';
+    commandAuditClear.textContent = 'Clear';
+    commandAuditToolbar.append(commandAuditFilter, commandAuditExport, commandAuditClear);
+    commandActivity.before(commandAuditToolbar);
     const escapeAuditText = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
     const formatAuditTime = (value) => {
       const timestamp = Date.parse(value);
@@ -3607,13 +3629,41 @@
       if (minutes < 60) return `${minutes} min ago`;
       return new Intl.DateTimeFormat('en', { hour: 'numeric', minute: '2-digit' }).format(new Date(timestamp));
     };
+    let commandAuditActiveFilter = 'all';
     const renderCommandActivity = () => {
       const events = readAuditEvents();
+      const filtered = commandAuditActiveFilter === 'all' ? events : events.filter((event) => String(event.state || 'local').toLowerCase() === commandAuditActiveFilter);
       if (commandAuditCount) commandAuditCount.textContent = events.length ? `${String(events.length).padStart(2, '0')} local events` : '03 baseline signals';
-      commandActivity.innerHTML = events.length
-        ? events.slice(0, 3).map((event) => `<div><span class="activity-dot activity-dot--${escapeAuditText(event.tone || 'green')}"></span><p><strong>${escapeAuditText(event.title)}</strong><small>${escapeAuditText(event.context || 'Vaultr local runtime')} / ${escapeAuditText(formatAuditTime(event.at))}</small></p><em>${escapeAuditText(event.state || 'Local')}</em></div>`).join('')
-        : commandActivityFallback;
+      commandActivity.innerHTML = filtered.length
+        ? filtered.slice(0, 5).map((event) => {
+          const tone = event.tone === 'gold' ? 'gold' : 'green';
+          return `<div><span class="activity-dot activity-dot--${tone}"></span><p><strong>${escapeAuditText(event.title)}</strong><small>${escapeAuditText(event.context || 'Vaultr local runtime')} / ${escapeAuditText(formatAuditTime(event.at))}</small></p><em>${escapeAuditText(event.state || 'Local')}</em></div>`;
+        }).join('')
+        : events.length ? '<p class="command-audit-empty">No local events match this filter.</p>' : commandActivityFallback;
     };
+    commandAuditFilter.addEventListener('change', () => { commandAuditActiveFilter = commandAuditFilter.value; renderCommandActivity(); });
+    commandAuditExport.addEventListener('click', () => {
+      const events = readAuditEvents();
+      const payload = JSON.stringify({ exportedAt: new Date().toISOString(), boundary: 'local-only / 0 B outbound', events }, null, 2);
+      const url = URL.createObjectURL(new Blob([payload], { type: 'application/json;charset=utf-8' }));
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'vaultr-local-audit.json';
+      document.body.append(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+      commandAuditExport.textContent = 'Exported locally';
+      window.setTimeout(() => { commandAuditExport.textContent = 'Export local'; }, 1600);
+    });
+    commandAuditClear.addEventListener('click', () => {
+      try { window.localStorage.removeItem(auditStorageKey); } catch (error) { /* local-only audit is best effort */ }
+      commandAuditActiveFilter = 'all';
+      commandAuditFilter.value = 'all';
+      renderCommandActivity();
+      commandAuditClear.textContent = 'Cleared';
+      window.setTimeout(() => { commandAuditClear.textContent = 'Clear'; }, 1600);
+    });
     window.addEventListener('vaultr:audit', renderCommandActivity);
     renderCommandActivity();
   }
