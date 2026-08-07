@@ -2768,6 +2768,46 @@
     const lexQuestionStatus = lexQuestion.querySelector('[data-lex-question-status]');
     const lexQuestionApply = lexQuestion.querySelector('[data-lex-question-apply]');
     const lexQuestionChips = [...lexQuestion.querySelectorAll('[data-lex-question-chip]')];
+    const lexThread = lexQuestion.parentElement?.querySelector('[data-lex-thread]');
+    const lexThreadList = lexThread?.querySelector('[data-lex-thread-list]');
+    const lexThreadClear = lexThread?.querySelector('[data-lex-thread-clear]');
+    const lexThreadStorageKey = 'vaultr.lex-thread';
+    let lexThreadEntries = [];
+    try {
+      const storedThread = JSON.parse(window.localStorage.getItem(lexThreadStorageKey) || '[]');
+      if (Array.isArray(storedThread)) lexThreadEntries = storedThread.filter((entry) => entry && typeof entry.question === 'string').slice(0, 5);
+    } catch (error) {
+      lexThreadEntries = [];
+    }
+    const persistLexThread = () => {
+      try { window.localStorage.setItem(lexThreadStorageKey, JSON.stringify(lexThreadEntries)); } catch (error) { /* local-only history is best effort */ }
+    };
+    const renderLexThread = () => {
+      if (!lexThread || !lexThreadList) return;
+      lexThread.hidden = lexThreadEntries.length === 0;
+      lexThreadList.replaceChildren(...lexThreadEntries.map((entry, index) => {
+        const item = document.createElement('li');
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.dataset.lexThreadIndex = String(index);
+        const question = document.createElement('strong');
+        question.textContent = entry.question;
+        const meta = document.createElement('small');
+        meta.textContent = `${entry.state || 'VERIFIED'} · ${entry.answerTitle || 'Answer ready'}`;
+        button.append(question, meta);
+        button.addEventListener('click', () => {
+          if (lexQuestionInput) lexQuestionInput.value = entry.question;
+          runLexQuestion(entry.question);
+        });
+        item.append(button);
+        return item;
+      }));
+    };
+    const addLexThreadEntry = (entry) => {
+      lexThreadEntries = [entry, ...lexThreadEntries.filter((item) => item.question !== entry.question)].slice(0, 5);
+      persistLexThread();
+      renderLexThread();
+    };
     const lexQuestionData = [
       {
         match: ['indemnity', 'cap', 'changed', 'delta'],
@@ -2816,7 +2856,8 @@
         if (request !== lexQuestionRequest) return;
         setLexSourceAnswer(data);
         lexQuestion.classList.remove('is-running');
-        if (lexQuestionStatus) lexQuestionStatus.textContent = `${data.state === 'NEEDS REVIEW' ? 'Review required' : 'Answer grounded'} / 0 B outbound`;
+        addLexThreadEntry({ question: value, answerTitle: data.answerTitle, state: data.state, citation: data.citation });
+        if (lexQuestionStatus) lexQuestionStatus.textContent = `${data.state === 'NEEDS REVIEW' ? 'Review required' : 'Answer grounded'} / 0 B outbound · ${lexThreadEntries.length} in thread`;
         if (lexQuestionApply) lexQuestionApply.disabled = false;
         lexAnswer?.classList.remove('is-changing');
       }, 520);
@@ -2831,6 +2872,14 @@
       if (lexQuestionInput) lexQuestionInput.value = value;
       runLexQuestion(value);
     }));
+    lexThreadClear?.addEventListener('click', () => {
+      lexThreadEntries = [];
+      persistLexThread();
+      renderLexThread();
+      if (lexQuestionStatus) lexQuestionStatus.textContent = 'Local thread cleared / 0 B outbound';
+      lexQuestionInput?.focus();
+    });
+    renderLexThread();
     lexQuestionApply?.addEventListener('click', () => {
       if (lexQuestionApply.disabled) return;
       lexQuestionApply.disabled = true;
