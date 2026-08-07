@@ -2031,9 +2031,9 @@
     <div class="quick-nav" data-command-palette hidden>
       <div class="quick-nav__scrim" data-quick-nav-close></div>
       <section class="quick-nav__panel" role="dialog" aria-modal="true" aria-labelledby="quick-nav-title">
-        <div class="quick-nav__head"><div><span class="quick-nav__eyebrow">VAULTR / QUICK NAVIGATION</span><h2 id="quick-nav-title">Go where the work is.</h2></div><button class="quick-nav__close" type="button" aria-label="Close quick navigation" data-quick-nav-close>Esc</button></div>
+        <div class="quick-nav__head"><div><span class="quick-nav__eyebrow">VAULTR / WORKSPACE INDEX</span><h2 id="quick-nav-title">Find the source. Move the work.</h2></div><button class="quick-nav__close" type="button" aria-label="Close quick navigation" data-quick-nav-close>Esc</button></div>
         <label class="quick-nav__search"><span aria-hidden="true">⌘K</span><input id="quick-nav-search" type="search" autocomplete="off" placeholder="Search matters, sources, and surfaces" aria-label="Search matters, sources, and surfaces"></label>
-        <div class="quick-nav__summary" role="status" aria-live="polite"><div><span class="quick-nav__summary-label">LOCAL WORKSPACE INDEX</span><strong data-quick-nav-count>4 matters · 18 surfaces</strong></div><span class="quick-nav__summary-status"><i aria-hidden="true"></i> 0 B outbound</span></div>
+        <div class="quick-nav__summary" role="status" aria-live="polite"><div><span class="quick-nav__summary-label">LOCAL WORKSPACE INDEX</span><strong data-quick-nav-count>4 matters · 06 sources · 18 surfaces</strong></div><span class="quick-nav__summary-status"><i aria-hidden="true"></i> 0 B outbound</span></div>
         <div class="quick-nav__section">
           <div class="quick-nav__section-head"><span>RECENT MATTERS</span><small>LOCAL / ILLUSTRATIVE</small></div>
           <nav class="quick-nav__items quick-nav__items--matter" aria-label="Local matter index">
@@ -2041,6 +2041,17 @@
             <a href="platform.html#knowledge" data-quick-nav-item data-quick-nav-type="matter" data-quick-nav-keywords="meridian employment precedent agreements annotations in house"><span><strong>Meridian employment</strong><small>18 sources · approved precedent set · owner A. Rao</small></span><kbd>MATTER</kbd></a>
             <a href="platform.html#knowledge" data-quick-nav-item data-quick-nav-type="matter" data-quick-nav-keywords="supplier consent change control notice fallback transactional review"><span><strong>Supplier consent library</strong><small>Reviewed precedent · fallback positions · review required</small></span><kbd>SOURCE</kbd></a>
             <a href="command.html#governance" data-quick-nav-item data-quick-nav-type="matter" data-quick-nav-keywords="privacy ai policy runtime boundary review gate security current"><span><strong>Privacy and AI policy</strong><small>Firm standard · current 05 Aug 2026 · KM / Security</small></span><kbd>POLICY</kbd></a>
+          </nav>
+        </div>
+        <div class="quick-nav__section">
+          <div class="quick-nav__section-head"><span>SOURCE INDEX</span><small>LOCAL CORPUS / NORTHSTAR</small></div>
+          <nav class="quick-nav__items quick-nav__items--matter" aria-label="Local source index">
+            <a href="workflows.html?list=liability#editor" data-quick-nav-item data-quick-nav-type="source" data-quick-nav-keywords="merger agreement liability cap limitation section 7.4 fees signing"><span><strong>Merger Agreement / § 7.4</strong><small>Liability cap · 184 pages · 98% confidence</small></span><kbd>SOURCE</kbd></a>
+            <a href="research.html?monitor=consent#desk" data-quick-nav-item data-quick-nav-type="source" data-quick-nav-keywords="merger agreement change control consent assignment section 9.2 suppliers"><span><strong>Merger Agreement / § 9.2</strong><small>Change-of-control consent · 5 suppliers</small></span><kbd>SOURCE</kbd></a>
+            <a href="workflows.html#review-table" data-quick-nav-item data-quick-nav-type="source" data-quick-nav-keywords="diligence tracker open items supplier consent exceptions closing"><span><strong>Diligence Tracker / Open items</strong><small>04 unresolved items · owner queue</small></span><kbd>SOURCE</kbd></a>
+            <a href="command.html?thread=policy#threads" data-quick-nav-item data-quick-nav-type="source" data-quick-nav-keywords="privacy ai policy approved systems governance section 3 owner security"><span><strong>Privacy &amp; AI Policy / § 3</strong><small>Approved systems · KM / Security</small></span><kbd>SOURCE</kbd></a>
+            <a href="workflows.html?list=board#editor" data-quick-nav-item data-quick-nav-type="source" data-quick-nav-keywords="counsel thread board approval closing memo thread 08"><span><strong>Counsel Thread / 08</strong><small>Board approval · closing checklist</small></span><kbd>SOURCE</kbd></a>
+            <a href="workflows.html?list=insurance#editor" data-quick-nav-item data-quick-nav-type="source" data-quick-nav-keywords="insurance schedule exhibit c certificate diligence missing"><span><strong>Insurance Schedule / Exhibit C</strong><small>Certificate request · L. Grant</small></span><kbd>SOURCE</kbd></a>
           </nav>
         </div>
         <div class="quick-nav__section">
@@ -2116,6 +2127,7 @@
     const query = value.trim().toLowerCase();
     let matches = 0;
     let matters = 0;
+    let sources = 0;
     let surfaces = 0;
     quickNavItems.forEach((item) => {
       const searchText = `${item.textContent} ${item.dataset.quickNavKeywords || ''}`.toLowerCase();
@@ -2124,10 +2136,11 @@
       if (match) {
         matches += 1;
         if (item.dataset.quickNavType === 'matter') matters += 1;
+        else if (item.dataset.quickNavType === 'source') sources += 1;
         else surfaces += 1;
       }
     });
-    if (quickNavCount) quickNavCount.textContent = `${matters} matter${matters === 1 ? '' : 's'} · ${surfaces} surface${surfaces === 1 ? '' : 's'}`;
+    if (quickNavCount) quickNavCount.textContent = `${matters} matter${matters === 1 ? '' : 's'} · ${sources} source${sources === 1 ? '' : 's'} · ${surfaces} surface${surfaces === 1 ? '' : 's'}`;
     if (quickNavEmpty) quickNavEmpty.hidden = matches !== 0;
   };
   quickNavTrigger?.addEventListener('click', () => setQuickNav(true));
