@@ -686,24 +686,51 @@
     const sharedQuestionSpan = sharedSpace.querySelector('[data-shared-question-span]');
     const sharedQuestionStatus = sharedSpace.querySelector('[data-shared-question-status]');
     const sharedQuestionStage = sharedSpace.querySelector('[data-shared-question-stage]');
+    const sharedAccessStage = sharedSpace.querySelector('[data-shared-access-stage]');
+    const sharedAccessStatus = sharedSpace.querySelector('[data-shared-access-status]');
+    const sharedAccessToggles = [...sharedSpace.querySelectorAll('[data-shared-access-toggle]')];
     const sharedTitles = {
       overview: ['ROOM PULSE / 07 MAY 2026', 'One shared record. No version chase.'],
       documents: ['DOCUMENTS / CONTROLLED VIEW', 'Show the work. Withhold the record.'],
       workflows: ['WORKFLOWS / FIRM-POWERED', 'Let the client run the method—not own it.'],
       activity: ['ACTIVITY / AUDIT TRAIL', 'Every permission change has a visible finish line.'],
-      questions: ['QUESTIONS / SCOPED Q&A', 'Let the client ask. Keep the answer reviewable.']
+      questions: ['QUESTIONS / SCOPED Q&A', 'Let the client ask. Keep the answer reviewable.'],
+      access: ['ACCESS / ROLE POLICY', 'Make the boundary a visible artifact.']
     };
     let sharedActive = 'overview';
     const sharedStorageKey = 'vaultr.shared-room';
-    let sharedState = { invite: false, approved: false, questionStaged: false };
+    let sharedState = { invite: false, approved: false, questionStaged: false, accessStaged: false, access: { firm: true, security: true, client: true } };
     try {
       const storedSharedState = JSON.parse(window.localStorage.getItem(sharedStorageKey) || '{}');
-      sharedState = { invite: storedSharedState?.invite === true, approved: storedSharedState?.approved === true, questionStaged: storedSharedState?.questionStaged === true };
+      sharedState = {
+        invite: storedSharedState?.invite === true,
+        approved: storedSharedState?.approved === true,
+        questionStaged: storedSharedState?.questionStaged === true,
+        accessStaged: storedSharedState?.accessStaged === true,
+        access: {
+          firm: storedSharedState?.access?.firm !== false,
+          security: storedSharedState?.access?.security !== false,
+          client: storedSharedState?.access?.client !== false
+        }
+      };
     } catch (error) {
-      sharedState = { invite: false, approved: false, questionStaged: false };
+      sharedState = { invite: false, approved: false, questionStaged: false, accessStaged: false, access: { firm: true, security: true, client: true } };
     }
     const persistSharedState = () => {
       try { window.localStorage.setItem(sharedStorageKey, JSON.stringify(sharedState)); } catch (error) { /* local-only room state is best effort */ }
+    };
+    const reflectAccessState = () => {
+      sharedAccessToggles.forEach((toggle) => {
+        const active = sharedState.access?.[toggle.dataset.sharedAccessToggle] !== false;
+        toggle.setAttribute('aria-pressed', String(active));
+        toggle.textContent = active ? 'Included' : 'Withheld';
+        toggle.closest('[data-shared-access-row]')?.classList.toggle('is-withheld', !active);
+      });
+      if (sharedAccessStage) {
+        sharedAccessStage.disabled = sharedState.accessStaged;
+        sharedAccessStage.innerHTML = sharedState.accessStaged ? 'Policy staged <span aria-hidden="true">&#10003;</span>' : 'Stage access policy <span aria-hidden="true">&#8594;</span>';
+      }
+      if (sharedAccessStatus) sharedAccessStatus.textContent = sharedState.accessStaged ? 'Policy staged locally. Counsel review is still required before invite.' : 'Local draft only. Nothing is shared until counsel stages this policy.';
     };
     const reflectSharedState = () => {
       if (sharedInvite) {
@@ -720,6 +747,7 @@
       if (sharedState.questionStaged && sharedFooterCopy) sharedFooterCopy.textContent = 'Q&A staged for counsel / the client sees no answer until release.';
       if (sharedState.questionStaged && sharedFoot) sharedFoot.textContent = 'Q&A STAGED / COUNSEL REVIEW / 0 B OUTBOUND';
       if (sharedState.questionStaged && sharedQuestionStage) { sharedQuestionStage.disabled = true; sharedQuestionStage.innerHTML = 'Staged for counsel <span aria-hidden="true">&#10003;</span>'; }
+      reflectAccessState();
     };
     const setSharedTab = (key, focus = false, sync = true) => {
       const next = sharedTitles[key] ? key : 'overview';
@@ -825,6 +853,22 @@
       if (sharedFooterCopy) sharedFooterCopy.textContent = 'Q&A staged for counsel / the client sees no answer until release.';
       sharedQuestionStage.disabled = true;
       sharedQuestionStage.innerHTML = 'Staged for counsel <span aria-hidden="true">&#10003;</span>';
+    });
+    sharedAccessToggles.forEach((toggle) => toggle.addEventListener('click', () => {
+      const key = toggle.dataset.sharedAccessToggle;
+      if (!key) return;
+      sharedState.access[key] = sharedState.access[key] === false;
+      sharedState.accessStaged = false;
+      persistSharedState();
+      if (sharedFoot) sharedFoot.textContent = 'ACCESS POLICY EDITED / LOCAL DRAFT / 0 B OUTBOUND';
+      reflectAccessState();
+    }));
+    sharedAccessStage?.addEventListener('click', () => {
+      sharedState.accessStaged = true;
+      persistSharedState();
+      if (sharedFoot) sharedFoot.textContent = 'ACCESS POLICY STAGED / COUNSEL REVIEW / 0 B OUTBOUND';
+      if (sharedFooterCopy) sharedFooterCopy.textContent = 'Access policy staged locally. Invite remains scoped until counsel releases it.';
+      reflectAccessState();
     });
     const initialSharedTab = readQueryState('space');
     setSharedTab(sharedTitles[initialSharedTab] ? initialSharedTab : sharedActive, false, false);
