@@ -507,6 +507,100 @@
     renderAgents(initialAgent && agentFilters.some((filter) => filter.dataset.agentFilter === initialAgent) ? initialAgent : 'all');
   }
 
+  const agentBuilder = document.querySelector('[data-agent-builder]');
+  if (agentBuilder) {
+    const builderSteps = [...agentBuilder.querySelectorAll('[data-builder-step]')];
+    const builderPanels = [...agentBuilder.querySelectorAll('[data-builder-panel]')];
+    const builderPurposes = [...agentBuilder.querySelectorAll('[data-builder-purpose]')];
+    const builderSources = [...agentBuilder.querySelectorAll('[data-builder-source]')];
+    const builderGuardrails = [...agentBuilder.querySelectorAll('[data-builder-guardrail]')];
+    const builderOutput = agentBuilder.querySelector('[data-builder-output]');
+    const builderBack = agentBuilder.querySelector('[data-builder-back]');
+    const builderNext = agentBuilder.querySelector('[data-builder-next]');
+    const builderTitle = agentBuilder.querySelector('[data-builder-title]');
+    const builderSummary = agentBuilder.querySelector('[data-builder-summary]');
+    const builderSourceSummary = agentBuilder.querySelector('[data-builder-source-summary]');
+    const builderGuardrailSummary = agentBuilder.querySelector('[data-builder-guardrail-summary]');
+    const builderOutputSummary = agentBuilder.querySelector('[data-builder-output-summary]');
+    const builderStage = agentBuilder.querySelector('[data-builder-stage]');
+    const builderStageStatus = agentBuilder.querySelector('[data-builder-stage-status]');
+    const builderState = agentBuilder.querySelector('[data-builder-state]');
+    const builderFoot = agentBuilder.querySelector('[data-builder-foot]');
+    const builderStepsOrder = ['purpose', 'sources', 'guardrails', 'output'];
+    const builderCopy = {
+      review: { title: 'Northstar matter review', summary: 'Review the approved matter set, hold material risk for counsel, and leave each finding attached to its source.' },
+      compare: { title: 'Northstar clause comparison', summary: 'Compare the signing set against the prior draft, surface material deltas, and keep the source span beside every change.' },
+      draft: { title: 'Northstar response drafter', summary: 'Turn a source-linked finding into reviewable language while keeping the owner and evidence in the margin.' }
+    };
+    const builderOutputLabels = { packet: 'Cited review packet', delta: 'Material delta brief', draft: 'Source-linked draft' };
+    let builderStep = 0;
+    let builderPurpose = 'review';
+
+    const renderBuilderPreview = () => {
+      const copy = builderCopy[builderPurpose] || builderCopy.review;
+      const selectedSources = builderSources.filter((input) => input.checked).length;
+      const selectedGuardrails = builderGuardrails.filter((input) => input.checked).length;
+      if (builderTitle) builderTitle.textContent = copy.title;
+      if (builderSummary) builderSummary.textContent = copy.summary;
+      if (builderSourceSummary) builderSourceSummary.textContent = `${String(selectedSources).padStart(2, '0')} selected`;
+      if (builderGuardrailSummary) builderGuardrailSummary.textContent = `${String(selectedGuardrails).padStart(2, '0')} enforced`;
+      if (builderOutputSummary) builderOutputSummary.textContent = builderOutputLabels[builderOutput?.value] || builderOutputLabels.packet;
+      if (builderFoot) builderFoot.textContent = `STEP ${String(builderStep + 1).padStart(2, '0')} / 04 · ${builderStep === 3 ? 'READY TO STAGE' : 'DRAFT ONLY'}`;
+    };
+    const setBuilderStep = (step, focus = false) => {
+      builderStep = Math.max(0, Math.min(builderStepsOrder.length - 1, typeof step === 'number' ? step : builderStepsOrder.indexOf(step)));
+      const key = builderStepsOrder[builderStep];
+      builderSteps.forEach((button) => {
+        const active = button.dataset.builderStep === key;
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-current', active ? 'step' : 'false');
+      });
+      builderPanels.forEach((panel) => {
+        const active = panel.dataset.builderPanel === key;
+        panel.hidden = !active;
+        panel.classList.toggle('is-active', active);
+      });
+      if (builderBack) builderBack.disabled = builderStep === 0;
+      if (builderNext) {
+        builderNext.innerHTML = builderStep === builderStepsOrder.length - 1 ? 'Review contract <span aria-hidden="true">→</span>' : 'Continue <span aria-hidden="true">→</span>';
+      }
+      renderBuilderPreview();
+      if (focus) builderSteps[builderStep]?.focus();
+    };
+    builderSteps.forEach((button, index) => {
+      button.addEventListener('click', () => setBuilderStep(index));
+      button.addEventListener('keydown', (event) => {
+        if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const next = event.key === 'Home' ? 0 : event.key === 'End' ? builderSteps.length - 1 : (index + (event.key === 'ArrowDown' ? 1 : -1) + builderSteps.length) % builderSteps.length;
+        setBuilderStep(next, true);
+      });
+    });
+    builderPurposes.forEach((button) => button.addEventListener('click', () => {
+      builderPurpose = button.dataset.builderPurpose || 'review';
+      builderPurposes.forEach((item) => item.classList.toggle('is-active', item === button));
+      renderBuilderPreview();
+    }));
+    builderSources.forEach((input) => input.addEventListener('change', renderBuilderPreview));
+    builderGuardrails.forEach((input) => input.addEventListener('change', renderBuilderPreview));
+    builderOutput?.addEventListener('change', renderBuilderPreview);
+    builderBack?.addEventListener('click', () => setBuilderStep(builderStep - 1));
+    builderNext?.addEventListener('click', () => setBuilderStep(builderStep === builderStepsOrder.length - 1 ? builderStep : builderStep + 1));
+    builderStage?.addEventListener('click', () => {
+      const copy = builderCopy[builderPurpose] || builderCopy.review;
+      builderStage.disabled = true;
+      builderStage.innerHTML = 'Agent staged locally <span aria-hidden="true">✓</span>';
+      builderState && (builderState.textContent = 'READY FOR REVIEW');
+      builderStageStatus && (builderStageStatus.textContent = `${copy.title} is ready for counsel approval.`);
+      builderFoot && (builderFoot.textContent = 'AGENT STAGED / 0 B OUTBOUND');
+      const workflowUrl = new URL('workflows.html', window.location.href);
+      workflowUrl.searchParams.set('source', `builder-${builderPurpose}`);
+      workflowUrl.hash = 'studio';
+      window.setTimeout(() => { window.location.href = workflowUrl.toString(); }, 420);
+    });
+    setBuilderStep(0);
+  }
+
   const sharedSpace = document.querySelector('[data-shared-space]');
   if (sharedSpace) {
     const sharedTabs = [...sharedSpace.querySelectorAll('[data-shared-tab]')];
@@ -1085,7 +1179,10 @@
       'agent-chronology': { title: 'Chronology builder', source: 'Case Record', span: 'Chronology / 42 events', owner: 'A. Rao', copy: 'The staged agent packet gives counsel a source-linked timeline to reorder and review.' },
       'agent-discovery': { title: 'Discovery issue map', source: 'Discovery Index', span: 'Issues / 09 clusters', owner: 'L. Grant', copy: 'The staged agent packet keeps privilege cues and unresolved issues inside the review gate.' },
       'agent-policy': { title: 'Policy gap scan', source: 'Privacy & AI Policy', span: '§ 3 / Approved systems', owner: 'KM / Security', copy: 'The staged agent packet turns approved-runtime gaps into an owner-scoped governance brief.' },
-      'agent-intake': { title: 'Contract intake triage', source: 'Contract Intake', span: 'Queue / 12 requests', owner: 'Legal Ops', copy: 'The staged agent packet routes each intake request to a visible owner and next step.' }
+      'agent-intake': { title: 'Contract intake triage', source: 'Contract Intake', span: 'Queue / 12 requests', owner: 'Legal Ops', copy: 'The staged agent packet routes each intake request to a visible owner and next step.' },
+      'builder-review': { title: 'Northstar matter review', source: 'Merger Agreement', span: '§ 7.4 / Limitation', owner: 'J. Chen', copy: 'A custom review agent is ready for counsel approval with explicit sources and enforced guardrails.' },
+      'builder-compare': { title: 'Northstar clause comparison', source: 'Merger Agreement', span: '§ 7.4 / Limitation', owner: 'M. Chen', copy: 'A custom comparison agent is ready to surface material deltas with a source-linked review gate.' },
+      'builder-draft': { title: 'Northstar response drafter', source: 'Merger Agreement', span: '§ 9.2 / Assignment', owner: 'J. Chen', copy: 'A custom drafting agent is ready to move a finding into reviewable language without losing its evidence.' }
     };
     const importedPacket = deliveryPacketSets[readQueryState('packet') || readQueryState('source')];
     const deliveryViewData = {
@@ -1353,7 +1450,10 @@
       'agent-chronology': { title: 'Chronology builder', copy: 'Chronology builder / agent staged locally', packet: 'agent-chronology', source: 'Case Record', span: 'Chronology / 42 events', owner: 'A. Rao' },
       'agent-discovery': { title: 'Discovery issue map', copy: 'Discovery issue map / agent staged locally', packet: 'agent-discovery', source: 'Discovery Index', span: 'Issues / 09 clusters', owner: 'L. Grant' },
       'agent-policy': { title: 'Policy gap scan', copy: 'Policy gap scan / agent staged locally', packet: 'agent-policy', source: 'Privacy & AI Policy', span: '§ 3 / Approved systems', owner: 'KM / Security' },
-      'agent-intake': { title: 'Contract intake triage', copy: 'Contract intake triage / agent staged locally', packet: 'agent-intake', source: 'Contract Intake', span: 'Queue / 12 requests', owner: 'Legal Ops' }
+      'agent-intake': { title: 'Contract intake triage', copy: 'Contract intake triage / agent staged locally', packet: 'agent-intake', source: 'Contract Intake', span: 'Queue / 12 requests', owner: 'Legal Ops' },
+      'builder-review': { title: 'Northstar matter review', copy: 'Northstar matter review / custom agent staged locally', packet: 'builder-review', source: 'Merger Agreement', span: '§ 7.4 / Limitation', owner: 'J. Chen' },
+      'builder-compare': { title: 'Northstar clause comparison', copy: 'Northstar clause comparison / custom agent staged locally', packet: 'builder-compare', source: 'Merger Agreement', span: '§ 7.4 / Limitation', owner: 'M. Chen' },
+      'builder-draft': { title: 'Northstar response drafter', copy: 'Northstar response drafter / custom agent staged locally', packet: 'builder-draft', source: 'Merger Agreement', span: '§ 9.2 / Assignment', owner: 'J. Chen' }
     };
     const importedSource = composerSourceSets[readQueryState('source')];
     if (importedSource) composerCatalog.sources.copy = importedSource.copy;

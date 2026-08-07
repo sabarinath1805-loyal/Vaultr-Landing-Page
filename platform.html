@@ -24,8 +24,8 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preload" as="image" href="assets/images/monet-water-lilies.jpg" fetchpriority="high">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-38">
-  <script defer src="assets/js/vaultr.js?v=library-38"></script>
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-39">
+  <script defer src="assets/js/vaultr.js?v=library-39"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Vaultr Platform","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/platform.html","isPartOf":{"@type":"WebSite","name":"Vaultr","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/"}}</script>
 </head>
 <body class="detail-page platform-page">
@@ -212,6 +212,68 @@
             </aside>
           </div>
           <div class="agent-library__foot"><span><i></i> AGENTS PAUSE AT HUMAN REVIEW</span><strong data-agent-foot>06 curated agents / 0 B outbound</strong></div>
+        </div>
+        <div class="agent-builder reveal" data-agent-builder>
+          <div class="agent-builder__head"><span>VAULTR / AGENT BUILDER</span><span class="agent-builder__local"><i></i> DRAFT ONLY / 0 B OUTBOUND</span></div>
+          <div class="agent-builder__layout">
+            <nav class="agent-builder__steps" aria-label="Agent builder steps">
+              <button class="is-active" type="button" data-builder-step="purpose" aria-current="step"><span>01</span><strong>Purpose</strong><small>Define the move</small></button>
+              <button type="button" data-builder-step="sources"><span>02</span><strong>Sources</strong><small>Keep context close</small></button>
+              <button type="button" data-builder-step="guardrails"><span>03</span><strong>Guardrails</strong><small>Set the pause points</small></button>
+              <button type="button" data-builder-step="output"><span>04</span><strong>Output</strong><small>Choose the handoff</small></button>
+            </nav>
+            <div class="agent-builder__canvas">
+              <div class="agent-builder__step-panel is-active" data-builder-panel="purpose">
+                <span class="agent-builder__eyebrow">STEP 01 / PURPOSE</span>
+                <h3>What should this agent make legible?</h3>
+                <p>Start with a lawyer-shaped job. The contract stays inspectable before anything is staged.</p>
+                <div class="agent-builder__choices" role="group" aria-label="Choose an agent purpose">
+                  <button class="is-active" type="button" data-builder-purpose="review"><strong>Review a matter</strong><small>Find risks, obligations, and exceptions.</small></button>
+                  <button type="button" data-builder-purpose="compare"><strong>Compare versions</strong><small>Surface material changes with citations.</small></button>
+                  <button type="button" data-builder-purpose="draft"><strong>Draft a response</strong><small>Move a source-linked finding into language.</small></button>
+                </div>
+              </div>
+              <div class="agent-builder__step-panel" data-builder-panel="sources" hidden>
+                <span class="agent-builder__eyebrow">STEP 02 / SOURCES</span>
+                <h3>Choose the record that can answer.</h3>
+                <p>Every source is explicit. Remove a file here and the agent loses it before the run begins.</p>
+                <div class="agent-builder__checks">
+                  <label><input type="checkbox" checked data-builder-source="agreement"><span><strong>Merger Agreement</strong><small>184 pages · v5 · primary record</small></span><em>PRIMARY</em></label>
+                  <label><input type="checkbox" checked data-builder-source="schedule"><span><strong>Disclosure Schedule</strong><small>42 pages · v2 · supporting record</small></span><em>LINKED</em></label>
+                  <label><input type="checkbox" data-builder-source="playbook"><span><strong>Northstar liability playbook</strong><small>04 standards · reviewed 06 Aug</small></span><em>OPTIONAL</em></label>
+                </div>
+              </div>
+              <div class="agent-builder__step-panel" data-builder-panel="guardrails" hidden>
+                <span class="agent-builder__eyebrow">STEP 03 / GUARDRAILS</span>
+                <h3>Decide where the agent must pause.</h3>
+                <p>Guardrails are part of the agent contract, not a promise buried after the answer.</p>
+                <div class="agent-builder__checks agent-builder__checks--guardrails">
+                  <label><input type="checkbox" checked data-builder-guardrail="material"><span><strong>Pause on material risk</strong><small>Hold findings above the review threshold.</small></span><em>REQUIRED</em></label>
+                  <label><input type="checkbox" checked data-builder-guardrail="owner"><span><strong>Require an owner</strong><small>Route every open item to a named reviewer.</small></span><em>REQUIRED</em></label>
+                  <label><input type="checkbox" checked data-builder-guardrail="network"><span><strong>Block external inference</strong><small>Keep the route local and observable.</small></span><em>LOCKED</em></label>
+                </div>
+              </div>
+              <div class="agent-builder__step-panel" data-builder-panel="output" hidden>
+                <span class="agent-builder__eyebrow">STEP 04 / OUTPUT</span>
+                <h3>Choose the work product counsel receives.</h3>
+                <p>Keep the result useful without losing the evidence, owner, or review gate.</p>
+                <label class="agent-builder__select"><span>OUTPUT CONTRACT</span><select data-builder-output aria-label="Choose agent output"><option value="packet">Cited review packet</option><option value="delta">Material delta brief</option><option value="draft">Source-linked draft</option></select></label>
+                <div class="agent-builder__output-note"><span><i></i> SOURCE-LINKED BY DEFAULT</span><strong>0 B OUTBOUND</strong></div>
+              </div>
+              <div class="agent-builder__controls"><button type="button" data-builder-back disabled>Back</button><button class="agent-builder__next" type="button" data-builder-next>Continue <span aria-hidden="true">→</span></button></div>
+            </div>
+            <aside class="agent-builder__preview" aria-live="polite">
+              <div class="agent-builder__preview-head"><span>BUILDER CONTRACT / LIVE PREVIEW</span><span><i></i><b data-builder-state>LOCAL DRAFT</b></span></div>
+              <div class="agent-builder__preview-mark" aria-hidden="true">✳</div>
+              <span class="agent-builder__preview-kicker">NORTHSTAR / CUSTOM AGENT</span>
+              <h3 data-builder-title>Northstar matter review</h3>
+              <p data-builder-summary>Review the approved matter set, hold material risk for counsel, and leave each finding attached to its source.</p>
+              <dl class="agent-builder__preview-grid"><div><dt>SOURCES</dt><dd data-builder-source-summary>02 selected</dd></div><div><dt>GUARDRAILS</dt><dd data-builder-guardrail-summary>03 enforced</dd></div><div><dt>OUTPUT</dt><dd data-builder-output-summary>Cited review packet</dd></div></dl>
+              <button class="agent-builder__stage" type="button" data-builder-stage>Build local agent <span aria-hidden="true">→</span></button>
+              <p class="agent-builder__stage-status" data-builder-stage-status aria-live="polite">Nothing staged yet.</p>
+            </aside>
+          </div>
+          <div class="agent-builder__foot"><span><i></i> AGENT NEVER RUNS WITHOUT APPROVAL</span><strong data-builder-foot>STEP 01 / 04 · DRAFT ONLY</strong></div>
         </div>
       </div>
     </section>
