@@ -985,8 +985,20 @@
       <div class="quick-nav__scrim" data-quick-nav-close></div>
       <section class="quick-nav__panel" role="dialog" aria-modal="true" aria-labelledby="quick-nav-title">
         <div class="quick-nav__head"><div><span class="quick-nav__eyebrow">VAULTR / QUICK NAVIGATION</span><h2 id="quick-nav-title">Go where the work is.</h2></div><button class="quick-nav__close" type="button" aria-label="Close quick navigation" data-quick-nav-close>Esc</button></div>
-        <label class="quick-nav__search"><span aria-hidden="true">⌘K</span><input id="quick-nav-search" type="search" autocomplete="off" placeholder="Search pages and product surfaces" aria-label="Search pages and product surfaces"></label>
-        <nav class="quick-nav__items" aria-label="Vaultr destinations">
+        <label class="quick-nav__search"><span aria-hidden="true">⌘K</span><input id="quick-nav-search" type="search" autocomplete="off" placeholder="Search matters, sources, and surfaces" aria-label="Search matters, sources, and surfaces"></label>
+        <div class="quick-nav__summary" role="status" aria-live="polite"><div><span class="quick-nav__summary-label">LOCAL WORKSPACE INDEX</span><strong data-quick-nav-count>4 matters · 16 surfaces</strong></div><span class="quick-nav__summary-status"><i aria-hidden="true"></i> 0 B outbound</span></div>
+        <div class="quick-nav__section">
+          <div class="quick-nav__section-head"><span>RECENT MATTERS</span><small>LOCAL / ILLUSTRATIVE</small></div>
+          <nav class="quick-nav__items quick-nav__items--matter" aria-label="Local matter index">
+            <a href="platform.html#product" data-quick-nav-item data-quick-nav-type="matter" data-quick-nav-keywords="northstar acquisition merger agreement liability indemnity cap diligence"><span><strong>Northstar acquisition</strong><small>24 sources · Lex workspace · owner M. Chen</small></span><kbd>MATTER</kbd></a>
+            <a href="platform.html#knowledge" data-quick-nav-item data-quick-nav-type="matter" data-quick-nav-keywords="meridian employment precedent agreements annotations in house"><span><strong>Meridian employment</strong><small>18 sources · approved precedent set · owner A. Rao</small></span><kbd>MATTER</kbd></a>
+            <a href="platform.html#knowledge" data-quick-nav-item data-quick-nav-type="matter" data-quick-nav-keywords="supplier consent change control notice fallback transactional review"><span><strong>Supplier consent library</strong><small>Reviewed precedent · fallback positions · review required</small></span><kbd>SOURCE</kbd></a>
+            <a href="command.html#governance" data-quick-nav-item data-quick-nav-type="matter" data-quick-nav-keywords="privacy ai policy runtime boundary review gate security current"><span><strong>Privacy and AI policy</strong><small>Firm standard · current 05 Aug 2026 · KM / Security</small></span><kbd>POLICY</kbd></a>
+          </nav>
+        </div>
+        <div class="quick-nav__section">
+          <div class="quick-nav__section-head"><span>DESTINATIONS</span><small>PRODUCT SURFACES</small></div>
+          <nav class="quick-nav__items" aria-label="Vaultr destinations">
           <a href="platform.html" data-quick-nav-item><span><strong>Platform</strong><small>Lex, Vault, Knowledge, Agents</small></span><kbd>01</kbd></a>
           <a href="platform.html#knowledge" data-quick-nav-item><span><strong>Knowledge Room</strong><small>Precedents, playbooks, and policies</small></span><kbd>02</kbd></a>
           <a href="workflows.html" data-quick-nav-item><span><strong>Workflow Studio</strong><small>Composer, redlines, and supervised runs</small></span><kbd>03</kbd></a>
@@ -1003,8 +1015,9 @@
           <a href="research.html" data-quick-nav-item><span><strong>Research &amp; architecture</strong><small>Inspect runtime, evidence, and source notes</small></span><kbd>14</kbd></a>
           <a href="deployment.html" data-quick-nav-item><span><strong>Deployment Desk</strong><small>Build a private deployment brief</small></span><kbd>15</kbd></a>
           <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer" data-quick-nav-item><span><strong>Open architecture</strong><small>Inspect the source and implementation notes</small></span><kbd>↗</kbd></a>
-        </nav>
-        <p class="quick-nav__empty" data-quick-nav-empty hidden>No matching destination.</p>
+          </nav>
+        </div>
+        <p class="quick-nav__empty" data-quick-nav-empty hidden>No matching matter or destination.</p>
         <div class="quick-nav__foot"><span>Private by default</span><span>Nothing is transmitted</span></div>
       </section>
     </div>`;
@@ -1014,6 +1027,7 @@
   const quickNavSearch = document.querySelector('#quick-nav-search');
   const quickNavItems = [...document.querySelectorAll('[data-quick-nav-item]')];
   const quickNavEmpty = document.querySelector('[data-quick-nav-empty]');
+  const quickNavCount = document.querySelector('[data-quick-nav-count]');
   const dialogFocusableSelector = 'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
   const trapDialogFocus = (dialog, event) => {
     if (event.key !== 'Tab' || !dialog) return;
@@ -1041,19 +1055,26 @@
       quickNavSearch?.select();
     } else {
       quickNavSearch && (quickNavSearch.value = '');
-      quickNavItems.forEach((item) => { item.hidden = false; });
-      if (quickNavEmpty) quickNavEmpty.hidden = true;
+      filterQuickNav('');
       quickNavPreviousFocus?.focus?.({ preventScroll: true });
     }
   };
   const filterQuickNav = (value) => {
     const query = value.trim().toLowerCase();
     let matches = 0;
+    let matters = 0;
+    let surfaces = 0;
     quickNavItems.forEach((item) => {
-      const match = !query || item.textContent.toLowerCase().includes(query);
+      const searchText = `${item.textContent} ${item.dataset.quickNavKeywords || ''}`.toLowerCase();
+      const match = !query || searchText.includes(query);
       item.hidden = !match;
-      if (match) matches += 1;
+      if (match) {
+        matches += 1;
+        if (item.dataset.quickNavType === 'matter') matters += 1;
+        else surfaces += 1;
+      }
     });
+    if (quickNavCount) quickNavCount.textContent = `${matters} matter${matters === 1 ? '' : 's'} · ${surfaces} surface${surfaces === 1 ? '' : 's'}`;
     if (quickNavEmpty) quickNavEmpty.hidden = matches !== 0;
   };
   quickNavTrigger?.addEventListener('click', () => setQuickNav(true));
