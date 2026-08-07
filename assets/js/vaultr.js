@@ -1816,7 +1816,7 @@
   const matterList = document.querySelector('[data-matter-list]');
   if (matterList) {
     const listFilters = [...matterList.querySelectorAll('[data-list-filter]')];
-    const listRows = [...matterList.querySelectorAll('[data-list-row]')];
+    let listRows = [...matterList.querySelectorAll('[data-list-row]')];
     const listEmpty = matterList.querySelector('[data-list-empty]');
     const listKind = matterList.querySelector('[data-list-detail-kind]');
     const listState = matterList.querySelector('[data-list-detail-state]');
@@ -1829,16 +1829,22 @@
     const listFoot = matterList.querySelector('[data-list-foot]');
     const listMonitor = matterList.querySelector('[data-list-monitor]');
     const listDraft = matterList.querySelector('[data-list-draft]');
+    const listPopulate = matterList.querySelector('[data-list-populate]');
+    const listSourceStatus = matterList.querySelector('[data-list-source-status]');
     const listData = {
       liability: { kind: 'OPEN / MATERIAL TERM', state: 'OWNER ACTION', title: 'Resolve revised liability cap.', copy: 'The latest agreement changes the cap to two times fees. Decide whether the change remains a closing condition before the next client preview.', source: 'Merger Agreement / § 7.4', owner: 'J. Chen', due: '08 Aug 2026', monitor: 'liability' },
       consent: { kind: 'REVIEW / CONSENT', state: 'NEEDS REVIEW', title: 'Confirm supplier consent.', copy: 'The disclosure schedule identifies five suppliers. Confirm notice requirements before the signing set goes to the client.', source: 'Disclosure Schedule / Schedule 5', owner: 'M. Patel', due: '10 Aug 2026', monitor: 'regulation' },
       dpa: { kind: 'OPEN / POLICY CHECK', state: 'OWNER ACTION', title: 'Verify DPA schedule.', copy: 'Compare the data processing addendum with the approved subprocessor list and record the exception, if any.', source: 'Data Processing Addendum / § 12', owner: 'KM / Security', due: '12 Aug 2026', monitor: 'regulation' },
       board: { kind: 'OPEN / APPROVAL', state: 'OWNER ACTION', title: 'Circulate board memo.', copy: 'Counsel correspondence confirms the approval memo is ready. Keep the board-facing version separate from the raw thread.', source: 'Counsel Thread / Thread 08', owner: 'A. Rao', due: '07 Aug 2026', monitor: 'exhibit' },
       signing: { kind: 'DONE / CHECKPOINT', state: 'COMPLETE', title: 'Prepare final signing set.', copy: 'The final signing set was prepared and checked against the closing checklist. The source trail remains available for audit.', source: 'Closing Checklist / Item 05', owner: 'M. Chen', due: '15 Aug 2026', monitor: 'exhibit' },
-      insurance: { kind: 'OPEN / EXHIBIT', state: 'OWNER ACTION', title: 'Confirm insurance certificate.', copy: 'The insurance schedule is missing the latest certificate. Request the approved version before the diligence packet is finalized.', source: 'Insurance Schedule / Exhibit C', owner: 'L. Grant', due: '16 Aug 2026', monitor: 'exhibit' }
+      insurance: { kind: 'OPEN / EXHIBIT', state: 'OWNER ACTION', title: 'Confirm insurance certificate.', copy: 'The insurance schedule is missing the latest certificate. Request the approved version before the diligence packet is finalized.', source: 'Insurance Schedule / Exhibit C', owner: 'L. Grant', due: '16 Aug 2026', monitor: 'exhibit' },
+      regulatory: { kind: 'REVIEW / REGULATORY', state: 'NEEDS REVIEW', title: 'Assess regulatory update.', copy: 'The approved regulation feed added a source-linked digest. Compare the change with the firm policy set before assigning a remediation owner.', source: 'Approved regulation feed / Digest 03', owner: 'KM / Compliance', due: '19 Aug 2026', monitor: 'horizon' }
     };
     let listFilter = 'all';
     let listActive = 'liability';
+    let listPopulated = false;
+    try { listPopulated = window.localStorage.getItem('vaultr.matter-list-source-pass') === 'ready'; } catch (error) { listPopulated = false; }
+    const persistListPass = () => { try { window.localStorage.setItem('vaultr.matter-list-source-pass', listPopulated ? 'ready' : ''); } catch (error) { /* local-only list state is best effort */ } };
     const setListDetail = (key, focus = false) => {
       const data = listData[key] || listData.liability;
       listActive = key;
@@ -1869,7 +1875,8 @@
         filter.tabIndex = active ? 0 : -1;
       });
       const visible = listRows.filter((row) => {
-        const shown = listFilter === 'all' || row.dataset.listKind === listFilter;
+        const generated = row.dataset.listGenerated === 'true';
+        const shown = (!generated || listPopulated) && (listFilter === 'all' || row.dataset.listKind === listFilter);
         row.hidden = !shown;
         return shown;
       });
@@ -1877,9 +1884,13 @@
       const next = visible.find((row) => row.dataset.listKey === listActive) || visible[0];
       if (next) setListDetail(next.dataset.listKey);
       const open = listRows.filter((row) => row.dataset.listKind === 'open').length;
-      const review = listRows.filter((row) => row.dataset.listKind === 'review').length;
+      const review = listRows.filter((row) => row.dataset.listKind === 'review' && (listPopulated || row.dataset.listGenerated !== 'true')).length;
       const done = listRows.filter((row) => row.dataset.listKind === 'done').length;
+      const visibleOpen = listRows.filter((row) => row.dataset.listKind === 'open' && (listPopulated || row.dataset.listGenerated !== 'true')).length;
+      const filterCounts = { all: visible.length, open: visibleOpen, review, done };
+      listFilters.forEach((filter) => { const count = filter.querySelector('span'); if (count) count.textContent = String(filterCounts[filter.dataset.listFilter] ?? 0).padStart(2, '0'); });
       if (listFoot) listFoot.innerHTML = `<i></i> ${String(open).padStart(2, '0')} OPEN / ${String(review).padStart(2, '0')} NEEDS REVIEW / ${String(done).padStart(2, '0')} DONE`;
+      if (listSourceStatus && listPopulated) listSourceStatus.textContent = 'SOURCE PASS COMPLETE / 7 ITEMS / 0 B OUTBOUND';
     };
     listFilters.forEach((filter, index) => {
       filter.addEventListener('click', () => renderList(filter.dataset.listFilter));
@@ -1926,6 +1937,20 @@
       draftUrl.hash = 'editor';
       window.location.href = draftUrl.toString();
     });
+    listPopulate?.addEventListener('click', () => {
+      listPopulated = true;
+      persistListPass();
+      listActive = 'regulatory';
+      listPopulate.disabled = true;
+      listPopulate.innerHTML = 'Source pass complete <span aria-hidden="true">&#10003;</span>';
+      if (listSourceStatus) listSourceStatus.textContent = 'SOURCE PASS COMPLETE / 7 ITEMS / 0 B OUTBOUND';
+      renderList('all');
+      listStatus && (listStatus.textContent = 'New obligation extracted locally. Confirm owner and next action before it moves.');
+    });
+    if (listPopulated && listPopulate) {
+      listPopulate.disabled = true;
+      listPopulate.innerHTML = 'Source pass complete <span aria-hidden="true">&#10003;</span>';
+    }
     const initialList = readQueryState('list');
     if (initialList && listData[initialList]) listActive = initialList;
     renderList();

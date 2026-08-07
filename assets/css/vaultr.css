@@ -5219,6 +5219,10 @@ body:not(.detail-page) .features .feature h3 { color: var(--forest); }
 .matter-list__local i,
 .matter-list__foot i { width: 6px; height: 6px; display: inline-block; border-radius: 50%; background: #6a9a75; }
 .matter-list__toolbar { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 16px 21px; border-bottom: 1px solid rgba(0, 0, 0, .1); background: #f7f8f5; }
+.matter-list__toolbar-actions { display: flex; align-items: center; justify-content: flex-end; gap: 14px; min-width: 0; }
+.matter-list__populate { display: inline-flex; align-items: center; gap: 10px; min-height: 34px; padding: 0 12px; border: 1px solid rgba(45, 74, 62, .24); background: #fff; color: var(--sage); cursor: pointer; font-size: 8px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; transition: border-color .25s, background .25s, color .25s, transform .25s; white-space: nowrap; }
+.matter-list__populate:hover, .matter-list__populate:focus-visible { border-color: var(--sage); background: var(--sage); color: #fff; outline: none; transform: translateY(-2px); }
+.matter-list__populate:disabled { border-color: rgba(45, 74, 62, .16); background: #eef0ea; color: #6a9a75; cursor: default; transform: none; }
 .matter-list__filters { display: flex; min-width: 0; border: 1px solid rgba(45, 74, 62, .15); background: #fff; }
 .matter-list__filters button { min-height: 34px; padding: 0 11px; border: 0; border-right: 1px solid rgba(45, 74, 62, .12); background: transparent; color: #89948c; cursor: pointer; font-size: 8px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
 .matter-list__filters button:last-child { border-right: 0; }
@@ -5279,7 +5283,9 @@ body:not(.detail-page) .features .feature h3 { color: var(--forest); }
   .matter-list__toolbar { align-items: stretch; flex-direction: column; padding: 14px 16px; }
   .matter-list__filters { overflow-x: auto; }
   .matter-list__filters button { flex: 0 0 auto; }
-  .matter-list__last { text-align: right; }
+  .matter-list__toolbar-actions { align-items: stretch; flex-direction: column; gap: 10px; }
+  .matter-list__last { text-align: left; }
+  .matter-list__populate { justify-content: space-between; }
   .matter-list__rows { padding: 16px; }
   .matter-list__row { grid-template-columns: 22px minmax(0, 1fr) 48px; gap: 8px; }
   .matter-list__row .matter-list__owner { display: none; }
