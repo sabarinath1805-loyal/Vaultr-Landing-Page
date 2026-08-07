@@ -4774,3 +4774,94 @@ body:not(.detail-page) .features .feature h3 { color: var(--forest); }
   .boundary-lab__tabs button:last-child { border-bottom: 0; }
   .privacy-diagram[data-boundary-lab] .diagram-node { min-height: 88px; }
 }
+
+/* Source-linked editor: make the last mile of legal work visible and reviewable. */
+.workflow-page__editor { background: #fff; }
+.editor-room { overflow: hidden; border: 1px solid rgba(45, 74, 62, .2); background: #fff; box-shadow: 0 28px 62px -38px rgba(45, 74, 62, .34); }
+.editor-room__toolbar { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 17px 21px; border-bottom: 1px solid rgba(0, 0, 0, .1); background: #f4f5f0; }
+.editor-room__toolbar > div:first-child { display: grid; gap: 7px; min-width: 0; }
+.editor-room__toolbar > div:first-child > span { color: var(--sage); font-size: 8px; font-weight: 700; letter-spacing: .14em; }
+.editor-room__toolbar strong { overflow: hidden; color: var(--ink); font-family: var(--serif); font-size: 24px; font-weight: 500; line-height: .95; letter-spacing: -.04em; text-overflow: ellipsis; white-space: nowrap; }
+.editor-room__modes { display: flex; flex: 0 0 auto; border: 1px solid rgba(45, 74, 62, .16); background: #fff; }
+.editor-room__modes button { min-height: 34px; padding: 0 13px; border: 0; border-right: 1px solid rgba(45, 74, 62, .12); background: transparent; color: #89948c; cursor: pointer; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.editor-room__modes button:last-child { border-right: 0; }
+.editor-room__modes button:hover,
+.editor-room__modes button:focus-visible { color: var(--sage); outline: none; }
+.editor-room__modes button.is-active { background: var(--sage); color: #fff; }
+.editor-room__body { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(260px, .75fr); }
+.editor-room__document { min-width: 0; min-height: 620px; padding: 37px 48px 45px; background: #fff; }
+.editor-room__document-meta { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(0, 0, 0, .1); color: #89948c; font-size: 8px; font-weight: 700; letter-spacing: .14em; }
+.editor-room__document-meta span:last-child { display: inline-flex; align-items: center; gap: 7px; color: var(--sage); white-space: nowrap; }
+.editor-room__document-meta i { width: 6px; height: 6px; display: inline-block; border-radius: 50%; background: #6a9a75; }
+.editor-room__document h3 { max-width: 620px; margin: 49px 0 23px; color: var(--ink); font-family: var(--serif); font-size: clamp(39px, 4.3vw, 65px); font-weight: 400; line-height: .9; letter-spacing: -.055em; }
+.editor-room__document > p:not(.editor-room__suggestion) { max-width: 680px; margin: 0 0 20px; color: #3d483f; font-family: var(--serif); font-size: 18px; line-height: 1.42; }
+.editor-room__document del { color: #a27575; text-decoration-thickness: 2px; text-decoration-color: #a27575; }
+.editor-room__document ins { padding: 0 3px; background: rgba(45, 74, 62, .11); color: var(--sage); text-decoration: none; }
+.editor-citation { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; margin-left: 5px; padding: 0; border: 1px solid rgba(45, 74, 62, .32); border-radius: 50%; background: rgba(45, 74, 62, .08); color: var(--sage); cursor: pointer; font-family: var(--sans); font-size: 9px; font-weight: 700; vertical-align: 3px; transition: background .25s, color .25s, transform .25s; }
+.editor-citation:hover,
+.editor-citation:focus-visible { background: var(--sage); color: #fff; outline: none; transform: translateY(-2px); }
+.editor-room__suggestion { max-width: 680px; margin: 33px 0 25px; padding: 17px 18px 16px; border-left: 3px solid var(--gold); background: #f4f5f0; transition: opacity .3s, border-color .3s; }
+.editor-room__suggestion.is-accepted { border-left-color: #6a9a75; background: rgba(106, 154, 117, .1); }
+.editor-room__suggestion[hidden] { display: none; }
+.editor-room__suggestion > div:first-child { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.editor-room__suggestion > div:first-child span { color: var(--sage); font-size: 8px; font-weight: 700; letter-spacing: .14em; }
+.editor-room__suggestion > div:first-child small { color: var(--muted); font-size: 9px; }
+.editor-room__suggestion p { margin: 17px 0 15px; color: var(--ink); font-family: var(--serif); font-size: 20px; line-height: 1.12; }
+.editor-room__suggestion-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.editor-room__suggestion-actions button { min-height: 31px; padding: 0 10px; border: 1px solid rgba(45, 74, 62, .2); background: #fff; color: var(--sage); cursor: pointer; font-size: 8px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; transition: background .25s, color .25s, border-color .25s; }
+.editor-room__suggestion-actions button:hover,
+.editor-room__suggestion-actions button:focus-visible { border-color: var(--sage); background: var(--sage); color: #fff; outline: none; }
+.editor-room__inspector { display: flex; flex-direction: column; min-width: 0; border-left: 1px solid rgba(0, 0, 0, .1); background: #f7f8f5; }
+.editor-room__inspector-head { display: flex; align-items: center; justify-content: space-between; gap: 13px; min-height: 56px; padding: 0 20px; border-bottom: 1px solid rgba(0, 0, 0, .1); color: var(--sage); font-size: 8px; font-weight: 700; letter-spacing: .14em; }
+.editor-room__inspector-state { display: inline-flex; align-items: center; gap: 7px; color: #69766e; white-space: nowrap; }
+.editor-room__inspector-state i { width: 6px; height: 6px; display: inline-block; border-radius: 50%; background: #6a9a75; }
+.editor-room__trace { margin: 23px 20px 0; padding: 17px; border: 1px solid rgba(45, 74, 62, .18); background: #fff; transition: border-color .25s, transform .25s; }
+.editor-room__trace.is-changing { border-color: var(--gold); transform: translateY(2px); }
+.editor-room__trace > span:first-child { color: var(--sage); font-size: 8px; font-weight: 700; letter-spacing: .14em; }
+.editor-room__trace strong { display: block; margin-top: 17px; color: var(--ink); font-family: var(--serif); font-size: 26px; font-weight: 500; line-height: .94; letter-spacing: -.04em; }
+.editor-room__trace p { margin: 14px 0 20px; color: var(--muted); font-size: 11px; line-height: 1.5; }
+.editor-room__trace-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.editor-room__trace-grid div { display: grid; gap: 5px; padding-top: 9px; border-top: 1px solid rgba(45, 74, 62, .16); }
+.editor-room__trace-grid span { color: #89948c; font-size: 7px; font-weight: 700; letter-spacing: .12em; }
+.editor-room__trace-grid b { color: var(--sage); font-size: 11px; }
+.editor-room__comment-toggle { width: calc(100% - 40px); margin: 18px 20px 0; padding: 0; border: 0; background: transparent; color: var(--sage); cursor: pointer; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-align: left; text-transform: uppercase; }
+.editor-room__comment-toggle:hover,
+.editor-room__comment-toggle:focus-visible { color: var(--gold); outline: none; }
+.editor-room__comment-toggle[hidden] { display: none; }
+.editor-room__comment-form { display: grid; gap: 8px; margin: 17px 20px 0; }
+.editor-room__comment-form[hidden] { display: none; }
+.editor-room__comment-form label { color: #69766e; font-size: 8px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+.editor-room__comment-form textarea { resize: vertical; min-height: 70px; padding: 10px; border: 1px solid rgba(45, 74, 62, .18); outline: 0; background: #fff; color: var(--ink); font-size: 11px; line-height: 1.4; }
+.editor-room__comment-form textarea:focus { border-color: var(--sage); box-shadow: 0 0 0 3px rgba(45, 74, 62, .1); }
+.editor-room__comment-form button { display: flex; align-items: center; justify-content: space-between; min-height: 35px; padding: 0 10px; border: 1px solid var(--sage); background: var(--sage); color: #fff; cursor: pointer; font-size: 8px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.editor-room__comments { margin: auto 20px 21px; padding-top: 16px; border-top: 1px solid rgba(0, 0, 0, .1); }
+.editor-room__comments > span { color: #89948c; font-size: 8px; font-weight: 700; letter-spacing: .14em; }
+.editor-room__comments p { margin: 11px 0 0; color: var(--muted); font-size: 10px; line-height: 1.5; }
+.editor-room__comments p b { color: var(--ink); }
+.editor-room__foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 58px; padding: 0 21px; border-top: 1px solid rgba(0, 0, 0, .1); background: #eef0ea; color: #69766e; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.editor-room__foot button { display: inline-flex; align-items: center; gap: 10px; min-height: 35px; padding: 0 12px; border: 1px solid var(--sage); background: var(--sage); color: #fff; cursor: pointer; font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; transition: background .25s, border-color .25s, transform .25s; }
+.editor-room__foot button:hover,
+.editor-room__foot button:focus-visible { border-color: var(--gold); background: var(--gold); color: var(--ink); outline: none; transform: translateY(-2px); }
+.editor-room__foot button:disabled { cursor: default; opacity: .6; transform: none; }
+@media (max-width: 900px) {
+  .editor-room__body { grid-template-columns: 1fr; }
+  .editor-room__inspector { border-top: 1px solid rgba(0, 0, 0, .1); border-left: 0; }
+  .editor-room__trace { max-width: 560px; }
+  .editor-room__comments { margin-top: 28px; }
+}
+@media (max-width: 640px) {
+  .editor-room__toolbar { align-items: flex-start; flex-direction: column; }
+  .editor-room__modes { width: 100%; }
+  .editor-room__modes button { flex: 1; }
+  .editor-room__document { min-height: 0; padding: 27px 20px 31px; }
+  .editor-room__document h3 { margin-top: 37px; font-size: 48px; }
+  .editor-room__document > p:not(.editor-room__suggestion) { font-size: 17px; }
+  .editor-room__suggestion > div:first-child { align-items: flex-start; flex-direction: column; gap: 6px; }
+  .editor-room__inspector-head { align-items: flex-start; flex-direction: column; gap: 8px; padding-block: 16px; }
+  .editor-room__trace { margin-inline: 16px; }
+  .editor-room__comment-toggle { width: calc(100% - 32px); margin-inline: 16px; }
+  .editor-room__comment-form { margin-inline: 16px; }
+  .editor-room__comments { margin-inline: 16px; }
+  .editor-room__foot { align-items: flex-start; flex-direction: column; gap: 11px; padding-block: 15px; }
+  .editor-room__foot button { width: 100%; justify-content: space-between; }
+}

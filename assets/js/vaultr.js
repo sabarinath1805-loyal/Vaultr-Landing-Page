@@ -650,6 +650,131 @@
     renderComposer();
   }
 
+  const editorRoom = document.querySelector('[data-editor-room]');
+  if (editorRoom) {
+    const editorModes = [...editorRoom.querySelectorAll('[data-editor-mode]')];
+    const editorDocument = editorRoom.querySelector('[role="tabpanel"]');
+    const editorTitle = editorRoom.querySelector('[data-editor-document-title]');
+    const editorHeading = editorRoom.querySelector('[data-editor-heading]');
+    const editorStatus = editorRoom.querySelector('[data-editor-status]');
+    const editorFoot = editorRoom.querySelector('[data-editor-foot]');
+    const editorTrace = editorRoom.querySelector('[data-editor-trace]');
+    const editorTraceLabel = editorRoom.querySelector('[data-editor-trace-label]');
+    const editorTraceTitle = editorRoom.querySelector('[data-editor-trace-title]');
+    const editorTraceCopy = editorRoom.querySelector('[data-editor-trace-copy]');
+    const editorTracePage = editorRoom.querySelector('[data-editor-trace-page]');
+    const editorTraceConfidence = editorRoom.querySelector('[data-editor-trace-confidence]');
+    const editorTraceOwner = editorRoom.querySelector('[data-editor-trace-owner]');
+    const editorCitations = [...editorRoom.querySelectorAll('[data-editor-citation]')];
+    const editorSuggestion = editorRoom.querySelector('[data-editor-suggestion]');
+    const editorAccept = editorRoom.querySelector('[data-editor-accept]');
+    const editorDismiss = editorRoom.querySelector('[data-editor-dismiss]');
+    const editorCommentToggle = editorRoom.querySelector('[data-editor-comment-toggle]');
+    const editorCommentForm = editorRoom.querySelector('[data-editor-comment-form]');
+    const editorCommentInput = editorCommentForm?.querySelector('textarea');
+    const editorCommentList = editorRoom.querySelector('[data-editor-comment-list]');
+    const editorSave = editorRoom.querySelector('[data-editor-save]');
+    const editorModeData = {
+      draft: { title: 'Closing recommendation', heading: 'Recommendation to proceed' },
+      compare: { title: 'Liability cap / version delta', heading: 'Compare the decision before signing' }
+    };
+    const editorCitationData = {
+      cap: {
+        label: 'SOURCE / MERGER AGREEMENT', title: '§ 7.4 / Limitation of liability',
+        copy: 'The source span supports the proposed cap change and is available to counsel before the suggestion is accepted.', page: '48', confidence: '98%', owner: 'J. Chen'
+      },
+      draft: {
+        label: 'SOURCE / LOCAL DRAFT', title: 'Closing condition / Counsel note',
+        copy: 'This language is a local drafting suggestion grounded in the reviewed clause and kept separate from the source record.', page: 'Draft', confidence: '94%', owner: 'Lex / J. Chen'
+      },
+      notice: {
+        label: 'SOURCE / DISCLOSURE SCHEDULE', title: 'Schedule 5 / Supplier consent',
+        copy: 'The schedule identifies five suppliers that require written notice before the transaction can close.', page: '22', confidence: '96%', owner: 'M. Patel'
+      }
+    };
+    let editorActiveMode = 'draft';
+    const setEditorMode = (mode, focus = false) => {
+      editorActiveMode = editorModeData[mode] ? mode : 'draft';
+      const content = editorModeData[editorActiveMode];
+      editorModes.forEach((tab) => {
+        const active = tab.dataset.editorMode === editorActiveMode;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', String(active));
+        tab.setAttribute('tabindex', active ? '0' : '-1');
+      });
+      editorRoom.classList.toggle('is-compare', editorActiveMode === 'compare');
+      if (editorTitle) editorTitle.textContent = content.title;
+      if (editorHeading) editorHeading.textContent = content.heading;
+      const activeTab = editorModes.find((tab) => tab.dataset.editorMode === editorActiveMode);
+      if (activeTab && editorDocument) editorDocument.setAttribute('aria-labelledby', activeTab.id);
+      if (editorStatus && editorActiveMode === 'compare') editorStatus.textContent = 'COMPARE VIEW';
+      if (editorStatus && editorActiveMode === 'draft') editorStatus.textContent = 'LOCAL DRAFT';
+      if (focus) activeTab?.focus();
+    };
+    const setEditorCitation = (citation, focus = false) => {
+      const content = editorCitationData[citation] || editorCitationData.cap;
+      if (editorTraceLabel) editorTraceLabel.textContent = content.label;
+      if (editorTraceTitle) editorTraceTitle.textContent = content.title;
+      if (editorTraceCopy) editorTraceCopy.textContent = content.copy;
+      if (editorTracePage) editorTracePage.textContent = content.page;
+      if (editorTraceConfidence) editorTraceConfidence.textContent = content.confidence;
+      if (editorTraceOwner) editorTraceOwner.textContent = content.owner;
+      editorTrace?.classList.add('is-changing');
+      window.setTimeout(() => editorTrace?.classList.remove('is-changing'), 260);
+      if (focus) editorRoom.querySelector(`[data-editor-citation="${citation}"]`)?.focus();
+    };
+    editorModes.forEach((tab, index) => {
+      tab.addEventListener('click', () => setEditorMode(tab.dataset.editorMode));
+      tab.addEventListener('keydown', (event) => {
+        if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? editorModes.length - 1 :
+          (index + (event.key === 'ArrowRight' ? 1 : -1) + editorModes.length) % editorModes.length;
+        setEditorMode(editorModes[nextIndex].dataset.editorMode, true);
+      });
+    });
+    editorCitations.forEach((citation) => citation.addEventListener('click', () => setEditorCitation(citation.dataset.editorCitation)));
+    editorAccept?.addEventListener('click', () => {
+      editorSuggestion?.classList.add('is-accepted');
+      if (editorStatus) editorStatus.textContent = 'SUGGESTION ACCEPTED LOCALLY';
+      if (editorFoot) editorFoot.textContent = '04 citations linked / 0 B outbound';
+      if (editorAccept) editorAccept.disabled = true;
+      if (editorDismiss) editorDismiss.disabled = true;
+    });
+    editorDismiss?.addEventListener('click', () => {
+      if (editorSuggestion) editorSuggestion.hidden = true;
+      if (editorStatus) editorStatus.textContent = 'ORIGINAL RETAINED LOCALLY';
+      if (editorFoot) editorFoot.textContent = '03 citations linked / 0 B outbound';
+    });
+    editorCommentToggle?.addEventListener('click', () => {
+      editorCommentToggle.hidden = true;
+      if (editorCommentForm) editorCommentForm.hidden = false;
+      editorCommentInput?.focus();
+    });
+    editorCommentForm?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const comment = editorCommentInput?.value.trim();
+      if (!comment || !editorCommentList) return;
+      const paragraph = document.createElement('p');
+      const author = document.createElement('b');
+      author.textContent = 'You';
+      paragraph.append(author, ` ${comment}`);
+      editorCommentList.append(paragraph);
+      editorCommentInput.value = '';
+      editorCommentForm.hidden = true;
+      editorCommentToggle.hidden = false;
+      if (editorStatus) editorStatus.textContent = 'COMMENT KEPT LOCALLY';
+    });
+    editorSave?.addEventListener('click', () => {
+      editorSave.disabled = true;
+      editorSave.innerHTML = 'Saved locally <span aria-hidden="true">✓</span>';
+      if (editorStatus) editorStatus.textContent = 'DRAFT SAVED LOCALLY';
+      if (editorFoot) editorFoot.textContent = '03 citations linked / 0 B outbound';
+    });
+    setEditorMode('draft');
+    setEditorCitation('cap');
+  }
+
   const setMenu = (open) => {
     menuButton?.setAttribute('aria-expanded', String(open));
     menuButton?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
@@ -671,17 +796,18 @@
         <label class="quick-nav__search"><span aria-hidden="true">⌘K</span><input id="quick-nav-search" type="search" autocomplete="off" placeholder="Search pages and product surfaces" aria-label="Search pages and product surfaces"></label>
         <nav class="quick-nav__items" aria-label="Vaultr destinations">
           <a href="platform.html" data-quick-nav-item><span><strong>Platform</strong><small>Lex, Vault, Knowledge, Agents</small></span><kbd>01</kbd></a>
-          <a href="workflows.html" data-quick-nav-item><span><strong>Workflow Studio</strong><small>Redlines, diligence, supervised runs</small></span><kbd>02</kbd></a>
-          <a href="solutions.html" data-quick-nav-item><span><strong>Solutions</strong><small>Litigation, transactional, in-house</small></span><kbd>03</kbd></a>
-          <a href="customers.html" data-quick-nav-item><span><strong>Practice Rooms</strong><small>Illustrative patterns for legal work</small></span><kbd>04</kbd></a>
-          <a href="platform.html#delivery" data-quick-nav-item><span><strong>Delivery Room</strong><small>Scoped handoffs and client-ready work</small></span><kbd>05</kbd></a>
-          <a href="command.html" data-quick-nav-item><span><strong>Command Center</strong><small>Practice activity and governance signals</small></span><kbd>06</kbd></a>
-          <a href="platform.html#evidence" data-quick-nav-item><span><strong>Evidence Ledger</strong><small>Source, span, confidence</small></span><kbd>07</kbd></a>
-          <a href="platform.html#proof" data-quick-nav-item><span><strong>Room Signals</strong><small>Boundary, ledger, runtime, root</small></span><kbd>08</kbd></a>
-          <a href="security.html" data-quick-nav-item><span><strong>Security Center</strong><small>Runtime, network, and source boundary</small></span><kbd>09</kbd></a>
-          <a href="privacy.html" data-quick-nav-item><span><strong>Privacy brief</strong><small>Data handling, ownership, and review boundaries</small></span><kbd>10</kbd></a>
-          <a href="research.html" data-quick-nav-item><span><strong>Research &amp; architecture</strong><small>Inspect runtime, evidence, and source notes</small></span><kbd>11</kbd></a>
-          <a href="deployment.html" data-quick-nav-item><span><strong>Deployment Desk</strong><small>Build a private deployment brief</small></span><kbd>12</kbd></a>
+          <a href="workflows.html" data-quick-nav-item><span><strong>Workflow Studio</strong><small>Composer, redlines, and supervised runs</small></span><kbd>02</kbd></a>
+          <a href="workflows.html#editor" data-quick-nav-item><span><strong>Source-linked Editor</strong><small>Draft, compare, cite, and comment</small></span><kbd>03</kbd></a>
+          <a href="solutions.html" data-quick-nav-item><span><strong>Solutions</strong><small>Litigation, transactional, in-house</small></span><kbd>04</kbd></a>
+          <a href="customers.html" data-quick-nav-item><span><strong>Practice Rooms</strong><small>Illustrative patterns for legal work</small></span><kbd>05</kbd></a>
+          <a href="platform.html#delivery" data-quick-nav-item><span><strong>Delivery Room</strong><small>Scoped handoffs and client-ready work</small></span><kbd>06</kbd></a>
+          <a href="command.html" data-quick-nav-item><span><strong>Command Center</strong><small>Practice activity and governance signals</small></span><kbd>07</kbd></a>
+          <a href="platform.html#evidence" data-quick-nav-item><span><strong>Evidence Ledger</strong><small>Source, span, confidence</small></span><kbd>08</kbd></a>
+          <a href="platform.html#proof" data-quick-nav-item><span><strong>Room Signals</strong><small>Boundary, ledger, runtime, root</small></span><kbd>09</kbd></a>
+          <a href="security.html" data-quick-nav-item><span><strong>Security Center</strong><small>Runtime, network, and source boundary</small></span><kbd>10</kbd></a>
+          <a href="privacy.html" data-quick-nav-item><span><strong>Privacy brief</strong><small>Data handling, ownership, and review boundaries</small></span><kbd>11</kbd></a>
+          <a href="research.html" data-quick-nav-item><span><strong>Research &amp; architecture</strong><small>Inspect runtime, evidence, and source notes</small></span><kbd>12</kbd></a>
+          <a href="deployment.html" data-quick-nav-item><span><strong>Deployment Desk</strong><small>Build a private deployment brief</small></span><kbd>13</kbd></a>
           <a href="https://github.com/sabarinath1805-loyal/Vaultr-AI" target="_blank" rel="noreferrer" data-quick-nav-item><span><strong>Open architecture</strong><small>Inspect the source and implementation notes</small></span><kbd>↗</kbd></a>
         </nav>
         <p class="quick-nav__empty" data-quick-nav-empty hidden>No matching destination.</p>

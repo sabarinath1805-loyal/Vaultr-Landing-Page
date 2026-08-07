@@ -24,8 +24,8 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preload" as="image" href="assets/images/monet-sunrise-display.jpg" fetchpriority="high">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-10">
-  <script defer src="assets/js/vaultr.js?v=library-10"></script>
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-11">
+  <script defer src="assets/js/vaultr.js?v=library-11"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Vaultr Workflow Studio","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/workflows.html","isPartOf":{"@type":"WebSite","name":"Vaultr","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/"}}</script>
 </head>
 <body class="detail-page workflow-page">
@@ -53,6 +53,7 @@
           <div class="nav-dropdown__menu">
             <a href="workflows.html" aria-current="page"><small>WORKFLOW STUDIO</small><strong>Redlines &amp; diligence</strong><span>Move from clause to confidence with evidence.</span></a>
             <a href="workflows.html#impact"><small>IMPACT</small><strong>Model your load</strong><span>Make the matter workload visible and adjustable.</span></a>
+            <a href="workflows.html#editor"><small>EDITOR</small><strong>Draft with sources</strong><span>Carry citations, deltas, and comments into work product.</span></a>
           </div>
         </div>
         <div class="nav-dropdown" data-nav-dropdown>
@@ -154,9 +155,55 @@
       </div>
     </section>
 
+    <section class="workflow-page__editor section" id="editor">
+      <div class="shell">
+        <div class="workflow-page__section-intro">
+          <p class="section-kicker reveal">02 / SOURCE-LINKED EDITOR</p>
+          <h2 class="reveal">Draft with the record in the margin.</h2>
+          <p class="reveal">Move from a suggested clause to a reviewable work product without losing the citation, the comment, or the owner behind the decision.</p>
+        </div>
+        <div class="editor-room reveal" data-editor-room>
+          <div class="editor-room__toolbar">
+            <div><span>DOCUMENT / NORTHSTAR ACQUISITION</span><strong data-editor-document-title>Closing recommendation</strong></div>
+            <div class="editor-room__modes" role="tablist" aria-label="Editor modes">
+              <button class="is-active" id="editor-mode-draft" type="button" role="tab" aria-controls="editor-document" aria-selected="true" tabindex="0" data-editor-mode="draft">Draft</button>
+              <button id="editor-mode-compare" type="button" role="tab" aria-controls="editor-document" aria-selected="false" tabindex="-1" data-editor-mode="compare">Compare</button>
+            </div>
+          </div>
+          <div class="editor-room__body">
+            <article class="editor-room__document" id="editor-document" role="tabpanel" aria-labelledby="editor-mode-draft">
+              <div class="editor-room__document-meta"><span>PRIVATE DRAFT / V3</span><span><i></i> ON DEVICE</span></div>
+              <h3 data-editor-heading>Recommendation to proceed</h3>
+              <p data-editor-paragraph="intro">Based on the current agreement and disclosure schedule, counsel should proceed subject to the liability cap and change-of-control consent being resolved before signing.</p>
+              <p data-editor-paragraph="risk">The proposed cap is <del>one year of fees</del> <ins>two times the fees paid under this Agreement</ins><button class="editor-citation" type="button" aria-label="Open citation for liability cap" data-editor-citation="cap">[1]</button>. The change is material and should remain a closing condition.</p>
+              <div class="editor-room__suggestion" data-editor-suggestion>
+                <div><span>LEX SUGGESTION / SOURCE-LINKED</span><small>Drafted locally · 98% confidence</small></div>
+                <p>“The parties shall resolve the revised liability cap before execution.”<button class="editor-citation" type="button" aria-label="Open citation for drafting suggestion" data-editor-citation="draft">[2]</button></p>
+                <div class="editor-room__suggestion-actions"><button type="button" data-editor-accept>Accept locally</button><button type="button" data-editor-dismiss>Keep original</button></div>
+              </div>
+              <p data-editor-paragraph="notice">The schedule also requires written notice for the five largest suppliers. Confirm owner and deadline in the closing checklist<button class="editor-citation" type="button" aria-label="Open citation for supplier notice" data-editor-citation="notice">[3]</button>.</p>
+            </article>
+            <aside class="editor-room__inspector" aria-label="Source and review inspector">
+              <div class="editor-room__inspector-head"><span>REVIEW INSPECTOR</span><span class="editor-room__inspector-state"><i></i><span data-editor-status>LOCAL DRAFT</span></span></div>
+              <div class="editor-room__trace" data-editor-trace>
+                <span data-editor-trace-label>SOURCE / MERGER AGREEMENT</span>
+                <strong data-editor-trace-title>§ 7.4 / Limitation of liability</strong>
+                <p data-editor-trace-copy>The source span supports the proposed cap change and is available to counsel before the suggestion is accepted.</p>
+                <div class="editor-room__trace-grid"><div><span>PAGE</span><b data-editor-trace-page>48</b></div><div><span>CONFIDENCE</span><b data-editor-trace-confidence>98%</b></div><div><span>OWNER</span><b data-editor-trace-owner>J. Chen</b></div></div>
+              </div>
+              <button class="editor-room__comment-toggle" type="button" data-editor-comment-toggle>+ Add a review comment</button>
+              <form class="editor-room__comment-form" data-editor-comment-form hidden><label for="editor-comment">Comment for the next reviewer</label><textarea id="editor-comment" rows="3" placeholder="Leave the decision context here..."></textarea><button type="submit">Keep comment local <span aria-hidden="true">→</span></button></form>
+              <div class="editor-room__comments" data-editor-comment-list><span>REVIEW THREAD</span><p><b>J. Chen</b> Confirm the cap position against the prior draft before sending.</p></div>
+            </aside>
+          </div>
+          <div class="editor-room__foot"><span data-editor-foot>03 citations linked / 0 B outbound</span><button type="button" data-editor-save>Save local draft <span aria-hidden="true">→</span></button></div>
+        </div>
+      </div>
+    </section>
+
     <section class="workflow-page__proof section">
       <div class="shell">
-        <div class="workflow-page__section-intro"><p class="section-kicker reveal">02 / OPERATING RHYTHM</p><h2 class="reveal">Fast enough for practice. Controlled enough for privilege.</h2><p class="reveal">The workflow is not a black box between upload and answer. It is a sequence your team can see, pause, and prove.</p></div>
+        <div class="workflow-page__section-intro"><p class="section-kicker reveal">03 / OPERATING RHYTHM</p><h2 class="reveal">Fast enough for practice. Controlled enough for privilege.</h2><p class="reveal">The workflow is not a black box between upload and answer. It is a sequence your team can see, pause, and prove.</p></div>
         <div class="workflow-proof__grid"><article class="workflow-proof-card reveal"><span>01</span><h3>Find the delta.</h3><p>Compare versions and surface the clause that changed before it becomes a surprise.</p><b>COMPARE / SOURCE</b></article><article class="workflow-proof-card reveal"><span>02</span><h3>Understand the risk.</h3><p>Trace the issue across the matter record and keep the relevant context in view.</p><b>REASON / CONTEXT</b></article><article class="workflow-proof-card reveal"><span>03</span><h3>Make the call.</h3><p>Accept a local draft, assign a diligence item, or leave the next move with counsel.</p><b>ACT / SUPERVISE</b></article><article class="workflow-proof-card reveal"><span>04</span><h3>Leave the proof.</h3><p>Keep the answer attached to its sources, owner, and deployment boundary.</p><b>VERIFY / AUDIT</b></article></div>
       </div>
     </section>
