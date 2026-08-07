@@ -1548,6 +1548,13 @@
     const deliveryExpiry = deliveryRoom.querySelector('[data-delivery-expiry]');
     const deliveryImport = deliveryRoom.querySelector('[data-delivery-import]');
     const deliveryContext = deliveryRoom.querySelector('[data-delivery-context]');
+    const deliveryReview = deliveryRoom.querySelector('[data-delivery-review]');
+    const deliveryReviewForm = deliveryRoom.querySelector('[data-delivery-review-form]');
+    const deliveryReviewInput = deliveryRoom.querySelector('[data-delivery-review-input]');
+    const deliveryReviewState = deliveryRoom.querySelector('[data-delivery-review-state]');
+    const deliveryReviewNote = deliveryRoom.querySelector('[data-delivery-review-note]');
+    const deliveryReviewCopy = deliveryRoom.querySelector('[data-delivery-review-copy]');
+    const deliveryReviewStatus = deliveryRoom.querySelector('[data-delivery-review-status]');
     const deliveryPacketSets = {
       consent: { title: 'Supplier consent', source: 'Diligence Tracker', span: 'Open items / 04', copy: 'The top five suppliers may require notice before closing.' },
       cap: { title: 'Liability cap', source: 'Merger Agreement', span: '§ 7.4 / Limitation', copy: 'The revised cap is two times the fees paid under the agreement.' },
@@ -1584,6 +1591,11 @@
         label: 'ACTIVITY / OWNER VIEW',
         title: 'Know what moved and when.',
         copy: 'Keep a quiet record of the handoff, recipient, and review state before anything is made available outside the firm.'
+      },
+      review: {
+        label: 'REVIEW LOOP / RECIPIENT INPUT',
+        title: 'Return a decision to the room.',
+        copy: 'Keep client feedback attached to the scoped handoff. Counsel decides what becomes a source-linked revision.'
       }
     };
     const deliveryCatalog = {
@@ -1594,6 +1606,31 @@
     };
     let deliveryTimer;
     let deliveryActiveView = 'access';
+    const deliveryReviewStorageKey = 'vaultr.delivery-review';
+    let deliveryReviewStateData = { requested: false, note: '' };
+    try {
+      const storedReview = JSON.parse(window.localStorage.getItem(deliveryReviewStorageKey) || '{}');
+      deliveryReviewStateData = {
+        requested: storedReview?.requested === true,
+        note: typeof storedReview?.note === 'string' ? storedReview.note : ''
+      };
+    } catch (error) {
+      deliveryReviewStateData = { requested: false, note: '' };
+    }
+    const persistDeliveryReview = () => {
+      try { window.localStorage.setItem(deliveryReviewStorageKey, JSON.stringify(deliveryReviewStateData)); }
+      catch (error) { /* local-only state is best effort */ }
+    };
+    const renderDeliveryReview = () => {
+      const requested = deliveryReviewStateData.requested && deliveryReviewStateData.note;
+      if (deliveryReviewState) deliveryReviewState.textContent = requested ? 'REQUEST STAGED' : 'NO REQUEST';
+      if (deliveryReviewNote) deliveryReviewNote.hidden = !requested;
+      if (deliveryReviewCopy) deliveryReviewCopy.textContent = requested ? deliveryReviewStateData.note : '';
+      if (deliveryReviewInput && deliveryReviewStateData.note) deliveryReviewInput.value = deliveryReviewStateData.note;
+      if (deliveryReviewStatus) deliveryReviewStatus.textContent = requested
+        ? 'Review request staged locally / counsel action required.'
+        : 'Nothing is sent. The request stays with the local owner.';
+    };
     const selectedDeliveryRecipients = () => deliveryRecipients.filter((input) => input.checked && !input.disabled);
     const renderDeliveryRecipients = () => {
       const selected = selectedDeliveryRecipients();
@@ -1634,8 +1671,9 @@
       if (deliveryViewLabel) deliveryViewLabel.textContent = content.label;
       if (deliveryViewTitle) deliveryViewTitle.textContent = content.title;
       if (deliveryViewCopy) deliveryViewCopy.textContent = content.copy;
-      if (deliveryPreviewItems) deliveryPreviewItems.hidden = deliveryActiveView === 'activity';
+      if (deliveryPreviewItems) deliveryPreviewItems.hidden = deliveryActiveView === 'activity' || deliveryActiveView === 'review';
       if (deliveryTimeline) deliveryTimeline.hidden = deliveryActiveView !== 'activity';
+      if (deliveryReview) deliveryReview.hidden = deliveryActiveView !== 'review';
       const activeTab = deliveryViews.find((tab) => tab.dataset.deliveryView === deliveryActiveView);
       if (activeTab && deliveryViewPanel) deliveryViewPanel.setAttribute('aria-labelledby', activeTab.id);
       if (focus) activeTab?.focus();
@@ -1649,6 +1687,20 @@
           (index + (event.key === 'ArrowRight' ? 1 : -1) + deliveryViews.length) % deliveryViews.length;
         setDeliveryView(deliveryViews[nextIndex].dataset.deliveryView, true);
       });
+    });
+    deliveryReviewForm?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const note = (deliveryReviewInput?.value || '').trim();
+      if (!note) {
+        if (deliveryReviewStatus) deliveryReviewStatus.textContent = 'Add a focused change request before staging it.';
+        deliveryReviewInput?.focus();
+        return;
+      }
+      deliveryReviewStateData = { requested: true, note };
+      persistDeliveryReview();
+      renderDeliveryReview();
+      if (deliveryStatus) deliveryStatus.textContent = 'REVIEW REQUESTED';
+      if (deliveryFoot) deliveryFoot.textContent = 'REVIEW REQUESTED / OWNER ACTION / 0 B OUTBOUND';
     });
     deliveryItems.forEach((input) => input.addEventListener('change', () => {
       if (deliveryShare) { deliveryShare.setAttribute('aria-disabled', 'true'); deliveryShare.removeAttribute('disabled'); }
@@ -1737,6 +1789,7 @@
     setDeliveryView(deliveryViewData[initialDeliveryView] ? initialDeliveryView : 'access');
     renderDeliveryItems();
     renderDeliveryPolicy();
+    renderDeliveryReview();
     if (importedPacket) {
       if (deliveryImport) deliveryImport.hidden = false;
       deliveryItems.forEach((input) => {

@@ -6274,3 +6274,29 @@ body.detail-page .footer::after { display: none !important; }
   .shared-space__release-head { flex-direction: column; gap: 10px; }
   .shared-space__release-badge { text-align: left; }
 }
+
+/* Delivery Room / two-way review loop */
+.delivery-room__review { min-width: 0; padding: 21px; border: 1px solid rgba(45, 74, 62, .16); background: #f7f8f5; }
+.delivery-room__review-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; color: var(--sage); font-size: 8px; font-weight: 700; letter-spacing: .12em; }
+.delivery-room__review-head strong { color: var(--gold); font-size: 8px; }
+.delivery-room__review h4 { max-width: 450px; margin: 40px 0 12px; color: var(--ink); font-family: var(--serif); font-size: clamp(28px, 3vw, 43px); font-weight: 400; line-height: .95; letter-spacing: -.04em; }
+.delivery-room__review > p { max-width: 500px; margin: 0; color: var(--muted); font-size: 11px; line-height: 1.55; }
+.delivery-room__review form { display: flex; flex-direction: column; margin-top: 22px; }
+.delivery-room__review form label { color: var(--sage); font-size: 8px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.delivery-room__review form textarea { width: 100%; min-height: 86px; margin-top: 9px; padding: 11px; border: 1px solid rgba(45, 74, 62, .2); background: #fff; color: var(--ink); font: inherit; font-size: 11px; line-height: 1.45; resize: vertical; }
+.delivery-room__review form textarea:focus { border-color: var(--sage); outline: 2px solid rgba(45, 74, 62, .12); outline-offset: 2px; }
+.delivery-room__review form button { display: inline-flex; align-items: center; justify-content: space-between; gap: 12px; align-self: flex-start; min-height: 35px; margin-top: 10px; padding: 0 11px; border: 1px solid var(--forest); background: var(--forest); color: #fff; cursor: pointer; font-size: 8px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; transition: background .2s, border-color .2s, color .2s, transform .2s; }
+.delivery-room__review form button:hover, .delivery-room__review form button:focus-visible { border-color: var(--gold); background: var(--gold); color: var(--ink); outline: none; transform: translateY(-1px); }
+.delivery-room__review-note { margin-top: 18px; padding-top: 13px; border-top: 1px solid rgba(45, 74, 62, .14); }
+.delivery-room__review-note span { color: #89948c; font-size: 8px; font-weight: 700; letter-spacing: .12em; }
+.delivery-room__review-note p { margin: 7px 0 0; color: var(--ink); font-size: 11px; line-height: 1.45; }
+.delivery-room__review-status { min-height: 15px; margin-top: 11px !important; color: #69766e !important; font-size: 9px !important; }
+@media (max-width: 980px) {
+  .delivery-room__review { padding: 18px; }
+  .delivery-room__review h4 { margin-top: 31px; }
+}
+@media (max-width: 640px) {
+  .delivery-room__review { padding: 16px; }
+  .delivery-room__review h4 { font-size: 34px; }
+  .delivery-room__review form button { width: 100%; }
+}

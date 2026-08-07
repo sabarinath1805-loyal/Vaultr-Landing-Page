@@ -24,8 +24,8 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preload" as="image" href="assets/images/monet-water-lilies.jpg" fetchpriority="high">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-61">
-  <script defer src="assets/js/vaultr.js?v=library-61"></script>
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-62">
+  <script defer src="assets/js/vaultr.js?v=library-62"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Vaultr Platform","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/platform.html","isPartOf":{"@type":"WebSite","name":"Vaultr","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/"}}</script>
 </head>
 <body class="detail-page platform-page">
@@ -326,6 +326,7 @@
               <button class="is-active" id="delivery-view-access" type="button" role="tab" aria-controls="delivery-view-panel" aria-selected="true" data-delivery-view="access">Access</button>
               <button id="delivery-view-artifacts" type="button" role="tab" aria-controls="delivery-view-panel" aria-selected="false" data-delivery-view="artifacts">Work product</button>
               <button id="delivery-view-activity" type="button" role="tab" aria-controls="delivery-view-panel" aria-selected="false" data-delivery-view="activity">Activity</button>
+              <button id="delivery-view-review" type="button" role="tab" aria-controls="delivery-view-panel" aria-selected="false" data-delivery-view="review">Review loop</button>
             </div>
             <div class="delivery-room__view" id="delivery-view-panel" role="tabpanel" aria-labelledby="delivery-view-access">
               <span class="delivery-room__label" data-delivery-view-label>SCOPED ACCESS</span>
@@ -369,6 +370,14 @@
                 <div><span>09:42</span><strong>Local pass completed</strong><small>J. Chen / private room</small></div>
                 <div><span>09:47</span><strong>Scope prepared</strong><small>2 recipients / owner approval</small></div>
                 <div><span>09:51</span><strong>Awaiting release</strong><small>Nothing shared yet</small></div>
+              </div>
+              <div class="delivery-room__review" data-delivery-review hidden>
+                <div class="delivery-room__review-head"><span>RECIPIENT REVIEW / LOCAL INBOX</span><strong data-delivery-review-state>NO REQUEST</strong></div>
+                <h4>Keep the conversation attached to the handoff.</h4>
+                <p>The recipient can return a focused change request without opening the private matter. Counsel decides what moves back into the draft.</p>
+                <form data-delivery-review-form><label for="delivery-review-note">Change request</label><textarea id="delivery-review-note" rows="3" placeholder="Ask for a clarification, new source, or revised scope..." data-delivery-review-input></textarea><button type="submit">Stage request locally <span aria-hidden="true">&rarr;</span></button></form>
+                <div class="delivery-room__review-note" data-delivery-review-note hidden><span>REQUESTED CHANGE</span><p data-delivery-review-copy></p></div>
+                <p class="delivery-room__review-status" data-delivery-review-status aria-live="polite">Nothing is sent. The request stays with the local owner.</p>
               </div>
               <div class="delivery-room__policy-note" data-delivery-policy-note>Approval required · 24-hour access window</div>
             </div>
