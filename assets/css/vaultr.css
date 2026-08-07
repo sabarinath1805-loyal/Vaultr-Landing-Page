@@ -4596,6 +4596,7 @@ body:not(.detail-page) .features .feature h3 { color: var(--forest); }
 /* The new Command Center preview supersedes the preserved moved section below it.
    Keep that original markup in the source archive without rendering a duplicate dashboard. */
 .command-center--archive[aria-hidden="true"] { display: none; }
+.page-archive[aria-hidden="true"] { display: none; }
 
 /* Boundary Lab: make the privacy architecture inspectable without adding noise. */
 .privacy-diagram[data-boundary-lab] { padding: 29px; }
