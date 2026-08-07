@@ -24,8 +24,8 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preload" as="image" href="assets/images/monet-water-lilies.jpg" fetchpriority="high">
-  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-44">
-  <script defer src="assets/js/vaultr.js?v=library-44"></script>
+  <link rel="stylesheet" href="assets/css/vaultr.css?v=library-45">
+  <script defer src="assets/js/vaultr.js?v=library-45"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Vaultr Platform","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/platform.html","isPartOf":{"@type":"WebSite","name":"Vaultr","url":"https://sabarinath1805-loyal.github.io/Vaultr-Landing-Page/"}}</script>
 </head>
 <body class="detail-page platform-page">
@@ -189,6 +189,7 @@
               <button id="agent-filter-transactional" type="button" role="tab" aria-controls="agent-list" aria-selected="false" tabindex="-1" data-agent-filter="transactional">Transactional <span>02</span></button>
               <button id="agent-filter-litigation" type="button" role="tab" aria-controls="agent-list" aria-selected="false" tabindex="-1" data-agent-filter="litigation">Litigation <span>02</span></button>
               <button id="agent-filter-inhouse" type="button" role="tab" aria-controls="agent-list" aria-selected="false" tabindex="-1" data-agent-filter="inhouse">In-house <span>02</span></button>
+              <button id="agent-filter-saved" type="button" role="tab" aria-controls="agent-list" aria-selected="false" tabindex="-1" data-agent-filter="saved">Saved <span data-agent-saved-count>00</span></button>
             </div>
             <label class="agent-library__search"><span aria-hidden="true">⌕</span><input type="search" placeholder="Find an agent" aria-label="Find an agent" data-agent-search></label>
           </div>
@@ -207,6 +208,7 @@
               <h3 data-agent-detail-title>Diligence exceptions</h3>
               <p data-agent-detail-copy>Scan the approved matter set, cluster open exceptions, and leave each recommendation attached to the clause and owner that can resolve it.</p>
               <div class="agent-library__detail-grid"><div><span>INPUTS</span><strong data-agent-detail-inputs>Source set / playbook</strong></div><div><span>GUARDRAIL</span><strong data-agent-detail-guardrail>Pause on material risk</strong></div><div><span>OUTPUT</span><strong data-agent-detail-output>Review-ready packet</strong></div></div>
+              <button class="agent-library__save" type="button" data-agent-save aria-pressed="false"><span data-agent-save-icon aria-hidden="true">☆</span><span data-agent-save-label>Save to library</span></button>
               <button class="agent-library__stage" type="button" data-agent-stage>Stage in Workflow Studio <span aria-hidden="true">→</span></button>
               <p class="agent-library__stage-status" data-agent-stage-status aria-live="polite">Nothing staged yet.</p>
             </aside>

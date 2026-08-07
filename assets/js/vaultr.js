@@ -418,6 +418,10 @@
     const agentDetailInputs = agentLibrary.querySelector('[data-agent-detail-inputs]');
     const agentDetailGuardrail = agentLibrary.querySelector('[data-agent-detail-guardrail]');
     const agentDetailOutput = agentLibrary.querySelector('[data-agent-detail-output]');
+    const agentSave = agentLibrary.querySelector('[data-agent-save]');
+    const agentSaveIcon = agentLibrary.querySelector('[data-agent-save-icon]');
+    const agentSaveLabel = agentLibrary.querySelector('[data-agent-save-label]');
+    const agentSavedCount = agentLibrary.querySelector('[data-agent-saved-count]');
     const agentStage = agentLibrary.querySelector('[data-agent-stage]');
     const agentStageStatus = agentLibrary.querySelector('[data-agent-stage-status]');
     const agentFoot = agentLibrary.querySelector('[data-agent-foot]');
@@ -431,6 +435,25 @@
     };
     let agentFilter = 'all';
     let agentActive = 'diligence';
+    const savedAgentStorageKey = 'vaultr.saved-agents';
+    let savedAgents = new Set();
+    try {
+      const storedAgents = JSON.parse(window.localStorage.getItem(savedAgentStorageKey) || '[]');
+      if (Array.isArray(storedAgents)) savedAgents = new Set(storedAgents.filter((key) => Object.prototype.hasOwnProperty.call(agentData, key)));
+    } catch (error) {
+      savedAgents = new Set();
+    }
+    const persistSavedAgents = () => {
+      try { window.localStorage.setItem(savedAgentStorageKey, JSON.stringify([...savedAgents])); } catch (error) { /* local-only preference is best effort */ }
+    };
+    const updateAgentSaveControl = () => {
+      const saved = savedAgents.has(agentActive);
+      agentSave?.setAttribute('aria-pressed', String(saved));
+      agentSave?.classList.toggle('is-saved', saved);
+      if (agentSaveIcon) agentSaveIcon.textContent = saved ? '★' : '☆';
+      if (agentSaveLabel) agentSaveLabel.textContent = saved ? 'Saved to library' : 'Save to library';
+      if (agentSavedCount) agentSavedCount.textContent = String(savedAgents.size).padStart(2, '0');
+    };
     const setAgentDetail = (key) => {
       const content = agentData[key] || agentData.diligence;
       agentActive = key;
@@ -446,6 +469,7 @@
       if (agentDetailInputs) agentDetailInputs.textContent = content.inputs;
       if (agentDetailGuardrail) agentDetailGuardrail.textContent = content.guardrail;
       if (agentDetailOutput) agentDetailOutput.textContent = content.output;
+      updateAgentSaveControl();
       if (agentStage) { agentStage.disabled = false; agentStage.innerHTML = 'Stage in Workflow Studio <span aria-hidden="true">→</span>'; }
       if (agentStageStatus) agentStageStatus.textContent = 'Nothing staged yet.';
     };
@@ -461,17 +485,21 @@
       const activeFilter = agentFilters.find((tab) => tab.dataset.agentFilter === filter);
       if (activeFilter && agentList) agentList.setAttribute('aria-labelledby', activeFilter.id);
       const visible = agentCards.filter((card) => {
-        const kindMatches = filter === 'all' || card.dataset.agentKind === filter;
+        const kindMatches = filter === 'all' || filter === 'saved' || card.dataset.agentKind === filter;
+        const savedMatches = filter !== 'saved' || savedAgents.has(card.dataset.agentKey);
         const normalizedText = card.textContent.toLowerCase().replace(/[\u2010-\u2015-]/g, ' ');
         const matchesSearch = !query || normalizedText.includes(query.replace(/[\u2010-\u2015-]/g, ' '));
-        const shown = kindMatches && matchesSearch;
+        const shown = kindMatches && savedMatches && matchesSearch;
         card.hidden = !shown;
         return shown;
       });
-      if (agentEmpty) agentEmpty.hidden = visible.length !== 0;
+      if (agentEmpty) {
+        agentEmpty.hidden = visible.length !== 0;
+        agentEmpty.textContent = filter === 'saved' ? 'No saved agents yet. Select an agent and save it here.' : 'No local agent matches that search.';
+      }
       const next = visible.find((card) => card.dataset.agentKey === agentActive) || visible[0];
       if (next) setAgentDetail(next.dataset.agentKey);
-      if (agentFoot) agentFoot.textContent = `${String(visible.length).padStart(2, '0')} curated agents / 0 B outbound`;
+      if (agentFoot) agentFoot.textContent = `${String(visible.length).padStart(2, '0')} ${filter === 'saved' ? 'saved' : 'curated'} agents / 0 B outbound`;
     };
     agentFilters.forEach((filter, index) => {
       filter.addEventListener('click', () => { writeQueryState('agent', filter.dataset.agentFilter); renderAgents(filter.dataset.agentFilter); });
@@ -498,6 +526,15 @@
       });
     });
     agentSearch?.addEventListener('input', () => renderAgents());
+    agentSave?.addEventListener('click', () => {
+      const saved = savedAgents.has(agentActive);
+      if (saved) savedAgents.delete(agentActive);
+      else savedAgents.add(agentActive);
+      persistSavedAgents();
+      updateAgentSaveControl();
+      renderAgents(agentFilter);
+      if (agentStageStatus) agentStageStatus.textContent = saved ? 'Removed locally / no external request.' : 'Saved locally / available in Saved.';
+    });
     agentStage?.addEventListener('click', () => {
       const content = agentData[agentActive] || agentData.diligence;
       agentStage.disabled = true;
