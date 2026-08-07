@@ -5087,3 +5087,6 @@ body:not(.detail-page) .features .feature h3 { color: var(--forest); }
   .delivery-room__recipients { margin-inline: 16px; }
   .delivery-room__audience { align-items: flex-start; flex-direction: column; gap: 5px; }
 }
+
+/* Keep the orientation rail visible without covering product controls. */
+.room-index { z-index: 1; }
