@@ -398,6 +398,115 @@
     renderKnowledge(initialKnowledge && knowledgeFilters.some((tab) => tab.dataset.knowledgeFilter === initialKnowledge) ? initialKnowledge : 'all');
   }
 
+  const agentLibrary = document.querySelector('[data-agent-library]');
+  if (agentLibrary) {
+    const agentFilters = [...agentLibrary.querySelectorAll('[data-agent-filter]')];
+    const agentCards = [...agentLibrary.querySelectorAll('[data-agent-card]')];
+    const agentSearch = agentLibrary.querySelector('[data-agent-search]');
+    const agentList = agentLibrary.querySelector('[data-agent-list]');
+    const agentEmpty = agentLibrary.querySelector('[data-agent-empty]');
+    const agentDetailKind = agentLibrary.querySelector('[data-agent-detail-kind]');
+    const agentDetailState = agentLibrary.querySelector('[data-agent-detail-state]');
+    const agentDetailTitle = agentLibrary.querySelector('[data-agent-detail-title]');
+    const agentDetailCopy = agentLibrary.querySelector('[data-agent-detail-copy]');
+    const agentDetailInputs = agentLibrary.querySelector('[data-agent-detail-inputs]');
+    const agentDetailGuardrail = agentLibrary.querySelector('[data-agent-detail-guardrail]');
+    const agentDetailOutput = agentLibrary.querySelector('[data-agent-detail-output]');
+    const agentStage = agentLibrary.querySelector('[data-agent-stage]');
+    const agentStageStatus = agentLibrary.querySelector('[data-agent-stage-status]');
+    const agentFoot = agentLibrary.querySelector('[data-agent-foot]');
+    const agentData = {
+      diligence: { kind: 'TRANSACTIONAL / REVIEW', state: 'READY TO STAGE', title: 'Diligence exceptions', copy: 'Scan the approved matter set, cluster open exceptions, and leave each recommendation attached to the clause and owner that can resolve it.', inputs: 'Source set / playbook', guardrail: 'Pause on material risk', output: 'Review-ready packet', source: 'Diligence Tracker', span: 'Open items / 18', owner: 'J. Chen' },
+      redline: { kind: 'TRANSACTIONAL / COMPARE', state: 'READY TO STAGE', title: 'Clause drift review', copy: 'Compare the signing set against the prior draft, surface material deltas, and keep the source span beside every proposed explanation.', inputs: 'Two document versions', guardrail: 'Materiality threshold', output: 'Cited delta brief', source: 'Merger Agreement', span: '§ 7.4 / Limitation', owner: 'M. Chen' },
+      chronology: { kind: 'LITIGATION / ANALYSIS', state: 'READY TO STAGE', title: 'Chronology builder', copy: 'Turn filings, witness notes, and exhibits into a source-linked chronology that counsel can reorder before it becomes a case narrative.', inputs: 'Filings / exhibits / notes', guardrail: 'Counsel review gate', output: 'Source-linked timeline', source: 'Case Record', span: 'Chronology / 42 events', owner: 'A. Rao' },
+      discovery: { kind: 'LITIGATION / DISCOVERY', state: 'READY TO STAGE', title: 'Discovery issue map', copy: 'Cluster discovery material by issue, flag privilege cues for review, and route unresolved calls to the owner instead of guessing.', inputs: 'Discovery corpus', guardrail: 'Privilege hold', output: 'Issue map / owner queue', source: 'Discovery Index', span: 'Issues / 09 clusters', owner: 'L. Grant' },
+      policy: { kind: 'IN-HOUSE / GOVERNANCE', state: 'READY TO STAGE', title: 'Policy gap scan', copy: 'Check approved AI use against the firm standard, expose missing owners, and stage a remediation list without exporting the underlying policy set.', inputs: 'Policy set / controls', guardrail: 'No external route', output: 'Governance brief', source: 'Privacy & AI Policy', span: '§ 3 / Approved systems', owner: 'KM / Security' },
+      intake: { kind: 'IN-HOUSE / INTAKE', state: 'READY TO STAGE', title: 'Contract intake triage', copy: 'Route incoming agreements by risk and owner, then carry the relevant fallback language into a reviewable local workflow.', inputs: 'Intake form / template', guardrail: 'Owner assignment', output: 'Triage queue', source: 'Contract Intake', span: 'Queue / 12 requests', owner: 'Legal Ops' }
+    };
+    let agentFilter = 'all';
+    let agentActive = 'diligence';
+    const setAgentDetail = (key) => {
+      const content = agentData[key] || agentData.diligence;
+      agentActive = key;
+      agentCards.forEach((card) => {
+        const active = card.dataset.agentKey === key;
+        card.classList.toggle('is-active', active);
+        card.setAttribute('aria-selected', String(active));
+      });
+      if (agentDetailKind) agentDetailKind.textContent = content.kind;
+      if (agentDetailState) agentDetailState.textContent = content.state;
+      if (agentDetailTitle) agentDetailTitle.textContent = content.title;
+      if (agentDetailCopy) agentDetailCopy.textContent = content.copy;
+      if (agentDetailInputs) agentDetailInputs.textContent = content.inputs;
+      if (agentDetailGuardrail) agentDetailGuardrail.textContent = content.guardrail;
+      if (agentDetailOutput) agentDetailOutput.textContent = content.output;
+      if (agentStage) { agentStage.disabled = false; agentStage.innerHTML = 'Stage in Workflow Studio <span aria-hidden="true">→</span>'; }
+      if (agentStageStatus) agentStageStatus.textContent = 'Nothing staged yet.';
+    };
+    const renderAgents = (filter = agentFilter) => {
+      agentFilter = filter;
+      const query = (agentSearch?.value || '').trim().toLowerCase();
+      agentFilters.forEach((tab) => {
+        const active = tab.dataset.agentFilter === filter;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', String(active));
+        tab.tabIndex = active ? 0 : -1;
+      });
+      const activeFilter = agentFilters.find((tab) => tab.dataset.agentFilter === filter);
+      if (activeFilter && agentList) agentList.setAttribute('aria-labelledby', activeFilter.id);
+      const visible = agentCards.filter((card) => {
+        const kindMatches = filter === 'all' || card.dataset.agentKind === filter;
+        const normalizedText = card.textContent.toLowerCase().replace(/[\u2010-\u2015-]/g, ' ');
+        const matchesSearch = !query || normalizedText.includes(query.replace(/[\u2010-\u2015-]/g, ' '));
+        const shown = kindMatches && matchesSearch;
+        card.hidden = !shown;
+        return shown;
+      });
+      if (agentEmpty) agentEmpty.hidden = visible.length !== 0;
+      const next = visible.find((card) => card.dataset.agentKey === agentActive) || visible[0];
+      if (next) setAgentDetail(next.dataset.agentKey);
+      if (agentFoot) agentFoot.textContent = `${String(visible.length).padStart(2, '0')} curated agents / 0 B outbound`;
+    };
+    agentFilters.forEach((filter, index) => {
+      filter.addEventListener('click', () => { writeQueryState('agent', filter.dataset.agentFilter); renderAgents(filter.dataset.agentFilter); });
+      filter.addEventListener('keydown', (event) => {
+        if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? agentFilters.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + agentFilters.length) % agentFilters.length;
+        const next = agentFilters[nextIndex];
+        writeQueryState('agent', next.dataset.agentFilter);
+        renderAgents(next.dataset.agentFilter);
+        next.focus();
+      });
+    });
+    agentCards.forEach((card, index) => {
+      card.addEventListener('click', () => setAgentDetail(card.dataset.agentKey));
+      card.addEventListener('keydown', (event) => {
+        if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const visible = agentCards.filter((item) => !item.hidden);
+        const current = visible.indexOf(card);
+        const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? visible.length - 1 : (current + (event.key === 'ArrowDown' ? 1 : -1) + visible.length) % visible.length;
+        visible[nextIndex]?.focus();
+        if (visible[nextIndex]) setAgentDetail(visible[nextIndex].dataset.agentKey);
+      });
+    });
+    agentSearch?.addEventListener('input', () => renderAgents());
+    agentStage?.addEventListener('click', () => {
+      const content = agentData[agentActive] || agentData.diligence;
+      agentStage.disabled = true;
+      agentStage.innerHTML = 'Agent staged locally <span aria-hidden="true">✓</span>';
+      if (agentStageStatus) agentStageStatus.textContent = 'Opening Workflow Studio with the guardrails attached…';
+      if (agentFoot) agentFoot.textContent = 'AGENT STAGED / 0 B OUTBOUND';
+      const workflowUrl = new URL('workflows.html', window.location.href);
+      workflowUrl.searchParams.set('source', `agent-${agentActive}`);
+      workflowUrl.hash = 'studio';
+      window.setTimeout(() => { window.location.href = workflowUrl.toString(); }, 320);
+    });
+    const initialAgent = readQueryState('agent');
+    renderAgents(initialAgent && agentFilters.some((filter) => filter.dataset.agentFilter === initialAgent) ? initialAgent : 'all');
+  }
+
   const researchDesk = document.querySelector('[data-research-desk]');
   if (researchDesk) {
     const researchForm = researchDesk.querySelector('[data-research-form]');
@@ -780,7 +889,13 @@
       'research-consent': { title: 'Change-of-control consent', source: 'Merger Agreement', span: '§ 9.2 / Assignment', owner: 'J. Chen', copy: 'The top five suppliers may require notice before closing.' },
       'research-indemnity': { title: 'Indemnity fallback position', source: 'Merger Agreement', span: '§ 8.1 / Indemnity', owner: 'M. Chen', copy: 'The indemnity fallback position is held for the negotiation brief.' },
       'research-privacy': { title: 'Approved AI boundary', source: 'AI Use Policy', span: '§ 4 / Approved systems', owner: 'S. Patel', copy: 'The approved local runtime boundary is ready for the policy review.' },
-      'research-closing': { title: 'Closing conditions', source: 'Diligence Tracker', span: 'Open items / 18', owner: 'J. Chen', copy: 'The remaining closing conditions are ready for an owner-scoped handoff.' }
+      'research-closing': { title: 'Closing conditions', source: 'Diligence Tracker', span: 'Open items / 18', owner: 'J. Chen', copy: 'The remaining closing conditions are ready for an owner-scoped handoff.' },
+      'agent-diligence': { title: 'Diligence exceptions', source: 'Diligence Tracker', span: 'Open items / 18', owner: 'J. Chen', copy: 'The staged agent packet groups the open exceptions for a source-linked review.' },
+      'agent-redline': { title: 'Clause drift review', source: 'Merger Agreement', span: '§ 7.4 / Limitation', owner: 'M. Chen', copy: 'The staged agent packet keeps each material delta next to its supporting clause.' },
+      'agent-chronology': { title: 'Chronology builder', source: 'Case Record', span: 'Chronology / 42 events', owner: 'A. Rao', copy: 'The staged agent packet gives counsel a source-linked timeline to reorder and review.' },
+      'agent-discovery': { title: 'Discovery issue map', source: 'Discovery Index', span: 'Issues / 09 clusters', owner: 'L. Grant', copy: 'The staged agent packet keeps privilege cues and unresolved issues inside the review gate.' },
+      'agent-policy': { title: 'Policy gap scan', source: 'Privacy & AI Policy', span: '§ 3 / Approved systems', owner: 'KM / Security', copy: 'The staged agent packet turns approved-runtime gaps into an owner-scoped governance brief.' },
+      'agent-intake': { title: 'Contract intake triage', source: 'Contract Intake', span: 'Queue / 12 requests', owner: 'Legal Ops', copy: 'The staged agent packet routes each intake request to a visible owner and next step.' }
     };
     const importedPacket = deliveryPacketSets[readQueryState('packet') || readQueryState('source')];
     const deliveryViewData = {
@@ -1042,7 +1157,13 @@
       'research-consent': { title: 'Change-of-control consent', copy: 'Change-of-control consent / research memo staged locally', packet: 'research-consent', source: 'Merger Agreement', span: '§ 9.2 / Assignment', owner: 'J. Chen' },
       'research-indemnity': { title: 'Indemnity fallback position', copy: 'Indemnity fallback position / research memo staged locally', packet: 'research-indemnity', source: 'Merger Agreement', span: '§ 8.1 / Indemnity', owner: 'M. Chen' },
       'research-privacy': { title: 'Approved AI boundary', copy: 'Approved AI boundary / research memo staged locally', packet: 'research-privacy', source: 'AI Use Policy', span: '§ 4 / Approved systems', owner: 'S. Patel' },
-      'research-closing': { title: 'Closing conditions', copy: 'Closing conditions / research memo staged locally', packet: 'research-closing', source: 'Diligence Tracker', span: 'Open items / 18', owner: 'J. Chen' }
+      'research-closing': { title: 'Closing conditions', copy: 'Closing conditions / research memo staged locally', packet: 'research-closing', source: 'Diligence Tracker', span: 'Open items / 18', owner: 'J. Chen' },
+      'agent-diligence': { title: 'Diligence exceptions', copy: 'Diligence exceptions / agent staged locally', packet: 'agent-diligence', source: 'Diligence Tracker', span: 'Open items / 18', owner: 'J. Chen' },
+      'agent-redline': { title: 'Clause drift review', copy: 'Clause drift review / agent staged locally', packet: 'agent-redline', source: 'Merger Agreement', span: '§ 7.4 / Limitation', owner: 'M. Chen' },
+      'agent-chronology': { title: 'Chronology builder', copy: 'Chronology builder / agent staged locally', packet: 'agent-chronology', source: 'Case Record', span: 'Chronology / 42 events', owner: 'A. Rao' },
+      'agent-discovery': { title: 'Discovery issue map', copy: 'Discovery issue map / agent staged locally', packet: 'agent-discovery', source: 'Discovery Index', span: 'Issues / 09 clusters', owner: 'L. Grant' },
+      'agent-policy': { title: 'Policy gap scan', copy: 'Policy gap scan / agent staged locally', packet: 'agent-policy', source: 'Privacy & AI Policy', span: '§ 3 / Approved systems', owner: 'KM / Security' },
+      'agent-intake': { title: 'Contract intake triage', copy: 'Contract intake triage / agent staged locally', packet: 'agent-intake', source: 'Contract Intake', span: 'Queue / 12 requests', owner: 'Legal Ops' }
     };
     const importedSource = composerSourceSets[readQueryState('source')];
     if (importedSource) composerCatalog.sources.copy = importedSource.copy;
@@ -1288,6 +1409,7 @@
           <nav class="quick-nav__items" aria-label="Vaultr destinations">
           <a href="platform.html" data-quick-nav-item><span><strong>Platform</strong><small>Lex, Vault, Knowledge, Agents</small></span><kbd>01</kbd></a>
           <a href="platform.html#knowledge" data-quick-nav-item><span><strong>Knowledge Room</strong><small>Precedents, playbooks, and policies</small></span><kbd>02</kbd></a>
+          <a href="platform.html#agents" data-quick-nav-item data-quick-nav-keywords="agent library transactional litigation in-house playbook review"><span><strong>Agent Library</strong><small>Governed legal agents, ready to stage</small></span><kbd>03</kbd></a>
           <a href="workflows.html" data-quick-nav-item><span><strong>Workflow Studio</strong><small>Composer, redlines, and supervised runs</small></span><kbd>03</kbd></a>
           <a href="workflows.html#editor" data-quick-nav-item><span><strong>Source-linked Editor</strong><small>Draft, compare, cite, and comment</small></span><kbd>04</kbd></a>
           <a href="workflows.html#review-table" data-quick-nav-item data-quick-nav-keywords="tabular review extraction structured facts issues rows diligence"><span><strong>Tabular Review</strong><small>Extract issues across a matter</small></span><kbd>05</kbd></a>
