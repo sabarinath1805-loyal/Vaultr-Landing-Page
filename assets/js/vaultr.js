@@ -595,6 +595,14 @@
     const deliveryPolicyNote = deliveryRoom.querySelector('[data-delivery-policy-note]');
     const deliveryApproval = deliveryRoom.querySelector('[data-delivery-policy="approval"]');
     const deliveryExpiry = deliveryRoom.querySelector('[data-delivery-expiry]');
+    const deliveryImport = deliveryRoom.querySelector('[data-delivery-import]');
+    const deliveryPacketSets = {
+      consent: { title: 'Supplier consent', source: 'Diligence Tracker', span: 'Open items / 04', copy: 'The top five suppliers may require notice before closing.' },
+      cap: { title: 'Liability cap', source: 'Merger Agreement', span: '§ 7.4 / Limitation', copy: 'The revised cap is two times the fees paid under the agreement.' },
+      dpa: { title: 'Subprocessor schedule', source: 'Disclosure Schedule', span: '§ 12 / Data processing', copy: 'The data processing addendum needs to be checked against the approved subprocessor list.' },
+      board: { title: 'Board approval', source: 'Counsel Thread', span: 'Thread 08 / Approval', copy: 'Counsel correspondence confirms the approval memo is ready for the closing checklist.' }
+    };
+    const importedPacket = deliveryPacketSets[readQueryState('packet')];
     const deliveryViewData = {
       access: {
         label: 'SCOPED ACCESS',
@@ -695,8 +703,10 @@
       deliveryPrepare.disabled = true;
       deliveryPrepare.classList.add('is-running');
       if (deliveryStatus) deliveryStatus.textContent = 'PREPARING LOCALLY';
-      if (deliveryPreviewTitle) deliveryPreviewTitle.textContent = deliveryActiveView === 'activity' ? 'Handoff activity / owner view' : 'Decision brief: acquisition review';
-      if (deliveryPreviewCopy) deliveryPreviewCopy.textContent = `The selected handoff is staged locally for ${recipients.length} scoped recipient${recipients.length === 1 ? '' : 's'} with ${deliveryApproval?.checked ? 'owner approval' : 'no approval gate'} and a ${deliveryExpiry?.value || '24 hours'} access window. Review the scope before you make it available.`;
+      if (deliveryPreviewTitle) deliveryPreviewTitle.textContent = deliveryActiveView === 'activity' ? 'Handoff activity / owner view' : importedPacket ? `${importedPacket.title} / decision brief` : 'Decision brief: acquisition review';
+      if (deliveryPreviewCopy) deliveryPreviewCopy.textContent = importedPacket
+        ? `${importedPacket.copy} The staged packet keeps ${importedPacket.source} / ${importedPacket.span} attached for the recipient. Review the scope before you make it available.`
+        : `The selected handoff is staged locally for ${recipients.length} scoped recipient${recipients.length === 1 ? '' : 's'} with ${deliveryApproval?.checked ? 'owner approval' : 'no approval gate'} and a ${deliveryExpiry?.value || '24 hours'} access window. Review the scope before you make it available.`;
       deliveryTimer = window.setTimeout(() => {
         deliveryPrepare.disabled = false;
         deliveryPrepare.classList.remove('is-running');
@@ -717,6 +727,13 @@
     setDeliveryView(deliveryViewData[initialDeliveryView] ? initialDeliveryView : 'access');
     renderDeliveryItems();
     renderDeliveryPolicy();
+    if (importedPacket) {
+      if (deliveryImport) deliveryImport.hidden = false;
+      if (deliveryStatus) deliveryStatus.textContent = 'PACKET IMPORTED';
+      if (deliveryPreviewTitle) deliveryPreviewTitle.textContent = `${importedPacket.title} / decision brief`;
+      if (deliveryPreviewCopy) deliveryPreviewCopy.textContent = `${importedPacket.copy} The staged packet keeps ${importedPacket.source} / ${importedPacket.span} attached for the recipient.`;
+      if (deliveryFoot) deliveryFoot.textContent = 'Review packet imported / 0 B outbound';
+    }
   }
 
   const verificationLab = document.querySelector('[data-verification]');
@@ -1864,6 +1881,7 @@
     const reviewDetailOwner = reviewTable.querySelector('[data-review-detail-owner]');
     const reviewDetailAction = reviewTable.querySelector('[data-review-detail-action]');
     const reviewStage = reviewTable.querySelector('[data-review-stage]');
+    const reviewDeliveryLink = reviewTable.querySelector('[data-review-delivery-link]');
     const reviewStageStatus = reviewTable.querySelector('[data-review-stage-status]');
     const reviewDetails = {
       consent: { type: 'OPEN ITEM / SOURCE TRACE', state: 'NEEDS REVIEW', title: 'Supplier consent', copy: 'The top five suppliers may require notice before closing. Lex kept the issue open because the consent language is split across the tracker and the change-of-control clause.', source: 'Diligence Tracker', span: 'Open items / 04', owner: 'J. Chen' },
@@ -1920,6 +1938,13 @@
       reviewStage.disabled = true;
       reviewStage.textContent = 'Packet staged';
       if (reviewStageStatus) reviewStageStatus.textContent = 'STAGED LOCALLY';
+      if (reviewDeliveryLink) {
+        const deliveryUrl = new URL('platform.html', window.location.href);
+        deliveryUrl.searchParams.set('packet', selectedReview);
+        deliveryUrl.hash = 'delivery';
+        reviewDeliveryLink.href = deliveryUrl.toString();
+        reviewDeliveryLink.hidden = false;
+      }
     });
     renderReviewRows('all');
   }
