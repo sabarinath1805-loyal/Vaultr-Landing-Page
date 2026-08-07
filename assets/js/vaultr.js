@@ -1356,6 +1356,7 @@
     const deliveryStatus = deliveryRoom.querySelector('[data-delivery-status]');
     const deliveryFoot = deliveryRoom.querySelector('[data-delivery-foot]');
     const deliveryPrepare = deliveryRoom.querySelector('[data-delivery-prepare]');
+    const deliveryDownload = deliveryRoom.querySelector('[data-delivery-download]');
     const deliveryShare = deliveryRoom.querySelector('[data-delivery-share]');
     const deliveryTimeline = deliveryRoom.querySelector('[data-delivery-timeline]');
     const deliveryPolicyNote = deliveryRoom.querySelector('[data-delivery-policy-note]');
@@ -1431,6 +1432,12 @@
         : 'Choose scope and recipients / 0 B outbound';
       if (deliveryPrepare) deliveryPrepare.disabled = selected.length === 0 || recipients.length === 0;
     };
+    const resetDeliveryDownload = () => {
+      if (!deliveryDownload) return;
+      deliveryDownload.disabled = true;
+      deliveryDownload.setAttribute('aria-disabled', 'true');
+      deliveryDownload.innerHTML = 'Download brief <span aria-hidden="true">&#8595;</span>';
+    };
     const setDeliveryView = (view, focus = false) => {
       const content = deliveryViewData[view] || deliveryViewData.access;
       deliveryActiveView = deliveryViewData[view] ? view : 'access';
@@ -1461,11 +1468,13 @@
     });
     deliveryItems.forEach((input) => input.addEventListener('change', () => {
       if (deliveryShare) { deliveryShare.setAttribute('aria-disabled', 'true'); deliveryShare.removeAttribute('disabled'); }
+      resetDeliveryDownload();
       if (deliveryStatus) deliveryStatus.textContent = 'PRIVATE DRAFT';
       renderDeliveryItems();
     }));
     deliveryRecipients.forEach((input) => input.addEventListener('change', () => {
       if (deliveryShare) { deliveryShare.setAttribute('aria-disabled', 'true'); deliveryShare.removeAttribute('disabled'); }
+      resetDeliveryDownload();
       if (deliveryStatus) deliveryStatus.textContent = 'PRIVATE DRAFT';
       renderDeliveryItems();
     }));
@@ -1474,6 +1483,7 @@
       const expiry = deliveryExpiry?.value || '24 hours';
       if (deliveryPolicyNote) deliveryPolicyNote.textContent = `${approval ? 'Approval required' : 'Owner approval not required'} / ${expiry} access window`;
       if (deliveryShare) deliveryShare.setAttribute('aria-disabled', 'true');
+      resetDeliveryDownload();
       if (deliveryStatus) deliveryStatus.textContent = 'PRIVATE DRAFT';
     };
     deliveryApproval?.addEventListener('change', renderDeliveryPolicy);
@@ -1494,7 +1504,42 @@
         if (deliveryStatus) deliveryStatus.textContent = 'READY TO SHARE';
         if (deliveryFoot) deliveryFoot.textContent = `${deliveryItems.filter((input) => input.checked && !input.disabled).length} item${deliveryItems.filter((input) => input.checked && !input.disabled).length === 1 ? '' : 's'} staged · ${selectedDeliveryRecipients().length} recipient${selectedDeliveryRecipients().length === 1 ? '' : 's'} / 0 B outbound`;
         if (deliveryShare) { deliveryShare.setAttribute('aria-disabled', 'false'); deliveryShare.removeAttribute('disabled'); }
+        if (deliveryDownload) { deliveryDownload.setAttribute('aria-disabled', 'false'); deliveryDownload.removeAttribute('disabled'); }
       }, 850);
+    });
+    deliveryDownload?.addEventListener('click', () => {
+      if (deliveryDownload.getAttribute('aria-disabled') === 'true') return;
+      const selectedItems = deliveryItems.filter((input) => input.checked && !input.disabled).map((input) => deliveryCatalog[input.dataset.deliveryItem]?.label).filter(Boolean);
+      const selectedRecipients = selectedDeliveryRecipients().map((input) => input.closest('label')?.querySelector('strong')?.textContent?.trim()).filter(Boolean);
+      const sourceLine = importedPacket ? `${importedPacket.source} / ${importedPacket.span}` : 'Northstar matter record / selected source set';
+      const brief = [
+        '# Vaultr / Scoped Handoff',
+        '',
+        'Matter: Acquisition review',
+        `Source context: ${sourceLine}`,
+        `Recipients: ${selectedRecipients.join(', ') || 'None selected'}`,
+        `Access window: ${deliveryExpiry?.value || '24 hours'}`,
+        `Owner approval: ${deliveryApproval?.checked ? 'Required' : 'Not required'}`,
+        '',
+        '## Shared work product',
+        ...(selectedItems.length ? selectedItems.map((item) => `- ${item}`) : ['- No items selected']),
+        '',
+        'Raw matter files remain withheld. This brief was generated locally; 0 B outbound.'
+      ].join('\n');
+      const blob = new Blob([brief], { type: 'text/markdown;charset=utf-8' });
+      const href = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = href;
+      link.download = 'vaultr-scoped-handoff.md';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(href);
+      deliveryDownload.disabled = true;
+      deliveryDownload.innerHTML = 'Brief downloaded <span aria-hidden="true">&#10003;</span>';
+      if (deliveryStatus) deliveryStatus.textContent = 'HANDOFF DOWNLOADED LOCALLY';
+      if (deliveryFoot) deliveryFoot.textContent = 'Scoped brief downloaded / 0 B outbound';
+      window.setTimeout(() => resetDeliveryDownload(), 1800);
     });
     deliveryShare?.addEventListener('click', () => {
       if (deliveryShare.getAttribute('aria-disabled') === 'true') return;
